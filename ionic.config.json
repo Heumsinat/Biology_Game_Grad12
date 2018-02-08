@@ -1,0 +1,8 @@
+{
+  "name": "Biology_Game_Grad12",
+  "app_id": "",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
