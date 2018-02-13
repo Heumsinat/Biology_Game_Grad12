@@ -11,25 +11,41 @@
   </ion-navbar>
 
 </ion-header>
-<ion-content padding>
-  <ion-item-sliding>
-    <ion-item nopadding>
-
-      <ion-card text-wrap>
-        <!--{{sections.image1}}-->
-        {{current.question_number || ''}}
-        {{current.question_text || ''}}
-      </ion-card>
-      <ion-item-sliding *ngFor="let answers of answers; let i=index">
-        <ion-item nopadding>
-          <button ion-button block color="primary" (click)="answer(answers.is_correct_answer, answers.question_id)">
-            {{answers.answer_text}}
-          </button>
-        </ion-item>
-      </ion-item-sliding>
-      <!--<button ion-button block color="primary" (click)="navigate(current.next_question_id)">-->
-        <!--Next-->
-      <!--</button>-->
-    </ion-item>
-  </ion-item-sliding>
+<ion-content unit-content>
+  <ion-grid unit-view>
+      <ion-row unit-view-head  width-100>
+        <ion-card >
+         <img src="{{current.image1}}" alt="">
+        </ion-card>
+      </ion-row>
+      <!--<ion-row width-100>-->
+          <!--<ion-card text-wrap>-->
+              <!--{{current.question_number || ''}}-->
+              <!--{{current.question_text || ''}}-->
+          <!--</ion-card>-->
+      <!--</ion-row>-->
+      <ion-list no-lines>
+          <ion-item-sliding *ngFor="let answers of answers; let i=index" >
+              <ion-item>
+                  <button ion-button block color="primary" (click)="answer(answers.is_correct_answer, answers.question_id)">
+                      {{answers.answer_text}}
+                  </button>
+              </ion-item>
+          </ion-item-sliding>
+      </ion-list>
+  </ion-grid>
 </ion-content>
+
+<ion-footer unit-footer>
+  <ion-toolbar>
+    <button ion-button clear (click)="backButtonClick()">
+      <ion-icon name="arrow-back"></ion-icon>
+    </button>
+    <button ion-button clear (click)="replayButtonClick()">
+      <ion-icon name="refresh"></ion-icon>
+    </button>
+    <button ion-button clear (click)="exitButtonClick()" (press)="toggleDebug()">
+      <ion-icon name="power"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-footer>
