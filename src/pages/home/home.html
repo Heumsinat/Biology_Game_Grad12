@@ -1,14 +1,35 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      {{menuTitle}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <!--chapter-->
+  <ion-list *ngIf="state == 'chapters'" no-lines>
+    <ion-item-sliding *ngFor="let chapters of chapters; let i=index">
+      <ion-item nopadding>
+        <button ion-button block color="primary" (click)="chapter(chapters.id)">
+          <!--Chapter: {{chapters.data}}-->
+          Chapter: {{chapters.number}}<br>
+          {{chapters.title}}
+        </button>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!--lesson-->
+  <ion-list *ngIf="state == 'lessons'">
+    <ion-item-sliding *ngFor="let lessons of lessons; let i=index">
+      <ion-item nopadding>
+        <button ion-button block color="primary" (click)="lesson(lessons.id)">
+          <!--Chapter: {{chapters.data}}-->
+          Lesson: {{lessons.number}}<br>
+          {{lessons.title}}
+        </button>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
