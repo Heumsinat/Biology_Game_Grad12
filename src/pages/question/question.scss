@@ -1,24 +1,21 @@
 page-question {
-  [unit-content] {
-    [unit-view] {
-      height: 100%;
-      [unit-view-head] {
-        height: 50%;
-        text-align: center;
-        ion-card {
-          height: 95%;
-          border-radius: 5px;
-          margin-top: 0;
-          img {
-            height: 100%;
-          }
-        }
+  [xela] {
+    height: 100%;
+    .content {
+      height: 30%;
+      ion-card{
+        font-size: 1.3em;
       }
-      [ion-button] {
-        height: 60px;
+
+    }
+    .choice {
+      height: 70%;
+      [ion-button]{
+        height: 45px;
         font-size: 1.3em;
       }
     }
+
   }
   [unit-footer] {
     ion-toolbar {
@@ -42,4 +39,5 @@ page-question {
       background-image: none;
     }
   } // [unit-footer]
+
 }
