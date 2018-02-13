@@ -6,30 +6,49 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content xela>
   <!--chapter-->
   <ion-list *ngIf="state == 'chapters'" no-lines>
     <ion-item-sliding *ngFor="let chapters of chapters; let i=index">
-      <ion-item nopadding>
+      <ion-item >
         <button ion-button block color="primary" (click)="chapter(chapters.id)">
-          <!--Chapter: {{chapters.data}}-->
-          Chapter: {{chapters.number}}<br>
-          {{chapters.title}}
+          <div class="number">
+            ជំពូកទី: {{chapters.number}}
+          </div>
+          <div class="text">
+            {{chapters.title}}
+          </div>
+
         </button>
       </ion-item>
     </ion-item-sliding>
   </ion-list>
 
   <!--lesson-->
-  <ion-list *ngIf="state == 'lessons'">
+  <ion-list equalized *ngIf="state == 'lessons'" no-lines>
     <ion-item-sliding *ngFor="let lessons of lessons; let i=index">
-      <ion-item nopadding>
+      <ion-item width-100 menu-header class="animated fadeInUp">
         <button ion-button block color="primary" (click)="lesson(lessons.id)">
-          <!--Chapter: {{chapters.data}}-->
-          Lesson: {{lessons.number}}<br>
-          {{lessons.title}}
+
+          <div class="number">
+            មេរៀនទី: {{lessons.number}}<br>
+          </div>
+          <div class="text">
+            {{lessons.title}}
+          </div>
         </button>
       </ion-item>
     </ion-item-sliding>
   </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button clear (click)="playButtonClick()">
+      <ion-icon name="play"></ion-icon>
+    </button>
+    <button ion-button clear (click)="exitButtonClick()" (press)="toggleDebug()">
+      <ion-icon name="power"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-footer>
