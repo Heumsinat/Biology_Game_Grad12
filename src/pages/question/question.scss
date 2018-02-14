@@ -2,14 +2,14 @@ page-question {
   [xela] {
     height: 100%;
     .content {
-      height: 30%;
-      ion-card{
+      //height: 30%;
+      ion-col{
         font-size: 1.3em;
       }
 
     }
     .choice {
-      height: 70%;
+      //height: 70%;
       [ion-button]{
         height: 45px;
         font-size: 1.3em;
