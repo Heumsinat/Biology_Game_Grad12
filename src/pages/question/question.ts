@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import { DatabaseProvider } from "../../providers/database/database";
 import {SectionPage} from "../section/section";
 import {tryCatch} from "rxjs/util/tryCatch";
@@ -24,7 +24,7 @@ export class QuestionPage {
   nextQuestion: number;
   //totalQuestion: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public db: DatabaseProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider) {
     this.lessonID = navParams.get('lessonID');
     this.nextQuestion = this.navParams.get('nextQuestion')
       this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${this.lessonID}`)
@@ -164,5 +164,25 @@ export class QuestionPage {
               });
           });
   }
+
+    exitButtonClick() {
+        let alert = this.alertCtrl.create({
+            title: 'ចាកចេញ',
+            message: 'តើ​អ្នក​ពិត​ជា​ចង់​ចាក​ចេញ​ពី​កម្មវិធី​នេះ?​',
+            buttons: [
+                {
+                    text: "ទេ",
+                    role: 'cancel'
+                },
+                {
+                    text: "បាទ​ / ចាស",
+                    handler: () => {
+                        this.platform.exitApp();
+                    }
+                },
+            ]
+        });
+        alert.present();
+    }
 
 }
