@@ -10,10 +10,13 @@ import { SQLite } from '@ionic-native/sqlite';
 import { DatabaseProvider } from '../providers/database/database';
 import { QuestionPage } from '../pages/question/question';
 import {SectionPage} from "../pages/section/section";
+import {WelcomePage} from "../pages/welcome/welcome";
+
 
 @NgModule({
   declarations: [
     MyApp,
+    WelcomePage,
     HomePage,
     QuestionPage,
     SectionPage
@@ -25,6 +28,7 @@ import {SectionPage} from "../pages/section/section";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    WelcomePage,
     HomePage,
     QuestionPage,
     SectionPage
@@ -34,7 +38,7 @@ import {SectionPage} from "../pages/section/section";
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
-    DatabaseProvider
+    DatabaseProvider,
   ]
 })
 export class AppModule {}

@@ -23,39 +23,42 @@ export class QuestionPage {
   lessonID: number;
   nextQuestion: number;
   //totalQuestion: number;
-
+    userQuestion: number;
   constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider) {
     this.lessonID = navParams.get('lessonID');
-    this.nextQuestion = this.navParams.get('nextQuestion')
-      this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${this.lessonID}`)
-          .then(res => {
-              this.questions = {};
-              var first = res.rows.item(0).id;
-              for (var i = 0; i < res.rows.length; i++){
-                  this.questions[res.rows.item(i).id] = {
-                      id:res.rows.item(i).id,
-                      question_number:res.rows.item(i).question_number,
-                      question_text:res.rows.item(i).question_text,
-                      image1:res.rows.item(i).image1,
-                      image2:res.rows.item(i).image2,
-                      image3:res.rows.item(i).image3,
-                      question_sound:res.rows.item(i).question_sound,
-                      num_of_answer:res.rows.item(i).num_of_answer,
-                      correct_answer_number:res.rows.item(i).correct_answer_number,
-                      score:res.rows.item(i).score,
-                      section_id:res.rows.item(i).section_id,
-                      correct_answer_sound:res.rows.item(i).correct_answer_sound,
-                      incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
-                      next_question_id:res.rows.item(i).next_question_id,
-                      created_date:res.rows.item(i).created_date,
-                      modified_date:res.rows.item(i).modified_date
-                  }
-                  //break;
-              }
-              console.log(this.questions);
-              this.content(first);
+    this.nextQuestion = this.navParams.get('nextQuestion');
+    this.getUserQuestion(1).then(()=>{
+        this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.userQuestion}`)
+            .then(res => {
+                this.questions = {};
+                var first = res.rows.item(0).id;
+                for (var i = 0; i < res.rows.length; i++){
+                    this.questions[res.rows.item(i).id] = {
+                        id:res.rows.item(i).id,
+                        question_number:res.rows.item(i).question_number,
+                        question_text:res.rows.item(i).question_text,
+                        image1:res.rows.item(i).image1,
+                        image2:res.rows.item(i).image2,
+                        image3:res.rows.item(i).image3,
+                        question_sound:res.rows.item(i).question_sound,
+                        num_of_answer:res.rows.item(i).num_of_answer,
+                        correct_answer_number:res.rows.item(i).correct_answer_number,
+                        score:res.rows.item(i).score,
+                        section_id:res.rows.item(i).section_id,
+                        correct_answer_sound:res.rows.item(i).correct_answer_sound,
+                        incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
+                        next_question_id:res.rows.item(i).next_question_id,
+                        created_date:res.rows.item(i).created_date,
+                        modified_date:res.rows.item(i).modified_date
+                    }
+                    //break;
+                }
+                console.log(this.questions);
+                this.content(first);
 
-          }).catch(e => console.log((e)))
+            }).catch(e => console.log((e)))
+    });
+
   }
   getQuestions(lesson_id: number){
       return this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${lesson_id}`)
@@ -85,6 +88,17 @@ export class QuestionPage {
               }
               console.log("questions", this.questions);
           }).catch(e => console.log((e)))
+  };
+
+  getUserQuestion(user_id: number){
+        return this.db.executeSQL(`SELECT * FROM user_questions WHERE user_id = ${user_id}`)
+            .then(res => {
+                console.log("lesson", res);
+                this.userQuestion = res.rows.item(0).next_question_id;
+            }).catch(e => {
+                console.log((e));
+                this.userQuestion =1;
+            })
   }
 
   getLessonID(question_id: number){
@@ -147,16 +161,18 @@ export class QuestionPage {
         // console.log(this.current);
         this.getAnswers(this.current.id);
     }
-
   }
-
   public answer (correct_ans: number, question_id: number){
       this.db.executeSQL(`select * from questions where id = '${question_id}'`)
           .then(res => {
               let section_id = res.rows.item(0).section_id;
               let next_question_id = res.rows.item(0).next_question_id;
-              console.log('section_id', section_id)
-
+              console.log('section_id', section_id);
+              //Save User_Question
+              this.db.executeSQL(`INSERT INTO user_question ( num_of_ans, next_question_id) VALUES ("' + correct_ans + '","' + next_question_id + '")`).then(res=>{
+                  console.log(res);
+              });
+              //End Save
               this.navCtrl.push(SectionPage, {
                   answerCorrect: correct_ans,
                   sectionID: section_id,
@@ -164,7 +180,6 @@ export class QuestionPage {
               });
           });
   }
-
     exitButtonClick() {
         let alert = this.alertCtrl.create({
             title: 'ចាកចេញ',
