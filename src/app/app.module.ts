@@ -11,6 +11,7 @@ import { DatabaseProvider } from '../providers/database/database';
 import { QuestionPage } from '../pages/question/question';
 import {SectionPage} from "../pages/section/section";
 import {WelcomePage} from "../pages/welcome/welcome";
+import {NativeAudio} from "@ionic-native/native-audio";
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import {WelcomePage} from "../pages/welcome/welcome";
   providers: [
     StatusBar,
     SplashScreen,
+    NativeAudio,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
     DatabaseProvider,

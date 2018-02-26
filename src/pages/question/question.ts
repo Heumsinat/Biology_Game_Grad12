@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import { DatabaseProvider } from "../../providers/database/database";
 import {SectionPage} from "../section/section";
+import { NativeAudio } from '@ionic-native/native-audio';
 import {tryCatch} from "rxjs/util/tryCatch";
+
 
 /**
  * Generated class for the QuestionPage page.
@@ -24,7 +26,9 @@ export class QuestionPage {
   nextQuestion: number;
   //totalQuestion: number;
     userQuestion: number;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider) {
+   //nativeAudio: NativeAudio = new NativeAudio();
+  constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio) {
+    // this.nat
     this.lessonID = navParams.get('lessonID');
     this.nextQuestion = this.navParams.get('nextQuestion');
     this.getUserQuestion(1).then(()=>{
@@ -133,6 +137,7 @@ export class QuestionPage {
   content(id) {
     console.log(id);
     //console.log(this.current);
+
     if (this.nextQuestion){
         let temp = this.questions[this.nextQuestion];
         if (typeof temp !== 'undefined') {
@@ -150,6 +155,11 @@ export class QuestionPage {
                     console.log("QUS", this.questions);
                     this.current = this.questions[this.nextQuestion];
                     this.getAnswers(this.current.id);
+                    this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
+                        this.nativeAudio.play(this.current.id, ()=>{
+                            this.nativeAudio.unload(this.current.id);
+                        });
+                    });
                 });
             });
         } else {
@@ -160,7 +170,14 @@ export class QuestionPage {
         this.current = this.questions[id];
         // console.log(this.current);
         this.getAnswers(this.current.id);
+        this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
+            this.nativeAudio.play(this.current.id, ()=>{
+                this.nativeAudio.unload(this.current.id);
+            });
+        });
     }
+
+
   }
   public answer (correct_ans: number, question_id: number){
       this.db.executeSQL(`select * from questions where id = '${question_id}'`)
@@ -198,6 +215,19 @@ export class QuestionPage {
             ]
         });
         alert.present();
+    }
+
+    replayButtonClick(){
+
+        this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
+            this.nativeAudio.play(this.current.id, ()=>{
+                this.nativeAudio.unload(this.current.id);
+            });
+        });
+    }
+
+    backButtonClick(){
+
     }
 
 }

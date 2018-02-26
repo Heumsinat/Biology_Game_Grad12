@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {DatabaseProvider} from "../../providers/database/database";
 import {QuestionPage} from "../question/question";
+import { NativeAudio } from '@ionic-native/native-audio';
 
 /**
  * Generated class for the SectionPage page.
@@ -25,7 +26,7 @@ export class SectionPage {
   sectionID: number;
   public nextQuestionID;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio) {
     this.answerCorrect = this.navParams.get('answerCorrect');
     this.sectionID = this.navParams.get('sectionID');
     this.nextQuestionID = this.navParams.get('nextQuestionID');
@@ -56,6 +57,11 @@ export class SectionPage {
             }
             //break;
           }
+            // this.nativeAudio.preloadSimple(this.sections[0].id, 'assets/sounds/'+ this.sections[0].sound).then(()=>{
+            //     this.nativeAudio.play(this.sections[0].id, ()=>{
+            //         this.nativeAudio.unload(this.sections[0].id);
+            //     });
+            // });
           console.log(this.sections);
         }).catch(e => console.log((e)));
   }

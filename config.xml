@@ -84,4 +84,5 @@
     <plugin name="cordova-sqlite-storage" spec="^2.2.0" />
     <plugin name="cordova-plugin-dbcopy" spec="https://github.com/an-rahulpandey/cordova-plugin-dbcopy.git" />
     <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-nativeaudio" spec="^3.0.9" />
 </widget>
