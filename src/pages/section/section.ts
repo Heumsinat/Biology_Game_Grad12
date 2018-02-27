@@ -34,42 +34,82 @@ export class SectionPage {
     console.log(this.sectionID);
     console.log(this.sectionID);
 
-    this.db.executeSQL(`SELECT * FROM sections WHERE id = ${this.sectionID}`)
-        .then(res => {
-          this.sections = {};
-          // var first = res.rows.item(0).id;
-          this.currentIndex = 0;
-          for (var i = 0; i<res.rows.length; i++){
-            // this.sectionsID.push(res.rows.item(i).id);
-            this.sections={
-              id:res.rows.item(i).id,
-              order:res.rows.item(i).order,
-              lesson:res.rows.item(i).lesson,
-              title:res.rows.item(i).title,
-              content:res.rows.item(i).content,
-              image1:res.rows.item(i).image1,
-              image2:res.rows.item(i).image2,
-              image3:res.rows.item(i).image3,
-              image4:res.rows.item(i).image4,
-              sound:res.rows.item(i).sound,
-              created_date:res.rows.item(i).created_date,
-              modified_date:res.rows.item(i).modified_date
-            }
-            //break;
-          }
-            // this.nativeAudio.preloadSimple(this.sections[0].id, 'assets/sounds/'+ this.sections[0].sound).then(()=>{
-            //     this.nativeAudio.play(this.sections[0].id, ()=>{
-            //         this.nativeAudio.unload(this.sections[0].id);
-            //     });
-            // });
-          console.log(this.sections);
-        }).catch(e => console.log((e)));
+    // this.db.executeSQL(`SELECT * FROM sections WHERE id = ${this.sectionID}`)
+    //     .then(res => {
+    //       this.sections = {};
+    //       // var first = res.rows.item(0).id;
+    //       this.currentIndex = 0;
+    //       for (var i = 0; i<res.rows.length; i++){
+    //         // this.sectionsID.push(res.rows.item(i).id);
+    //         this.sections={
+    //           id:res.rows.item(i).id,
+    //           order:res.rows.item(i).order,
+    //           lesson:res.rows.item(i).lesson,
+    //           title:res.rows.item(i).title,
+    //           content:res.rows.item(i).content,
+    //           image1:res.rows.item(i).image1,
+    //           image2:res.rows.item(i).image2,
+    //           image3:res.rows.item(i).image3,
+    //           image4:res.rows.item(i).image4,
+    //           sound:res.rows.item(i).sound,
+    //           created_date:res.rows.item(i).created_date,
+    //           modified_date:res.rows.item(i).modified_date
+    //         }
+    //         //break;
+    //       }
+    //         this.nativeAudio.preloadSimple(this.sections.id, 'assets/sounds/'+this.sections.sound).then(()=>{
+    //             this.nativeAudio.play(this.sections.id, ()=>{
+    //                 this.nativeAudio.unload(this.sections.id);
+    //             });
+    //         });
+    //       console.log(this.sections.sound);
+    //     }).catch(e => console.log((e)));
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SectionPage');
-  }
-   navigate() {
+    ionViewDidEnter(){
+        this.db.executeSQL(`SELECT * FROM sections WHERE id = ${this.sectionID}`)
+            .then(res => {
+                this.sections = {};
+                // var first = res.rows.item(0).id;
+                this.currentIndex = 0;
+                for (var i = 0; i<res.rows.length; i++){
+                    // this.sectionsID.push(res.rows.item(i).id);
+                    this.sections={
+                        id:res.rows.item(i).id,
+                        order:res.rows.item(i).order,
+                        lesson:res.rows.item(i).lesson,
+                        title:res.rows.item(i).title,
+                        content:res.rows.item(i).content,
+                        image1:res.rows.item(i).image1,
+                        image2:res.rows.item(i).image2,
+                        image3:res.rows.item(i).image3,
+                        image4:res.rows.item(i).image4,
+                        sound:res.rows.item(i).sound,
+                        created_date:res.rows.item(i).created_date,
+                        modified_date:res.rows.item(i).modified_date
+                    }
+                    //break;
+                }
+                this.nativeAudio.preloadSimple(this.sections.id, 'assets/sounds/'+this.sections.sound).then(()=>{
+                    this.nativeAudio.play(this.sections.id, ()=>{
+                        this.nativeAudio.unload(this.sections.id);
+                    });
+                });
+                console.log(this.sections.sound);
+            }).catch(e => console.log((e)));
+    }
+
+
+    ionViewWillLeave() {
+        console.log("ionViewWillLeave(): View is about to leave, Stopping current playback sound.")
+        this.nativeAudio.stop(this.sections.id).then(() => {
+            this.nativeAudio.unload(this.sections.id);
+        },()=>{
+
+        });
+    }
+
+    navigate() {
        this.navCtrl.push(
            QuestionPage, {
                nextQuestion: this.nextQuestionID,
@@ -98,4 +138,12 @@ export class SectionPage {
         alert.present();
     }
 
+    private replayButtonClick() {
+        this.nativeAudio.preloadSimple(this.sections.id, 'assets/sounds/'+this.sections.sound).then(()=>{
+            this.nativeAudio.play(this.sections.id, ()=>{
+                this.nativeAudio.unload(this.sections.id);
+            });
+        });
+        console.log(this.sections.sound);
+    }
 }

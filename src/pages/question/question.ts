@@ -3,7 +3,6 @@ import {AlertController, IonicPage, NavController, NavParams, Platform} from 'io
 import { DatabaseProvider } from "../../providers/database/database";
 import {SectionPage} from "../section/section";
 import { NativeAudio } from '@ionic-native/native-audio';
-import {tryCatch} from "rxjs/util/tryCatch";
 
 
 /**
@@ -31,39 +30,85 @@ export class QuestionPage {
     // this.nat
     this.lessonID = navParams.get('lessonID');
     this.nextQuestion = this.navParams.get('nextQuestion');
-    this.getUserQuestion(1).then(()=>{
-        this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.userQuestion}`)
-            .then(res => {
-                this.questions = {};
-                var first = res.rows.item(0).id;
-                for (var i = 0; i < res.rows.length; i++){
-                    this.questions[res.rows.item(i).id] = {
-                        id:res.rows.item(i).id,
-                        question_number:res.rows.item(i).question_number,
-                        question_text:res.rows.item(i).question_text,
-                        image1:res.rows.item(i).image1,
-                        image2:res.rows.item(i).image2,
-                        image3:res.rows.item(i).image3,
-                        question_sound:res.rows.item(i).question_sound,
-                        num_of_answer:res.rows.item(i).num_of_answer,
-                        correct_answer_number:res.rows.item(i).correct_answer_number,
-                        score:res.rows.item(i).score,
-                        section_id:res.rows.item(i).section_id,
-                        correct_answer_sound:res.rows.item(i).correct_answer_sound,
-                        incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
-                        next_question_id:res.rows.item(i).next_question_id,
-                        created_date:res.rows.item(i).created_date,
-                        modified_date:res.rows.item(i).modified_date
-                    }
-                    //break;
-                }
-                console.log(this.questions);
-                this.content(first);
-
-            }).catch(e => console.log((e)))
-    });
+    // this.getUserQuestion(1).then(()=>{
+    //     this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.userQuestion}`)
+    //         .then(res => {
+    //             this.questions = {};
+    //             var first = res.rows.item(0).id;
+    //             for (var i = 0; i < res.rows.length; i++){
+    //                 this.questions[res.rows.item(i).id] = {
+    //                     id:res.rows.item(i).id,
+    //                     question_number:res.rows.item(i).question_number,
+    //                     question_text:res.rows.item(i).question_text,
+    //                     image1:res.rows.item(i).image1,
+    //                     image2:res.rows.item(i).image2,
+    //                     image3:res.rows.item(i).image3,
+    //                     question_sound:res.rows.item(i).question_sound,
+    //                     num_of_answer:res.rows.item(i).num_of_answer,
+    //                     correct_answer_number:res.rows.item(i).correct_answer_number,
+    //                     score:res.rows.item(i).score,
+    //                     section_id:res.rows.item(i).section_id,
+    //                     correct_answer_sound:res.rows.item(i).correct_answer_sound,
+    //                     incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
+    //                     next_question_id:res.rows.item(i).next_question_id,
+    //                     created_date:res.rows.item(i).created_date,
+    //                     modified_date:res.rows.item(i).modified_date
+    //                 }
+    //                 //break;
+    //             }
+    //             console.log(this.questions);
+    //             this.content(first);
+    //
+    //         }).catch(e => console.log((e)))
+    // });
 
   }
+    ionViewDidEnter(){
+        this.getUserQuestion(1).then(()=>{
+            this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.userQuestion}`)
+                .then(res => {
+                    this.questions = {};
+                    var first = res.rows.item(0).id;
+                    for (var i = 0; i < res.rows.length; i++){
+                        this.questions[res.rows.item(i).id] = {
+                            id:res.rows.item(i).id,
+                            question_number:res.rows.item(i).question_number,
+                            question_text:res.rows.item(i).question_text,
+                            image1:res.rows.item(i).image1,
+                            image2:res.rows.item(i).image2,
+                            image3:res.rows.item(i).image3,
+                            question_sound:res.rows.item(i).question_sound,
+                            num_of_answer:res.rows.item(i).num_of_answer,
+                            correct_answer_number:res.rows.item(i).correct_answer_number,
+                            score:res.rows.item(i).score,
+                            section_id:res.rows.item(i).section_id,
+                            correct_answer_sound:res.rows.item(i).correct_answer_sound,
+                            incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
+                            next_question_id:res.rows.item(i).next_question_id,
+                            created_date:res.rows.item(i).created_date,
+                            modified_date:res.rows.item(i).modified_date
+                        }
+                        //break;
+                    }
+                    console.log(this.questions);
+                    this.content(first);
+
+                }).catch(e => console.log((e)))
+        });
+
+    }
+
+
+    ionViewWillLeave() {
+        console.log("ionViewWillLeave(): View is about to leave, Stopping current playback sound.")
+        this.nativeAudio.stop(this.current.id).then(() => {
+            this.nativeAudio.unload(this.current.id);
+        },()=>{
+
+        });
+    }
+
+
   getQuestions(lesson_id: number){
       return this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${lesson_id}`)
           .then(res => {
@@ -160,6 +205,7 @@ export class QuestionPage {
                             this.nativeAudio.unload(this.current.id);
                         });
                     });
+                    console.log(this.current.question_sound);
                 });
             });
         } else {
@@ -174,7 +220,7 @@ export class QuestionPage {
             this.nativeAudio.play(this.current.id, ()=>{
                 this.nativeAudio.unload(this.current.id);
             });
-        });
+        });console.log(this.current.question_sound);
     }
 
 
@@ -190,6 +236,7 @@ export class QuestionPage {
                   console.log(res);
               });
               //End Save
+              console.log(this.current.question_sound);
               this.navCtrl.push(SectionPage, {
                   answerCorrect: correct_ans,
                   sectionID: section_id,
@@ -217,17 +264,11 @@ export class QuestionPage {
         alert.present();
     }
 
-    replayButtonClick(){
-
+    private replayButtonClick() {
         this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
             this.nativeAudio.play(this.current.id, ()=>{
                 this.nativeAudio.unload(this.current.id);
             });
-        });
+        });console.log(this.current.question_sound);
     }
-
-    backButtonClick(){
-
-    }
-
 }
