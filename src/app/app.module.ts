@@ -12,6 +12,8 @@ import { QuestionPage } from '../pages/question/question';
 import {SectionPage} from "../pages/section/section";
 import {WelcomePage} from "../pages/welcome/welcome";
 import {NativeAudio} from "@ionic-native/native-audio";
+import {LessonPage} from "../pages/lesson/lesson";
+import {QuizPage} from "../pages/quiz/quiz";
 
 
 @NgModule({
@@ -19,8 +21,10 @@ import {NativeAudio} from "@ionic-native/native-audio";
     MyApp,
     WelcomePage,
     HomePage,
+    LessonPage,
     QuestionPage,
-    SectionPage
+    SectionPage,
+    QuizPage
   ],
   imports: [
     BrowserModule,
@@ -31,8 +35,10 @@ import {NativeAudio} from "@ionic-native/native-audio";
     MyApp,
     WelcomePage,
     HomePage,
+    LessonPage,
     QuestionPage,
-    SectionPage
+    SectionPage,
+    QuizPage
   ],
   providers: [
     StatusBar,

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { DatabaseProvider } from "../../providers/database/database";
-import {QuestionPage} from "../question/question";
+// import {QuestionPage} from "../question/question";
+import {LessonPage} from "../lesson/lesson";
 // import {SectionPage} from "../section/section";
 
 @Component({
@@ -34,48 +35,55 @@ export class HomePage {
           }
         }).catch(e => console.log(e));
   }
-  getLessons(){
-    this.db
-        .table("lessons")
-        .then(res => {
-          this.lessons = [];
-          console.log(res);
-          for (var i = 0; i<res.rows.length; i++){
-            this.lessons.push({
-              id:res.rows.item(i).id,
-              number:res.rows.item(i).number,
-              title:res.rows.item(i).title,
-              chapter:res.rows.item(i).chapter,
-              created_date:res.rows.item(i).created_date,
-              modified_date:res.rows.item(i).modified_date
-            })
-          }
-        }).catch(e => console.log((e)))
-  }
+  // getLessons(){
+  //   this.db
+  //       .table("lessons")
+  //       .then(res => {
+  //         this.lessons = [];
+  //         console.log(res);
+  //         for (var i = 0; i<res.rows.length; i++){
+  //           this.lessons.push({
+  //             id:res.rows.item(i).id,
+  //             number:res.rows.item(i).number,
+  //             title:res.rows.item(i).title,
+  //             chapter:res.rows.item(i).chapter,
+  //             created_date:res.rows.item(i).created_date,
+  //             modified_date:res.rows.item(i).modified_date
+  //           })
+  //         }
+  //       }).catch(e => console.log((e)))
+  // }
 
-  chapter(chapter_id: number) {
-    this.db.executeSQL(`SELECT * FROM lessons WHERE chapter = ${chapter_id}`)
-        .then(res => {
-          this.state = 'lessons';
-          this.lessons = [];
-          for (var i = 0; i<res.rows.length; i++){
-            this.lessons.push({
-              id:res.rows.item(i).id,
-              number:res.rows.item(i).number,
-              title:res.rows.item(i).title,
-              chapter:res.rows.item(i).chapter,
-              created_date:res.rows.item(i).created_date,
-              modified_date:res.rows.item(i).modified_date
-            })
-          }
-        })
-  }
+  // chapter(chapter_id: number) {
+  //   this.db.executeSQL(`SELECT * FROM lessons WHERE chapter = ${chapter_id}`)
+  //       .then(res => {
+  //         this.state = 'lessons';
+  //         this.lessons = [];
+  //         for (var i = 0; i<res.rows.length; i++){
+  //           this.lessons.push({
+  //             id:res.rows.item(i).id,
+  //             number:res.rows.item(i).number,
+  //             title:res.rows.item(i).title,
+  //             chapter:res.rows.item(i).chapter,
+  //             created_date:res.rows.item(i).created_date,
+  //             modified_date:res.rows.item(i).modified_date
+  //           })
+  //         }
+  //       })
+  // }
 
-    public lesson(lesson_id: number) {
+    public chapter(chapter_id: number) {
         this.navCtrl.push(
-            QuestionPage, {
-                lessonID: lesson_id
+            LessonPage, {
+                chapterID: chapter_id
             }
         );
     }
+  // public lesson(lesson_id: number) {
+  //     this.navCtrl.push(
+  //         QuestionPage, {
+  //             lessonID: lesson_id
+  //         }
+  //     );
+  // }
 }

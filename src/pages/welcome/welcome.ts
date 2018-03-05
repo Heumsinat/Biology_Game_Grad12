@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {QuestionPage} from "../question/question";
+import {QuizPage} from "../quiz/quiz";
+import {HomePage} from "../home/home";
 
 /**
  * Generated class for the WelcomePage page.
@@ -22,9 +24,13 @@ export class WelcomePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad WelcomePage');
   }
-  goToQuestion() {
+  goToHomePage() {
     this.navCtrl.push(
-        QuestionPage)
+        HomePage)
+  }
+  goToQuiz(){
+    this.navCtrl.push(
+        QuizPage);
   }
 
 }

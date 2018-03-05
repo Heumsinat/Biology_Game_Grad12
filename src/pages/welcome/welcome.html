@@ -11,11 +11,32 @@
   </ion-navbar>
 
 </ion-header>
-<ion-content padding class="vertical-align-content">
-  <button width-100 ion-button color="primary" (click)="goToQuestion()">
-    <ion-icon name="musical-notes" style="padding-right: 8px;"></ion-icon>
-    Listen
-  </button>
+<ion-content  >
+  <ion-grid>
+    <ion-row  >
+      <ion-col text-center>
+        <button ion-button block color="primary" (click)="goToQuiz()">
+          Listen
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>
+        <button ion-button block color="primary" (click)="goToHomePage()">
+          Review
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+      <!--<button ion-button  color="primary" (click)="goToHomePage()">-->
+        <!--<ion-icon name="musical-notes" style="padding-right: 8px;"></ion-icon>-->
+        <!--Listen-->
+      <!--</button>-->
+
+      <!--<button ion-button  color="primary" (click)="goToQuiz()">-->
+        <!--<ion-icon name="musical-notes" style="padding-right: 8px;"></ion-icon>-->
+        <!--Review-->
+      <!--</button>-->
 </ion-content>
 
 <ion-footer unit-footer>

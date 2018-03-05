@@ -110,6 +110,7 @@ export class SectionPage {
     }
 
     navigate() {
+
        this.navCtrl.push(
            QuestionPage, {
                nextQuestion: this.nextQuestionID,

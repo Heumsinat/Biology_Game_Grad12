@@ -1,17 +1,15 @@
 page-welcome {
-  .vertical-align-content > *
-  {
-    display: flex!important;
-    align-content: center!important;
-    align-items: center!important;
-    [ion-button] {
-      //height: 100%;
-      display: block;
-      vertical-align: middle;
-      height: 50px;
-      font-size: 1.4em;
-    }
+  ion-grid {
+    height: 100%;
+    justify-content: center;
+    vertical-align: middle;
   }
+  [ion-button]{
+    height: 50px;
+    font-size: 1.3em;
+  }
+
+
 
   [unit-footer] {
     ion-toolbar {

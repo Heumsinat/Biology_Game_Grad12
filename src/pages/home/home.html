@@ -25,21 +25,21 @@
   </ion-list>
 
   <!--lesson-->
-  <ion-list equalized *ngIf="state == 'lessons'" no-lines>
-    <ion-item-sliding *ngFor="let lessons of lessons; let i=index">
-      <ion-item width-100 menu-header class="animated fadeInUp">
-        <button ion-button block color="primary" (click)="lesson(lessons.id)">
+  <!--<ion-list equalized *ngIf="state == 'lessons'" no-lines>-->
+    <!--<ion-item-sliding *ngFor="let lessons of lessons; let i=index">-->
+      <!--<ion-item width-100 menu-header class="animated fadeInUp">-->
+        <!--<button ion-button block color="primary" (click)="lesson(lessons.id)">-->
 
-          <div class="number">
-            មេរៀនទី: {{lessons.number}}<br>
-          </div>
-          <div class="text">
-            {{lessons.title}}
-          </div>
-        </button>
-      </ion-item>
-    </ion-item-sliding>
-  </ion-list>
+          <!--<div class="number">-->
+            <!--មេរៀនទី: {{lessons.number}}<br>-->
+          <!--</div>-->
+          <!--<div class="text">-->
+            <!--{{lessons.title}}-->
+          <!--</div>-->
+        <!--</button>-->
+      <!--</ion-item>-->
+    <!--</ion-item-sliding>-->
+  <!--</ion-list>-->
 </ion-content>
 
 <ion-footer>
