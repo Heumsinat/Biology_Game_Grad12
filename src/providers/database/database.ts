@@ -50,7 +50,6 @@ export class DatabaseProvider {
     });
   }
 
-
   public executeSQL(string: string) {
     return this.sqlite.create(this._config).then((db: SQLiteObject) => {
       console.log(db);

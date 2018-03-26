@@ -278,6 +278,7 @@ import {AlertController, App, IonicPage, NavController, NavParams, Platform} fro
 import { DatabaseProvider } from "../../providers/database/database";
 import {SectionPage} from "../section/section";
 import { NativeAudio } from '@ionic-native/native-audio';
+import {SectionReviewPage} from "../section-review/section-review";
 
 /**
  * Generated class for the QuestionPage page.
@@ -300,7 +301,7 @@ export class QuestionPage {
     //totalQuestion: number;
     constructor(public navCtrl: NavController, public navParams: NavParams, public db: DatabaseProvider, private nativeAudio: NativeAudio,private alertCtrl: AlertController,private platform: Platform, public app: App) {
         this.lessonID = navParams.get('lessonID');
-        this.nextQuestion = this.navParams.get('nextQuestion')
+        this.nextQuestion = this.navParams.get('nextQuestion');
         // this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${this.lessonID}`)
         //     .then(res => {
         //         this.questions = {};
@@ -342,7 +343,6 @@ export class QuestionPage {
                     }
                 });
             });
-
     }
 
     ionViewDidEnter(){
@@ -375,8 +375,8 @@ export class QuestionPage {
                 this.content(first);
 
             }).catch(e => console.log((e)))
-
     }
+
 
 
     ionViewWillLeave() {
@@ -387,7 +387,6 @@ export class QuestionPage {
 
         });
     }
-
 
     getQuestions(lesson_id: number){
         return this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${lesson_id}`)
@@ -456,7 +455,6 @@ export class QuestionPage {
         let temp = this.questions[this.nextQuestion];
         if (typeof temp !== 'undefined') {
             //Get Next Question
-
             this.current = temp;
         }
         // console.group('Current');
@@ -512,7 +510,7 @@ export class QuestionPage {
                             let next_question_id = res.rows.item(0).next_question_id;
                             console.log('section_id', section_id)
 
-                            this.navCtrl.push(SectionPage, {
+                            this.navCtrl.push(SectionReviewPage, {
                                 answerCorrect: correct_ans,
                                 sectionID: section_id,
                                 nextQuestionID: next_question_id
@@ -531,7 +529,7 @@ export class QuestionPage {
                             let next_question_id = res.rows.item(0).next_question_id;
                             console.log('section_id', section_id)
 
-                            this.navCtrl.push(SectionPage, {
+                            this.navCtrl.push(SectionReviewPage, {
                                 answerCorrect: correct_ans,
                                 sectionID: section_id,
                                 nextQuestionID: next_question_id

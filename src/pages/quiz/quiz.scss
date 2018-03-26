@@ -1,22 +1,28 @@
 page-quiz {
-    [xela] {
-      height: 100%;
-      .content {
-        //height: 30%;
-        ion-col{
-          font-size: 1.3em;
-        }
+  .content{
+    background-image: url('../assets/img/screen_question.png');
+    background-repeat: no-repeat;
+    background-size:cover;
 
-      }
       .choice {
-        //height: 70%;
+        background: transparent;
+        margin-top: 50%;
+        height: 280px;
         [ion-button]{
-          height: 45px;
+          height: 50px;
           font-size: 1.3em;
         }
       }
+  }
 
-    }
+  .item-md{
+    background-color: transparent;
+  }
+  .label-md{
+     margin: auto;
+  }
+
+
     [unit-footer] {
       ion-toolbar {
         text-align: center;
@@ -33,7 +39,7 @@ page-quiz {
       }
       .toolbar-background {
         border-color: transparent;
-        background: transparent;
+        //background: transparent;
       }
       &:before {
         background-image: none;

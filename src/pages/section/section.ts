@@ -3,6 +3,8 @@ import {AlertController, IonicPage, NavController, NavParams, Platform} from 'io
 import {DatabaseProvider} from "../../providers/database/database";
 import {QuestionPage} from "../question/question";
 import { NativeAudio } from '@ionic-native/native-audio';
+import {QuizPageModule} from "../quiz/quiz.module";
+import {QuizPage} from "../quiz/quiz";
 
 /**
  * Generated class for the SectionPage page.
@@ -30,9 +32,9 @@ export class SectionPage {
     this.answerCorrect = this.navParams.get('answerCorrect');
     this.sectionID = this.navParams.get('sectionID');
     this.nextQuestionID = this.navParams.get('nextQuestionID');
-    console.log(this.answerCorrect);
-    console.log(this.sectionID);
-    console.log(this.sectionID);
+    // console.log(this.answerCorrect);
+    // console.log(this.sectionID);
+    // console.log(this.sectionID);
 
     // this.db.executeSQL(`SELECT * FROM sections WHERE id = ${this.sectionID}`)
     //     .then(res => {
@@ -95,13 +97,13 @@ export class SectionPage {
                         this.nativeAudio.unload(this.sections.id);
                     });
                 });
-                console.log(this.sections.sound);
+                // console.log(this.sections.sound);
             }).catch(e => console.log((e)));
     }
 
 
     ionViewWillLeave() {
-        console.log("ionViewWillLeave(): View is about to leave, Stopping current playback sound.")
+        // console.log("ionViewWillLeave(): View is about to leave, Stopping current playback sound.")
         this.nativeAudio.stop(this.sections.id).then(() => {
             this.nativeAudio.unload(this.sections.id);
         },()=>{
@@ -112,7 +114,7 @@ export class SectionPage {
     navigate() {
 
        this.navCtrl.push(
-           QuestionPage, {
+           QuizPage, {
                nextQuestion: this.nextQuestionID,
                lessonID: this.sections.lesson
            }
@@ -145,6 +147,6 @@ export class SectionPage {
                 this.nativeAudio.unload(this.sections.id);
             });
         });
-        console.log(this.sections.sound);
+        // console.log(this.sections.sound);
     }
 }

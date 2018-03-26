@@ -10,21 +10,25 @@ import { SQLite } from '@ionic-native/sqlite';
 import { DatabaseProvider } from '../providers/database/database';
 import { QuestionPage } from '../pages/question/question';
 import {SectionPage} from "../pages/section/section";
-import {WelcomePage} from "../pages/welcome/welcome";
+// import {WelcomePage} from "../pages/welcome/welcome";
 import {NativeAudio} from "@ionic-native/native-audio";
 import {LessonPage} from "../pages/lesson/lesson";
 import {QuizPage} from "../pages/quiz/quiz";
+import {SectionReviewPage} from "../pages/section-review/section-review";
+import { MainPage } from "../pages/main/main";
 
 
 @NgModule({
   declarations: [
     MyApp,
-    WelcomePage,
+    // WelcomePage,
     HomePage,
     LessonPage,
     QuestionPage,
     SectionPage,
-    QuizPage
+    QuizPage,
+    SectionReviewPage,
+    MainPage
   ],
   imports: [
     BrowserModule,
@@ -33,12 +37,14 @@ import {QuizPage} from "../pages/quiz/quiz";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    WelcomePage,
+    // WelcomePage,
     HomePage,
     LessonPage,
     QuestionPage,
     SectionPage,
-    QuizPage
+    QuizPage,
+    SectionReviewPage,
+    MainPage
   ],
   providers: [
     StatusBar,
