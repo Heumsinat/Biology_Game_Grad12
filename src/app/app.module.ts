@@ -14,22 +14,39 @@ import { Toast } from '@ionic-native/toast';
 import { DatabaseProvider } from '../providers/database/database';
 import { QuestionPage } from '../pages/question/question';
 import {SectionPage} from "../pages/section/section";
+<<<<<<< HEAD
 import { LoginPage } from "../pages/login/login";
 import { FormPage } from "../pages/form/form";
 import { WelcomePage } from "../pages/welcome/welcome";
 
+=======
+// import {WelcomePage} from "../pages/welcome/welcome";
+import {NativeAudio} from "@ionic-native/native-audio";
+import {LessonPage} from "../pages/lesson/lesson";
+import {QuizPage} from "../pages/quiz/quiz";
+import {SectionReviewPage} from "../pages/section-review/section-review";
+import { MainPage } from "../pages/main/main";
+>>>>>>> 034084850a985fa1f9508a35948feaf049372900
 
 
 @NgModule({
   declarations: [
     MyApp,
+    // WelcomePage,
     HomePage,
+    LessonPage,
     QuestionPage,
     SectionPage,
+<<<<<<< HEAD
     LoginPage,
     FormPage,
-    WelcomePage
+    WelcomePage,
 
+=======
+    QuizPage,
+    SectionReviewPage,
+    MainPage
+>>>>>>> 034084850a985fa1f9508a35948feaf049372900
   ],
   imports: [
     BrowserModule,
@@ -41,20 +58,33 @@ import { WelcomePage } from "../pages/welcome/welcome";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    // WelcomePage,
     HomePage,
+    LessonPage,
     QuestionPage,
     SectionPage,
+<<<<<<< HEAD
     LoginPage,
     FormPage,
-    WelcomePage
+    WelcomePage,
+=======
+    QuizPage,
+    SectionReviewPage,
+    MainPage
+>>>>>>> 034084850a985fa1f9508a35948feaf049372900
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    NativeAudio,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
+<<<<<<< HEAD
     Toast,
+    
+=======
     DatabaseProvider
+>>>>>>> 034084850a985fa1f9508a35948feaf049372900
   ]
 })
 export class AppModule {}

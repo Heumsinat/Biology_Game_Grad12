@@ -5,11 +5,9 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>question</ion-title>
+    <ion-title>សំណួរ {{current.question_number || ''}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 <ion-content xela >
     <ion-grid>
@@ -20,20 +18,19 @@
             {{current.question_text || ''}}
         </ion-col>
     </ion-row>
-    <ion-row class="choice">
-        <ion-item>
-            <ion-item-sliding width-100 *ngFor="let answers of answers; let i=index">
-                <ion-item no-lines no-padding>
-                    <button ion-button width-100 menu-header block color="primary" (click)="answer(answers.is_correct_answer, answers.question_id)">
-                        {{answers.answer_text}}
-                    </button>
-                </ion-item>
-            </ion-item-sliding>
-        </ion-item>
-    </ion-row>
+    <!--<ion-row class="choice">-->
+        <!--<ion-item>-->
+            <!--<ion-item-sliding width-100 *ngFor="let answers of answers; let i=index">-->
+                <!--<ion-item no-lines no-padding>-->
+                    <!--<button ion-button width-100 menu-header block color="primary" (click)="answer(answers.is_correct_answer, answers.question_id)">-->
+                        <!--{{answers.answer_text}}-->
+                    <!--</button>-->
+                <!--</ion-item>-->
+            <!--</ion-item-sliding>-->
+        <!--</ion-item>-->
+    <!--</ion-row>-->
     </ion-grid>
 </ion-content>
-
 <ion-footer unit-footer>
   <ion-toolbar>
     <button ion-button clear (click)="backButtonClick()">
