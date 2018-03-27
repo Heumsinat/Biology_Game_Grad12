@@ -11,24 +11,43 @@
   </ion-navbar>
 
 </ion-header>
-<ion-content  >
-  <ion-grid>
-
-    <ion-row >
-      <ion-col text-center>
-        <button ion-button block color="primary" (click)="goToQuiz()">
-          Quiz
-        </button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col text-center>
-        <button ion-button block color="primary" (click)="goToHomePage()">
-          Review
-        </button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-content  class="content">
+  <div class="message">
+    You can start playing now or review. <br>
+    Today you have 2 Questions.
+  </div>
+  <div class="btnQuiz">
+    <button ion-button block color="primary" (click)="goToQuiz()">
+    Play
+    </button>
+  </div>
+  <div class="btnReview">
+    <button ion-button block color="primary" (click)="goToHomePage()">
+    Review
+    </button>
+  </div>
+  <!--<ion-grid>-->
+    <!--<ion-row class="message">-->
+      <!--<ion-col>-->
+         <!--You can start playing now or review. <br>-->
+         <!--Today you have 2 Questions.-->
+      <!--</ion-col>-->
+    <!--</ion-row>-->
+    <!--<ion-row class="btnQuiz">-->
+      <!--<ion-col text-center>-->
+        <!--<button ion-button block color="primary" (click)="goToQuiz()">-->
+          <!--Quiz-->
+        <!--</button>-->
+      <!--</ion-col>-->
+    <!--</ion-row>-->
+    <!--<ion-row class="btnReview">-->
+      <!--<ion-col text-center>-->
+        <!--<button ion-button block color="primary" (click)="goToHomePage()">-->
+          <!--Review-->
+        <!--</button>-->
+      <!--</ion-col>-->
+    <!--</ion-row>-->
+  <!--</ion-grid>-->
 </ion-content>
 
 <ion-footer unit-footer>

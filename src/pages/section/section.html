@@ -6,32 +6,30 @@
 -->
 <ion-header>
   <ion-navbar hideBackButton>
-    <ion-title>
-      មេរៀន​​ជំនួយ
-    </ion-title>
-    <ion-buttons end *ngIf="answerCorrect">
-      <button ion-button icon-only (click)="navigate(current.next_question_id)">
-        សំនួរ​បន្ទាប់
-        <ion-icon name="arrow-forward"></ion-icon>
-      </button>
-    </ion-buttons>
+    <!--<ion-title>-->
+      <!--មេរៀន​​ជំនួយ-->
+    <!--</ion-title>-->
+    <!--<ion-buttons end *ngIf="answerCorrect">-->
+      <!--<button ion-button icon-only (click)="navigate(current.next_question_id)">-->
+        <!--សំនួរ​បន្ទាប់-->
+        <!--<ion-icon name="arrow-forward"></ion-icon>-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
   </ion-navbar>
 </ion-header>
-<ion-content padding>
-    <ion-grid helper-view>
-      <ion-row helper-view-head wrap>
-        <ion-col width-100>
-          <ion-card>
-            <img src="" alt="">
-          </ion-card>
-        </ion-col>
-      </ion-row>
-      <ion-row helper-view-content>
-        <ion-col width-100 padding>
-          <h1>{{sections.title || ''}}</h1><br>
-          <!--<ion-card text-wrap>-->
-          {{sections.content || ''}}
+<ion-content class="content">
+    <ion-grid >
+      <!--<ion-row helper-view-head wrap>-->
+        <!--<ion-col width-100>-->
+          <!--<ion-card>-->
+            <!--<img src="" alt="">-->
           <!--</ion-card>-->
+        <!--</ion-col>-->
+      <!--</ion-row>-->
+      <ion-row class="view_content">
+        <ion-card text-wrap padding="10px">
+        <ion-col>
+          <h3>{{sections.content || ''}}</h3>
         </ion-col>
         <ion-col width-100>
           <button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">
@@ -39,6 +37,7 @@
             <ion-icon name="arrow-forward"></ion-icon>
           </button>
         </ion-col>
+        </ion-card>
       </ion-row>
     </ion-grid>
 </ion-content>

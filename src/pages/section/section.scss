@@ -1,17 +1,18 @@
 page-section {
-  [helper-view] {
-    [helper-view-head] {
+  .content {
+    background-image: url('../assets/img/screen_review.png');
+    background-repeat: no-repeat;
+    background-size:cover;
+    .view_content{
+      padding-top: 40%;
+      //font-size: 1.8em;
+      //text-align: inherit;
 
-    }
-    [helper-view-content] {
-      font-size: 1.4em;
-      text-align: justify;
-      h1 {
-        color: purple;
-      }
+
       [ion-button] {
         height: 50px;
-        font-size: 1.4em;
+        //padding: 10px;
+        font-size: 1.8em;
       }
     }
   } // [helper-view]
@@ -32,7 +33,7 @@ page-section {
     }
     .toolbar-background {
       border-color: transparent;
-      background: transparent;
+      //background: transparent;
     }
     &:before {
       background-image: none;
