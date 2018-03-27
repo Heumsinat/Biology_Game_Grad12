@@ -6,11 +6,17 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content xela>
+<ion-content xela class="card-background-page">
+    <ion-card>
+        <img src="assets/imgs/01.jpg"/>
+    
   <!--chapter-->
+  
   <ion-list *ngIf="state == 'chapters'" no-lines>
     <ion-item-sliding *ngFor="let chapters of chapters; let i=index">
       <ion-item >
+          
+              
         <button ion-button block color="primary" (click)="chapter(chapters.id)">
           <div class="number">
             ជំពូកទី: {{chapters.number}}
@@ -20,9 +26,11 @@
           </div>
 
         </button>
+      
       </ion-item>
     </ion-item-sliding>
   </ion-list>
+  
 
   <!--lesson-->
   <ion-list equalized *ngIf="state == 'lessons'" no-lines>
@@ -40,6 +48,7 @@
       </ion-item>
     </ion-item-sliding>
   </ion-list>
+</ion-card>
 </ion-content>
 
 <ion-footer>
