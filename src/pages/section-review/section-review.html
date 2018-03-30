@@ -7,43 +7,72 @@
 <ion-header>
 
   <ion-navbar hideBackButton>
-    <ion-title>
-      មេរៀន​​ជំនួយ
-    </ion-title>
-    <ion-buttons end *ngIf="answerCorrect">
-      <button ion-button icon-only (click)="navigate(current.next_question_id)">
-        សំនួរ​បន្ទាប់
-        <ion-icon name="arrow-forward"></ion-icon>
-      </button>
-    </ion-buttons>
+    <!--<ion-title>-->
+      <!--មេរៀន​​ជំនួយ-->
+    <!--</ion-title>-->
+    <!--<ion-buttons end *ngIf="answerCorrect">-->
+      <!--<button ion-button icon-only (click)="navigate(current.next_question_id)">-->
+        <!--សំនួរ​បន្ទាប់-->
+        <!--<ion-icon name="arrow-forward"></ion-icon>-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
   </ion-navbar>
 
 </ion-header>
-
-
-<ion-content padding>
-  <ion-grid helper-view>
-    <ion-row helper-view-head wrap>
-      <ion-col width-100>
-        <ion-card>
-          <img src="" alt="">
+<ion-content class="content">
+  <ion-scroll class="view_content" scrollY="true">
+    <ion-grid>
+      <ion-row>
+        <ion-card text-wrap padding="10px">
+          <ion-col>
+            {{sections.content || ''}}
+          </ion-col>
+          <ion-col width-100>
+            <button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">
+              សំនួរ​បន្ទាប់
+              <ion-icon name="arrow-forward"></ion-icon>
+            </button>
+          </ion-col>
         </ion-card>
-      </ion-col>
-    </ion-row>
-    <ion-row helper-view-content>
-      <ion-col width-100 padding>
-        <h1>{{sections.title || ''}}</h1><br>
-        <!--<ion-card text-wrap>-->
-        {{sections.content || ''}}
-        <!--</ion-card>-->
-      </ion-col>
-      <ion-col width-100>
-        <button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">
-          សំនួរ​បន្ទាប់
-          <ion-icon name="arrow-forward"></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
+      </ion-row>
+    </ion-grid>
+  </ion-scroll>
 </ion-content>
+<!--<ion-content padding>-->
+  <!--<ion-grid helper-view>-->
+    <!--<ion-row helper-view-head wrap>-->
+      <!--<ion-col width-100>-->
+        <!--<ion-card>-->
+          <!--<img src="" alt="">-->
+        <!--</ion-card>-->
+      <!--</ion-col>-->
+    <!--</ion-row>-->
+    <!--<ion-row helper-view-content>-->
+      <!--<ion-col width-100 padding>-->
+        <!--<h1>{{sections.title || ''}}</h1><br>-->
+        <!--&lt;!&ndash;<ion-card text-wrap>&ndash;&gt;-->
+        <!--{{sections.content || ''}}-->
+        <!--&lt;!&ndash;</ion-card>&ndash;&gt;-->
+      <!--</ion-col>-->
+      <!--<ion-col width-100>-->
+        <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->
+          <!--សំនួរ​បន្ទាប់-->
+          <!--<ion-icon name="arrow-forward"></ion-icon>-->
+        <!--</button>-->
+      <!--</ion-col>-->
+    <!--</ion-row>-->
+  <!--</ion-grid>-->
+
+<ion-footer unit-footer>
+  <ion-toolbar>
+    <button ion-button clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">
+      <ion-icon name="arrow-back"></ion-icon>
+    </button>
+    <button ion-button clear (click)="replayButtonClick()">
+      <ion-icon name="refresh"></ion-icon>
+    </button>
+    <button ion-button clear (click)="exitButtonClick()" (press)="toggleDebug()">
+      <ion-icon name="power"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-footer>

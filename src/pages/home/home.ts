@@ -72,10 +72,11 @@ export class HomePage {
   //       })
   // }
 
-    public chapter(chapter_id: number) {
+    public chapter(chapter_id: number, chapter_title: string) {
         this.navCtrl.push(
             LessonPage, {
-                chapterID: chapter_id
+                chapterID: chapter_id,
+                chapterTitle: chapter_title,
             }
         );
     }

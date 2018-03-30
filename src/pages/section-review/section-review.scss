@@ -1,20 +1,48 @@
 page-section-review {
-  [helper-view] {
-    [helper-view-head] {
-
-    }
-    [helper-view-content] {
-      font-size: 1.4em;
+  //[helper-view] {
+  //  [helper-view-head] {
+  //
+  //  }
+  //  [helper-view-content] {
+  //    font-size: 1.4em;
+  //    text-align: justify;
+  //    h1 {
+  //      color: purple;
+  //    }
+  //    [ion-button] {
+  //      height: 50px;
+  //      font-size: 1.4em;
+  //    }
+  //  }
+  //} // [helper-view]
+  .content {
+    background-image: url('../assets/img/screen_background.png');
+    background-repeat: no-repeat;
+    background-size:cover;
+    position: relative;
+    .view_content{
+      position: fixed;
       text-align: justify;
-      h1 {
-        color: purple;
+      bottom: 40px;
+      left: 10px;
+      right: 10px;
+      height: 60%;
+
+      .scroll-content {
+        height: 100%;
       }
+
       [ion-button] {
         height: 50px;
-        font-size: 1.4em;
+        //padding: 10px;
+        font-size: 1.8em;
+
       }
     }
-  } // [helper-view]
+  } // content
+  .card-md{
+    font-size: 16px;
+  }
 
   [unit-footer] {
     ion-toolbar {
@@ -32,7 +60,7 @@ page-section-review {
     }
     .toolbar-background {
       border-color: transparent;
-      background: transparent;
+      //background: transparent;
     }
     &:before {
       background-image: none;

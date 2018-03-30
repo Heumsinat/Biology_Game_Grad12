@@ -18,28 +18,23 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="content">
-    <ion-grid >
-      <!--<ion-row helper-view-head wrap>-->
-        <!--<ion-col width-100>-->
-          <!--<ion-card>-->
-            <!--<img src="" alt="">-->
-          <!--</ion-card>-->
-        <!--</ion-col>-->
-      <!--</ion-row>-->
-      <ion-row class="view_content">
+  <ion-scroll class="view_content" scrollY="true">
+    <ion-grid>
+      <ion-row>
         <ion-card text-wrap padding="10px">
-        <ion-col>
-          <h3>{{sections.content || ''}}</h3>
-        </ion-col>
-        <ion-col width-100>
-          <button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">
-            សំនួរ​បន្ទាប់
-            <ion-icon name="arrow-forward"></ion-icon>
-          </button>
-        </ion-col>
+          <ion-col>
+            {{sections.content || ''}}
+          </ion-col>
+          <ion-col width-100>
+            <button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">
+              សំនួរ​បន្ទាប់
+              <ion-icon name="arrow-forward"></ion-icon>
+            </button>
+          </ion-col>
         </ion-card>
       </ion-row>
     </ion-grid>
+  </ion-scroll>
 </ion-content>
 
 <ion-footer unit-footer>

@@ -1,38 +1,80 @@
 page-lesson {
-  [xela] {
-    [equalized] {
-      min-height: 100%;
-      justify-content: center !important;
-      align-content: center !important;
-    }
-    [width-100] {
-      &[menu-header] {
-        text-align: center;
+  .content {
+    background-image: url('../assets/img/screen_background.png');
+    background-repeat: no-repeat;
+    background-size:cover;
+    height: 100%;
+    justify-content: center;
+    //vertical-align: middle;
+    .choice {
+      background: transparent;
+      [ion-button] {
+        height: 80px;
         font-size: 1.2em;
-        max-width: 100%;
       }
-    }
-    [ion-button] {
-      height: 80px;
-      font-size: 1.3em;
-
       span.button-inner {
         display: block;
         margin-top: 20px;
       }
+
       .number {
         display: block;
-        margin-top: 10px;
-        font-size: 1em;
+        //margin-top: 10px;
+        //font-size: 1em;
         padding-bottom: 8px;
       }
       .text {
         display: block;
       }
-
     }
-    // [ion-button]
-  }// // [xela]
+  }
+  .button-md {
+    border-radius: 5px;
+  }
+  .item-md.item-block .item-inner{
+    border-bottom: none;
+  }
+  .item-md{
+    background-color: transparent;
+  }
+  .label-md{
+    margin: auto;
+  }
+
+  //[xela] {
+  //  [equalized] {
+  //    min-height: 100%;
+  //    justify-content: center !important;
+  //    align-content: center !important;
+  //  }
+  //  [width-100] {
+  //    &[menu-header] {
+  //      text-align: center;
+  //      font-size: 1.2em;
+  //      max-width: 100%;
+  //    }
+  //  }
+  //  [ion-button] {
+  //    height: 80px;
+  //    font-size: 1.3em;
+  //
+  //    span.button-inner {
+  //      display: block;
+  //      margin-top: 20px;
+  //    }
+  //    .number {
+  //      display: block;
+  //      margin-top: 10px;
+  //      font-size: 1em;
+  //      padding-bottom: 8px;
+  //    }
+  //    .text {
+  //      display: block;
+  //    }
+  //
+  //  }
+  //  // [ion-button]
+  //}// // [xela]
 
   ion-toolbar {
     text-align: center;

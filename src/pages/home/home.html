@@ -6,23 +6,28 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content xela>
+<ion-content>
   <!--chapter-->
-  <ion-list *ngIf="state == 'chapters'" no-lines>
-    <ion-item-sliding *ngFor="let chapters of chapters; let i=index">
-      <ion-item >
-        <button ion-button block color="primary" (click)="chapter(chapters.id)">
-          <div class="number">
-            ជំពូកទី: {{chapters.number}}
-          </div>
-          <div class="text">
-            {{chapters.title}}
-          </div>
-
-        </button>
+  <!--<ion-list *ngIf="state == 'chapters'" no-lines>-->
+  <ion-grid class="content">
+    <ion-row class="choice">
+      <ion-item>
+        <ion-item-sliding *ngFor="let chapters of chapters; let i=index">
+          <ion-item no-lines no-padding>
+            <button ion-button block color="primary" (click)="chapter(chapters.id, chapters.title)">
+              <div class="number">
+                ជំពូកទី: {{chapters.number}}
+              </div>
+              <!--<div class="text">-->
+                <!--{{chapters.title}}-->
+              <!--</div>-->
+            </button>
+          </ion-item>
+        </ion-item-sliding>
       </ion-item>
-    </ion-item-sliding>
-  </ion-list>
+    </ion-row>
+  </ion-grid>
+  <!--</ion-list>-->
 
   <!--lesson-->
   <!--<ion-list equalized *ngIf="state == 'lessons'" no-lines>-->

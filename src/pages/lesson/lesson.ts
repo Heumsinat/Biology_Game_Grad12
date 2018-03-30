@@ -18,8 +18,12 @@ import {QuestionPage} from "../question/question";
 export class LessonPage {
   lessons: any = [];
     chapterID: number;
+    chapterTitle: string;
   constructor(public navCtrl: NavController, public navParams: NavParams,public db: DatabaseProvider) {
       this.chapterID = navParams.get('chapterID');
+      this.chapterTitle = navParams.get('chapterTitle');
+      console.log(this.chapterID);
+      console.log(this.chapterTitle);
       this.getLessons();
   }
 

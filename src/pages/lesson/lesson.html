@@ -7,29 +7,34 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>ជំពូកទី: {{chapterID}}</ion-title>
+    <ion-title>ជំពូកទី{{chapterID}} </ion-title>
   </ion-navbar>
 
 </ion-header>
 
-<ion-content xela>
+<ion-content >
 
   <!--lesson-->
-  <ion-list >
-    <ion-item-sliding *ngFor="let lessons of lessons; let i=index">
-      <ion-item width-100 menu-header class="animated fadeInUp">
-        <button ion-button block color="primary" (click)="lesson(lessons.id)">
-
-          <div class="number">
-            មេរៀនទី: {{lessons.number}}<br>
-          </div>
-          <div class="text">
-            {{lessons.title}}
-          </div>
-        </button>
+  <!--<ion-list >-->
+  <ion-grid class="content">
+    <ion-row class="choice">
+      <ion-item>
+        <ion-item-sliding *ngFor="let lessons of lessons; let i=index">
+          <ion-item no-lines no-padding >
+            <button ion-button block color="primary" (click)="lesson(lessons.id)">
+              <div class="number">
+                មេរៀនទី: {{lessons.number}}<br>
+              </div>
+              <div class="text">
+                {{lessons.title}}
+              </div>
+            </button>
+          </ion-item>
+        </ion-item-sliding>
       </ion-item>
-    </ion-item-sliding>
-  </ion-list>
+    </ion-row>
+  </ion-grid>
+  <!--</ion-list>-->
 </ion-content>
 
 <ion-footer>
