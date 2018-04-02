@@ -125,6 +125,7 @@ export class QuizPage {
         return this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.nextQuestion}`)
             .then(res => {
                 this.sectionID = res.rows.item(0).section_id;
+                console.log(this.sectionID);
             }).catch(e => console.log((e)))
   }
   getNextQuestions(section_id: number){
@@ -155,7 +156,6 @@ export class QuizPage {
                 console.log("Last Question", this.questions);
             }).catch(e => console.log((e)))
   };
-
 
   // getQuestions(lesson_id: number){
   //     return this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${lesson_id}`)

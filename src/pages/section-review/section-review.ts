@@ -26,12 +26,14 @@ export class SectionReviewPage {
   sectionsID: any = [];
   answerCorrect: number;
   sectionID: number;
+  public questionID: number;
   public nextQuestionID;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio) {
     this.answerCorrect = this.navParams.get('answerCorrect');
     this.sectionID = this.navParams.get('sectionID');
     this.nextQuestionID = this.navParams.get('nextQuestionID');
+    this.questionID = this.navParams.get('questionID')
   }
 
   ionViewDidEnter(){
@@ -82,7 +84,8 @@ export class SectionReviewPage {
     this.navCtrl.push(
         QuestionPage, {
           nextQuestion: this.nextQuestionID,
-          lessonID: this.sections.lesson
+          lessonID: this.sections.lesson,
+          currentQuestionID: this.questionID
         }
     );
   }

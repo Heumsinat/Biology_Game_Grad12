@@ -1,20 +1,23 @@
 page-section {
   .content {
-    background-image: url('../assets/img/screen_background.png');
+    background-image: url('../assets/img/screen_review.png');
     background-repeat: no-repeat;
     background-size:cover;
     position: relative;
     .view_content{
       position: fixed;
       text-align: justify;
-      bottom: 40px;
+      bottom: 45px;
       left: 10px;
       right: 10px;
-      height: 60%;
+      height: 57%;
 
-      //.scroll-content {
-      //  height: 100%;
-      //}
+      .scroll-content {
+        height: 100%;
+        left: 10px;
+        right: 10px;
+        font-size: 16px;
+      }
 
       [ion-button] {
         height: 50px;
@@ -24,9 +27,9 @@ page-section {
       }
     }
   } // content
-  .card-md{
-    font-size: 16px;
-  }
+  //.card-md{
+  //  font-size: 16px;
+  //}
 
   [unit-footer] {
     ion-toolbar {
