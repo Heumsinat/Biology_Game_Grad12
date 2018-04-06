@@ -5,6 +5,7 @@ import {QuestionPage} from "../question/question";
 import { NativeAudio } from '@ionic-native/native-audio';
 import {QuizPageModule} from "../quiz/quiz.module";
 import {QuizPage} from "../quiz/quiz";
+import {LessonPage} from "../lesson/lesson";
 
 /**
  * Generated class for the SectionReviewPage page.
@@ -80,7 +81,6 @@ export class SectionReviewPage {
   }
 
   navigate() {
-
     this.navCtrl.push(
         QuestionPage, {
           nextQuestion: this.nextQuestionID,
@@ -89,6 +89,15 @@ export class SectionReviewPage {
         }
     );
   }
+  // goToLessonPage() {
+  //   this.navCtrl.push(
+  //       LessonPage, {
+  //         // nextQuestion: this.nextQuestionID,
+  //         // lessonID: this.sections.lesson,
+  //         // currentQuestionID: this.questionID
+  //       }
+  //   );
+  // }
 
   exitButtonClick() {
     let alert = this.alertCtrl.create({
@@ -108,9 +117,7 @@ export class SectionReviewPage {
       ]
     });
     alert.present();
-
   }
-
   private replayButtonClick() {
     this.nativeAudio.preloadSimple(this.sections.id, 'assets/sounds/'+this.sections.sound).then(()=>{
       this.nativeAudio.play(this.sections.id, ()=>{

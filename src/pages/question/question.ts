@@ -338,7 +338,7 @@ export class QuestionPage {
                 //Registration of push in Android and Windows Phone
                 platform.registerBackButtonAction(() => {
                     let nav = this.app.getActiveNav();
-                    console.log('Back is click')
+                    console.log('Back is click');
                     if (nav.canGoBack()){ //Can we go back?
                         nav.popToRoot();
                     }else{
@@ -347,7 +347,6 @@ export class QuestionPage {
                 });
             });
     }
-
     ionViewDidEnter(){
         this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${this.lessonID}`)
             .then(res => {
@@ -366,6 +365,7 @@ export class QuestionPage {
                         correct_answer_number:res.rows.item(i).correct_answer_number,
                         score:res.rows.item(i).score,
                         section_id:res.rows.item(i).section_id,
+                        lesson_id:res.rows.item(i).lesson_id,
                         correct_answer_sound:res.rows.item(i).correct_answer_sound,
                         incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
                         next_question_id:res.rows.item(i).next_question_id,
@@ -379,7 +379,6 @@ export class QuestionPage {
 
             }).catch(e => console.log((e)))
     }
-
     ionViewWillLeave() {
         console.log("ionViewWillLeave(): View is about to leave, Stopping current playback sound.")
         this.nativeAudio.stop(this.current.id).then(() => {
@@ -388,7 +387,6 @@ export class QuestionPage {
 
         });
     }
-
     getSectionID (){
         return this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.currentQuestionID}`)
             .then(res => {
@@ -483,7 +481,6 @@ export class QuestionPage {
                 }
             }).catch(e => console.log((e)))
     }
-
     content(id) {
         console.log(id);
         console.log("Hello : ", id);
@@ -595,8 +592,7 @@ export class QuestionPage {
                             let section_id = res.rows.item(0).section_id;
                             // let next_question_id = res.rows.item(0).next_question_id;
                             let current_question_id = res.rows.item(0).id;
-                            console.log('section_id', section_id)
-
+                            console.log('section_id', section_id);
                             this.navCtrl.push(SectionReviewPage, {
                                 answerCorrect: correct_ans,
                                 sectionID: section_id,
@@ -630,7 +626,6 @@ export class QuestionPage {
             });
         }
     }
-
     exitButtonClick() {
         let alert = this.alertCtrl.create({
             title: 'ចាកចេញ',
@@ -650,7 +645,6 @@ export class QuestionPage {
         });
         alert.present();
     }
-
     private replayButtonClick() {
         this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
             this.nativeAudio.play(this.current.id, ()=>{
@@ -658,7 +652,6 @@ export class QuestionPage {
             });
         });console.log(this.current.question_sound);
     }
-
     backButtonClick() {
         this.navCtrl.pop();
     }

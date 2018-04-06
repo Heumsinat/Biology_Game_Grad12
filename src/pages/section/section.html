@@ -5,16 +5,16 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar hideBackButton>
+  <ion-navbar >
     <!--<ion-title>-->
       <!--មេរៀន​​ជំនួយ-->
     <!--</ion-title>-->
-    <!--<ion-buttons end *ngIf="answerCorrect">-->
-      <!--<button ion-button icon-only (click)="navigate(current.next_question_id)">-->
-        <!--សំនួរ​បន្ទាប់-->
-        <!--<ion-icon name="arrow-forward"></ion-icon>-->
-      <!--</button>-->
-    <!--</ion-buttons>-->
+    <ion-buttons end>
+      <button ion-button icon-only (click)="navigate(current.next_question_id)">
+        សំនួរ​បន្ទាប់
+        <ion-icon name="arrow-round-forward"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content class="content">
@@ -25,12 +25,12 @@
           <ion-col>
             {{sections.content || ''}}
           </ion-col>
-          <ion-col width-100>
-            <button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">
-              សំនួរ​បន្ទាប់
-              <ion-icon name="arrow-forward"></ion-icon>
-            </button>
-          </ion-col>
+          <!--<ion-col width-100>-->
+            <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->
+              <!--សំនួរ​បន្ទាប់-->
+              <!--<ion-icon name="arrow-forward"></ion-icon>-->
+            <!--</button>-->
+          <!--</ion-col>-->
         <!--</ion-card>-->
       </ion-row>
     </ion-grid>
@@ -38,14 +38,14 @@
 </ion-content>
 
 <ion-footer unit-footer>
-  <ion-toolbar>
-    <button ion-button clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">
-      <ion-icon name="arrow-back"></ion-icon>
-    </button>
-    <button ion-button clear (click)="replayButtonClick()">
+  <ion-toolbar color="lightgreen">
+    <!--<button ion-button float-start clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->
+      <!--<ion-icon name="arrow-back"></ion-icon>-->
+    <!--</button>-->
+    <button ion-button float-start clear (click)="replayButtonClick()">
       <ion-icon name="refresh"></ion-icon>
     </button>
-    <button ion-button clear (click)="exitButtonClick()" (press)="toggleDebug()">
+    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">
       <ion-icon name="power"></ion-icon>
     </button>
   </ion-toolbar>

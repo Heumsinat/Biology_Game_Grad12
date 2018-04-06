@@ -1,4 +1,12 @@
 page-quiz {
+  //.toolbar-background-md {
+  //  background: transparent;
+  //}
+
+  .toolbar-title-md{
+    font-size: 2.8rem;
+    padding: 0 65px;
+  }
   .content{
     background-image: url('../assets/img/screen_question.png');
     background-repeat: no-repeat;
@@ -22,11 +30,46 @@ page-quiz {
   .label-md{
      margin: auto;
   }
+  .button-md{
+    padding: 0 0.8em;
+  }
+  .btn3d {
+    position: relative;
+    top: -6px;
+    border: 0;
+    transition: all 40ms linear;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+  .btn3d:active:focus,
+  .btn3d:focus:hover,
+  .btn3d:focus {
+    -moz-outline-style: none;
+    outline: medium none;
+  }
+  .btn3d:active,
+  .btn3d.active {
+    top: 2px;
+  }
+  .btn3d.btn-primary {
+    box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
+    background-color: #4274D7;
+  }
+  .btn3d.btn-primary:active,
+  .btn3d.btn-primary.active {
+    box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.1);
+    background-color: #4274D7;
+  }
 
 
     [unit-footer] {
       ion-toolbar {
         text-align: center;
+        .button-clear-md{
+          color: white;
+        }
 
         [ion-button] {
           font-size: 1.6em;
