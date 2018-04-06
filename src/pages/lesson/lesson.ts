@@ -52,7 +52,8 @@ export class LessonPage {
   public lesson(lesson_id: number) {
     this.navCtrl.push(
         QuestionPage, {
-          lessonID: lesson_id
+          lessonID: lesson_id,
+          chapterID : this.chapterID
         }
     );
   }

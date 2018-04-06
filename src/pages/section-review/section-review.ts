@@ -29,12 +29,20 @@ export class SectionReviewPage {
   sectionID: number;
   public questionID: number;
   public nextQuestionID;
+  lessonId: number;
+  public num_section: number;
+  chapterID: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio) {
     this.answerCorrect = this.navParams.get('answerCorrect');
     this.sectionID = this.navParams.get('sectionID');
     this.nextQuestionID = this.navParams.get('nextQuestionID');
-    this.questionID = this.navParams.get('questionID')
+    this.questionID = this.navParams.get('questionID');
+    this.lessonId = this.navParams.get('lessonId');
+    this.chapterID = this.navParams.get('chapterID');
+    console.log('lesson id ', this.lessonId);
+    console.log('chapter id', this.chapterID);
+    this.getNumSection();
   }
 
   ionViewDidEnter(){
@@ -79,15 +87,37 @@ export class SectionReviewPage {
 
     });
   }
-
+  getNumSection(){
+    let number_section: number = 0;
+    console.log("LESSSON ID", this.lessonId);
+    this.db.executeSQL(`SELECT COUNT(*) as num_section FROM sections WHERE lesson = ${this.lessonId}`)
+        .then(data =>{
+          number_section = data.rows.item(0).num_section;
+          this.num_section = number_section;
+        }).catch(e => console.log((e)));
+  }
   navigate() {
-    this.navCtrl.push(
-        QuestionPage, {
-          nextQuestion: this.nextQuestionID,
-          lessonID: this.sections.lesson,
-          currentQuestionID: this.questionID
-        }
-    );
+    //  // console.log('SEC_ID:', this.sectionID);
+    // this.getNumSection().then(data =>{
+    //
+    // }).catch(e=>console.log(e));
+    if (this.sectionID == this.num_section){
+      this.navCtrl.push(
+          LessonPage, {
+            chapterID: this.chapterID,
+            // lessonID: this.sections.lesson,
+          }
+      )
+    }else (
+        this.navCtrl.push(
+            QuestionPage, {
+              nextQuestion: this.nextQuestionID,
+              lessonID: this.sections.lesson,
+              currentQuestionID: this.questionID,
+              chapterID: this.chapterID
+            }
+        )
+    )
   }
   // goToLessonPage() {
   //   this.navCtrl.push(
@@ -98,7 +128,6 @@ export class SectionReviewPage {
   //       }
   //   );
   // }
-
   exitButtonClick() {
     let alert = this.alertCtrl.create({
       title: 'ចាកចេញ',
@@ -126,5 +155,4 @@ export class SectionReviewPage {
     });
     // console.log(this.sections.sound);
   }
-
 }

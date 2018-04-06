@@ -298,6 +298,7 @@ export class QuestionPage {
     answers: any = [];
     lessonID: number;
     sectionID: number;
+    chapterID: number;
     // nextQuestion: number;
     currentQuestionID:number;
     //totalQuestion: number;
@@ -305,6 +306,7 @@ export class QuestionPage {
         this.lessonID = navParams.get('lessonID');
         // this.nextQuestion = this.navParams.get('nextQuestion');
         this.currentQuestionID  = this.navParams.get('currentQuestionID');
+        this.chapterID = this.navParams.get('chapterID');
         // this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${this.lessonID}`)
         //     .then(res => {
         //         this.questions = {};
@@ -597,7 +599,9 @@ export class QuestionPage {
                                 answerCorrect: correct_ans,
                                 sectionID: section_id,
                                 // nextQuestionID: next_question_id,
-                                questionID: current_question_id
+                                questionID: current_question_id,
+                                lessonId: this.lessonID,
+                                chapterID: this.chapterID
                             });
                         });
                 });
@@ -619,7 +623,9 @@ export class QuestionPage {
                                 answerCorrect: correct_ans,
                                 sectionID: section_id,
                                 // nextQuestionID: next_question_id
-                                questionID: current_question_id
+                                questionID: current_question_id,
+                                lessonId: this.lessonID,
+                                chapterID: this.chapterID
                             });
                         });
                 });
