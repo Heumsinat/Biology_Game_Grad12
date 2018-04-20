@@ -508,7 +508,7 @@ export class QuestionPage {
                         console.log(this.current.id);
                         console.log(this.current.question_sound);
                         this.getAnswers(this.current.id);
-                        this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
+                        this.nativeAudio.preloadComplex(this.current.id, 'assets/sounds/'+this.current.question_sound, 1,1,0).then(()=>{
                             this.nativeAudio.play(this.current.id, ()=>{
                                 this.nativeAudio.unload(this.current.id);
                             });
@@ -586,7 +586,7 @@ export class QuestionPage {
     public answer (correct_ans: number, question_id: number){
 
         if (correct_ans == 1){
-            return this.nativeAudio.preloadSimple('correct', 'assets/sounds/correct.mp3').then(()=>{
+            return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
                 return this.nativeAudio.play('correct', ()=>{
                     this.nativeAudio.unload('correct');
                     this.db.executeSQL(`select * from questions where id = '${question_id}'`)
@@ -607,7 +607,7 @@ export class QuestionPage {
                 });
             });
         } else{
-            return this.nativeAudio.preloadSimple('wrong', 'assets/sounds/wrong.mp3').then(()=>{
+            return this.nativeAudio.preloadComplex('wrong', 'assets/sounds/wrong.mp3',1,1,0).then(()=>{
                 return this.nativeAudio.play('wrong', ()=>{
 
                     this.nativeAudio.unload('wrong');
@@ -651,13 +651,19 @@ export class QuestionPage {
         });
         alert.present();
     }
-    private replayButtonClick() {
-        this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
+    replayButtonClick() {
+        this.nativeAudio.stop(this.current.id).then(() => {
             this.nativeAudio.play(this.current.id, ()=>{
                 this.nativeAudio.unload(this.current.id);
-            });
-        });console.log(this.current.question_sound);
+            });console.log(this.current.question_sound);
+        },()=>{
+
+        });
+
+
     }
+
+
     backButtonClick() {
         this.navCtrl.pop();
     }

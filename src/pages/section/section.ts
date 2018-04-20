@@ -26,12 +26,12 @@ export class SectionPage {
   sectionsID: any = [];
   answerCorrect: number;
   sectionID: number;
-  public nextQuestionID;
+  questionID;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio) {
     this.answerCorrect = this.navParams.get('answerCorrect');
     this.sectionID = this.navParams.get('sectionID');
-    this.nextQuestionID = this.navParams.get('nextQuestionID');
+    this.questionID = this.navParams.get('questionID');
     // console.log(this.answerCorrect);
     // console.log(this.sectionID);
     // console.log(this.sectionID);
@@ -92,7 +92,7 @@ export class SectionPage {
                     }
                     //break;
                 }
-                this.nativeAudio.preloadSimple(this.sections.id, 'assets/sounds/'+this.sections.sound).then(()=>{
+                this.nativeAudio.preloadComplex(this.sections.id, 'assets/sounds/'+this.sections.sound,1,1,0).then(()=>{
                     this.nativeAudio.play(this.sections.id, ()=>{
                         this.nativeAudio.unload(this.sections.id);
                     });
@@ -103,7 +103,6 @@ export class SectionPage {
 
 
     ionViewWillLeave() {
-        // console.log("ionViewWillLeave(): View is about to leave, Stopping current playback sound.")
         this.nativeAudio.stop(this.sections.id).then(() => {
             this.nativeAudio.unload(this.sections.id);
         },()=>{
@@ -112,10 +111,9 @@ export class SectionPage {
     }
 
     navigate() {
-
        this.navCtrl.push(
            QuizPage, {
-               nextQuestion: this.nextQuestionID,
+               questionID: this.getNextQuestionID(),
                lessonID: this.sections.lesson
            }
        );
@@ -142,11 +140,33 @@ export class SectionPage {
     }
 
     private replayButtonClick() {
-        this.nativeAudio.preloadSimple(this.sections.id, 'assets/sounds/'+this.sections.sound).then(()=>{
+        // this.nativeAudio.preloadSimple(this.sections.id, 'assets/sounds/'+this.sections.sound).then(()=>{
+        //     this.nativeAudio.play(this.sections.id, ()=>{
+        //         this.nativeAudio.unload(this.sections.id);
+        //     });
+        // });
+        // console.log(this.sections.sound);
+        this.nativeAudio.stop(this.sections.id).then(() => {
             this.nativeAudio.play(this.sections.id, ()=>{
                 this.nativeAudio.unload(this.sections.id);
-            });
+            });console.log(this.sections.id);
+        },()=>{
+
         });
-        // console.log(this.sections.sound);
     }
+
+    getNextQuestionID(){
+        var nextQID:any;
+        //console.log("SELECT * FROM order_question WHERE question_id ="+this.currentQuestionID);
+        console.log("SELECT * FROM order_question WHERE question_id ="+localStorage.getItem("currentQID"));
+        this.db.executeSQL(`SELECT * FROM order_question WHERE question_id = ${localStorage.getItem("currentQID")}`)
+            .then(res => {
+                //this.questions = {};
+                console.log("res result in getNextQuestionIDSamak = "+JSON.stringify(res));
+                nextQID = res.rows.item(0).next_question_id;
+                localStorage.setItem("NextQID",nextQID);
+            }).catch(e => console.log((e)));
+
+        return nextQID;
+    };
 }

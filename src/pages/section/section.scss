@@ -40,6 +40,9 @@ page-section {
   [unit-footer] {
     ion-toolbar {
       text-align: center;
+      .button-clear-md{
+        color: white;
+      }
       .button-md{
         padding: 0 0.7em;
       }

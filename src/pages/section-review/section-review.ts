@@ -69,7 +69,7 @@ export class SectionReviewPage {
             }
             //break;
           }
-          this.nativeAudio.preloadSimple(this.sections.id, 'assets/sounds/'+this.sections.sound).then(()=>{
+          this.nativeAudio.preloadComplex(this.sections.id, 'assets/sounds/'+this.sections.sound,1,1,0).then(()=>{
             this.nativeAudio.play(this.sections.id, ()=>{
               this.nativeAudio.unload(this.sections.id);
             });
@@ -80,7 +80,6 @@ export class SectionReviewPage {
 
 
   ionViewWillLeave() {
-    // console.log("ionViewWillLeave(): View is about to leave, Stopping current playback sound.")
     this.nativeAudio.stop(this.sections.id).then(() => {
       this.nativeAudio.unload(this.sections.id);
     },()=>{
@@ -101,6 +100,7 @@ export class SectionReviewPage {
     // this.getNumSection().then(data =>{
     //
     // }).catch(e=>console.log(e));
+
     if (this.sectionID == this.num_section){
       this.navCtrl.push(
           LessonPage, {
@@ -147,12 +147,19 @@ export class SectionReviewPage {
     });
     alert.present();
   }
-  private replayButtonClick() {
-    this.nativeAudio.preloadSimple(this.sections.id, 'assets/sounds/'+this.sections.sound).then(()=>{
+   replayButtonClick() {
+    // this.nativeAudio.preloadSimple(this.sections.id, 'assets/sounds/'+this.sections.sound).then(()=>{
+    //   this.nativeAudio.play(this.sections.id, ()=>{
+    //     this.nativeAudio.unload(this.sections.id);
+    //   });
+    // });
+    // console.log(this.sections.sound);
+    this.nativeAudio.stop(this.sections.id).then(() => {
       this.nativeAudio.play(this.sections.id, ()=>{
         this.nativeAudio.unload(this.sections.id);
-      });
+      });console.log(this.sections.id);
+    },()=>{
+
     });
-    // console.log(this.sections.sound);
   }
 }
