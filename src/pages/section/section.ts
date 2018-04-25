@@ -27,11 +27,12 @@ export class SectionPage {
   answerCorrect: number;
   sectionID: number;
   questionID;
-
   constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio) {
     this.answerCorrect = this.navParams.get('answerCorrect');
     this.sectionID = this.navParams.get('sectionID');
     this.questionID = this.navParams.get('questionID');
+
+
     // console.log(this.answerCorrect);
     // console.log(this.sectionID);
     // console.log(this.sectionID);
@@ -67,6 +68,16 @@ export class SectionPage {
     //       console.log(this.sections.sound);
     //     }).catch(e => console.log((e)));
   }
+    // getNumberQuestion(){
+    //     var num_q_today:any;
+    //     //select count * as column total FROM user_quiz WHERE user_id = 1 and created_date = date('now')
+    //     this.db.executeSQL(`SELECT count(*) as total FROM user_quiz WHERE user_id = 1 and created_date = date('now')`)
+    //         .then(res => {
+    //             num_q_today = res.rows.item(0).total;
+    //             console.log('get count number of question', res.rows.item(0).total);
+    //         }).catch(e => console.log((e)));
+    //     return num_q_today;
+    // }
 
     ionViewDidEnter(){
         this.db.executeSQL(`SELECT * FROM sections WHERE id = ${this.sectionID}`)
@@ -111,12 +122,29 @@ export class SectionPage {
     }
 
     navigate() {
-       this.navCtrl.push(
-           QuizPage, {
-               questionID: this.getNextQuestionID(),
-               lessonID: this.sections.lesson
-           }
-       );
+        // this.num_q_today = this.getNumberQuestion();
+        //select count * as column total FROM user_quiz WHERE user_id = 1 and created_date = date('now')
+        this.db.executeSQL(`SELECT count(*) as total FROM user_quiz WHERE user_id = 1 and created_date = date('now')`)
+            .then(res => {
+                let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
+                console.log('get count number of question', num_q);
+                this.db.executeSQL(`SELECT * FROM setting `)
+                    .then(res =>{
+                        let num_quiz = res.rows.item(0).number_of_quiz ; // num_quiz is a number that set in table setting
+                        console.log('get number of setting', num_quiz);
+                        // compare number of question that user play today with number that set from setting
+                        if (num_q < num_quiz){
+                            this.navCtrl.push(
+                                QuizPage, {
+                                    questionID: this.getNextQuestionID(),
+                                    lessonID: this.sections.lesson
+                                }
+                            );
+                        }else {
+                            this.navCtrl.popToRoot();
+                        }
+                }).catch(e => console.log((e)));
+            }).catch(e => console.log((e)));
    }
 
     exitButtonClick() {
@@ -166,7 +194,6 @@ export class SectionPage {
                 nextQID = res.rows.item(0).next_question_id;
                 localStorage.setItem("NextQID",nextQID);
             }).catch(e => console.log((e)));
-
         return nextQID;
     };
 }

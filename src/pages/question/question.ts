@@ -659,11 +659,7 @@ export class QuestionPage {
         },()=>{
 
         });
-
-
     }
-
-
     backButtonClick() {
         this.navCtrl.pop();
     }

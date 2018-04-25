@@ -467,8 +467,6 @@ export class QuizPage {
             }).catch(e => console.log((e)));
     };
 
-
-
     getUserQuestion(){
         this.nextQuestionID = localStorage.getItem("NextQID");
         console.log("local storage NEXTQID = "+this.nextQuestionID);
@@ -566,7 +564,7 @@ export class QuizPage {
             */
       //  }
     }
-    public answer (correct_ans: number, question_id: number){
+    public answer (correct_ans: number, question_id: number ){
         if (correct_ans == 1){
             return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
                 return this.nativeAudio.play('correct', ()=>{
@@ -578,9 +576,10 @@ export class QuizPage {
                             // let next_question_id = res.rows.item(0).next_question_id;
                             console.log('section_id', section_id);
                             //Save User_Question
-                            this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id, ans_correct) 
-                                            VALUES (1,` + question_id + `,` + correct_ans + `)`).then(res=>{
-                                console.log(res);
+                            this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id, ans_correct, score, created_date) 
+                                            VALUES (1,` + question_id + `,` + correct_ans + `,1, date('now'))`).then(res=>{
+                                console.log('Current number of question that has insert', res);
+
                             });
                             //End Save
                             // console.log(this.current.question_sound);
@@ -590,7 +589,6 @@ export class QuizPage {
                                 sectionID: section_id,
                                 questionID: question_id
                             });
-
                         });
                 });
             });
@@ -605,9 +603,9 @@ export class QuizPage {
                             let next_question_id = res.rows.item(0).next_question_id;
                             console.log('section_id', section_id);
                             //Save User_Question
-                            this.db.executeSQL(`INSERT INTO user_question ( is_correct, question_id, user_id) 
-                                            VALUES (1,` + next_question_id + `, ` + section_id + `)`).then(res=>{
-                                console.log(res);
+                            this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id, ans_correct, score, created_date) 
+                                            VALUES (1,` + question_id + `,` + correct_ans + `,0, date('now'))`).then(res=>{
+                                console.log('Current number of question that has insert', res);
                             });
                             //End Save
                             // console.log(this.current.question_sound);
