@@ -1,0 +1,37 @@
+<!--
+  Generated template for the WelcomePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <!--<ion-navbar>
+    <ion-title>ការវិវត្តនៃភាវរស់</ion-title>
+  </ion-navbar>-->
+
+</ion-header>
+
+<ion-content xela class="background-img">
+    
+    <ion-label class="content"></ion-label>
+    
+      <div padding>
+        <button ion-button block class="btn btn-primary btn-lg btn3d" id="btn1"><ion-icon class="ficon" name="logo-facebook"></ion-icon>Facebook</button>
+      </div>
+      <div padding>
+        <button ion-button block class="btn btn-primary btn-lg btn3d" (click)="createForm()">Register</button>
+      </div>
+  
+        <ion-label class="content1" (click)="login()">Log In</ion-label>
+        <ion-label class="content2" color="blue">About Evolution</ion-label>
+    
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <button ion-button block clear (click)="exitButtonClick()" (press)="toggleDebug()">
+        <ion-icon name="power"></ion-icon>
+        </button>
+    </ion-toolbar>
+  </ion-footer>
