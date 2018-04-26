@@ -564,6 +564,7 @@ export class QuizPage {
             */
       //  }
     }
+
     public answer (correct_ans: number, question_id: number ){
         if (correct_ans == 1){
             return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
@@ -618,13 +619,10 @@ export class QuizPage {
                 });
             });
         }
-
     }
-
     backButtonClick(){
         this.navCtrl.pop();
     }
-
     exitButtonClick() {
         let alert = this.alertCtrl.create({
             title: 'ចាកចេញ',
@@ -644,7 +642,6 @@ export class QuizPage {
         });
         alert.present();
     }
-
     replayButtonClick() {
         this.nativeAudio.stop(this.current.id).then(() => {
             this.nativeAudio.play(this.current.id, ()=>{
