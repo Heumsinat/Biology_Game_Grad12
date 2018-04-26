@@ -122,6 +122,14 @@ export class SectionPage {
     }
 
     navigate() {
+        // this.navCtrl.push(
+        //     QuizPage, {
+        //         // this.nextQuestionID = localStorage.getItem("NextQID");
+        //         // questionID: this.getNextQuestionID(),
+        //         lessonID: this.sections.lesson
+        //     }
+        // );
+
         // this.num_q_today = this.getNumberQuestion();
         //select count * as column total FROM user_quiz WHERE user_id = 1 and created_date = date('now')
         this.db.executeSQL(`SELECT count(*) as total FROM user_quiz WHERE user_id = 1 and created_date = date('now')`)
@@ -136,7 +144,7 @@ export class SectionPage {
                         if (num_q < num_quiz){
                             this.navCtrl.push(
                                 QuizPage, {
-                                    questionID: this.getNextQuestionID(),
+                                    // questionID: this.getNextQuestionID(),
                                     lessonID: this.sections.lesson
                                 }
                             );
@@ -145,6 +153,7 @@ export class SectionPage {
                         }
                 }).catch(e => console.log((e)));
             }).catch(e => console.log((e)));
+
    }
 
     exitButtonClick() {
@@ -183,17 +192,17 @@ export class SectionPage {
         });
     }
 
-    getNextQuestionID(){
-        var nextQID:any;
-        //console.log("SELECT * FROM order_question WHERE question_id ="+this.currentQuestionID);
-        console.log("SELECT * FROM order_question WHERE question_id ="+localStorage.getItem("currentQID"));
-        this.db.executeSQL(`SELECT * FROM order_question WHERE question_id = ${localStorage.getItem("currentQID")}`)
-            .then(res => {
-                //this.questions = {};
-                console.log("res result in getNextQuestionIDSamak = "+JSON.stringify(res));
-                nextQID = res.rows.item(0).next_question_id;
-                localStorage.setItem("NextQID",nextQID);
-            }).catch(e => console.log((e)));
-        return nextQID;
-    };
+    // getNextQuestionID(){
+    //     var nextQID:any;
+    //     //console.log("SELECT * FROM order_question WHERE question_id ="+this.currentQuestionID);
+    //     console.log("SELECT * FROM order_question WHERE question_id ="+localStorage.getItem("currentQID"));
+    //     this.db.executeSQL(`SELECT * FROM order_question WHERE question_id = ${localStorage.getItem("currentQID")}`)
+    //         .then(res => {
+    //             //this.questions = {};
+    //             console.log("res result in getNextQuestionIDSamak = "+JSON.stringify(res));
+    //             nextQID = res.rows.item(0).next_question_id;
+    //             localStorage.setItem("NextQID",nextQID);
+    //         }).catch(e => console.log((e)));
+    //     return nextQID;
+    // };
 }

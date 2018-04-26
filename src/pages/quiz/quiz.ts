@@ -590,6 +590,15 @@ export class QuizPage {
                                 sectionID: section_id,
                                 questionID: question_id
                             });
+                            console.log("SELECT * FROM order_question WHERE question_id ="+localStorage.getItem("currentQID"));
+                            this.db.executeSQL(`SELECT * FROM order_question WHERE question_id = ${localStorage.getItem("currentQID")}`)
+                                .then(res => {
+                                    //this.questions = {};
+                                    var nextQID:any;
+                                    console.log("res result in getNextQuestionIDSamak = "+JSON.stringify(res));
+                                    nextQID = res.rows.item(0).next_question_id;
+                                    localStorage.setItem("NextQID",nextQID);
+                                }).catch(e => console.log((e)));
                         });
                 });
             });
@@ -610,11 +619,20 @@ export class QuizPage {
                             });
                             //End Save
                             // console.log(this.current.question_sound);
+                            localStorage.setItem("currentQID",question_id);
                             this.navCtrl.push(SectionPage, {
                                 answerCorrect: correct_ans,
                                 sectionID: section_id,
                                 questionID: question_id
                             });
+                            this.db.executeSQL(`SELECT * FROM order_question WHERE question_id = ${localStorage.getItem("currentQID")}`)
+                                .then(res => {
+                                    //this.questions = {};
+                                    var nextQID:any;
+                                    console.log("res result in getNextQuestionIDSamak = "+JSON.stringify(res));
+                                    nextQID = res.rows.item(0).next_question_id;
+                                    localStorage.setItem("NextQID",nextQID);
+                                }).catch(e => console.log((e)));
                         });
                 });
             });
