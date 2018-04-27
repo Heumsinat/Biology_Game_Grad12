@@ -14,7 +14,7 @@
         <!--<ion-icon name="arrow-round-back"></ion-icon>-->
       <!--</button>-->
     <!--</ion-buttons>-->
-    <ion-buttons end >
+    <ion-buttons [hidden]="!playCompleted" end>
       <button ion-button icon-only (click)="navigate(current.next_question_id)">
         សំនួរ​បន្ទាប់
         <ion-icon name="arrow-round-forward"></ion-icon>
@@ -24,6 +24,8 @@
 
 </ion-header>
 <ion-content class="content">
+  <!--<button ion-button primary (click)="toggleTest()">Toggle</button>-->
+  <!--<p>{{ playCompleted ? 'true' : 'false' }}</p>-->
   <ion-scroll class="view_content" scrollY="true">
     <ion-grid>
       <ion-row>

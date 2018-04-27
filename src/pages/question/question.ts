@@ -381,6 +381,7 @@ export class QuestionPage {
 
             }).catch(e => console.log((e)))
     }
+
     ionViewWillLeave() {
         console.log("ionViewWillLeave(): View is about to leave, Stopping current playback sound.")
         this.nativeAudio.stop(this.current.id).then(() => {
@@ -389,6 +390,7 @@ export class QuestionPage {
 
         });
     }
+
     getSectionID (){
         return this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.currentQuestionID}`)
             .then(res => {
@@ -396,6 +398,7 @@ export class QuestionPage {
                 console.log(this.sectionID);
             }).catch(e => console.log((e)))
     }
+
     getNextQuestions(section_id: number){
         return this.db.executeSQL(`SELECT * FROM questions WHERE section_id = ${section_id} ORDER BY id ASC LIMIT 1`)
             .then(res => {

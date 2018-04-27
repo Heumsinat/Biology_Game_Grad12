@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component , ChangeDetectorRef} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {DatabaseProvider} from "../../providers/database/database";
 import {QuestionPage} from "../question/question";
@@ -27,10 +27,21 @@ export class SectionPage {
   answerCorrect: number;
   sectionID: number;
   questionID;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio) {
+  public playCompleted: boolean;
+
+  constructor(
+      public navCtrl: NavController,
+      public navParams: NavParams,
+      private alertCtrl: AlertController,
+      private platform: Platform,
+      public db: DatabaseProvider,
+      private nativeAudio: NativeAudio,
+      private changeRef: ChangeDetectorRef
+  ) {
     this.answerCorrect = this.navParams.get('answerCorrect');
     this.sectionID = this.navParams.get('sectionID');
     this.questionID = this.navParams.get('questionID');
+    this.playCompleted = false;
 
 
     // console.log(this.answerCorrect);
@@ -106,6 +117,8 @@ export class SectionPage {
                 this.nativeAudio.preloadComplex(this.sections.id, 'assets/sounds/'+this.sections.sound,1,1,0).then(()=>{
                     this.nativeAudio.play(this.sections.id, ()=>{
                         this.nativeAudio.unload(this.sections.id);
+                        this.playCompleted = true;
+                        this.changeRef.detectChanges();
                     });
                 });
                 // console.log(this.sections.sound);
@@ -136,11 +149,11 @@ export class SectionPage {
             .then(res => {
                 let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
                 console.log('get count number of question', num_q);
-                this.db.executeSQL(`SELECT * FROM setting `)
+                this.db.executeSQL(`SELECT * FROM settings `)
                     .then(res =>{
-                        let num_quiz = res.rows.item(0).number_of_quiz ; // num_quiz is a number that set in table setting
-                        console.log('get number of setting', num_quiz);
-                        // compare number of question that user play today with number that set from setting
+                        let num_quiz = res.rows.item(0).number_of_quiz ; // num_quiz is a number that set in table settings
+                        console.log('get number of settings', num_quiz);
+                        // compare number of question that user play today with number that set from settings
                         if (num_q < num_quiz){
                             this.navCtrl.push(
                                 QuizPage, {

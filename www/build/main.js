@@ -114,13 +114,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Ionic pages and navigation.
  */
 var SectionReviewPage = (function () {
-    function SectionReviewPage(navCtrl, navParams, alertCtrl, platform, db, nativeAudio) {
+    function SectionReviewPage(navCtrl, navParams, alertCtrl, platform, db, nativeAudio, changeRef) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.alertCtrl = alertCtrl;
         this.platform = platform;
         this.db = db;
         this.nativeAudio = nativeAudio;
+        this.changeRef = changeRef;
         this.current = {};
         this.currentIndex = -1;
         this.sections = {};
@@ -131,6 +132,7 @@ var SectionReviewPage = (function () {
         this.questionID = this.navParams.get('questionID');
         this.lessonId = this.navParams.get('lessonId');
         this.chapterID = this.navParams.get('chapterID');
+        this.playCompleted = false;
         console.log('lesson id ', this.lessonId);
         console.log('chapter id', this.chapterID);
         this.getNumSection();
@@ -163,6 +165,8 @@ var SectionReviewPage = (function () {
             _this.nativeAudio.preloadComplex(_this.sections.id, 'assets/sounds/' + _this.sections.sound, 1, 1, 0).then(function () {
                 _this.nativeAudio.play(_this.sections.id, function () {
                     _this.nativeAudio.unload(_this.sections.id);
+                    _this.playCompleted = true;
+                    _this.changeRef.detectChanges();
                 });
             });
             // console.log(this.sections.sound);
@@ -212,6 +216,10 @@ var SectionReviewPage = (function () {
     //       }
     //   );
     // }
+    SectionReviewPage.prototype.toggleTest = function () {
+        this.playCompleted = !this.playCompleted;
+        this.changeRef.detectChanges();
+    };
     SectionReviewPage.prototype.exitButtonClick = function () {
         var _this = this;
         var alert = this.alertCtrl.create({
@@ -250,9 +258,15 @@ var SectionReviewPage = (function () {
     };
     SectionReviewPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-section-review',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section-review/section-review.html"*/'<!--\n  Generated template for the SectionReviewPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <!--<ion-title>-->\n      <!--មេរៀន​​ជំនួយ-->\n    <!--</ion-title>-->\n    <!--<ion-buttons float-start >-->\n      <!--<button ion-button icon-only (click)="goToLessonPage(current.lessonID)">-->\n        <!--<ion-icon name="arrow-round-back"></ion-icon>-->\n      <!--</button>-->\n    <!--</ion-buttons>-->\n    <ion-buttons end >\n      <button ion-button icon-only (click)="navigate(current.next_question_id)">\n        សំនួរ​បន្ទាប់\n        <ion-icon name="arrow-round-forward"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n<ion-content class="content">\n  <ion-scroll class="view_content" scrollY="true">\n    <ion-grid>\n      <ion-row>\n        <!--<ion-card text-wrap padding="10px">-->\n          <ion-col>\n            {{sections.content || \'\'}}\n          </ion-col>\n          <!--<ion-col width-100>-->\n            <!--&lt;!&ndash;<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id, current.question_id)">&ndash;&gt;-->\n            <!--<button width-100 ion-button block color="primary" (click)="navigate(current.next_question_id, current.question_id)">-->\n              <!--សំនួរ​បន្ទាប់-->\n              <!--<ion-icon name="arrow-forward"></ion-icon>-->\n            <!--</button>-->\n          <!--</ion-col>-->\n        <!--</ion-card>-->\n      </ion-row>\n    </ion-grid>\n  </ion-scroll>\n</ion-content>\n<!--<ion-content padding>-->\n  <!--<ion-grid helper-view>-->\n    <!--<ion-row helper-view-head wrap>-->\n      <!--<ion-col width-100>-->\n        <!--<ion-card>-->\n          <!--<img src="" alt="">-->\n        <!--</ion-card>-->\n      <!--</ion-col>-->\n    <!--</ion-row>-->\n    <!--<ion-row helper-view-content>-->\n      <!--<ion-col width-100 padding>-->\n        <!--<h1>{{sections.title || \'\'}}</h1><br>-->\n        <!--&lt;!&ndash;<ion-card text-wrap>&ndash;&gt;-->\n        <!--{{sections.content || \'\'}}-->\n        <!--&lt;!&ndash;</ion-card>&ndash;&gt;-->\n      <!--</ion-col>-->\n      <!--<ion-col width-100>-->\n        <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->\n          <!--សំនួរ​បន្ទាប់-->\n          <!--<ion-icon name="arrow-forward"></ion-icon>-->\n        <!--</button>-->\n      <!--</ion-col>-->\n    <!--</ion-row>-->\n  <!--</ion-grid>-->\n\n<ion-footer unit-footer>\n  <ion-toolbar color="lightgreen">\n    <!--<button ion-button clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->\n      <!--<ion-icon name="arrow-back"></ion-icon>-->\n    <!--</button>-->\n    <button ion-button float-start clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section-review/section-review.html"*/,
+            selector: 'page-section-review',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section-review/section-review.html"*/'<!--\n  Generated template for the SectionReviewPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <!--<ion-title>-->\n      <!--មេរៀន​​ជំនួយ-->\n    <!--</ion-title>-->\n    <!--<ion-buttons float-start >-->\n      <!--<button ion-button icon-only (click)="goToLessonPage(current.lessonID)">-->\n        <!--<ion-icon name="arrow-round-back"></ion-icon>-->\n      <!--</button>-->\n    <!--</ion-buttons>-->\n    <ion-buttons [hidden]="!playCompleted" end>\n      <button ion-button icon-only (click)="navigate(current.next_question_id)">\n        សំនួរ​បន្ទាប់\n        <ion-icon name="arrow-round-forward"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n<ion-content class="content">\n  <!--<button ion-button primary (click)="toggleTest()">Toggle</button>-->\n  <!--<p>{{ playCompleted ? \'true\' : \'false\' }}</p>-->\n  <ion-scroll class="view_content" scrollY="true">\n    <ion-grid>\n      <ion-row>\n        <!--<ion-card text-wrap padding="10px">-->\n          <ion-col>\n            {{sections.content || \'\'}}\n          </ion-col>\n          <!--<ion-col width-100>-->\n            <!--&lt;!&ndash;<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id, current.question_id)">&ndash;&gt;-->\n            <!--<button width-100 ion-button block color="primary" (click)="navigate(current.next_question_id, current.question_id)">-->\n              <!--សំនួរ​បន្ទាប់-->\n              <!--<ion-icon name="arrow-forward"></ion-icon>-->\n            <!--</button>-->\n          <!--</ion-col>-->\n        <!--</ion-card>-->\n      </ion-row>\n    </ion-grid>\n  </ion-scroll>\n</ion-content>\n<!--<ion-content padding>-->\n  <!--<ion-grid helper-view>-->\n    <!--<ion-row helper-view-head wrap>-->\n      <!--<ion-col width-100>-->\n        <!--<ion-card>-->\n          <!--<img src="" alt="">-->\n        <!--</ion-card>-->\n      <!--</ion-col>-->\n    <!--</ion-row>-->\n    <!--<ion-row helper-view-content>-->\n      <!--<ion-col width-100 padding>-->\n        <!--<h1>{{sections.title || \'\'}}</h1><br>-->\n        <!--&lt;!&ndash;<ion-card text-wrap>&ndash;&gt;-->\n        <!--{{sections.content || \'\'}}-->\n        <!--&lt;!&ndash;</ion-card>&ndash;&gt;-->\n      <!--</ion-col>-->\n      <!--<ion-col width-100>-->\n        <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->\n          <!--សំនួរ​បន្ទាប់-->\n          <!--<ion-icon name="arrow-forward"></ion-icon>-->\n        <!--</button>-->\n      <!--</ion-col>-->\n    <!--</ion-row>-->\n  <!--</ion-grid>-->\n\n<ion-footer unit-footer>\n  <ion-toolbar color="lightgreen">\n    <!--<button ion-button clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->\n      <!--<ion-icon name="arrow-back"></ion-icon>-->\n    <!--</button>-->\n    <button ion-button float-start clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section-review/section-review.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */], __WEBPACK_IMPORTED_MODULE_4__ionic_native_native_audio__["a" /* NativeAudio */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */],
+            __WEBPACK_IMPORTED_MODULE_4__ionic_native_native_audio__["a" /* NativeAudio */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */]])
     ], SectionReviewPage);
     return SectionReviewPage;
 }());
@@ -373,13 +387,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Ionic pages and navigation.
  */
 var SectionPage = (function () {
-    function SectionPage(navCtrl, navParams, alertCtrl, platform, db, nativeAudio) {
+    function SectionPage(navCtrl, navParams, alertCtrl, platform, db, nativeAudio, changeRef) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.alertCtrl = alertCtrl;
         this.platform = platform;
         this.db = db;
         this.nativeAudio = nativeAudio;
+        this.changeRef = changeRef;
         this.current = {};
         this.currentIndex = -1;
         this.sections = {};
@@ -387,6 +402,7 @@ var SectionPage = (function () {
         this.answerCorrect = this.navParams.get('answerCorrect');
         this.sectionID = this.navParams.get('sectionID');
         this.questionID = this.navParams.get('questionID');
+        this.playCompleted = false;
         // console.log(this.answerCorrect);
         // console.log(this.sectionID);
         // console.log(this.sectionID);
@@ -459,6 +475,8 @@ var SectionPage = (function () {
             _this.nativeAudio.preloadComplex(_this.sections.id, 'assets/sounds/' + _this.sections.sound, 1, 1, 0).then(function () {
                 _this.nativeAudio.play(_this.sections.id, function () {
                     _this.nativeAudio.unload(_this.sections.id);
+                    _this.playCompleted = true;
+                    _this.changeRef.detectChanges();
                 });
             });
             // console.log(this.sections.sound);
@@ -486,11 +504,11 @@ var SectionPage = (function () {
             .then(function (res) {
             var num_q = res.rows.item(0).total; // num_q is a number that user have play for today
             console.log('get count number of question', num_q);
-            _this.db.executeSQL("SELECT * FROM setting ")
+            _this.db.executeSQL("SELECT * FROM settings ")
                 .then(function (res) {
-                var num_quiz = res.rows.item(0).number_of_quiz; // num_quiz is a number that set in table setting
-                console.log('get number of setting', num_quiz);
-                // compare number of question that user play today with number that set from setting
+                var num_quiz = res.rows.item(0).number_of_quiz; // num_quiz is a number that set in table settings
+                console.log('get number of settings', num_quiz);
+                // compare number of question that user play today with number that set from settings
                 if (num_q < num_quiz) {
                     _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__quiz_quiz__["a" /* QuizPage */], {
                         // questionID: this.getNextQuestionID(),
@@ -541,9 +559,15 @@ var SectionPage = (function () {
     };
     SectionPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-section',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section/section.html"*/'<!--\n  Generated template for the SectionPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar >\n    <!--<ion-title>-->\n      <!--មេរៀន​​ជំនួយ-->\n    <!--</ion-title>-->\n    <ion-buttons end>\n      <button ion-button icon-only (click)="navigate(current.next_question_id)">\n        សំនួរ​បន្ទាប់\n        <ion-icon name="arrow-round-forward"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n<ion-content class="content">\n  <ion-scroll class="view_content" scrollY="true">\n    <ion-grid>\n      <ion-row>\n        <!--<ion-card text-wrap padding="10px">-->\n          <ion-col>\n            {{sections.content || \'\'}}\n          </ion-col>\n          <!--<ion-col width-100>-->\n            <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->\n              <!--សំនួរ​បន្ទាប់-->\n              <!--<ion-icon name="arrow-forward"></ion-icon>-->\n            <!--</button>-->\n          <!--</ion-col>-->\n        <!--</ion-card>-->\n      </ion-row>\n    </ion-grid>\n  </ion-scroll>\n</ion-content>\n\n<ion-footer unit-footer>\n  <ion-toolbar color="lightgreen">\n    <!--<button ion-button float-start clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->\n      <!--<ion-icon name="arrow-back"></ion-icon>-->\n    <!--</button>-->\n    <button ion-button float-start clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section/section.html"*/,
+            selector: 'page-section',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section/section.html"*/'<!--\n  Generated template for the SectionPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar >\n    <!--<ion-title>-->\n      <!--មេរៀន​​ជំនួយ-->\n    <!--</ion-title>-->\n    <ion-buttons [hidden]="!playCompleted" end>\n      <button ion-button icon-only (click)="navigate(current.next_question_id)">\n        សំនួរ​បន្ទាប់\n        <ion-icon name="arrow-round-forward"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n<ion-content class="content">\n  <ion-scroll class="view_content" scrollY="true">\n    <ion-grid>\n      <ion-row>\n        <!--<ion-card text-wrap padding="10px">-->\n          <ion-col>\n            {{sections.content || \'\'}}\n          </ion-col>\n          <!--<ion-col width-100>-->\n            <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->\n              <!--សំនួរ​បន្ទាប់-->\n              <!--<ion-icon name="arrow-forward"></ion-icon>-->\n            <!--</button>-->\n          <!--</ion-col>-->\n        <!--</ion-card>-->\n      </ion-row>\n    </ion-grid>\n  </ion-scroll>\n</ion-content>\n\n<ion-footer unit-footer>\n  <ion-toolbar color="lightgreen">\n    <!--<button ion-button float-start clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->\n      <!--<ion-icon name="arrow-back"></ion-icon>-->\n    <!--</button>-->\n    <button ion-button float-start clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section/section.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_native_audio__["a" /* NativeAudio */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */],
+            __WEBPACK_IMPORTED_MODULE_3__ionic_native_native_audio__["a" /* NativeAudio */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */]])
     ], SectionPage);
     return SectionPage;
 }());
@@ -2290,6 +2314,9 @@ var QuizPage = (function () {
         }).catch(function (e) { return console.log((e)); });
     };
     ;
+    /*
+    Samak user user Question
+     */
     QuizPage.prototype.getUserQuestion = function () {
         var _this = this;
         this.nextQuestionID = localStorage.getItem("NextQID");
@@ -2397,7 +2424,10 @@ var QuizPage = (function () {
                         var section_id = res.rows.item(0).section_id;
                         // let next_question_id = res.rows.item(0).next_question_id;
                         console.log('section_id', section_id);
-                        //Save User_Question
+                        /*
+                         //Save User_Quiz
+                         Samak API 2
+                        */
                         _this.db.executeSQL("INSERT INTO user_quiz ( user_id, question_id, ans_correct, score, created_date) \n                                            VALUES (1," + question_id + "," + correct_ans + ",1, date('now'))").then(function (res) {
                             console.log('Current number of question that has insert', res);
                         });
@@ -2416,6 +2446,7 @@ var QuizPage = (function () {
                             var nextQID;
                             console.log("res result in getNextQuestionIDSamak = " + JSON.stringify(res));
                             nextQID = res.rows.item(0).next_question_id;
+                            // set local storage for NextQID
                             localStorage.setItem("NextQID", nextQID);
                         }).catch(function (e) { return console.log((e)); });
                     });

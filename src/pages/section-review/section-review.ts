@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {DatabaseProvider} from "../../providers/database/database";
 import {QuestionPage} from "../question/question";
@@ -20,7 +20,6 @@ import {LessonPage} from "../lesson/lesson";
   templateUrl: 'section-review.html',
 })
 export class SectionReviewPage {
-
   current: any = {};
   currentIndex: number = -1;
   sections: any = {};
@@ -32,14 +31,24 @@ export class SectionReviewPage {
   lessonId: number;
   public num_section: number;
   chapterID: number;
+  public playCompleted: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio) {
+  constructor(
+      public navCtrl: NavController,
+      public navParams: NavParams,
+      private alertCtrl: AlertController,
+      private platform: Platform,
+      public db: DatabaseProvider,
+      private nativeAudio: NativeAudio,
+      private changeRef: ChangeDetectorRef
+  ) {
     this.answerCorrect = this.navParams.get('answerCorrect');
     this.sectionID = this.navParams.get('sectionID');
     this.nextQuestionID = this.navParams.get('nextQuestionID');
     this.questionID = this.navParams.get('questionID');
     this.lessonId = this.navParams.get('lessonId');
     this.chapterID = this.navParams.get('chapterID');
+    this.playCompleted = false;
     console.log('lesson id ', this.lessonId);
     console.log('chapter id', this.chapterID);
     this.getNumSection();
@@ -72,6 +81,8 @@ export class SectionReviewPage {
           this.nativeAudio.preloadComplex(this.sections.id, 'assets/sounds/'+this.sections.sound,1,1,0).then(()=>{
             this.nativeAudio.play(this.sections.id, ()=>{
               this.nativeAudio.unload(this.sections.id);
+              this.playCompleted = true;
+              this.changeRef.detectChanges();
             });
           });
           // console.log(this.sections.sound);
@@ -128,6 +139,12 @@ export class SectionReviewPage {
   //       }
   //   );
   // }
+
+  toggleTest() {
+    this.playCompleted = !this.playCompleted;
+    this.changeRef.detectChanges();
+  }
+
   exitButtonClick() {
     let alert = this.alertCtrl.create({
       title: 'ចាកចេញ',

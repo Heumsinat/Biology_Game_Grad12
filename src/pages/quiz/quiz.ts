@@ -411,7 +411,6 @@ export class QuizPage {
                 }
             });
         });
-
     }
     ionViewDidEnter(){
         //Previous Question
@@ -466,7 +465,9 @@ export class QuizPage {
                 console.log("NEXT QUESTION ID", this.nextQuestionID);
             }).catch(e => console.log((e)));
     };
-
+    /*
+    Samak user user Question
+     */
     getUserQuestion(){
         this.nextQuestionID = localStorage.getItem("NextQID");
         console.log("local storage NEXTQID = "+this.nextQuestionID);
@@ -547,7 +548,6 @@ export class QuizPage {
                     });
                 });
                 console.log(this.current.question_sound);
-
             });
 
             /*
@@ -576,7 +576,11 @@ export class QuizPage {
                             let section_id = res.rows.item(0).section_id;
                             // let next_question_id = res.rows.item(0).next_question_id;
                             console.log('section_id', section_id);
-                            //Save User_Question
+
+                            /*
+                             //Save User_Quiz
+                             Samak API 2
+                            */
                             this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id, ans_correct, score, created_date) 
                                             VALUES (1,` + question_id + `,` + correct_ans + `,1, date('now'))`).then(res=>{
                                 console.log('Current number of question that has insert', res);
@@ -590,6 +594,7 @@ export class QuizPage {
                                 sectionID: section_id,
                                 questionID: question_id
                             });
+
                             console.log("SELECT * FROM order_question WHERE question_id ="+localStorage.getItem("currentQID"));
                             this.db.executeSQL(`SELECT * FROM order_question WHERE question_id = ${localStorage.getItem("currentQID")}`)
                                 .then(res => {
@@ -597,6 +602,7 @@ export class QuizPage {
                                     var nextQID:any;
                                     console.log("res result in getNextQuestionIDSamak = "+JSON.stringify(res));
                                     nextQID = res.rows.item(0).next_question_id;
+                                    // set local storage for NextQID
                                     localStorage.setItem("NextQID",nextQID);
                                 }).catch(e => console.log((e)));
                         });
