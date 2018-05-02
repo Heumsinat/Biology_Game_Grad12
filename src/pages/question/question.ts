@@ -442,7 +442,7 @@ export class QuestionPage {
                     //break;
                 }
                 console.log("Last Question", this.questions);
-            }).catch(e => console.log((e)))
+            }).catch(e => console.log((e)));
     };
 
     // getQuestions(lesson_id: number){
@@ -508,7 +508,7 @@ export class QuestionPage {
     }
 
     /*
-
+        this Function to display content on screen
      */
     content(id) {
         console.log(id);
@@ -610,8 +610,12 @@ export class QuestionPage {
   //
   // }
 
+    /*
+    this function when click on answer and push to SectionReviewPage with
+    (answerCorrect, sectionID, questionID, lessonId, chapterID)
+     */
     public answer (correct_ans: number, question_id: number){
-
+        // if correct_ans , play audio correct then push to SectionReviewPage
         if (correct_ans == 1){
             return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
                 return this.nativeAudio.play('correct', ()=>{
@@ -634,18 +638,16 @@ export class QuestionPage {
                 });
             });
         } else{
+            /// if incorrect play wrong audio and push to SectionReviewPage
             return this.nativeAudio.preloadComplex('wrong', 'assets/sounds/wrong.mp3',1,1,0).then(()=>{
                 return this.nativeAudio.play('wrong', ()=>{
-
                     this.nativeAudio.unload('wrong');
                     this.db.executeSQL(`select * from questions where id = '${question_id}'`)
                         .then(res => {
                             let section_id = res.rows.item(0).section_id;
                             // let next_question_id = res.rows.item(0).next_question_id;
                             let current_question_id = res.rows.item(0).id;
-
                             console.log('section_id', section_id)
-
                             this.navCtrl.push(SectionReviewPage, {
                                 answerCorrect: correct_ans,
                                 sectionID: section_id,
@@ -659,6 +661,9 @@ export class QuestionPage {
             });
         }
     }
+    /*
+    Function to exit app when clicked on button
+     */
     exitButtonClick() {
         let alert = this.alertCtrl.create({
             title: 'ចាកចេញ',
@@ -678,6 +683,9 @@ export class QuestionPage {
         });
         alert.present();
     }
+    /*
+    Function to replay audio sound file when clicked on button
+     */
     replayButtonClick() {
         this.nativeAudio.stop(this.current.id).then(() => {
             this.nativeAudio.play(this.current.id, ()=>{
@@ -687,6 +695,9 @@ export class QuestionPage {
 
         });
     }
+    /*
+    Function back page when clicked on button
+     */
     backButtonClick() {
         this.navCtrl.pop();
     }
