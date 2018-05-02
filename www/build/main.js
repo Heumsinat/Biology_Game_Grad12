@@ -4,6 +4,168 @@ webpackJsonp([9],{
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_sqlite__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_toast__ = __webpack_require__(166);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+/**
+ * Generated class for the FormPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var FormPage = (function () {
+    function FormPage(navCtrl, navParams, sqlite, toast) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.sqlite = sqlite;
+        this.toast = toast;
+        this.data = { fullName: "", userName: "", password: "", gender: "", school: "", district: "", province: "" };
+    }
+    FormPage.prototype.saveData = function () {
+        var _this = this;
+        this.sqlite.create({
+            name: 'biology.db',
+            location: 'default'
+        }).then(function (db) {
+            db.executeSql('INSERT INTO users VALUES(NULL,?,?,?,?,?,?,?)', [_this.data.fullName, _this.data.userName, _this.data.password, _this.data.gender, _this.data.school, _this.data.district, _this.data.province])
+                .then(function (res) {
+                console.log(res);
+                _this.toast.show('Data saved', '5000', 'center').subscribe(function (toast) {
+                    _this.navCtrl.popToRoot();
+                });
+            })
+                .catch(function (e) {
+                console.log(e);
+                _this.toast.show(e, '5000', 'center').subscribe(function (toast) {
+                    console.log(toast);
+                });
+            });
+        }).catch(function (e) {
+            console.log(e);
+            _this.toast.show(e, '5000', 'center').subscribe(function (toast) {
+                console.log(toast);
+            });
+        });
+    };
+    FormPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad FormPage');
+    };
+    FormPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-form',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/form/form.html"*/'<!--\n  Generated template for the FormPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>ទម្រង់អ្នកប្រើប្រាស់</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content xela padding>\n    <!--<form> (ngSubmit)="saveData()">-->\n      <div class="container">  \n        <ion-list>\n          <ion-item class="form1">\n            <ion-label>ឈ្មោះ</ion-label>\n            <ion-input type="text" [(ngModel)]="data.fullName" name="fullName" aria-required=""></ion-input>\n          </ion-item>\n        \n          <ion-item>\n            <ion-label>ឈ្មោះសម្គាល់</ion-label>\n            <ion-input type="text" [(ngModel)]="data.userName" name="userName" aria-required=""></ion-input>\n          </ion-item>\n\n          <ion-item>\n            <ion-label>ពាក្យសម្ងាត់</ion-label>\n            <ion-input type="password" [(ngModel)]="data.password" name="password" aria-required=""></ion-input>\n          </ion-item>\n        \n          <ion-item>\n              <ion-label>ភេទ</ion-label>\n              <ion-select [(ngModel)]="data.gender" >\n                <ion-option value="ស្រី">ស្រី</ion-option>\n                <ion-option value="ប្រុស">ប្រុស</ion-option>\n              </ion-select>\n          </ion-item>\n\n          <ion-item>\n            <ion-label>លេខទូរស័ព្ទ</ion-label>\n            <ion-input type="text" name="" aria-required=""></ion-input>\n          </ion-item>\n          \n          <ion-item>\n            <ion-label>សាលារៀន</ion-label>\n            <ion-input type="text" [(ngModel)]="data.school" name="school" aria-required=""></ion-input>\n          </ion-item>\n\n          <ion-item>\n            <ion-label>ស្រុក/ខណ្ឌ</ion-label>\n            <ion-input type="text" [(ngModel)]="data.district" name="district" aria-required=""></ion-input>\n          </ion-item>\n          <ion-item>\n            <ion-label>ខេត្ត/ក្រុង</ion-label>\n            <ion-input type="text" [(ngModel)]="data.province" name="province" aria-required=""></ion-input>\n          </ion-item>\n        </ion-list>\n     </div> \n   <!-- </form>-->\n\n      <div padding>\n          <button ion-button block color="primary">បោះបង់</button>\n      </div>\n      <div padding>\n          <button ion-button block color="primary" type="submit" (click)="saveData()">រក្សាទុក</button>\n      </div>\n      \n</ion-content>\n\n<ion-footer>\n  <ion-toolbar>\n      <button ion-button block clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n      </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/form/form.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_2__ionic_native_sqlite__["a" /* SQLite */],
+            __WEBPACK_IMPORTED_MODULE_3__ionic_native_toast__["a" /* Toast */]])
+    ], FormPage);
+    return FormPage;
+}());
+
+//# sourceMappingURL=form.js.map
+
+/***/ }),
+
+/***/ 109:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(86);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+/**
+ * Generated class for the LoginPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+/*@Component({
+  template:`
+    <ion-item>
+      <ion-label>Athelas</ion-label>
+      <ion-radio value="Athelas"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Charter</ion-label>
+      <ion-radio value="Charter"></ion-radio>
+    </ion-item>
+  `
+})*/
+var LoginPage = (function () {
+    function LoginPage(navCtrl, navParams, alertCtrl) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.alertCtrl = alertCtrl;
+        this.username = "";
+        this.password = "";
+    }
+    LoginPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad LoginPage');
+    };
+    LoginPage.prototype.showAlert = function (title, message) {
+        var alert = this.alertCtrl.create({
+            title: title,
+            subTitle: message,
+            buttons: ['OK']
+        });
+        alert.present();
+    };
+    LoginPage.prototype.signin = function () {
+        if (/^[a-zA-Z0-9]+$/.test(this.username + this.password)) {
+            this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */], {
+                username: this.username,
+                password: this.password
+            });
+        }
+        else {
+            this.showAlert('Error', 'Invalid Username');
+        }
+    };
+    LoginPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-login',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/login/login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>ការវិវត្តនៃភាវរស់</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <ion-label class="content">Signin</ion-label>\n    <ion-list inset>    \n      <ion-item>\n        <ion-label outline>ឈ្មោះសម្គាល់</ion-label>\n        <ion-input type="text"></ion-input>\n      </ion-item>\n        \n      <ion-item>\n        <ion-label>ពាក្យសម្ងាត់</ion-label>\n        <ion-input type="password"></ion-input>\n      </ion-item>     \n    </ion-list>\n\n        <div padding>\n            <button ion-button block class="btn btn-primary btn-lg btn3d" (click)="signin()">Sign In</button>\n        </div>\n        \n\n</ion-content>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/login/login.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
+    ], LoginPage);
+    return LoginPage;
+}());
+
+//# sourceMappingURL=login.js.map
+
+/***/ }),
+
+/***/ 110:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SectionReviewPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
@@ -191,164 +353,6 @@ var SectionReviewPage = (function () {
 }());
 
 //# sourceMappingURL=section-review.js.map
-
-/***/ }),
-
-/***/ 109:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(86);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-/*@Component({
-  template:`
-    <ion-item>
-      <ion-label>Athelas</ion-label>
-      <ion-radio value="Athelas"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>Charter</ion-label>
-      <ion-radio value="Charter"></ion-radio>
-    </ion-item>
-  `
-})*/
-var LoginPage = (function () {
-    function LoginPage(navCtrl, navParams, alertCtrl) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.alertCtrl = alertCtrl;
-        this.username = "";
-        this.password = "";
-    }
-    LoginPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad LoginPage');
-    };
-    LoginPage.prototype.showAlert = function (title, message) {
-        var alert = this.alertCtrl.create({
-            title: title,
-            subTitle: message,
-            buttons: ['OK']
-        });
-        alert.present();
-    };
-    LoginPage.prototype.signin = function () {
-        if (/^[a-zA-Z0-9]+$/.test(this.username + this.password)) {
-            this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */], {
-                username: this.username,
-                password: this.password
-            });
-        }
-        else {
-            this.showAlert('Error', 'Invalid Username');
-        }
-    };
-    LoginPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/login/login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>ការវិវត្តនៃភាវរស់</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <ion-label class="content">Signin</ion-label>\n    <ion-list inset>    \n      <ion-item>\n        <ion-label outline>ឈ្មោះសម្គាល់</ion-label>\n        <ion-input type="text"></ion-input>\n      </ion-item>\n        \n      <ion-item>\n        <ion-label>ពាក្យសម្ងាត់</ion-label>\n        <ion-input type="password"></ion-input>\n      </ion-item>     \n    </ion-list>\n\n        <div padding>\n            <button ion-button block class="btn btn-primary btn-lg btn3d" (click)="signin()">Sign In</button>\n        </div>\n        \n\n</ion-content>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/login/login.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
-    ], LoginPage);
-    return LoginPage;
-}());
-
-//# sourceMappingURL=login.js.map
-
-/***/ }),
-
-/***/ 110:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StarterPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(86);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__quiz_quiz__ = __webpack_require__(57);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-/**
- * Generated class for the StarterPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-var StarterPage = (function () {
-    function StarterPage(navCtrl, navParams, alertCtrl, platform) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.alertCtrl = alertCtrl;
-        this.platform = platform;
-    }
-    StarterPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad StarterPage');
-    };
-    StarterPage.prototype.goToHomePage = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
-    };
-    StarterPage.prototype.goToQuiz = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__quiz_quiz__["a" /* QuizPage */]);
-    };
-    StarterPage.prototype.exitButtonClick = function () {
-        var _this = this;
-        var alert = this.alertCtrl.create({
-            title: 'ចាកចេញ',
-            message: 'តើ​អ្នក​ពិត​ជា​ចង់​ចាក​ចេញ​ពី​កម្មវិធី​នេះ?​',
-            buttons: [
-                {
-                    text: "ទេ",
-                    role: 'cancel'
-                },
-                {
-                    text: "បាទ​ / ចាស",
-                    handler: function () {
-                        _this.platform.exitApp();
-                    }
-                },
-            ]
-        });
-        alert.present();
-    };
-    StarterPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-starter',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/starter/starter.html"*/'<!--\n  Generated template for the StarterPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header >\n\n  <ion-navbar >\n    <ion-title>Welcome to Evolution</ion-title>\n  </ion-navbar>\n\n</ion-header>\n<ion-content  class="content">\n\n  <div class="message ">\n    <ion-card no-padding>\n      <ion-card-content>\n        Today you have 3 Questions.\n      </ion-card-content>\n    </ion-card>\n  </div>\n  <div class="btnQuiz">\n    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToQuiz()">\n      Play\n    </button>\n  </div>\n  <div class="btnReview">\n    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToHomePage()">\n      Review\n    </button>\n  </div>\n</ion-content>\n\n<ion-footer class="footer">\n  <div class="btn-wrapper">\n    <button ion-button clear float-start (click)="exitButtonClick()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n    <button ion-button clear float-end (click)="aboutButtonClick()">\n      About\n    </button>\n  </div>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/starter/starter.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */]])
-    ], StarterPage);
-    return StarterPage;
-}());
-
-//# sourceMappingURL=starter.js.map
 
 /***/ }),
 
@@ -576,11 +580,11 @@ var SectionPage = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StarterPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_sqlite__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_toast__ = __webpack_require__(169);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__quiz_quiz__ = __webpack_require__(57);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -595,61 +599,57 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 /**
- * Generated class for the FormPage page.
+ * Generated class for the StarterPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-var FormPage = (function () {
-    function FormPage(navCtrl, navParams, sqlite, toast) {
+var StarterPage = (function () {
+    function StarterPage(navCtrl, navParams, alertCtrl, platform) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.sqlite = sqlite;
-        this.toast = toast;
-        this.data = { fullName: "", userName: "", password: "", gender: "", school: "", district: "", province: "" };
+        this.alertCtrl = alertCtrl;
+        this.platform = platform;
     }
-    FormPage.prototype.saveData = function () {
+    StarterPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad StarterPage');
+    };
+    StarterPage.prototype.goToHomePage = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
+    };
+    StarterPage.prototype.goToQuiz = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__quiz_quiz__["a" /* QuizPage */]);
+    };
+    StarterPage.prototype.exitButtonClick = function () {
         var _this = this;
-        this.sqlite.create({
-            name: 'biology.db',
-            location: 'default'
-        }).then(function (db) {
-            db.executeSql('INSERT INTO users VALUES(NULL,?,?,?,?,?,?,?)', [_this.data.fullName, _this.data.userName, _this.data.password, _this.data.gender, _this.data.school, _this.data.district, _this.data.province])
-                .then(function (res) {
-                console.log(res);
-                _this.toast.show('Data saved', '5000', 'center').subscribe(function (toast) {
-                    _this.navCtrl.popToRoot();
-                });
-            })
-                .catch(function (e) {
-                console.log(e);
-                _this.toast.show(e, '5000', 'center').subscribe(function (toast) {
-                    console.log(toast);
-                });
-            });
-        }).catch(function (e) {
-            console.log(e);
-            _this.toast.show(e, '5000', 'center').subscribe(function (toast) {
-                console.log(toast);
-            });
+        var alert = this.alertCtrl.create({
+            title: 'ចាកចេញ',
+            message: 'តើ​អ្នក​ពិត​ជា​ចង់​ចាក​ចេញ​ពី​កម្មវិធី​នេះ?​',
+            buttons: [
+                {
+                    text: "ទេ",
+                    role: 'cancel'
+                },
+                {
+                    text: "បាទ​ / ចាស",
+                    handler: function () {
+                        _this.platform.exitApp();
+                    }
+                },
+            ]
         });
+        alert.present();
     };
-    FormPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad FormPage');
-    };
-    FormPage = __decorate([
+    StarterPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-form',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/form/form.html"*/'<!--\n  Generated template for the FormPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>ទម្រង់អ្នកប្រើប្រាស់</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content xela padding>\n    <!--<form> (ngSubmit)="saveData()">-->\n      <div class="container">  \n        <ion-list>\n          <ion-item class="form1">\n            <ion-label>ឈ្មោះ</ion-label>\n            <ion-input type="text" [(ngModel)]="data.fullName" name="fullName" aria-required=""></ion-input>\n          </ion-item>\n        \n          <ion-item>\n            <ion-label>ឈ្មោះសម្គាល់</ion-label>\n            <ion-input type="text" [(ngModel)]="data.userName" name="userName" aria-required=""></ion-input>\n          </ion-item>\n\n          <ion-item>\n            <ion-label>ពាក្យសម្ងាត់</ion-label>\n            <ion-input type="password" [(ngModel)]="data.password" name="password" aria-required=""></ion-input>\n          </ion-item>\n        \n          <ion-item>\n              <ion-label>ភេទ</ion-label>\n              <ion-select [(ngModel)]="data.gender" >\n                <ion-option value="ស្រី">ស្រី</ion-option>\n                <ion-option value="ប្រុស">ប្រុស</ion-option>\n              </ion-select>\n          </ion-item>\n\n          <ion-item>\n            <ion-label>លេខទូរស័ព្ទ</ion-label>\n            <ion-input type="text" name="" aria-required=""></ion-input>\n          </ion-item>\n          \n          <ion-item>\n            <ion-label>សាលារៀន</ion-label>\n            <ion-input type="text" [(ngModel)]="data.school" name="school" aria-required=""></ion-input>\n          </ion-item>\n\n          <ion-item>\n            <ion-label>ស្រុក/ខណ្ឌ</ion-label>\n            <ion-input type="text" [(ngModel)]="data.district" name="district" aria-required=""></ion-input>\n          </ion-item>\n          <ion-item>\n            <ion-label>ខេត្ត/ក្រុង</ion-label>\n            <ion-input type="text" [(ngModel)]="data.province" name="province" aria-required=""></ion-input>\n          </ion-item>\n        </ion-list>\n     </div> \n   <!-- </form>-->\n\n      <div padding>\n          <button ion-button block color="primary">បោះបង់</button>\n      </div>\n      <div padding>\n          <button ion-button block color="primary" type="submit" (click)="saveData()">រក្សាទុក</button>\n      </div>\n      \n</ion-content>\n\n<ion-footer>\n  <ion-toolbar>\n      <button ion-button block clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n      </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/form/form.html"*/,
+            selector: 'page-starter',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/starter/starter.html"*/'<!--\n  Generated template for the StarterPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header >\n\n  <ion-navbar >\n    <ion-title>Welcome to Evolution</ion-title>\n  </ion-navbar>\n\n</ion-header>\n<ion-content  class="content">\n\n  <div class="message ">\n    <ion-card no-padding>\n      <ion-card-content>\n        Today you have 3 Questions.\n      </ion-card-content>\n    </ion-card>\n  </div>\n  <div class="btnQuiz">\n    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToQuiz()">\n      Play\n    </button>\n  </div>\n  <div class="btnReview">\n    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToHomePage()">\n      Review\n    </button>\n  </div>\n</ion-content>\n\n<ion-footer class="footer">\n  <div class="btn-wrapper">\n    <button ion-button clear float-start (click)="exitButtonClick()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n    <button ion-button clear float-end (click)="aboutButtonClick()">\n      About\n    </button>\n  </div>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/starter/starter.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2__ionic_native_sqlite__["a" /* SQLite */],
-            __WEBPACK_IMPORTED_MODULE_3__ionic_native_toast__["a" /* Toast */]])
-    ], FormPage);
-    return FormPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */]])
+    ], StarterPage);
+    return StarterPage;
 }());
 
-//# sourceMappingURL=form.js.map
+//# sourceMappingURL=starter.js.map
 
 /***/ }),
 
@@ -675,11 +675,11 @@ webpackEmptyAsyncContext.id = 122;
 
 var map = {
 	"../pages/form/form.module": [
-		300,
+		292,
 		8
 	],
 	"../pages/lesson/lesson.module": [
-		292,
+		294,
 		7
 	],
 	"../pages/login/login.module": [
@@ -687,27 +687,27 @@ var map = {
 		6
 	],
 	"../pages/question/question.module": [
-		294,
+		296,
 		5
 	],
 	"../pages/quiz/quiz.module": [
-		299,
+		295,
 		4
 	],
 	"../pages/section-review/section-review.module": [
-		295,
+		297,
 		3
 	],
 	"../pages/section/section.module": [
-		297,
+		299,
 		2
 	],
 	"../pages/starter/starter.module": [
-		296,
+		298,
 		1
 	],
 	"../pages/welcome/welcome.module": [
-		298,
+		300,
 		0
 	]
 };
@@ -727,12 +727,12 @@ module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 166:
+/***/ 167:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HelpersProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(168);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(269);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
@@ -807,7 +807,7 @@ var HelpersProvider = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WelcomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_form__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_form__ = __webpack_require__(108);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(109);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -882,20 +882,20 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__(291);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_home_home__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_sqlite__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_toast__ = __webpack_require__(169);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_toast__ = __webpack_require__(166);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__providers_database_database__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_question_question__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_section_section__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(109);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_form_form__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_form_form__ = __webpack_require__(108);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_welcome_welcome__ = __webpack_require__(211);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__ionic_native_native_audio__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_lesson_lesson__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_quiz_quiz__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_section_review_section_review__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_starter_starter__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__providers_helpers_helpers__ = __webpack_require__(166);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_http__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_section_review_section_review__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_starter_starter__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__providers_helpers_helpers__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_http__ = __webpack_require__(168);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -951,15 +951,15 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["e" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */], {}, {
                     links: [
-                        { loadChildren: '../pages/lesson/lesson.module#LessonPageModule', name: 'LessonPage', segment: 'lesson', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/form/form.module#FormPageModule', name: 'FormPage', segment: 'form', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/lesson/lesson.module#LessonPageModule', name: 'LessonPage', segment: 'lesson', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/quiz/quiz.module#QuizPageModule', name: 'QuizPage', segment: 'quiz', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/question/question.module#QuestionPageModule', name: 'QuestionPage', segment: 'question', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/section-review/section-review.module#SectionReviewPageModule', name: 'SectionReviewPage', segment: 'section-review', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/starter/starter.module#StarterPageModule', name: 'StarterPage', segment: 'starter', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/section/section.module#SectionPageModule', name: 'SectionPage', segment: 'section', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/welcome/welcome.module#WelcomePageModule', name: 'WelcomePage', segment: 'welcome', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/quiz/quiz.module#QuizPageModule', name: 'QuizPage', segment: 'quiz', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/form/form.module#FormPageModule', name: 'FormPage', segment: 'form', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/welcome/welcome.module#WelcomePageModule', name: 'WelcomePage', segment: 'welcome', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_21__angular_http__["c" /* HttpModule */]
@@ -1010,7 +1010,7 @@ var AppModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(210);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(209);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_starter_starter__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_starter_starter__ = __webpack_require__(112);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1233,7 +1233,7 @@ var LessonPage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_database_database__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_native_audio__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__section_review_section_review__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__section_review_section_review__ = __webpack_require__(110);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1966,7 +1966,7 @@ var QuestionPage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_database_database__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__section_section__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_native_audio__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_helpers_helpers__ = __webpack_require__(166);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_helpers_helpers__ = __webpack_require__(167);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_sqlite__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_async__ = __webpack_require__(270);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_async___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_async__);

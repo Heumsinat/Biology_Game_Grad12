@@ -28,6 +28,18 @@ export class StarterPage {
         HomePage);
   }
   goToQuiz(){
+    // TO-DO by Samak using API #4//
+    // Send request from App to get the latest settings
+    // If new settings != old setting, then Update new settings into table settings in App
+    // ======END OF API #4 ======== //
+
+    // TO-DO by Samak using API #6//
+    // Send request from App with params: 1. total no. of records, 2. last downloaded date to get order quiz data from server
+    // if total no. of records in order_questions == that of server,
+    //  Server returns only the updated records recognized by in App modified_date, in Server updated_date
+    // else => the total no. of records is different, then
+    //  replace all records in App.
+    // ======END OF API #4 ======== //
     this.navCtrl.push(
         QuizPage);
   }

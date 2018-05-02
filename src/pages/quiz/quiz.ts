@@ -599,7 +599,7 @@ export class QuizPage {
                             console.log('section_id', section_id);
                             /*
                              //Save data to table User_Quiz
-                             Samak API 2
+                             Samak API #2
                             */
 
                             //Save User_Question
