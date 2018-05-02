@@ -488,6 +488,8 @@ export class QuizPage {
                 this.answers = [];
                 console.log(res);
                 for (var i = 0; i<res.rows.length; i++){
+                    // let user_ans_id = res.rows.item(i).answer_order;
+                    // localStorage.setItem("user_ans_id",user_ans_id);
                     this.answers.push({
                         id:res.rows.item(i).id,
                         answer_text:res.rows.item(i).answer_text,
@@ -497,9 +499,10 @@ export class QuizPage {
                         question_id:res.rows.item(i).question_id,
                         is_correct_answer:res.rows.item(i).is_correct_answer,
                         created_date:res.rows.item(i).created_date,
-                        modified_date:res.rows.item(i).modified_date
-                    })
+                        modified_date:res.rows.item(i).modified_date,
+                    });
                 }
+
             }).catch(e => console.log((e)));
     }
 
@@ -565,7 +568,9 @@ export class QuizPage {
       //  }
     }
 
-    public answer (correct_ans: number, question_id: number ){
+    public answer (correct_ans: number, question_id: number, answer_order:number ){
+        console.log('USER ANSWER ID', answer_order);
+
         if (correct_ans == 1){
             return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
                 return this.nativeAudio.play('correct', ()=>{
@@ -576,13 +581,13 @@ export class QuizPage {
                             let section_id = res.rows.item(0).section_id;
                             // let next_question_id = res.rows.item(0).next_question_id;
                             console.log('section_id', section_id);
-
                             /*
                              //Save User_Quiz
                              Samak API 2
                             */
-                            this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id, ans_correct, score, created_date) 
-                                            VALUES (1,` + question_id + `,` + correct_ans + `,1, date('now'))`).then(res=>{
+
+                            this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id, user_ans_id, ans_correct, score, created_date) 
+                                            VALUES (1,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, date('now'))`).then(res=>{
                                 console.log('Current number of question that has insert', res);
 
                             });
@@ -619,8 +624,9 @@ export class QuizPage {
                             let next_question_id = res.rows.item(0).next_question_id;
                             console.log('section_id', section_id);
                             //Save User_Question
-                            this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id, ans_correct, score, created_date) 
-                                            VALUES (1,` + question_id + `,` + correct_ans + `,0, date('now'))`).then(res=>{
+
+                            this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id, user_ans_id , ans_correct, score, created_date) 
+                                            VALUES (1,` + question_id + `,` + answer_order + `,` + correct_ans + `,0, date('now'))`).then(res=>{
                                 console.log('Current number of question that has insert', res);
                             });
                             //End Save
