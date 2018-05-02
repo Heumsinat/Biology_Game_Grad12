@@ -25,6 +25,8 @@ import {LessonPage} from "../pages/lesson/lesson";
 import {QuizPage} from "../pages/quiz/quiz";
 import {SectionReviewPage} from "../pages/section-review/section-review";
 import {StarterPage} from "../pages/starter/starter";
+import { HelpersProvider } from '../providers/helpers/helpers';
+import { HttpModule } from '@angular/http';
 
 
 
@@ -45,7 +47,8 @@ import {StarterPage} from "../pages/starter/starter";
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    HttpModule
     /*AngularFireAuthModule.initializeApp(config),*/
     /*AngularFireModule.initializeApp(FIREBASE_CREDENTIALS),*/
     /*AngularFireAuthModule*/
@@ -72,7 +75,8 @@ import {StarterPage} from "../pages/starter/starter";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
     Toast,
-    DatabaseProvider
+    DatabaseProvider,
+    HelpersProvider
   ]
 })
 export class AppModule {}

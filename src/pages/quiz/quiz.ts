@@ -372,6 +372,10 @@ import {AlertController, App, IonicPage, NavController, NavParams, Platform} fro
 import { DatabaseProvider } from "../../providers/database/database";
 import {SectionPage} from "../section/section";
 import { NativeAudio } from '@ionic-native/native-audio';
+import { HelpersProvider } from '../../providers/helpers/helpers';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import async from 'async';
+
 
 /**
  * Generated class for the QuizPage page.
@@ -394,8 +398,9 @@ export class QuizPage {
     nextQuestionID: any;
     currentQuestionID: any;
     userQuestion: number;
+    responseData : any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio, private app: App) {
+    constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio, private app: App, private helpers: HelpersProvider, private sqlite: SQLite) {
         this.lessonID = navParams.get('lessonID');
         this.currentQuestionID = this.navParams.get('questionID');
         //console.log('current question id in constructor = ', this.currentQuestionID);
@@ -565,7 +570,7 @@ export class QuizPage {
       //  }
     }
 
-    public answer (correct_ans: number, question_id: number ){
+    public answer (correct_ans: number, question_id: number, answer_order:number ){
         if (correct_ans == 1){
             return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
                 return this.nativeAudio.play('correct', ()=>{
@@ -577,11 +582,12 @@ export class QuizPage {
                             // let next_question_id = res.rows.item(0).next_question_id;
                             console.log('section_id', section_id);
                             //Save User_Question
-                            this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id, ans_correct, score, created_date) 
-                                            VALUES (1,` + question_id + `,` + correct_ans + `,1, date('now'))`).then(res=>{
+                            this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id,user_ans_id, ans_correct, score, created_date, isSent) 
+                                            VALUES (1,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, date('now'), 0)`).then(res=>{
                                 console.log('Current number of question that has insert', res);
 
                             });
+                            this.synchUserQuizeToServer();
                             //End Save
                             // console.log(this.current.question_sound);
                             localStorage.setItem("currentQID",question_id);
@@ -604,10 +610,12 @@ export class QuizPage {
                             let next_question_id = res.rows.item(0).next_question_id;
                             console.log('section_id', section_id);
                             //Save User_Question
-                            this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id, ans_correct, score, created_date) 
-                                            VALUES (1,` + question_id + `,` + correct_ans + `,0, date('now'))`).then(res=>{
+                            this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id,user_ans_id, ans_correct, score, created_date, isSent) 
+                                            VALUES (1,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, date('now'), 0)`).then(res=>{
                                 console.log('Current number of question that has insert', res);
+
                             });
+                            this.synchUserQuizeToServer();
                             //End Save
                             // console.log(this.current.question_sound);
                             this.navCtrl.push(SectionPage, {
@@ -651,4 +659,151 @@ export class QuizPage {
 
         });
     }
+
+    // *** Creator: Samak *** //
+    // * Function to synchronize data into server, then update isSent = 1 * //
+    
+    synchUserQuizeToServer() {
+        var listOfTable = ["user_quiz"];
+        var self = this;
+        this.retrieveDBSchema(listOfTable)
+          .then(function(value) {
+            self.helpers.postData(value,"insert_user_quiz_app").then((result) => {
+              self.responseData = result;
+              if(JSON.parse(result["code"])==200) 
+              {
+                // If data is synch successfully, update isSent=1 //
+                self.updateIsSentColumn();
+                console.log("Data Inserted Successfully");
+              }
+              else
+                console.log("Synch Data Error");
+              console.log("response = "+JSON.stringify(self.responseData));
+            }, (err) => {
+            // Connection fail
+            console.log(JSON.stringify("err = "+err));
+            });
+          })
+          .catch((e) => {
+            console.log('bleh:' + e);
+          });
+      }
+    
+    // *** Creator: Samak *** //
+    // * Function to select DB schema (column names), then construct JSON data to be sent to server* //
+    // * Params: listOfTable: a list of tables whose column name will be retrieved //
+    // * Return: Promise of JSON DATA to be sent to Server.
+
+    retrieveDBSchema(listOfTable:string[]){
+    var data_return = [];
+    var _data = {};
+    var self = this;
+    var asyncTasks = [];
+
+    var pro = new Promise(function(resolve, reject) {
+        for (var tableName of listOfTable) {
+            console.log('tableName = '+tableName);
+        var subTasks = [];
+        _data[tableName] = [];
+        
+        subTasks.push(async function(callback) {
+
+            try {
+            var db = await self.sqlite.create({
+                name: 'biology.db',
+                location: 'default'
+            });
+    
+            var resColNames = await db.executeSql("PRAGMA table_info('"+ tableName +"')",{});
+            var colNames = [];
+            var index_colName =0;
+            for (var index = 1; index < 6; index++) {
+                colNames[index_colName]=resColNames.rows.item(index).name;
+                index_colName++;
+            }
+
+            callback(null, colNames);
+            } catch (err) {
+            console.log(err);
+            }
+        });
+    
+        subTasks.push(async function(colNames, callback) {
+            console.log('colNames: ' + JSON.stringify(colNames));
+            try {
+            var db = await self.sqlite.create({
+                name: 'biology.db',
+                location: 'default'
+            });
+            var resOfflineRecords = await db.executeSql('SELECT * FROM user_quiz where isSent=?',[0])
+            //var resOfflineRecords = await db.executeSql('SELECT * FROM user_quiz',[])
+            console.log('resOfflineRecords: ' + JSON.stringify(resOfflineRecords));
+            //console.log('object of resOfflineRecords: '+JSON.parse(resOfflineRecords));
+            for (var i = 0; i < resOfflineRecords.rows.length; i++) {
+                
+                var eachData = resOfflineRecords.rows.item(i);
+                console.log("test eachData: "+eachData);
+                // Retrieve All Columns Name From table user_quiz //
+                var valFromTable = [eachData.user_id,
+                eachData.question_id,
+                eachData.user_ans_id,
+                eachData.ans_correct,
+                eachData.score];
+                var col = null;
+                var obj = {};
+                for (var j = 0; j < colNames.length; j++) {
+                // Construct JSON string with key (column name)/value (offline data) pair //
+                col = colNames[j];
+                obj[col] = valFromTable[j];
+                }
+                
+                _data[tableName].push(obj);
+                console.log('_data = ' + JSON.stringify(_data));
+            }
+            callback(null, _data);
+            } catch (err) {
+            console.error(err);
+            }
+        });
+    
+        asyncTasks.push(function(callback) {
+            async.waterfall(subTasks, (err, data) => {
+            if (err) {
+                console.error(err);
+            } else {
+                data_return.push(data);
+                callback(null);
+            }
+            });
+        });
+        }
+    
+        async.series(asyncTasks, function(err, data) {
+        if (err) {
+            console.error(err);
+        } else {
+            resolve(data_return);
+            console.log(JSON.stringify(data_return));
+        }
+        });
+    });
+
+    return pro;
+    }
+
+    // *** Creator: Samak *** //
+    // * Function to update isSent after data has been synchronized into server * //
+  
+    updateIsSentColumn(){
+        this.sqlite.create({
+          name: 'biology.db',
+          location: 'default'
+        }).then((db: SQLiteObject)  => {
+          db.executeSql('UPDATE user_quiz SET isSent=? WHERE isSent=0', [1])
+          .then( res => {
+            console.log('Data Updated!');
+          })
+          .catch(e => console.log(e));
+        })
+      }
 }
