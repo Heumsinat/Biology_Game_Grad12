@@ -276,7 +276,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {AlertController, App, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import { DatabaseProvider } from "../../providers/database/database";
-import {SectionPage} from "../section/section";
 import { NativeAudio } from '@ionic-native/native-audio';
 import {SectionReviewPage} from "../section-review/section-review";
 
@@ -299,12 +298,18 @@ export class QuestionPage {
     lessonID: number;
     sectionID: number;
     chapterID: number;
-    // nextQuestion: number;
     currentQuestionID:number;
-    //totalQuestion: number;
-    constructor(public navCtrl: NavController, public navParams: NavParams, public db: DatabaseProvider, private nativeAudio: NativeAudio,private alertCtrl: AlertController,private platform: Platform, public app: App) {
+
+    constructor(
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        public db: DatabaseProvider,
+        private nativeAudio: NativeAudio,
+        private alertCtrl: AlertController,
+        private platform: Platform,
+        public app: App
+    ) {
         this.lessonID = navParams.get('lessonID');
-        // this.nextQuestion = this.navParams.get('nextQuestion');
         this.currentQuestionID  = this.navParams.get('currentQuestionID');
         this.chapterID = this.navParams.get('chapterID');
         // this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${this.lessonID}`)
@@ -349,6 +354,10 @@ export class QuestionPage {
                 });
             });
     }
+    /*
+     ionViewDidEnter runs when the page has fully entered and is now the active page.
+     Display Question query by lesson_id
+     */
     ionViewDidEnter(){
         this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${this.lessonID}`)
             .then(res => {
@@ -381,6 +390,10 @@ export class QuestionPage {
 
             }).catch(e => console.log((e)))
     }
+
+    /*
+     ionViewWillLeave(): when View is about to leave, Stopping current playback sound.
+     */
     ionViewWillLeave() {
         console.log("ionViewWillLeave(): View is about to leave, Stopping current playback sound.")
         this.nativeAudio.stop(this.current.id).then(() => {
@@ -389,6 +402,10 @@ export class QuestionPage {
 
         });
     }
+    /*
+    Function to get Next sectionID that query by CurrentQuestionID
+     this.sectionID = (res.rows.item(0).section_id)+1;
+     */
     getSectionID (){
         return this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.currentQuestionID}`)
             .then(res => {
@@ -396,6 +413,9 @@ export class QuestionPage {
                 console.log(this.sectionID);
             }).catch(e => console.log((e)))
     }
+    /*
+    Function to get Next Question query by section_id ORDER BY id ASC LIMIT 1.
+     */
     getNextQuestions(section_id: number){
         return this.db.executeSQL(`SELECT * FROM questions WHERE section_id = ${section_id} ORDER BY id ASC LIMIT 1`)
             .then(res => {
@@ -422,7 +442,7 @@ export class QuestionPage {
                     //break;
                 }
                 console.log("Last Question", this.questions);
-            }).catch(e => console.log((e)))
+            }).catch(e => console.log((e)));
     };
 
     // getQuestions(lesson_id: number){
@@ -463,6 +483,9 @@ export class QuestionPage {
     //         }).catch(e => console.log((e)))
     // }
 
+    /*
+    Get list of answer query by question_id
+     */
     getAnswers(questions_id: number) {
         this.db.executeSQL(`SELECT * FROM answers WHERE question_id = ${questions_id}`)
             .then(res => {
@@ -483,6 +506,10 @@ export class QuestionPage {
                 }
             }).catch(e => console.log((e)))
     }
+
+    /*
+        this Function to display content on screen
+     */
     content(id) {
         console.log(id);
         console.log("Hello : ", id);
@@ -583,8 +610,12 @@ export class QuestionPage {
   //
   // }
 
+    /*
+    this function when click on answer and push to SectionReviewPage with
+    (answerCorrect, sectionID, questionID, lessonId, chapterID)
+     */
     public answer (correct_ans: number, question_id: number){
-
+        // if correct_ans , play audio correct then push to SectionReviewPage
         if (correct_ans == 1){
             return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
                 return this.nativeAudio.play('correct', ()=>{
@@ -607,18 +638,16 @@ export class QuestionPage {
                 });
             });
         } else{
+            /// if incorrect play wrong audio and push to SectionReviewPage
             return this.nativeAudio.preloadComplex('wrong', 'assets/sounds/wrong.mp3',1,1,0).then(()=>{
                 return this.nativeAudio.play('wrong', ()=>{
-
                     this.nativeAudio.unload('wrong');
                     this.db.executeSQL(`select * from questions where id = '${question_id}'`)
                         .then(res => {
                             let section_id = res.rows.item(0).section_id;
                             // let next_question_id = res.rows.item(0).next_question_id;
                             let current_question_id = res.rows.item(0).id;
-
                             console.log('section_id', section_id)
-
                             this.navCtrl.push(SectionReviewPage, {
                                 answerCorrect: correct_ans,
                                 sectionID: section_id,
@@ -632,6 +661,9 @@ export class QuestionPage {
             });
         }
     }
+    /*
+    Function to exit app when clicked on button
+     */
     exitButtonClick() {
         let alert = this.alertCtrl.create({
             title: 'ចាកចេញ',
@@ -651,6 +683,9 @@ export class QuestionPage {
         });
         alert.present();
     }
+    /*
+    Function to replay audio sound file when clicked on button
+     */
     replayButtonClick() {
         this.nativeAudio.stop(this.current.id).then(() => {
             this.nativeAudio.play(this.current.id, ()=>{
@@ -660,6 +695,9 @@ export class QuestionPage {
 
         });
     }
+    /*
+    Function back page when clicked on button
+     */
     backButtonClick() {
         this.navCtrl.pop();
     }

@@ -19,7 +19,11 @@ export class LessonPage {
   lessons: any = [];
     chapterID: number;
     chapterTitle: string;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public db: DatabaseProvider) {
+  constructor(
+      public navCtrl: NavController,
+      public navParams: NavParams,
+      public db: DatabaseProvider
+  ) {
       this.chapterID = navParams.get('chapterID');
       this.chapterTitle = navParams.get('chapterTitle');
       console.log(this.chapterID);
@@ -30,7 +34,9 @@ export class LessonPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad LessonPage');
   }
-
+  /*
+    Function to get list of lessons query by chapterID
+   */
   getLessons(){
       this.db.executeSQL(`SELECT * FROM lessons WHERE chapter = ${this.chapterID}`)
         .then(res => {
@@ -49,6 +55,9 @@ export class LessonPage {
         }).catch(e => console.log((e)))
   }
 
+  /*
+    Function when click on each lesson then push to QuestionPage by lessonID
+   */
   public lesson(lesson_id: number) {
     this.navCtrl.push(
         QuestionPage, {

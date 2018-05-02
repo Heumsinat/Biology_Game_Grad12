@@ -416,7 +416,6 @@ export class QuizPage {
                 }
             });
         });
-
     }
     ionViewDidEnter(){
         //Previous Question
@@ -471,7 +470,9 @@ export class QuizPage {
                 console.log("NEXT QUESTION ID", this.nextQuestionID);
             }).catch(e => console.log((e)));
     };
-
+    /*
+    Samak user user Question
+     */
     getUserQuestion(){
         this.nextQuestionID = localStorage.getItem("NextQID");
         console.log("local storage NEXTQID = "+this.nextQuestionID);
@@ -492,6 +493,8 @@ export class QuizPage {
                 this.answers = [];
                 console.log(res);
                 for (var i = 0; i<res.rows.length; i++){
+                    // let user_ans_id = res.rows.item(i).answer_order;
+                    // localStorage.setItem("user_ans_id",user_ans_id);
                     this.answers.push({
                         id:res.rows.item(i).id,
                         answer_text:res.rows.item(i).answer_text,
@@ -501,9 +504,10 @@ export class QuizPage {
                         question_id:res.rows.item(i).question_id,
                         is_correct_answer:res.rows.item(i).is_correct_answer,
                         created_date:res.rows.item(i).created_date,
-                        modified_date:res.rows.item(i).modified_date
-                    })
+                        modified_date:res.rows.item(i).modified_date,
+                    });
                 }
+
             }).catch(e => console.log((e)));
     }
 
@@ -552,7 +556,6 @@ export class QuizPage {
                     });
                 });
                 console.log(this.current.question_sound);
-
             });
 
             /*
@@ -596,6 +599,17 @@ export class QuizPage {
                                 sectionID: section_id,
                                 questionID: question_id
                             });
+
+                            console.log("SELECT * FROM order_question WHERE question_id ="+localStorage.getItem("currentQID"));
+                            this.db.executeSQL(`SELECT * FROM order_question WHERE question_id = ${localStorage.getItem("currentQID")}`)
+                                .then(res => {
+                                    //this.questions = {};
+                                    var nextQID:any;
+                                    console.log("res result in getNextQuestionIDSamak = "+JSON.stringify(res));
+                                    nextQID = res.rows.item(0).next_question_id;
+                                    // set local storage for NextQID
+                                    localStorage.setItem("NextQID",nextQID);
+                                }).catch(e => console.log((e)));
                         });
                 });
             });
@@ -618,11 +632,20 @@ export class QuizPage {
                             this.synchUserQuizeToServer();
                             //End Save
                             // console.log(this.current.question_sound);
+                            localStorage.setItem("currentQID",question_id);
                             this.navCtrl.push(SectionPage, {
                                 answerCorrect: correct_ans,
                                 sectionID: section_id,
                                 questionID: question_id
                             });
+                            this.db.executeSQL(`SELECT * FROM order_question WHERE question_id = ${localStorage.getItem("currentQID")}`)
+                                .then(res => {
+                                    //this.questions = {};
+                                    var nextQID:any;
+                                    console.log("res result in getNextQuestionIDSamak = "+JSON.stringify(res));
+                                    nextQID = res.rows.item(0).next_question_id;
+                                    localStorage.setItem("NextQID",nextQID);
+                                }).catch(e => console.log((e)));
                         });
                 });
             });

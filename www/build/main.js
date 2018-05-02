@@ -114,13 +114,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Ionic pages and navigation.
  */
 var SectionReviewPage = (function () {
-    function SectionReviewPage(navCtrl, navParams, alertCtrl, platform, db, nativeAudio) {
+    function SectionReviewPage(navCtrl, navParams, alertCtrl, platform, db, nativeAudio, changeRef) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.alertCtrl = alertCtrl;
         this.platform = platform;
         this.db = db;
         this.nativeAudio = nativeAudio;
+        this.changeRef = changeRef;
         this.current = {};
         this.currentIndex = -1;
         this.sections = {};
@@ -131,6 +132,7 @@ var SectionReviewPage = (function () {
         this.questionID = this.navParams.get('questionID');
         this.lessonId = this.navParams.get('lessonId');
         this.chapterID = this.navParams.get('chapterID');
+        this.playCompleted = false;
         console.log('lesson id ', this.lessonId);
         console.log('chapter id', this.chapterID);
         this.getNumSection();
@@ -163,6 +165,8 @@ var SectionReviewPage = (function () {
             _this.nativeAudio.preloadComplex(_this.sections.id, 'assets/sounds/' + _this.sections.sound, 1, 1, 0).then(function () {
                 _this.nativeAudio.play(_this.sections.id, function () {
                     _this.nativeAudio.unload(_this.sections.id);
+                    _this.playCompleted = true;
+                    _this.changeRef.detectChanges();
                 });
             });
             // console.log(this.sections.sound);
@@ -212,6 +216,10 @@ var SectionReviewPage = (function () {
     //       }
     //   );
     // }
+    SectionReviewPage.prototype.toggleTest = function () {
+        this.playCompleted = !this.playCompleted;
+        this.changeRef.detectChanges();
+    };
     SectionReviewPage.prototype.exitButtonClick = function () {
         var _this = this;
         var alert = this.alertCtrl.create({
@@ -250,9 +258,15 @@ var SectionReviewPage = (function () {
     };
     SectionReviewPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-section-review',template:/*ion-inline-start:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/section-review/section-review.html"*/'<!--\n  Generated template for the SectionReviewPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <!--<ion-title>-->\n      <!--មេរៀន​​ជំនួយ-->\n    <!--</ion-title>-->\n    <!--<ion-buttons float-start >-->\n      <!--<button ion-button icon-only (click)="goToLessonPage(current.lessonID)">-->\n        <!--<ion-icon name="arrow-round-back"></ion-icon>-->\n      <!--</button>-->\n    <!--</ion-buttons>-->\n    <ion-buttons end >\n      <button ion-button icon-only (click)="navigate(current.next_question_id)">\n        សំនួរ​បន្ទាប់\n        <ion-icon name="arrow-round-forward"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n<ion-content class="content">\n  <ion-scroll class="view_content" scrollY="true">\n    <ion-grid>\n      <ion-row>\n        <!--<ion-card text-wrap padding="10px">-->\n          <ion-col>\n            {{sections.content || \'\'}}\n          </ion-col>\n          <!--<ion-col width-100>-->\n            <!--&lt;!&ndash;<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id, current.question_id)">&ndash;&gt;-->\n            <!--<button width-100 ion-button block color="primary" (click)="navigate(current.next_question_id, current.question_id)">-->\n              <!--សំនួរ​បន្ទាប់-->\n              <!--<ion-icon name="arrow-forward"></ion-icon>-->\n            <!--</button>-->\n          <!--</ion-col>-->\n        <!--</ion-card>-->\n      </ion-row>\n    </ion-grid>\n  </ion-scroll>\n</ion-content>\n<!--<ion-content padding>-->\n  <!--<ion-grid helper-view>-->\n    <!--<ion-row helper-view-head wrap>-->\n      <!--<ion-col width-100>-->\n        <!--<ion-card>-->\n          <!--<img src="" alt="">-->\n        <!--</ion-card>-->\n      <!--</ion-col>-->\n    <!--</ion-row>-->\n    <!--<ion-row helper-view-content>-->\n      <!--<ion-col width-100 padding>-->\n        <!--<h1>{{sections.title || \'\'}}</h1><br>-->\n        <!--&lt;!&ndash;<ion-card text-wrap>&ndash;&gt;-->\n        <!--{{sections.content || \'\'}}-->\n        <!--&lt;!&ndash;</ion-card>&ndash;&gt;-->\n      <!--</ion-col>-->\n      <!--<ion-col width-100>-->\n        <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->\n          <!--សំនួរ​បន្ទាប់-->\n          <!--<ion-icon name="arrow-forward"></ion-icon>-->\n        <!--</button>-->\n      <!--</ion-col>-->\n    <!--</ion-row>-->\n  <!--</ion-grid>-->\n\n<ion-footer unit-footer>\n  <ion-toolbar color="lightgreen">\n    <!--<button ion-button clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->\n      <!--<ion-icon name="arrow-back"></ion-icon>-->\n    <!--</button>-->\n    <button ion-button float-start clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/section-review/section-review.html"*/,
+            selector: 'page-section-review',template:/*ion-inline-start:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/section-review/section-review.html"*/'<!--\n  Generated template for the SectionReviewPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <!--<ion-title>-->\n      <!--មេរៀន​​ជំនួយ-->\n    <!--</ion-title>-->\n    <!--<ion-buttons float-start >-->\n      <!--<button ion-button icon-only (click)="goToLessonPage(current.lessonID)">-->\n        <!--<ion-icon name="arrow-round-back"></ion-icon>-->\n      <!--</button>-->\n    <!--</ion-buttons>-->\n    <ion-buttons [hidden]="!playCompleted" end>\n      <button ion-button icon-only (click)="navigate(current.next_question_id)">\n        សំនួរ​បន្ទាប់\n        <ion-icon name="arrow-round-forward"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n<ion-content class="content">\n  <!--<button ion-button primary (click)="toggleTest()">Toggle</button>-->\n  <!--<p>{{ playCompleted ? \'true\' : \'false\' }}</p>-->\n  <ion-scroll class="view_content" scrollY="true">\n    <ion-grid>\n      <ion-row>\n        <!--<ion-card text-wrap padding="10px">-->\n          <ion-col>\n            {{sections.content || \'\'}}\n          </ion-col>\n          <!--<ion-col width-100>-->\n            <!--&lt;!&ndash;<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id, current.question_id)">&ndash;&gt;-->\n            <!--<button width-100 ion-button block color="primary" (click)="navigate(current.next_question_id, current.question_id)">-->\n              <!--សំនួរ​បន្ទាប់-->\n              <!--<ion-icon name="arrow-forward"></ion-icon>-->\n            <!--</button>-->\n          <!--</ion-col>-->\n        <!--</ion-card>-->\n      </ion-row>\n    </ion-grid>\n  </ion-scroll>\n</ion-content>\n<!--<ion-content padding>-->\n  <!--<ion-grid helper-view>-->\n    <!--<ion-row helper-view-head wrap>-->\n      <!--<ion-col width-100>-->\n        <!--<ion-card>-->\n          <!--<img src="" alt="">-->\n        <!--</ion-card>-->\n      <!--</ion-col>-->\n    <!--</ion-row>-->\n    <!--<ion-row helper-view-content>-->\n      <!--<ion-col width-100 padding>-->\n        <!--<h1>{{sections.title || \'\'}}</h1><br>-->\n        <!--&lt;!&ndash;<ion-card text-wrap>&ndash;&gt;-->\n        <!--{{sections.content || \'\'}}-->\n        <!--&lt;!&ndash;</ion-card>&ndash;&gt;-->\n      <!--</ion-col>-->\n      <!--<ion-col width-100>-->\n        <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->\n          <!--សំនួរ​បន្ទាប់-->\n          <!--<ion-icon name="arrow-forward"></ion-icon>-->\n        <!--</button>-->\n      <!--</ion-col>-->\n    <!--</ion-row>-->\n  <!--</ion-grid>-->\n\n<ion-footer unit-footer>\n  <ion-toolbar color="lightgreen">\n    <!--<button ion-button clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->\n      <!--<ion-icon name="arrow-back"></ion-icon>-->\n    <!--</button>-->\n    <button ion-button float-start clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/section-review/section-review.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */], __WEBPACK_IMPORTED_MODULE_4__ionic_native_native_audio__["a" /* NativeAudio */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */],
+            __WEBPACK_IMPORTED_MODULE_4__ionic_native_native_audio__["a" /* NativeAudio */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */]])
     ], SectionReviewPage);
     return SectionReviewPage;
 }());
@@ -373,13 +387,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Ionic pages and navigation.
  */
 var SectionPage = (function () {
-    function SectionPage(navCtrl, navParams, alertCtrl, platform, db, nativeAudio) {
+    function SectionPage(navCtrl, navParams, alertCtrl, platform, db, nativeAudio, changeRef) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.alertCtrl = alertCtrl;
         this.platform = platform;
         this.db = db;
         this.nativeAudio = nativeAudio;
+        this.changeRef = changeRef;
         this.current = {};
         this.currentIndex = -1;
         this.sections = {};
@@ -387,6 +402,7 @@ var SectionPage = (function () {
         this.answerCorrect = this.navParams.get('answerCorrect');
         this.sectionID = this.navParams.get('sectionID');
         this.questionID = this.navParams.get('questionID');
+        this.playCompleted = false;
         // console.log(this.answerCorrect);
         // console.log(this.sectionID);
         // console.log(this.sectionID);
@@ -459,6 +475,8 @@ var SectionPage = (function () {
             _this.nativeAudio.preloadComplex(_this.sections.id, 'assets/sounds/' + _this.sections.sound, 1, 1, 0).then(function () {
                 _this.nativeAudio.play(_this.sections.id, function () {
                     _this.nativeAudio.unload(_this.sections.id);
+                    _this.playCompleted = true;
+                    _this.changeRef.detectChanges();
                 });
             });
             // console.log(this.sections.sound);
@@ -472,6 +490,13 @@ var SectionPage = (function () {
         });
     };
     SectionPage.prototype.navigate = function () {
+        // this.navCtrl.push(
+        //     QuizPage, {
+        //         // this.nextQuestionID = localStorage.getItem("NextQID");
+        //         // questionID: this.getNextQuestionID(),
+        //         lessonID: this.sections.lesson
+        //     }
+        // );
         var _this = this;
         // this.num_q_today = this.getNumberQuestion();
         //select count * as column total FROM user_quiz WHERE user_id = 1 and created_date = date('now')
@@ -479,14 +504,14 @@ var SectionPage = (function () {
             .then(function (res) {
             var num_q = res.rows.item(0).total; // num_q is a number that user have play for today
             console.log('get count number of question', num_q);
-            _this.db.executeSQL("SELECT * FROM setting ")
+            _this.db.executeSQL("SELECT * FROM settings ")
                 .then(function (res) {
-                var num_quiz = res.rows.item(0).number_of_quiz; // num_quiz is a number that set in table setting
-                console.log('get number of setting', num_quiz);
-                // compare number of question that user play today with number that set from setting
+                var num_quiz = res.rows.item(0).number_of_quiz; // num_quiz is a number that set in table settings
+                console.log('get number of settings', num_quiz);
+                // compare number of question that user play today with number that set from settings
                 if (num_q < num_quiz) {
                     _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__quiz_quiz__["a" /* QuizPage */], {
-                        questionID: _this.getNextQuestionID(),
+                        // questionID: this.getNextQuestionID(),
                         lessonID: _this.sections.lesson
                     });
                 }
@@ -532,25 +557,17 @@ var SectionPage = (function () {
         }, function () {
         });
     };
-    SectionPage.prototype.getNextQuestionID = function () {
-        var nextQID;
-        //console.log("SELECT * FROM order_question WHERE question_id ="+this.currentQuestionID);
-        console.log("SELECT * FROM order_question WHERE question_id =" + localStorage.getItem("currentQID"));
-        this.db.executeSQL("SELECT * FROM order_question WHERE question_id = " + localStorage.getItem("currentQID"))
-            .then(function (res) {
-            //this.questions = {};
-            console.log("res result in getNextQuestionIDSamak = " + JSON.stringify(res));
-            nextQID = res.rows.item(0).next_question_id;
-            localStorage.setItem("NextQID", nextQID);
-        }).catch(function (e) { return console.log((e)); });
-        return nextQID;
-    };
-    ;
     SectionPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-section',template:/*ion-inline-start:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/section/section.html"*/'<!--\n  Generated template for the SectionPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar >\n    <!--<ion-title>-->\n      <!--មេរៀន​​ជំនួយ-->\n    <!--</ion-title>-->\n    <ion-buttons end>\n      <button ion-button icon-only (click)="navigate(current.next_question_id)">\n        សំនួរ​បន្ទាប់\n        <ion-icon name="arrow-round-forward"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n<ion-content class="content">\n  <ion-scroll class="view_content" scrollY="true">\n    <ion-grid>\n      <ion-row>\n        <!--<ion-card text-wrap padding="10px">-->\n          <ion-col>\n            {{sections.content || \'\'}}\n          </ion-col>\n          <!--<ion-col width-100>-->\n            <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->\n              <!--សំនួរ​បន្ទាប់-->\n              <!--<ion-icon name="arrow-forward"></ion-icon>-->\n            <!--</button>-->\n          <!--</ion-col>-->\n        <!--</ion-card>-->\n      </ion-row>\n    </ion-grid>\n  </ion-scroll>\n</ion-content>\n\n<ion-footer unit-footer>\n  <ion-toolbar color="lightgreen">\n    <!--<button ion-button float-start clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->\n      <!--<ion-icon name="arrow-back"></ion-icon>-->\n    <!--</button>-->\n    <button ion-button float-start clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/section/section.html"*/,
+            selector: 'page-section',template:/*ion-inline-start:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/section/section.html"*/'<!--\n  Generated template for the SectionPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar >\n    <!--<ion-title>-->\n      <!--មេរៀន​​ជំនួយ-->\n    <!--</ion-title>-->\n    <ion-buttons [hidden]="!playCompleted" end>\n      <button ion-button icon-only (click)="navigate(current.next_question_id)">\n        សំនួរ​បន្ទាប់\n        <ion-icon name="arrow-round-forward"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n<ion-content class="content">\n  <ion-scroll class="view_content" scrollY="true">\n    <ion-grid>\n      <ion-row>\n        <!--<ion-card text-wrap padding="10px">-->\n          <ion-col>\n            {{sections.content || \'\'}}\n          </ion-col>\n          <!--<ion-col width-100>-->\n            <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->\n              <!--សំនួរ​បន្ទាប់-->\n              <!--<ion-icon name="arrow-forward"></ion-icon>-->\n            <!--</button>-->\n          <!--</ion-col>-->\n        <!--</ion-card>-->\n      </ion-row>\n    </ion-grid>\n  </ion-scroll>\n</ion-content>\n\n<ion-footer unit-footer>\n  <ion-toolbar color="lightgreen">\n    <!--<button ion-button float-start clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->\n      <!--<ion-icon name="arrow-back"></ion-icon>-->\n    <!--</button>-->\n    <button ion-button float-start clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/section/section.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_native_audio__["a" /* NativeAudio */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */],
+            __WEBPACK_IMPORTED_MODULE_3__ionic_native_native_audio__["a" /* NativeAudio */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */]])
     ], SectionPage);
     return SectionPage;
 }());
@@ -625,7 +642,7 @@ var StarterPage = (function () {
     };
     StarterPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-starter',template:/*ion-inline-start:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/starter/starter.html"*/'<!--\n  Generated template for the StarterPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header >\n\n  <ion-navbar >\n    <ion-title>Welcome to Evolution</ion-title>\n  </ion-navbar>\n\n</ion-header>\n<ion-content  class="content">\n\n  <div class="message ">\n    <ion-card no-padding>\n      <ion-card-content>\n        Today you have 2 Questions.\n      </ion-card-content>\n    </ion-card>\n  </div>\n  <div class="btnQuiz">\n    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToQuiz()">\n      Play\n    </button>\n  </div>\n  <div class="btnReview">\n    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToHomePage()">\n      Review\n    </button>\n  </div>\n</ion-content>\n\n<ion-footer class="footer">\n  <div class="btn-wrapper">\n    <button ion-button clear float-start (click)="exitButtonClick()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n    <button ion-button clear float-end (click)="aboutButtonClick()">\n      About\n    </button>\n  </div>\n</ion-footer>\n'/*ion-inline-end:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/starter/starter.html"*/,
+            selector: 'page-starter',template:/*ion-inline-start:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/starter/starter.html"*/'<!--\n  Generated template for the StarterPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header >\n\n  <ion-navbar >\n    <ion-title>Welcome to Evolution</ion-title>\n  </ion-navbar>\n\n</ion-header>\n<ion-content  class="content">\n\n  <div class="message ">\n    <ion-card no-padding>\n      <ion-card-content>\n        Today you have 3 Questions.\n      </ion-card-content>\n    </ion-card>\n  </div>\n  <div class="btnQuiz">\n    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToQuiz()">\n      Play\n    </button>\n  </div>\n  <div class="btnReview">\n    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToHomePage()">\n      Review\n    </button>\n  </div>\n</ion-content>\n\n<ion-footer class="footer">\n  <div class="btn-wrapper">\n    <button ion-button clear float-start (click)="exitButtonClick()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n    <button ion-button clear float-end (click)="aboutButtonClick()">\n      About\n    </button>\n  </div>\n</ion-footer>\n'/*ion-inline-end:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/starter/starter.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */]])
     ], StarterPage);
@@ -674,11 +691,11 @@ var map = {
 		5
 	],
 	"../pages/quiz/quiz.module": [
-		297,
+		296,
 		4
 	],
 	"../pages/section-review/section-review.module": [
-		296,
+		297,
 		3
 	],
 	"../pages/section/section.module": [
@@ -938,8 +955,8 @@ var AppModule = (function () {
                         { loadChildren: '../pages/lesson/lesson.module#LessonPageModule', name: 'LessonPage', segment: 'lesson', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/question/question.module#QuestionPageModule', name: 'QuestionPage', segment: 'question', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/section-review/section-review.module#SectionReviewPageModule', name: 'SectionReviewPage', segment: 'section-review', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/quiz/quiz.module#QuizPageModule', name: 'QuizPage', segment: 'quiz', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/section-review/section-review.module#SectionReviewPageModule', name: 'SectionReviewPage', segment: 'section-review', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/section/section.module#SectionPageModule', name: 'SectionPage', segment: 'section', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/starter/starter.module#StarterPageModule', name: 'StarterPage', segment: 'starter', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/welcome/welcome.module#WelcomePageModule', name: 'WelcomePage', segment: 'welcome', priority: 'low', defaultHistory: [] }
@@ -1162,6 +1179,9 @@ var LessonPage = (function () {
     LessonPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad LessonPage');
     };
+    /*
+      Function to get list of lessons query by chapterID
+     */
     LessonPage.prototype.getLessons = function () {
         var _this = this;
         this.db.executeSQL("SELECT * FROM lessons WHERE chapter = " + this.chapterID)
@@ -1180,6 +1200,9 @@ var LessonPage = (function () {
             }
         }).catch(function (e) { return console.log((e)); });
     };
+    /*
+      Function when click on each lesson then push to QuestionPage by lessonID
+     */
     LessonPage.prototype.lesson = function (lesson_id) {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__question_question__["a" /* QuestionPage */], {
             lessonID: lesson_id,
@@ -1190,7 +1213,9 @@ var LessonPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-lesson',template:/*ion-inline-start:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/lesson/lesson.html"*/'<!--\n  Generated template for the LessonPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>មេរៀនទី</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n  <ion-grid class="content">\n    <ion-row class="choice">\n      <ion-item>\n        <ion-item-sliding *ngFor="let lessons of lessons; let i=index">\n          <ion-item no-lines no-padding >\n            <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="lesson(lessons.id)">\n              <div class="number">\n                {{lessons.number}}: {{lessons.title}}\n              </div>\n              <!--<div class="text">-->\n                <!--{{lessons.title}}-->\n              <!--</div>-->\n            </button>\n          </ion-item>\n        </ion-item-sliding>\n      </ion-item>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n\n<!--<ion-footer>-->\n  <!--<ion-toolbar>-->\n    <!--<button ion-button clear (click)="playButtonClick()">-->\n      <!--<ion-icon name="play"></ion-icon>-->\n    <!--</button>-->\n    <!--<button ion-button clear (click)="exitButtonClick()" (press)="toggleDebug()">-->\n      <!--<ion-icon name="power"></ion-icon>-->\n    <!--</button>-->\n  <!--</ion-toolbar>-->\n<!--</ion-footer>-->\n'/*ion-inline-end:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/lesson/lesson.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */]])
     ], LessonPage);
     return LessonPage;
 }());
@@ -1505,7 +1530,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Ionic pages and navigation.
  */
 var QuestionPage = (function () {
-    //totalQuestion: number;
     function QuestionPage(navCtrl, navParams, db, nativeAudio, alertCtrl, platform, app) {
         var _this = this;
         this.navCtrl = navCtrl;
@@ -1519,7 +1543,6 @@ var QuestionPage = (function () {
         this.questions = {};
         this.answers = [];
         this.lessonID = navParams.get('lessonID');
-        // this.nextQuestion = this.navParams.get('nextQuestion');
         this.currentQuestionID = this.navParams.get('currentQuestionID');
         this.chapterID = this.navParams.get('chapterID');
         // this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${this.lessonID}`)
@@ -1565,6 +1588,10 @@ var QuestionPage = (function () {
             });
         });
     }
+    /*
+     ionViewDidEnter runs when the page has fully entered and is now the active page.
+     Display Question query by lesson_id
+     */
     QuestionPage.prototype.ionViewDidEnter = function () {
         var _this = this;
         this.db.executeSQL("SELECT * FROM questions WHERE lesson_id = " + this.lessonID)
@@ -1597,6 +1624,9 @@ var QuestionPage = (function () {
             _this.content(first);
         }).catch(function (e) { return console.log((e)); });
     };
+    /*
+     ionViewWillLeave(): when View is about to leave, Stopping current playback sound.
+     */
     QuestionPage.prototype.ionViewWillLeave = function () {
         var _this = this;
         console.log("ionViewWillLeave(): View is about to leave, Stopping current playback sound.");
@@ -1605,6 +1635,10 @@ var QuestionPage = (function () {
         }, function () {
         });
     };
+    /*
+    Function to get Next sectionID that query by CurrentQuestionID
+     this.sectionID = (res.rows.item(0).section_id)+1;
+     */
     QuestionPage.prototype.getSectionID = function () {
         var _this = this;
         return this.db.executeSQL("SELECT * FROM questions WHERE id = " + this.currentQuestionID)
@@ -1613,6 +1647,9 @@ var QuestionPage = (function () {
             console.log(_this.sectionID);
         }).catch(function (e) { return console.log((e)); });
     };
+    /*
+    Function to get Next Question query by section_id ORDER BY id ASC LIMIT 1.
+     */
     QuestionPage.prototype.getNextQuestions = function (section_id) {
         var _this = this;
         return this.db.executeSQL("SELECT * FROM questions WHERE section_id = " + section_id + " ORDER BY id ASC LIMIT 1")
@@ -1679,6 +1716,9 @@ var QuestionPage = (function () {
     //             this.lessonID = res.rows.item(0).lesson_id;
     //         }).catch(e => console.log((e)))
     // }
+    /*
+    Get list of answer query by question_id
+     */
     QuestionPage.prototype.getAnswers = function (questions_id) {
         var _this = this;
         this.db.executeSQL("SELECT * FROM answers WHERE question_id = " + questions_id)
@@ -1700,6 +1740,9 @@ var QuestionPage = (function () {
             }
         }).catch(function (e) { return console.log((e)); });
     };
+    /*
+        this Function to display content on screen
+     */
     QuestionPage.prototype.content = function (id) {
         var _this = this;
         console.log(id);
@@ -1799,8 +1842,13 @@ var QuestionPage = (function () {
     //   }
     //
     // }
+    /*
+    this function when click on answer and push to SectionReviewPage with
+    (answerCorrect, sectionID, questionID, lessonId, chapterID)
+     */
     QuestionPage.prototype.answer = function (correct_ans, question_id) {
         var _this = this;
+        // if correct_ans , play audio correct then push to SectionReviewPage
         if (correct_ans == 1) {
             return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3', 1, 1, 0).then(function () {
                 return _this.nativeAudio.play('correct', function () {
@@ -1824,6 +1872,7 @@ var QuestionPage = (function () {
             });
         }
         else {
+            /// if incorrect play wrong audio and push to SectionReviewPage
             return this.nativeAudio.preloadComplex('wrong', 'assets/sounds/wrong.mp3', 1, 1, 0).then(function () {
                 return _this.nativeAudio.play('wrong', function () {
                     _this.nativeAudio.unload('wrong');
@@ -1846,6 +1895,9 @@ var QuestionPage = (function () {
             });
         }
     };
+    /*
+    Function to exit app when clicked on button
+     */
     QuestionPage.prototype.exitButtonClick = function () {
         var _this = this;
         var alert = this.alertCtrl.create({
@@ -1866,6 +1918,9 @@ var QuestionPage = (function () {
         });
         alert.present();
     };
+    /*
+    Function to replay audio sound file when clicked on button
+     */
     QuestionPage.prototype.replayButtonClick = function () {
         var _this = this;
         this.nativeAudio.stop(this.current.id).then(function () {
@@ -1876,6 +1931,9 @@ var QuestionPage = (function () {
         }, function () {
         });
     };
+    /*
+    Function back page when clicked on button
+     */
     QuestionPage.prototype.backButtonClick = function () {
         this.navCtrl.pop();
     };
@@ -1883,7 +1941,13 @@ var QuestionPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-question',template:/*ion-inline-start:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/question/question.html"*/'<!--\n  Generated template for the QuestionPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="skyblue">\n    <ion-title>សំណួរ</ion-title>\n      <!--<ion-title>សំណួរទី {{current.question_number || \'\'}}</ion-title>  -->\n  </ion-navbar>\n</ion-header>\n<ion-content >\n    <ion-grid class="content">\n    <!--<ion-row class="content">-->\n        <!--<ion-col text-wrap width-100 padding>-->\n            <!--&lt;!&ndash;{{sections.image1}}&ndash;&gt;-->\n            <!--{{current.question_number || \'\'}}-->\n            <!--{{current.question_text || \'\'}}-->\n        <!--</ion-col>-->\n    <!--</ion-row>-->\n    <ion-row class="choice">\n        <ion-item>\n            <ion-item-sliding width-100 *ngFor="let answers of answers; let i=index">\n                <ion-item no-lines no-padding>\n                    <button ion-button class="btn btn-primary btn-lg btn3d" width-100 menu-header block color="primary" (click)="answer(answers.is_correct_answer, answers.question_id)">\n                        {{answers.answer_text}}\n                    </button>\n                </ion-item>\n            </ion-item-sliding>\n        </ion-item>\n    </ion-row>\n    </ion-grid>\n</ion-content>\n<ion-footer unit-footer>\n  <ion-toolbar  color="lightgreen">\n    <button ion-button float-start clear (click)="backButtonClick()">\n      <ion-icon name="arrow-back"></ion-icon>\n    </button>\n    <button ion-button clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/question/question.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_native_audio__["a" /* NativeAudio */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* App */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */],
+            __WEBPACK_IMPORTED_MODULE_3__ionic_native_native_audio__["a" /* NativeAudio */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* App */]])
     ], QuestionPage);
     return QuestionPage;
 }());
@@ -2420,6 +2484,9 @@ var QuizPage = (function () {
         }).catch(function (e) { return console.log((e)); });
     };
     ;
+    /*
+    Samak user user Question
+     */
     QuizPage.prototype.getUserQuestion = function () {
         var _this = this;
         this.nextQuestionID = localStorage.getItem("NextQID");
@@ -2440,6 +2507,8 @@ var QuizPage = (function () {
             _this.answers = [];
             console.log(res);
             for (var i = 0; i < res.rows.length; i++) {
+                // let user_ans_id = res.rows.item(i).answer_order;
+                // localStorage.setItem("user_ans_id",user_ans_id);
                 _this.answers.push({
                     id: res.rows.item(i).id,
                     answer_text: res.rows.item(i).answer_text,
@@ -2449,7 +2518,7 @@ var QuizPage = (function () {
                     question_id: res.rows.item(i).question_id,
                     is_correct_answer: res.rows.item(i).is_correct_answer,
                     created_date: res.rows.item(i).created_date,
-                    modified_date: res.rows.item(i).modified_date
+                    modified_date: res.rows.item(i).modified_date,
                 });
             }
         }).catch(function (e) { return console.log((e)); });
@@ -2540,6 +2609,16 @@ var QuizPage = (function () {
                             sectionID: section_id,
                             questionID: question_id
                         });
+                        console.log("SELECT * FROM order_question WHERE question_id =" + localStorage.getItem("currentQID"));
+                        _this.db.executeSQL("SELECT * FROM order_question WHERE question_id = " + localStorage.getItem("currentQID"))
+                            .then(function (res) {
+                            //this.questions = {};
+                            var nextQID;
+                            console.log("res result in getNextQuestionIDSamak = " + JSON.stringify(res));
+                            nextQID = res.rows.item(0).next_question_id;
+                            // set local storage for NextQID
+                            localStorage.setItem("NextQID", nextQID);
+                        }).catch(function (e) { return console.log((e)); });
                     });
                 });
             });
@@ -2561,11 +2640,20 @@ var QuizPage = (function () {
                         _this.synchUserQuizeToServer();
                         //End Save
                         // console.log(this.current.question_sound);
+                        localStorage.setItem("currentQID", question_id);
                         _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__section_section__["a" /* SectionPage */], {
                             answerCorrect: correct_ans,
                             sectionID: section_id,
                             questionID: question_id
                         });
+                        _this.db.executeSQL("SELECT * FROM order_question WHERE question_id = " + localStorage.getItem("currentQID"))
+                            .then(function (res) {
+                            //this.questions = {};
+                            var nextQID;
+                            console.log("res result in getNextQuestionIDSamak = " + JSON.stringify(res));
+                            nextQID = res.rows.item(0).next_question_id;
+                            localStorage.setItem("NextQID", nextQID);
+                        }).catch(function (e) { return console.log((e)); });
                     });
                 });
             });
@@ -2615,7 +2703,7 @@ var QuizPage = (function () {
                 self.responseData = result;
                 if (JSON.parse(result["code"]) == 200) {
                     // If data is synch successfully, update isSent=1 //
-                    //self.updateIsSentColumn();
+                    self.updateIsSentColumn();
                     console.log("Data Inserted Successfully");
                 }
                 else
@@ -2803,9 +2891,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-// import {QuestionPage} from "../question/question";
 
-// import {SectionPage} from "../section/section";
 var HomePage = (function () {
     function HomePage(navCtrl, db) {
         this.navCtrl = navCtrl;
@@ -2816,6 +2902,9 @@ var HomePage = (function () {
         this.lessons = [];
         this.getChapters();
     }
+    /*
+     function get list of chapters
+     */
     HomePage.prototype.getChapters = function () {
         var _this = this;
         this.db
@@ -2869,6 +2958,9 @@ var HomePage = (function () {
     //         }
     //       })
     // }
+    /*
+    Function when click on each of chapter then push to Lesson page
+     */
     HomePage.prototype.chapter = function (chapter_id, chapter_title) {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__lesson_lesson__["a" /* LessonPage */], {
             chapterID: chapter_id,
@@ -2879,7 +2971,8 @@ var HomePage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-home',template:/*ion-inline-start:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title >\n      បញ្ជីជំពូក\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n<ion-content class="content">\n  <ion-scroll class="view_content" scrollY="true">\n    <ion-grid>\n      <ion-row class="choice">\n        <ion-item>\n          <ion-item-sliding *ngFor="let chapters of chapters; let i=index">\n            <ion-item no-lines no-padding>\n              <button ion-button class="btn btn-primary btn-lg btn3d" block  (click)="chapter(chapters.id, chapters.title)">\n                <div class="number">\n                  {{chapters.number}}: {{chapters.title}}\n                </div>\n                <!--<div class="text">-->\n                  <!--{{chapters.title}}-->\n                <!--</div>-->\n              </button>\n            </ion-item>\n          </ion-item-sliding>\n        </ion-item>\n      </ion-row>\n    </ion-grid>\n  </ion-scroll>\n</ion-content>\n\n<!--<ion-footer>-->\n  <!--<ion-toolbar>-->\n    <!--<button ion-button clear (click)="playButtonClick()">-->\n      <!--<ion-icon name="play"></ion-icon>-->\n    <!--</button>-->\n    <!--<button ion-button clear (click)="exitButtonClick()" (press)="toggleDebug()">-->\n      <!--<ion-icon name="power"></ion-icon>-->\n    <!--</button>-->\n  <!--</ion-toolbar>-->\n<!--</ion-footer>-->\n'/*ion-inline-end:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/home/home.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_database_database__["a" /* DatabaseProvider */]])
     ], HomePage);
     return HomePage;
 }());

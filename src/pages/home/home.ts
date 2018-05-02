@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { DatabaseProvider } from "../../providers/database/database";
-// import {QuestionPage} from "../question/question";
 import {LessonPage} from "../lesson/lesson";
-// import {SectionPage} from "../section/section";
 
 @Component({
   selector: 'page-home',
@@ -14,10 +12,16 @@ export class HomePage {
   state: string = 'chapters';
   chapters: any = [];
   lessons: any = [];
-  constructor(public navCtrl: NavController, public db: DatabaseProvider) {
+  constructor(
+      public navCtrl: NavController,
+      public db: DatabaseProvider
+  ){
     this.getChapters();
   }
 
+  /*
+   function get list of chapters
+   */
   getChapters(){
     this.db
         .table("chapters")
@@ -72,6 +76,9 @@ export class HomePage {
   //       })
   // }
 
+    /*
+    Function when click on each of chapter then push to Lesson page
+     */
     public chapter(chapter_id: number, chapter_title: string) {
         this.navCtrl.push(
             LessonPage, {
