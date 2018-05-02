@@ -400,6 +400,7 @@ export class QuizPage {
     userQuestion: number;
     responseData : any;
 
+
     constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio, private app: App, private helpers: HelpersProvider, private sqlite: SQLite) {
         this.lessonID = navParams.get('lessonID');
         this.currentQuestionID = this.navParams.get('questionID');
@@ -417,6 +418,7 @@ export class QuizPage {
             });
         });
     }
+
     ionViewDidEnter(){
         //Previous Question
         this.getUserQuestion().then(()=>{
@@ -452,6 +454,10 @@ export class QuizPage {
                 }).catch(e => console.log((e)))
         });
     }
+
+    /*
+     ionViewWillLeave(): View is about to leave, Stopping current playback sound.
+     */
     ionViewWillLeave() {
         console.log("ionViewWillLeave(): View is about to leave, Stopping current playback sound.")
         this.nativeAudio.stop(this.current.id).then(() => {
@@ -471,7 +477,7 @@ export class QuizPage {
             }).catch(e => console.log((e)));
     };
     /*
-    Samak user user Question
+    Get User Question by nextQuestionID
      */
     getUserQuestion(){
         this.nextQuestionID = localStorage.getItem("NextQID");
@@ -486,15 +492,15 @@ export class QuizPage {
                 this.userQuestion = 1;
             });
     }
-
+    /*
+    Function Get Answers query by question_id
+     */
     getAnswers(questions_id: number) {
         this.db.executeSQL(`SELECT * FROM answers WHERE question_id = ${questions_id}`)
             .then(res => {
                 this.answers = [];
                 console.log(res);
                 for (var i = 0; i<res.rows.length; i++){
-                    // let user_ans_id = res.rows.item(i).answer_order;
-                    // localStorage.setItem("user_ans_id",user_ans_id);
                     this.answers.push({
                         id:res.rows.item(i).id,
                         answer_text:res.rows.item(i).answer_text,
@@ -507,10 +513,11 @@ export class QuizPage {
                         modified_date:res.rows.item(i).modified_date,
                     });
                 }
-
             }).catch(e => console.log((e)));
     }
-
+    /*
+    Function to display content of question and answer with sound
+     */
     content(id) {
         /*
         if (this.nextQuestionID){
@@ -572,8 +579,14 @@ export class QuizPage {
             */
       //  }
     }
-
+    /*
+     this function when click on answer and push to SectionReviewPage with
+     (answerCorrect, sectionID, questionID) and save data to Table user_quiz
+     */
     public answer (correct_ans: number, question_id: number, answer_order:number ){
+        console.log('USER ANSWER ID', answer_order);
+        // if correct_ans , play audio correct then push to SectionReviewPage
+
         if (correct_ans == 1){
             return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
                 return this.nativeAudio.play('correct', ()=>{
@@ -584,9 +597,15 @@ export class QuizPage {
                             let section_id = res.rows.item(0).section_id;
                             // let next_question_id = res.rows.item(0).next_question_id;
                             console.log('section_id', section_id);
+                            /*
+                             //Save data to table User_Quiz
+                             Samak API #2
+                            */
+
                             //Save User_Question
                             this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id,user_ans_id, ans_correct, score, created_date, isSent) 
                                             VALUES (1,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, date('now'), 0)`).then(res=>{
+
                                 console.log('Current number of question that has insert', res);
 
                             });
@@ -600,6 +619,7 @@ export class QuizPage {
                                 questionID: question_id
                             });
 
+                            // Get nextQID by SELECT * FROM order_question WHERE question_id = ${localStorage.getItem("currentQID")
                             console.log("SELECT * FROM order_question WHERE question_id ="+localStorage.getItem("currentQID"));
                             this.db.executeSQL(`SELECT * FROM order_question WHERE question_id = ${localStorage.getItem("currentQID")}`)
                                 .then(res => {
@@ -638,12 +658,14 @@ export class QuizPage {
                                 sectionID: section_id,
                                 questionID: question_id
                             });
+                            // Get nextQID by SELECT * FROM order_question WHERE question_id = ${localStorage.getItem("currentQID")
                             this.db.executeSQL(`SELECT * FROM order_question WHERE question_id = ${localStorage.getItem("currentQID")}`)
                                 .then(res => {
                                     //this.questions = {};
                                     var nextQID:any;
                                     console.log("res result in getNextQuestionIDSamak = "+JSON.stringify(res));
                                     nextQID = res.rows.item(0).next_question_id;
+                                    // set local storage for NextQID
                                     localStorage.setItem("NextQID",nextQID);
                                 }).catch(e => console.log((e)));
                         });
@@ -651,9 +673,15 @@ export class QuizPage {
             });
         }
     }
+    /*
+     Function back page when clicked on button
+     */
     backButtonClick(){
         this.navCtrl.pop();
     }
+    /*
+     Function to exit app when clicked on button
+     */
     exitButtonClick() {
         let alert = this.alertCtrl.create({
             title: 'ចាកចេញ',
@@ -673,6 +701,9 @@ export class QuizPage {
         });
         alert.present();
     }
+    /*
+     Function to replay audio sound file when clicked on button
+     */
     replayButtonClick() {
         this.nativeAudio.stop(this.current.id).then(() => {
             this.nativeAudio.play(this.current.id, ()=>{
