@@ -48,47 +48,8 @@ export class SectionPage {
     // console.log(this.sectionID);
     // console.log(this.sectionID);
 
-    // this.db.executeSQL(`SELECT * FROM sections WHERE id = ${this.sectionID}`)
-    //     .then(res => {
-    //       this.sections = {};
-    //       // var first = res.rows.item(0).id;
-    //       this.currentIndex = 0;
-    //       for (var i = 0; i<res.rows.length; i++){
-    //         // this.sectionsID.push(res.rows.item(i).id);
-    //         this.sections={
-    //           id:res.rows.item(i).id,
-    //           order:res.rows.item(i).order,
-    //           lesson:res.rows.item(i).lesson,
-    //           title:res.rows.item(i).title,
-    //           content:res.rows.item(i).content,
-    //           image1:res.rows.item(i).image1,
-    //           image2:res.rows.item(i).image2,
-    //           image3:res.rows.item(i).image3,
-    //           image4:res.rows.item(i).image4,
-    //           sound:res.rows.item(i).sound,
-    //           created_date:res.rows.item(i).created_date,
-    //           modified_date:res.rows.item(i).modified_date
-    //         }
-    //         //break;
-    //       }
-    //         this.nativeAudio.preloadSimple(this.sections.id, 'assets/sounds/'+this.sections.sound).then(()=>{
-    //             this.nativeAudio.play(this.sections.id, ()=>{
-    //                 this.nativeAudio.unload(this.sections.id);
-    //             });
-    //         });
-    //       console.log(this.sections.sound);
-    //     }).catch(e => console.log((e)));
+   
   }
-    // getNumberQuestion(){
-    //     var num_q_today:any;
-    //     //select count * as column total FROM user_quiz WHERE user_id = 1 and created_date = date('now')
-    //     this.db.executeSQL(`SELECT count(*) as total FROM user_quiz WHERE user_id = 1 and created_date = date('now')`)
-    //         .then(res => {
-    //             num_q_today = res.rows.item(0).total;
-    //             console.log('get count number of question', res.rows.item(0).total);
-    //         }).catch(e => console.log((e)));
-    //     return num_q_today;
-    // }
 
     ionViewDidEnter(){
         this.db.executeSQL(`SELECT * FROM sections WHERE id = ${this.sectionID}`)
@@ -135,17 +96,9 @@ export class SectionPage {
     }
 
     navigate() {
-        // this.navCtrl.push(
-        //     QuizPage, {
-        //         // this.nextQuestionID = localStorage.getItem("NextQID");
-        //         // questionID: this.getNextQuestionID(),
-        //         lessonID: this.sections.lesson
-        //     }
-        // );
-
         // this.num_q_today = this.getNumberQuestion();
-        //select count * as column total FROM user_quiz WHERE user_id = 1 and created_date = date('now')
-        this.db.executeSQL(`SELECT count(*) as total FROM user_quiz WHERE user_id = 1 and created_date = date('now')`)
+        //select count * as column total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')
+        this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')`)
             .then(res => {
                 let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
                 console.log('get count number of question', num_q);
@@ -166,7 +119,6 @@ export class SectionPage {
                         }
                 }).catch(e => console.log((e)));
             }).catch(e => console.log((e)));
-
    }
 
     exitButtonClick() {
@@ -190,12 +142,7 @@ export class SectionPage {
     }
 
     private replayButtonClick() {
-        // this.nativeAudio.preloadSimple(this.sections.id, 'assets/sounds/'+this.sections.sound).then(()=>{
-        //     this.nativeAudio.play(this.sections.id, ()=>{
-        //         this.nativeAudio.unload(this.sections.id);
-        //     });
-        // });
-        // console.log(this.sections.sound);
+    
         this.nativeAudio.stop(this.sections.id).then(() => {
             this.nativeAudio.play(this.sections.id, ()=>{
                 this.nativeAudio.unload(this.sections.id);
@@ -204,18 +151,4 @@ export class SectionPage {
 
         });
     }
-
-    // getNextQuestionID(){
-    //     var nextQID:any;
-    //     //console.log("SELECT * FROM order_question WHERE question_id ="+this.currentQuestionID);
-    //     console.log("SELECT * FROM order_question WHERE question_id ="+localStorage.getItem("currentQID"));
-    //     this.db.executeSQL(`SELECT * FROM order_question WHERE question_id = ${localStorage.getItem("currentQID")}`)
-    //         .then(res => {
-    //             //this.questions = {};
-    //             console.log("res result in getNextQuestionIDSamak = "+JSON.stringify(res));
-    //             nextQID = res.rows.item(0).next_question_id;
-    //             localStorage.setItem("NextQID",nextQID);
-    //         }).catch(e => console.log((e)));
-    //     return nextQID;
-    // };
 }
