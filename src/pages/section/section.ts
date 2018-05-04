@@ -149,22 +149,23 @@ export class SectionPage {
             .then(res => {
                 let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
                 console.log('get count number of question', num_q);
-                this.db.executeSQL(`SELECT * FROM settings `)
-                    .then(res =>{
-                        let num_quiz = res.rows.item(0).number_of_quiz ; // num_quiz is a number that set in table settings
-                        console.log('get number of settings', num_quiz);
-                        // compare number of question that user play today with number that set from settings
-                        if (num_q < num_quiz){
-                            this.navCtrl.push(
-                                QuizPage, {
-                                    // questionID: this.getNextQuestionID(),
-                                    lessonID: this.sections.lesson
-                                }
-                            );
-                        }else {
-                            this.navCtrl.popToRoot();
+                // this.db.executeSQL(`SELECT * FROM settings `)
+                //     .then(res =>{
+                //         //let num_quiz = res.rows.item(0).number_of_quiz ; // num_quiz is a number that set in table settings
+                //         console.log('get number of settings', num_quiz);
+                let num_quiz = localStorage.getItem('settings');
+                // compare number of question that user play today with number that set from settings
+                if (num_q < num_quiz){
+                    this.navCtrl.push(
+                        QuizPage, {
+                            // questionID: this.getNextQuestionID(),
+                            lessonID: this.sections.lesson
                         }
-                }).catch(e => console.log((e)));
+                    );
+                }else {
+                    this.navCtrl.popToRoot();
+                }
+                // }).catch(e => console.log((e)));
             }).catch(e => console.log((e)));
 
    }

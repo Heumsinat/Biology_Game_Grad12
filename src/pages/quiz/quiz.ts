@@ -603,7 +603,7 @@ export class QuizPage {
                             */
 
                             //Save User_Question
-                            this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id,user_ans_id, ans_correct, score, created_date, isSent) 
+                            this.db.executeSQL(`INSERT INTO user_quizze ( user_id, question_id,user_ans_id, ans_correct, score, created_date, isSent) 
                                             VALUES (1,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, date('now'), 0)`).then(res=>{
 
                                 console.log('Current number of question that has insert', res);
@@ -644,7 +644,7 @@ export class QuizPage {
                             let next_question_id = res.rows.item(0).next_question_id;
                             console.log('section_id', section_id);
                             //Save User_Question
-                            this.db.executeSQL(`INSERT INTO user_quiz ( user_id, question_id,user_ans_id, ans_correct, score, created_date, isSent) 
+                            this.db.executeSQL(`INSERT INTO user_quizze ( user_id, question_id,user_ans_id, ans_correct, score, created_date, isSent) 
                                             VALUES (1,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, date('now'), 0)`).then(res=>{
                                 console.log('Current number of question that has insert', res);
 
@@ -718,7 +718,7 @@ export class QuizPage {
     // * Function to synchronize data into server, then update isSent = 1 * //
     
     synchUserQuizeToServer() {
-        var listOfTable = ["user_quiz"];
+        var listOfTable = ["user_quizze"];
         var self = this;
         this.retrieveDBSchema(listOfTable)
           .then(function(value) {
@@ -789,7 +789,7 @@ export class QuizPage {
                 name: 'biology.db',
                 location: 'default'
             });
-            var resOfflineRecords = await db.executeSql('SELECT * FROM user_quiz where isSent=?',[0])
+            var resOfflineRecords = await db.executeSql('SELECT * FROM user_quizze where isSent=?',[0])
             //var resOfflineRecords = await db.executeSql('SELECT * FROM user_quiz',[])
             console.log('resOfflineRecords: ' + JSON.stringify(resOfflineRecords));
             //console.log('object of resOfflineRecords: '+JSON.parse(resOfflineRecords));
@@ -853,11 +853,11 @@ export class QuizPage {
           name: 'biology.db',
           location: 'default'
         }).then((db: SQLiteObject)  => {
-          db.executeSql('UPDATE user_quiz SET isSent=? WHERE isSent=0', [1])
+          db.executeSql('UPDATE user_quizze SET isSent=? WHERE isSent=0', [1])
           .then( res => {
             console.log('Data Updated!');
           })
           .catch(e => console.log(e));
         })
-      }
+    }
 }

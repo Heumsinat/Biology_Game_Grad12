@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {HomePage} from "../home/home";
 import {QuizPage} from "../quiz/quiz";
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { HelpersProvider } from '../../providers/helpers/helpers';
 
 /**
  * Generated class for the StarterPage page.
@@ -16,8 +18,8 @@ import {QuizPage} from "../quiz/quiz";
   templateUrl: 'starter.html',
 })
 export class StarterPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform) {
+  no_of_quiz: any;
+  constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, private sqlite: SQLite,private helpers: HelpersProvider) {
   }
 
   ionViewDidLoad() {
@@ -30,7 +32,22 @@ export class StarterPage {
   goToQuiz(){
     // TO-DO by Samak using API #4//
     // Send request from App to get the latest settings
-    // If new settings != old setting, then Update new settings into table settings in App
+    //var new_no_of_quiz = this.helpers.getData("get_setting_app");
+    this.helpers.getData("get_setting_app").then((result) => 
+    {
+      console.log("settings = "+localStorage.getItem('settings'));
+      this.no_of_quiz = result;
+      // If new settings != old setting, then Update new settings into localStorage settings in App
+      if(localStorage.getItem('settings') != this.no_of_quiz)
+        localStorage.setItem('settings',this.no_of_quiz);
+    }, (err) => {
+      // Connection fail
+      console.log(JSON.stringify("err = "+err));
+    }).catch((e) => {
+      console.log('Error in listOfFacilities:' + e);
+    });   
+    
+    //this.updateNumberOfQuizColumn(new_no_of_quiz[""]);
     // ======END OF API #4 ======== //
 
     // TO-DO by Samak using API #6//
@@ -62,6 +79,5 @@ export class StarterPage {
       ]
     });
     alert.present();
-  }
-
+  } 
 }
