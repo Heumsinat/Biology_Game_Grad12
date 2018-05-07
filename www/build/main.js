@@ -4,6 +4,87 @@ webpackJsonp([9],{
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_sqlite__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_toast__ = __webpack_require__(167);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+/**
+ * Generated class for the FormPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var FormPage = (function () {
+    function FormPage(navCtrl, navParams, sqlite, toast) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.sqlite = sqlite;
+        this.toast = toast;
+        this.data = { fullName: "", userName: "", password: "", gender: "", school: "", district: "", province: "" };
+    }
+    FormPage.prototype.saveData = function () {
+        var _this = this;
+        this.sqlite.create({
+            name: 'biology.db',
+            location: 'default'
+        }).then(function (db) {
+            db.executeSql('INSERT INTO users VALUES(NULL,?,?,?,?,?,?,?)', [_this.data.fullName, _this.data.userName, _this.data.password, _this.data.gender, _this.data.school, _this.data.district, _this.data.province])
+                .then(function (res) {
+                console.log(res);
+                _this.toast.show('Data saved', '5000', 'center').subscribe(function (toast) {
+                    _this.navCtrl.popToRoot();
+                });
+            })
+                .catch(function (e) {
+                console.log(e);
+                _this.toast.show(e, '5000', 'center').subscribe(function (toast) {
+                    console.log(toast);
+                });
+            });
+        }).catch(function (e) {
+            console.log(e);
+            _this.toast.show(e, '5000', 'center').subscribe(function (toast) {
+                console.log(toast);
+            });
+        });
+    };
+    FormPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad FormPage');
+    };
+    FormPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-form',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/form/form.html"*/'<!--\n  Generated template for the FormPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>ទម្រង់អ្នកប្រើប្រាស់</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content xela padding>\n    <!--<form> (ngSubmit)="saveData()">-->\n      <div class="container">  \n        <ion-list>\n          <ion-item class="form1">\n            <ion-label>ឈ្មោះ</ion-label>\n            <ion-input type="text" [(ngModel)]="data.fullName" name="fullName" aria-required=""></ion-input>\n          </ion-item>\n        \n          <ion-item>\n            <ion-label>ឈ្មោះសម្គាល់</ion-label>\n            <ion-input type="text" [(ngModel)]="data.userName" name="userName" aria-required=""></ion-input>\n          </ion-item>\n\n          <ion-item>\n            <ion-label>ពាក្យសម្ងាត់</ion-label>\n            <ion-input type="password" [(ngModel)]="data.password" name="password" aria-required=""></ion-input>\n          </ion-item>\n        \n          <ion-item>\n              <ion-label>ភេទ</ion-label>\n              <ion-select [(ngModel)]="data.gender" >\n                <ion-option value="ស្រី">ស្រី</ion-option>\n                <ion-option value="ប្រុស">ប្រុស</ion-option>\n              </ion-select>\n          </ion-item>\n\n          <ion-item>\n            <ion-label>លេខទូរស័ព្ទ</ion-label>\n            <ion-input type="text" name="" aria-required=""></ion-input>\n          </ion-item>\n          \n          <ion-item>\n            <ion-label>សាលារៀន</ion-label>\n            <ion-input type="text" [(ngModel)]="data.school" name="school" aria-required=""></ion-input>\n          </ion-item>\n\n          <ion-item>\n            <ion-label>ស្រុក/ខណ្ឌ</ion-label>\n            <ion-input type="text" [(ngModel)]="data.district" name="district" aria-required=""></ion-input>\n          </ion-item>\n          <ion-item>\n            <ion-label>ខេត្ត/ក្រុង</ion-label>\n            <ion-input type="text" [(ngModel)]="data.province" name="province" aria-required=""></ion-input>\n          </ion-item>\n        </ion-list>\n     </div> \n   <!-- </form>-->\n\n      <div padding>\n          <button ion-button block color="primary">បោះបង់</button>\n      </div>\n      <div padding>\n          <button ion-button block color="primary" type="submit" (click)="saveData()">រក្សាទុក</button>\n      </div>\n      \n</ion-content>\n\n<ion-footer>\n  <ion-toolbar>\n      <button ion-button block clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n      </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/form/form.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_2__ionic_native_sqlite__["a" /* SQLite */],
+            __WEBPACK_IMPORTED_MODULE_3__ionic_native_toast__["a" /* Toast */]])
+    ], FormPage);
+    return FormPage;
+}());
+
+//# sourceMappingURL=form.js.map
+
+/***/ }),
+
+/***/ 110:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SectionReviewPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
@@ -194,7 +275,7 @@ var SectionReviewPage = (function () {
 
 /***/ }),
 
-/***/ 110:
+/***/ 111:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -275,7 +356,7 @@ var LoginPage = (function () {
 
 /***/ }),
 
-/***/ 111:
+/***/ 112:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -430,7 +511,7 @@ var SectionPage = (function () {
     };
     SectionPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-section',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section/section.html"*/'<!--\n  Generated template for the SectionPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar >\n    <!--<ion-title>-->\n      <!--មេរៀន​​ជំនួយ-->\n    <!--</ion-title>-->\n    <!-- <ion-buttons [hidden]="!playCompleted" end> -->\n        <ion-buttons  end>\n      <button ion-button icon-only (click)="navigate(current.next_question_id)">\n        សំនួរ​បន្ទាប់\n        <ion-icon name="arrow-round-forward"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n<ion-content class="content">\n  <ion-scroll class="view_content" scrollY="true">\n    <ion-grid>\n      <ion-row>\n        <!--<ion-card text-wrap padding="10px">-->\n          <ion-col>\n            {{sections.content || \'\'}}\n          </ion-col>\n          <!--<ion-col width-100>-->\n            <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->\n              <!--សំនួរ​បន្ទាប់-->\n              <!--<ion-icon name="arrow-forward"></ion-icon>-->\n            <!--</button>-->\n          <!--</ion-col>-->\n        <!--</ion-card>-->\n      </ion-row>\n    </ion-grid>\n  </ion-scroll>\n</ion-content>\n\n<ion-footer unit-footer>\n  <ion-toolbar color="lightgreen">\n    <!--<button ion-button float-start clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->\n      <!--<ion-icon name="arrow-back"></ion-icon>-->\n    <!--</button>-->\n    <button ion-button float-start clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section/section.html"*/,
+            selector: 'page-section',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section/section.html"*/'<!--\n  Generated template for the SectionPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar >\n    <!--<ion-title>-->\n      <!--មេរៀន​​ជំនួយ-->\n    <!--</ion-title>-->\n    <ion-buttons [hidden]="!playCompleted" end>\n        <!-- <ion-buttons  end> -->\n      <button ion-button icon-only (click)="navigate(current.next_question_id)">\n        សំនួរ​បន្ទាប់\n        <ion-icon name="arrow-round-forward"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n<ion-content class="content">\n  <ion-scroll class="view_content" scrollY="true">\n    <ion-grid>\n      <ion-row>\n        <!--<ion-card text-wrap padding="10px">-->\n          <ion-col>\n            {{sections.content || \'\'}}\n          </ion-col>\n          <!--<ion-col width-100>-->\n            <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->\n              <!--សំនួរ​បន្ទាប់-->\n              <!--<ion-icon name="arrow-forward"></ion-icon>-->\n            <!--</button>-->\n          <!--</ion-col>-->\n        <!--</ion-card>-->\n      </ion-row>\n    </ion-grid>\n  </ion-scroll>\n</ion-content>\n\n<ion-footer unit-footer>\n  <ion-toolbar color="lightgreen">\n    <!--<button ion-button float-start clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->\n      <!--<ion-icon name="arrow-back"></ion-icon>-->\n    <!--</button>-->\n    <button ion-button float-start clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section/section.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
@@ -444,87 +525,6 @@ var SectionPage = (function () {
 }());
 
 //# sourceMappingURL=section.js.map
-
-/***/ }),
-
-/***/ 112:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_sqlite__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_toast__ = __webpack_require__(169);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-/**
- * Generated class for the FormPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-var FormPage = (function () {
-    function FormPage(navCtrl, navParams, sqlite, toast) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.sqlite = sqlite;
-        this.toast = toast;
-        this.data = { fullName: "", userName: "", password: "", gender: "", school: "", district: "", province: "" };
-    }
-    FormPage.prototype.saveData = function () {
-        var _this = this;
-        this.sqlite.create({
-            name: 'biology.db',
-            location: 'default'
-        }).then(function (db) {
-            db.executeSql('INSERT INTO users VALUES(NULL,?,?,?,?,?,?,?)', [_this.data.fullName, _this.data.userName, _this.data.password, _this.data.gender, _this.data.school, _this.data.district, _this.data.province])
-                .then(function (res) {
-                console.log(res);
-                _this.toast.show('Data saved', '5000', 'center').subscribe(function (toast) {
-                    _this.navCtrl.popToRoot();
-                });
-            })
-                .catch(function (e) {
-                console.log(e);
-                _this.toast.show(e, '5000', 'center').subscribe(function (toast) {
-                    console.log(toast);
-                });
-            });
-        }).catch(function (e) {
-            console.log(e);
-            _this.toast.show(e, '5000', 'center').subscribe(function (toast) {
-                console.log(toast);
-            });
-        });
-    };
-    FormPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad FormPage');
-    };
-    FormPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-form',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/form/form.html"*/'<!--\n  Generated template for the FormPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>ទម្រង់អ្នកប្រើប្រាស់</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content xela padding>\n    <!--<form> (ngSubmit)="saveData()">-->\n      <div class="container">  \n        <ion-list>\n          <ion-item class="form1">\n            <ion-label>ឈ្មោះ</ion-label>\n            <ion-input type="text" [(ngModel)]="data.fullName" name="fullName" aria-required=""></ion-input>\n          </ion-item>\n        \n          <ion-item>\n            <ion-label>ឈ្មោះសម្គាល់</ion-label>\n            <ion-input type="text" [(ngModel)]="data.userName" name="userName" aria-required=""></ion-input>\n          </ion-item>\n\n          <ion-item>\n            <ion-label>ពាក្យសម្ងាត់</ion-label>\n            <ion-input type="password" [(ngModel)]="data.password" name="password" aria-required=""></ion-input>\n          </ion-item>\n        \n          <ion-item>\n              <ion-label>ភេទ</ion-label>\n              <ion-select [(ngModel)]="data.gender" >\n                <ion-option value="ស្រី">ស្រី</ion-option>\n                <ion-option value="ប្រុស">ប្រុស</ion-option>\n              </ion-select>\n          </ion-item>\n\n          <ion-item>\n            <ion-label>លេខទូរស័ព្ទ</ion-label>\n            <ion-input type="text" name="" aria-required=""></ion-input>\n          </ion-item>\n          \n          <ion-item>\n            <ion-label>សាលារៀន</ion-label>\n            <ion-input type="text" [(ngModel)]="data.school" name="school" aria-required=""></ion-input>\n          </ion-item>\n\n          <ion-item>\n            <ion-label>ស្រុក/ខណ្ឌ</ion-label>\n            <ion-input type="text" [(ngModel)]="data.district" name="district" aria-required=""></ion-input>\n          </ion-item>\n          <ion-item>\n            <ion-label>ខេត្ត/ក្រុង</ion-label>\n            <ion-input type="text" [(ngModel)]="data.province" name="province" aria-required=""></ion-input>\n          </ion-item>\n        </ion-list>\n     </div> \n   <!-- </form>-->\n\n      <div padding>\n          <button ion-button block color="primary">បោះបង់</button>\n      </div>\n      <div padding>\n          <button ion-button block color="primary" type="submit" (click)="saveData()">រក្សាទុក</button>\n      </div>\n      \n</ion-content>\n\n<ion-footer>\n  <ion-toolbar>\n      <button ion-button block clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n      </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/form/form.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2__ionic_native_sqlite__["a" /* SQLite */],
-            __WEBPACK_IMPORTED_MODULE_3__ionic_native_toast__["a" /* Toast */]])
-    ], FormPage);
-    return FormPage;
-}());
-
-//# sourceMappingURL=form.js.map
 
 /***/ }),
 
@@ -604,6 +604,10 @@ var StarterPage = (function () {
         // else => the total no. of records is different, then
         //  replace all records in App.
         // ======END OF API #4 ======== //
+        /*
+        ****** SINAT ******
+        condition to check number of question that user played and compared with setting before allow user to play game
+        */
         this.db.executeSQL("SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')")
             .then(function (res) {
             var num_q = res.rows.item(0).total; // num_q is a number that user have play for today
@@ -620,30 +624,13 @@ var StarterPage = (function () {
             else {
                 var alert_1 = _this.alertCtrl.create({
                     title: 'Welcome to Evolution!',
-                    subTitle: 'You have no more question for today!',
+                    message: 'You have no more question for today!',
                     buttons: ['Ok']
                 });
                 alert_1.present();
             }
             // }).catch(e => console.log((e)));
         }).catch(function (e) { return console.log((e)); });
-        //   let num_q = Number(localStorage.getItem('num_q'));
-        //   let num_quiz = Number(localStorage.getItem('settings'));
-        //   if (num_q < num_quiz){
-        //     console.log(num_q);
-        //     console.log(num_quiz);
-        //     this.navCtrl.push(
-        //       QuizPage);
-        // }else {
-        //   let alert = this.alertCtrl.create({
-        //     title: 'Welcome to Evolution!',
-        //     subTitle: 'You have no more question for today!',
-        //     buttons: ['Ok']
-        //   });
-        //   alert.present();
-        // }
-        // this.navCtrl.push(
-        //     QuizPage);
     };
     StarterPage.prototype.exitButtonClick = function () {
         var _this = this;
@@ -667,7 +654,7 @@ var StarterPage = (function () {
     };
     StarterPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-starter',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/starter/starter.html"*/'<!--\n  Generated template for the StarterPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header >\n\n  <ion-navbar >\n    <ion-title>Welcome to Evolution</ion-title>\n  </ion-navbar>\n\n</ion-header>\n<ion-content  class="content">\n\n  <div class="message ">\n    <ion-card no-padding>\n      <ion-card-content>\n        Today you have 3 Questions.\n      </ion-card-content>\n    </ion-card>\n  </div>\n  <div class="btnQuiz">\n    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToQuiz()">\n      Play\n    </button>\n  </div>\n  <div class="btnReview">\n    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToHomePage()">\n      Review\n    </button>\n  </div>\n</ion-content>\n\n<ion-footer class="footer">\n  <div class="btn-wrapper">\n    <button ion-button clear float-start (click)="exitButtonClick()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n    <button ion-button clear float-end (click)="aboutButtonClick()">\n      About\n    </button>\n  </div>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/starter/starter.html"*/,
+            selector: 'page-starter',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/starter/starter.html"*/'<!--\n  Generated template for the StarterPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header >\n\n  <ion-navbar >\n    <ion-title>Welcome to Evolution</ion-title>\n  </ion-navbar>\n\n</ion-header>\n<ion-content  class="content">\n\n  <div class="message ">\n    <ion-card no-padding>\n      <ion-card-content>\n        Today you have 2 Questions.\n      </ion-card-content>\n    </ion-card>\n  </div>\n  <div class="btnQuiz">\n    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToQuiz()">\n      Play\n    </button>\n  </div>\n  <div class="btnReview">\n    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToHomePage()">\n      Review\n    </button>\n  </div>\n</ion-content>\n\n<ion-footer class="footer">\n  <div class="btn-wrapper">\n    <button ion-button clear float-start (click)="exitButtonClick()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n    <button ion-button clear float-end (click)="aboutButtonClick()">\n      About\n    </button>\n  </div>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/starter/starter.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
@@ -706,31 +693,31 @@ webpackEmptyAsyncContext.id = 123;
 
 var map = {
 	"../pages/form/form.module": [
-		300,
+		292,
 		8
 	],
 	"../pages/lesson/lesson.module": [
-		292,
+		293,
 		7
 	],
 	"../pages/login/login.module": [
-		293,
+		294,
 		6
 	],
 	"../pages/question/question.module": [
-		294,
+		295,
 		5
 	],
 	"../pages/quiz/quiz.module": [
-		295,
+		296,
 		4
 	],
 	"../pages/section-review/section-review.module": [
-		296,
+		297,
 		3
 	],
 	"../pages/section/section.module": [
-		297,
+		298,
 		2
 	],
 	"../pages/starter/starter.module": [
@@ -738,7 +725,7 @@ var map = {
 		1
 	],
 	"../pages/welcome/welcome.module": [
-		298,
+		300,
 		0
 	]
 };
@@ -765,8 +752,8 @@ module.exports = webpackAsyncContext;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WelcomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_form__ = __webpack_require__(112);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_form__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(111);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -840,20 +827,20 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__(291);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_home_home__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_sqlite__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_toast__ = __webpack_require__(169);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_toast__ = __webpack_require__(167);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__providers_database_database__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_question_question__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_section_section__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_form_form__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_section_section__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(111);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_form_form__ = __webpack_require__(109);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_welcome_welcome__ = __webpack_require__(211);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__ionic_native_native_audio__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_lesson_lesson__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_quiz_quiz__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_section_review_section_review__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_section_review_section_review__ = __webpack_require__(110);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_starter_starter__ = __webpack_require__(113);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__providers_helpers_helpers__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_http__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_http__ = __webpack_require__(168);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -909,15 +896,15 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["e" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */], {}, {
                     links: [
+                        { loadChildren: '../pages/form/form.module#FormPageModule', name: 'FormPage', segment: 'form', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/lesson/lesson.module#LessonPageModule', name: 'LessonPage', segment: 'lesson', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/question/question.module#QuestionPageModule', name: 'QuestionPage', segment: 'question', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/quiz/quiz.module#QuizPageModule', name: 'QuizPage', segment: 'quiz', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/section-review/section-review.module#SectionReviewPageModule', name: 'SectionReviewPage', segment: 'section-review', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/section/section.module#SectionPageModule', name: 'SectionPage', segment: 'section', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/welcome/welcome.module#WelcomePageModule', name: 'WelcomePage', segment: 'welcome', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/starter/starter.module#StarterPageModule', name: 'StarterPage', segment: 'starter', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/form/form.module#FormPageModule', name: 'FormPage', segment: 'form', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/welcome/welcome.module#WelcomePageModule', name: 'WelcomePage', segment: 'welcome', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_21__angular_http__["c" /* HttpModule */]
@@ -1191,7 +1178,7 @@ var LessonPage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_database_database__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_native_audio__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__section_review_section_review__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__section_review_section_review__ = __webpack_require__(110);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1201,281 +1188,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-// import { Component } from '@angular/core';
-// import {AlertController, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
-// import { DatabaseProvider } from "../../providers/database/database";
-// import {SectionPage} from "../section/section";
-// import { NativeAudio } from '@ionic-native/native-audio';
-//
-//
-// /**
-//  * Generated class for the QuestionPage page.
-//  *
-//  * See https://ionicframework.com/docs/components/#navigation for more info on
-//  * Ionic pages and navigation.
-//  */
-//
-// @IonicPage()
-// @Component({
-//   selector: 'page-question',
-//template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/question/question.html"*/'<!--\n  Generated template for the QuestionPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="skyblue">\n    <ion-title>សំណួរ</ion-title>\n      <!--<ion-title>សំណួរទី {{current.question_number || \'\'}}</ion-title>  -->\n  </ion-navbar>\n</ion-header>\n<ion-content >\n    <ion-grid class="content">\n    <!--<ion-row class="content">-->\n        <!--<ion-col text-wrap width-100 padding>-->\n            <!--&lt;!&ndash;{{sections.image1}}&ndash;&gt;-->\n            <!--{{current.question_number || \'\'}}-->\n            <!--{{current.question_text || \'\'}}-->\n        <!--</ion-col>-->\n    <!--</ion-row>-->\n    <ion-row class="choice">\n        <ion-item>\n            <ion-item-sliding width-100 *ngFor="let answers of answers; let i=index">\n                <ion-item no-lines no-padding>\n                    <button ion-button class="btn btn-primary btn-lg btn3d" width-100 menu-header block color="primary" (click)="answer(answers.is_correct_answer, answers.question_id)">\n                        {{answers.answer_text}}\n                    </button>\n                </ion-item>\n            </ion-item-sliding>\n        </ion-item>\n    </ion-row>\n    </ion-grid>\n</ion-content>\n<ion-footer unit-footer>\n  <ion-toolbar  color="lightgreen">\n    <button ion-button float-start clear (click)="backButtonClick()">\n      <ion-icon name="arrow-back"></ion-icon>\n    </button>\n    <button ion-button clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/question/question.html"*/,
-// })
-// export class QuestionPage {
-//   current: any = {};
-//   questions: any = {};
-//   answers: any = [];
-//   lessonID: number;
-//   nextQuestion: number;
-//   //totalQuestion: number;
-//     userQuestion: number;
-//    //nativeAudio: NativeAudio = new NativeAudio();
-//   constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio) {
-//     // this.nat
-//     this.lessonID = navParams.get('lessonID');
-//     this.nextQuestion = this.navParams.get('nextQuestion');
-//     // this.getUserQuestion(1).then(()=>{
-//     //     this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.userQuestion}`)
-//     //         .then(res => {
-//     //             this.questions = {};
-//     //             var first = res.rows.item(0).id;
-//     //             for (var i = 0; i < res.rows.length; i++){
-//     //                 this.questions[res.rows.item(i).id] = {
-//     //                     id:res.rows.item(i).id,
-//     //                     question_number:res.rows.item(i).question_number,
-//     //                     question_text:res.rows.item(i).question_text,
-//     //                     image1:res.rows.item(i).image1,
-//     //                     image2:res.rows.item(i).image2,
-//     //                     image3:res.rows.item(i).image3,
-//     //                     question_sound:res.rows.item(i).question_sound,
-//     //                     num_of_answer:res.rows.item(i).num_of_answer,
-//     //                     correct_answer_number:res.rows.item(i).correct_answer_number,
-//     //                     score:res.rows.item(i).score,
-//     //                     section_id:res.rows.item(i).section_id,
-//     //                     correct_answer_sound:res.rows.item(i).correct_answer_sound,
-//     //                     incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
-//     //                     next_question_id:res.rows.item(i).next_question_id,
-//     //                     created_date:res.rows.item(i).created_date,
-//     //                     modified_date:res.rows.item(i).modified_date
-//     //                 }
-//     //                 //break;
-//     //             }
-//     //             console.log(this.questions);
-//     //             this.content(first);
-//     //
-//     //         }).catch(e => console.log((e)))
-//     // });
-//
-//   }
-//     ionViewDidEnter(){
-//         this.getUserQuestion(1).then(()=>{
-//             // this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.userQuestion}`)
-//             this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.userQuestion}`)
-//                 .then(res => {
-//                     this.questions = {};
-//                     var first = res.rows.item(0).id;
-//                     for (var i = 0; i < res.rows.length; i++){
-//                         this.questions[res.rows.item(i).id] = {
-//                             id:res.rows.item(i).id,
-//                             question_number:res.rows.item(i).question_number,
-//                             question_text:res.rows.item(i).question_text,
-//                             image1:res.rows.item(i).image1,
-//                             image2:res.rows.item(i).image2,
-//                             image3:res.rows.item(i).image3,
-//                             question_sound:res.rows.item(i).question_sound,
-//                             num_of_answer:res.rows.item(i).num_of_answer,
-//                             correct_answer_number:res.rows.item(i).correct_answer_number,
-//                             score:res.rows.item(i).score,
-//                             section_id:res.rows.item(i).section_id,
-//                             correct_answer_sound:res.rows.item(i).correct_answer_sound,
-//                             incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
-//                             next_question_id:res.rows.item(i).next_question_id,
-//                             created_date:res.rows.item(i).created_date,
-//                             modified_date:res.rows.item(i).modified_date
-//                         }
-//                         //break;
-//                     }
-//                     console.log(this.questions);
-//                     this.content(first);
-//
-//                 }).catch(e => console.log((e)))
-//         });
-//
-//     }
-//
-//
-//     ionViewWillLeave() {
-//         console.log("ionViewWillLeave(): View is about to leave, Stopping current playback sound.")
-//         this.nativeAudio.stop(this.current.id).then(() => {
-//             this.nativeAudio.unload(this.current.id);
-//         },()=>{
-//
-//         });
-//     }
-//
-//
-//   getQuestions(lesson_id: number){
-//       return this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${lesson_id}`)
-//           .then(res => {
-//               this.questions = {};
-//               var first = res.rows.item(0).id;
-//               for (var i = 0; i < res.rows.length; i++){
-//                   this.questions[res.rows.item(i).id] = {
-//                       id:res.rows.item(i).id,
-//                       question_number:res.rows.item(i).question_number,
-//                       question_text:res.rows.item(i).question_text,
-//                       image1:res.rows.item(i).image1,
-//                       image2:res.rows.item(i).image2,
-//                       image3:res.rows.item(i).image3,
-//                       question_sound:res.rows.item(i).question_sound,
-//                       num_of_answer:res.rows.item(i).num_of_answer,
-//                       correct_answer_number:res.rows.item(i).correct_answer_number,
-//                       score:res.rows.item(i).score,
-//                       section_id:res.rows.item(i).section_id,
-//                       correct_answer_sound:res.rows.item(i).correct_answer_sound,
-//                       incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
-//                       next_question_id:res.rows.item(i).next_question_id,
-//                       created_date:res.rows.item(i).created_date,
-//                       modified_date:res.rows.item(i).modified_date
-//                   }
-//                   //break;
-//               }
-//               console.log("questions", this.questions);
-//           }).catch(e => console.log((e)))
-//   };
-//
-//   getUserQuestion(user_id: number){
-//         return this.db.executeSQL(`SELECT * FROM user_questions WHERE user_id = ${user_id}`)
-//             .then(res => {
-//                 console.log("lesson", res);
-//                 this.userQuestion = res.rows.item(0).next_question_id;
-//             }).catch(e => {
-//                 console.log((e));
-//                 this.userQuestion =1;
-//             })
-//   }
-//
-//   getLessonID(question_id: number){
-//       return this.db.executeSQL(`SELECT * FROM questions WHERE question_number = ${question_id}`)
-//           .then(res => {
-//               console.log("lesson", res);
-//                   this.lessonID = res.rows.item(0).lesson_id;
-//           }).catch(e => console.log((e)))
-//   }
-//
-//   getAnswers(questions_id: number) {
-//     this.db.executeSQL(`SELECT * FROM answers WHERE question_id = ${questions_id}`)
-//         .then(res => {
-//           this.answers = [];
-//           console.log(res);
-//           for (var i = 0; i<res.rows.length; i++){
-//             this.answers.push({
-//               id:res.rows.item(i).id,
-//               answer_text:res.rows.item(i).answer_text,
-//               answer_order:res.rows.item(i).answer_order,
-//               answer_image:res.rows.item(i).answer_image,
-//               answer_sound:res.rows.item(i).answer_sound,
-//               question_id:res.rows.item(i).question_id,
-//               is_correct_answer:res.rows.item(i).is_correct_answer,
-//               created_date:res.rows.item(i).created_date,
-//               modified_date:res.rows.item(i).modified_date
-//             })
-//           }
-//         }).catch(e => console.log((e)))
-//   }
-//
-//   content(id) {
-//     console.log(id);
-//     //console.log(this.current);
-//
-//     if (this.nextQuestion){
-//         let temp = this.questions[this.nextQuestion];
-//         if (typeof temp !== 'undefined') {
-//             //Get Next Question
-//             this.current = temp;
-//         }
-//         console.group('Current');
-//         console.log('Get Next Question: ', this.current);
-//         console.groupEnd();
-//
-//         if (typeof temp == 'undefined'){
-//             this.getLessonID(this.nextQuestion).then(()=>{
-//                 console.log("LESSON_DATA:" + this.lessonID);
-//                 this.getQuestions(this.lessonID).then(()=>{
-//                     console.log("QUS", this.questions);
-//                     this.current = this.questions[this.nextQuestion];
-//                     this.getAnswers(this.current.id);
-//                     this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
-//                         this.nativeAudio.play(this.current.id, ()=>{
-//                             this.nativeAudio.unload(this.current.id);
-//                         });
-//                     });
-//                     console.log(this.current.question_sound);
-//                 });
-//             });
-//         } else {
-//             this.getAnswers(this.current.id);
-//         }
-//     }
-//     else{
-//         this.current = this.questions[id];
-//         // console.log(this.current);
-//         this.getAnswers(this.current.id);
-//         this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
-//             this.nativeAudio.play(this.current.id, ()=>{
-//                 this.nativeAudio.unload(this.current.id);
-//             });
-//         });console.log(this.current.question_sound);
-//     }
-//
-//
-//   }
-//   public answer (correct_ans: number, question_id: number){
-//       this.db.executeSQL(`select * from questions where id = '${question_id}'`)
-//           .then(res => {
-//               let section_id = res.rows.item(0).section_id;
-//               let next_question_id = res.rows.item(0).next_question_id;
-//               console.log('section_id', section_id);
-//               //Save User_Question
-//               this.db.executeSQL(`INSERT INTO user_question ( num_of_ans, next_question_id) VALUES ("' + correct_ans + '","' + next_question_id + '")`).then(res=>{
-//                   console.log(res);
-//               });
-//               //End Save
-//               console.log(this.current.question_sound);
-//               this.navCtrl.push(SectionPage, {
-//                   answerCorrect: correct_ans,
-//                   sectionID: section_id,
-//                   nextQuestionID: next_question_id
-//               });
-//           });
-//   }
-//     exitButtonClick() {
-//         let alert = this.alertCtrl.create({
-//             title: 'ចាកចេញ',
-//             message: 'តើ​អ្នក​ពិត​ជា​ចង់​ចាក​ចេញ​ពី​កម្មវិធី​នេះ?​',
-//             buttons: [
-//                 {
-//                     text: "ទេ",
-//                     role: 'cancel'
-//                 },
-//                 {
-//                     text: "បាទ​ / ចាស",
-//                     handler: () => {
-//                         this.platform.exitApp();
-//                     }
-//                 },
-//             ]
-//         });
-//         alert.present();
-//     }
-//
-//     private replayButtonClick() {
-//         this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
-//             this.nativeAudio.play(this.current.id, ()=>{
-//                 this.nativeAudio.unload(this.current.id);
-//             });
-//         });console.log(this.current.question_sound);
-//     }
-// }
 
 
 
@@ -1503,35 +1215,6 @@ var QuestionPage = (function () {
         this.lessonID = navParams.get('lessonID');
         this.currentQuestionID = this.navParams.get('currentQuestionID');
         this.chapterID = this.navParams.get('chapterID');
-        // this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${this.lessonID}`)
-        //     .then(res => {
-        //         this.questions = {};
-        //         var first = res.rows.item(0).id;
-        //         for (var i = 0; i < res.rows.length; i++){
-        //             this.questions[res.rows.item(i).id] = {
-        //                 id:res.rows.item(i).id,
-        //                 question_number:res.rows.item(i).question_number,
-        //                 question_text:res.rows.item(i).question_text,
-        //                 image1:res.rows.item(i).image1,
-        //                 image2:res.rows.item(i).image2,
-        //                 image3:res.rows.item(i).image3,
-        //                 question_sound:res.rows.item(i).question_sound,
-        //                 num_of_answer:res.rows.item(i).num_of_answer,
-        //                 correct_answer_number:res.rows.item(i).correct_answer_number,
-        //                 score:res.rows.item(i).score,
-        //                 section_id:res.rows.item(i).section_id,
-        //                 correct_answer_sound:res.rows.item(i).correct_answer_sound,
-        //                 incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
-        //                 next_question_id:res.rows.item(i).next_question_id,
-        //                 created_date:res.rows.item(i).created_date,
-        //                 modified_date:res.rows.item(i).modified_date
-        //             }
-        //             //break;
-        //         }
-        //         console.log(this.questions);
-        //         this.content(first);
-        //
-        //     }).catch(e => console.log((e)))
         platform.ready().then(function () {
             //Registration of push in Android and Windows Phone
             platform.registerBackButtonAction(function () {
@@ -1638,42 +1321,6 @@ var QuestionPage = (function () {
         }).catch(function (e) { return console.log((e)); });
     };
     ;
-    // getQuestions(lesson_id: number){
-    //     return this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${lesson_id}`)
-    //         .then(res => {
-    //             this.questions = {};
-    //             var first = res.rows.item(0).id;
-    //             for (var i = 0; i < res.rows.length; i++){
-    //                 this.questions[res.rows.item(i).id] = {
-    //                     id:res.rows.item(i).id,
-    //                     question_number:res.rows.item(i).question_number,
-    //                     question_text:res.rows.item(i).question_text,
-    //                     image1:res.rows.item(i).image1,
-    //                     image2:res.rows.item(i).image2,
-    //                     image3:res.rows.item(i).image3,
-    //                     question_sound:res.rows.item(i).question_sound,
-    //                     num_of_answer:res.rows.item(i).num_of_answer,
-    //                     correct_answer_number:res.rows.item(i).correct_answer_number,
-    //                     score:res.rows.item(i).score,
-    //                     section_id:res.rows.item(i).section_id,
-    //                     correct_answer_sound:res.rows.item(i).correct_answer_sound,
-    //                     incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
-    //                     next_question_id:res.rows.item(i).next_question_id,
-    //                     created_date:res.rows.item(i).created_date,
-    //                     modified_date:res.rows.item(i).modified_date
-    //                 }
-    //                 //break;
-    //             }
-    //             console.log("questions", this.questions);
-    //         }).catch(e => console.log((e)))
-    // }
-    // getLessonID(question_id: number){
-    //     return this.db.executeSQL(`SELECT * FROM questions WHERE question_number = ${question_id}`)
-    //         .then(res => {
-    //             console.log("lesson", res);
-    //             this.lessonID = res.rows.item(0).lesson_id;
-    //         }).catch(e => console.log((e)))
-    // }
     /*
     Get list of answer query by question_id
      */
@@ -1750,56 +1397,6 @@ var QuestionPage = (function () {
             console.log(this.current.question_sound);
         }
     };
-    //   content(id) {
-    //   console.log(id);
-    //   // console.log(this.current);
-    //
-    //   if (this.nextQuestion){
-    //       let temp = this.questions[this.nextQuestion];
-    //       if (typeof temp !== 'undefined') {
-    //           //Get Next Question
-    //           this.current = temp;
-    //       }
-    //       // console.group('Current');
-    //       // console.log('Get Next Question: ', this.current);
-    //       // console.groupEnd();
-    //
-    //       if (typeof temp == 'undefined'){
-    //           this.getLessonID(this.nextQuestion).then(()=>{
-    //               console.log("LESSON_DATA:" + this.lessonID);
-    //               this.getQuestions(this.lessonID).then(()=>{
-    //                   console.log("QUS", this.questions);
-    //                   this.current = this.questions[this.nextQuestion];
-    //                   this.getAnswers(this.current.id);
-    //                   this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
-    //                       this.nativeAudio.play(this.current.id, ()=>{
-    //                           this.nativeAudio.unload(this.current.id);
-    //                       });
-    //                   });
-    //                   console.log('play',this.current.question_sound);
-    //               });
-    //           });
-    //       } else {
-    //           this.getAnswers(this.current.id);
-    //           this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
-    //               this.nativeAudio.play(this.current.id, ()=>{
-    //                   this.nativeAudio.unload(this.current.id);
-    //               });
-    //           });
-    //       }
-    //   }
-    //   else{
-    //       this.current = this.questions[id];
-    //       // console.log(this.current);
-    //       this.getAnswers(this.current.id);
-    //       this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
-    //           this.nativeAudio.play(this.current.id, ()=>{
-    //               this.nativeAudio.unload(this.current.id);
-    //           });
-    //       });console.log('playsound',this.current.question_sound);
-    //   }
-    //
-    // }
     /*
     this function when click on answer and push to SectionReviewPage with
     (answerCorrect, sectionID, questionID, lessonId, chapterID)
@@ -1922,7 +1519,7 @@ var QuestionPage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_database_database__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__section_section__ = __webpack_require__(111);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__section_section__ = __webpack_require__(112);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_native_audio__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_helpers_helpers__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_sqlite__ = __webpack_require__(42);
@@ -2564,7 +2161,7 @@ var HomePage = (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HelpersProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(168);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(269);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);

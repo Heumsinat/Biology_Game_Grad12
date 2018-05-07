@@ -67,8 +67,9 @@ export class StarterPage {
     //  replace all records in App.
     // ======END OF API #4 ======== //
 
-    /* *** SINAT ***
-    condition to check number of question that user played and compared with setting before alow user to play game
+    /*
+    ****** SINAT ******
+    condition to check number of question that user played and compared with setting before allow user to play game
     */
     this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')`)
             .then(res => {
@@ -87,7 +88,7 @@ export class StarterPage {
               }else {
                 let alert = this.alertCtrl.create({
                   title: 'Welcome to Evolution!',
-                  subTitle: 'You have no more question for today!',
+                  message: 'You have no more question for today!',
                   buttons: ['Ok']
                 });
             
