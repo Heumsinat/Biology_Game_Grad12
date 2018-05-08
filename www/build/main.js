@@ -1,6 +1,89 @@
-webpackJsonp([9],{
+webpackJsonp([10],{
 
-/***/ 111:
+/***/ 112:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FacebookPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_facebook__ = __webpack_require__(85);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+/**
+ * Generated class for the FacebookPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var FacebookPage = (function () {
+    function FacebookPage(navCtrl, navParams, fb) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.fb = fb;
+        this.isLoggedIn = false;
+        this.getFbData();
+    }
+    FacebookPage.prototype.getFbData = function () {
+        var _this = this;
+        this.fb.login(['public_profile', 'user_friends', 'email'])
+            .then(function (res) {
+            if (res.status === "connected") {
+                _this.isLoggedIn = true;
+                _this.getUserDetail(res.authResponse.userID);
+            }
+            else {
+                _this.isLoggedIn = false;
+            }
+        })
+            .catch(function (e) { return console.log('Error logging into Facebook', e); });
+    };
+    FacebookPage.prototype.getUserDetail = function (userid) {
+        var _this = this;
+        this.fb.api("/" + userid + "/?fields=id,email,name,picture", ["public_profile"])
+            .then(function (res) {
+            console.log(res);
+            _this.users = res;
+        })
+            .catch(function (e) {
+            console.log(e);
+        });
+    };
+    FacebookPage.prototype.logout = function () {
+        var _this = this;
+        this.fb.logout()
+            .then(function (res) { return _this.isLoggedIn = false; })
+            .catch(function (e) { return console.log('Error logout from Facebook', e); });
+    };
+    FacebookPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad FacebookPage');
+    };
+    FacebookPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-facebook',template:/*ion-inline-start:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/facebook/facebook.html"*/'<!--\n  Generated template for the FacebookPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>facebook</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n    \n    <ion-grid>\n        <div *ngIf="isLoggedIn; else facebookLogin">\n            <h2>Hi, {{users.name}} ({{users.email}}), how are you??</h2>\n            <!-- <p>\n              Gender: {{users.gender}}\n            </p> -->\n            <p>\n              <img src="{{users.picture.data.url}}" width="100" alt="{{users.name}}" />\n            </p>\n            <!-- <p>\n              {{users.friends}}\n            </p> -->\n            <button ion-button (click)="logout()">Logout</button>\n        </div>\n    </ion-grid>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/facebook/facebook.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_2__ionic_native_facebook__["a" /* Facebook */]])
+    ], FacebookPage);
+    return FacebookPage;
+}());
+
+//# sourceMappingURL=facebook.js.map
+
+/***/ }),
+
+/***/ 113:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9,8 +92,8 @@ webpackJsonp([9],{
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_database_database__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_sqlite__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_toast__ = __webpack_require__(86);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__home_home__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_toast__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__home_home__ = __webpack_require__(88);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -306,7 +389,7 @@ var FormPage = (function () {
 
 /***/ }),
 
-/***/ 112:
+/***/ 114:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -500,14 +583,14 @@ var SectionReviewPage = (function () {
 
 /***/ }),
 
-/***/ 113:
+/***/ 115:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__starter_starter__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__starter_starter__ = __webpack_require__(116);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -609,18 +692,18 @@ var LoginPage = (function () {
 
 /***/ }),
 
-/***/ 114:
+/***/ 116:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StarterPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__quiz_quiz__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_sqlite__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_helpers_helpers__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_async__ = __webpack_require__(171);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_helpers_helpers__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_async__ = __webpack_require__(173);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_async___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_async__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_database_database__ = __webpack_require__(22);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -973,7 +1056,7 @@ var StarterPage = (function () {
 
 /***/ }),
 
-/***/ 115:
+/***/ 117:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1153,17 +1236,18 @@ var SectionPage = (function () {
 
 /***/ }),
 
-/***/ 116:
+/***/ 118:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WelcomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_toast__ = __webpack_require__(86);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__form_form__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__login_login__ = __webpack_require__(113);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_facebook__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_toast__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__form_form__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__login_login__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__facebook_facebook__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_facebook__ = __webpack_require__(85);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1179,6 +1263,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 /**
  * Generated class for the WelcomePage page.
  *
@@ -1186,6 +1271,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Ionic pages and navigation.
  */
 var WelcomePage = (function () {
+    // isLoggedIn:boolean = false;
+    // users: any;
     function WelcomePage(navCtrl, navParams, alertCtrl, platform, fb, toast) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
@@ -1193,7 +1280,6 @@ var WelcomePage = (function () {
         this.platform = platform;
         this.fb = fb;
         this.toast = toast;
-        this.isLoggedIn = false;
         typeof this.navParams.get('infoID') == 'undefined' ? this.infoID = 'root' : this.infoID = this.navParams.get('infoID');
         //           fb.getLoginStatus()
         // .then(res => {
@@ -1208,33 +1294,11 @@ var WelcomePage = (function () {
     }
     WelcomePage_1 = WelcomePage;
     WelcomePage.prototype.fbForm = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__facebook_facebook__["a" /* FacebookPage */]);
         // this.fb.login(['public_profile', 'user_friends', 'email'])
         //     .then((res: FacebookLoginResponse) => console.log('Logged into Facebook!', res))
         //     .catch(e => console.log('Error logging into Facebook', e));
-        var _this = this;
         // this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
-        this.fb.login(['public_profile', 'user_friends', 'email'])
-            .then(function (res) {
-            if (res.status === "connected") {
-                _this.isLoggedIn = true;
-                _this.getUserDetail(res.authResponse.userID);
-            }
-            else {
-                _this.isLoggedIn = false;
-            }
-        })
-            .catch(function (e) { return console.log('Error logging into Facebook', e); });
-    };
-    WelcomePage.prototype.getUserDetail = function (userid) {
-        var _this = this;
-        this.fb.api("/" + userid + "/?fields=id,email,name,picture,gender", ["public_profile"])
-            .then(function (res) {
-            console.log(res);
-            _this.users = res;
-        })
-            .catch(function (e) {
-            console.log(e);
-        });
     };
     WelcomePage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad WelcomePage');
@@ -1275,13 +1339,13 @@ var WelcomePage = (function () {
     };
     WelcomePage = WelcomePage_1 = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-welcome',template:/*ion-inline-start:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/welcome/welcome.html"*/'<!--\n  Generated template for the WelcomePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <!--<ion-navbar>\n    <ion-title>ការវិវត្តនៃភាវរស់</ion-title>\n  </ion-navbar>-->\n\n</ion-header>\n\n<ion-content xela class="background-img">\n    \n\n    <!-- <ion-label class="content"></ion-label>\n    \n      <div padding>\n        <button ion-button block class="btn btn-primary btn-lg btn3d" id="btn1"><ion-icon class="ficon" name="logo-facebook"></ion-icon>Facebook</button>\n      </div>\n      <div padding>\n        <button ion-button block class="btn btn-primary btn-lg btn3d" (click)="createForm()">Register</button>\n      </div>\n  \n        <ion-label class="content1" (click)="login()">Log In</ion-label>\n        <ion-label class="content2" color="blue">About Evolution</ion-label> -->\n    \n<!-- </ion-content> -->\n\n<!-- <ion-footer>\n    <ion-toolbar>\n        <button ion-button block clear (click)="exitButtonClick()" (press)="toggleDebug()">\n        <ion-icon name="power"></ion-icon>\n        </button> -->\n\n    <ion-grid *ngIf="infoID == \'root\'">\n    \n        <div padding id="btn1">\n          <button class="btn btn-primary btn-lg btn3d" (click)="info(\'C2\')" (click)="fbForm()"><ion-icon class="ficon" name="logo-facebook"></ion-icon>Facebook</button>\n          \n        </div>\n        <div padding id="btn2">\n          <button class="btn btn-primary btn-lg btn3d" (click)="createForm()">Register</button>\n        </div>\n    \n        <ion-label class="content1" (click)="login()">Log In</ion-label>\n\n    </ion-grid>\n\n\n\n    <ion-grid *ngIf="infoID == \'C2\'">\n        <div *ngIf="isLoggedIn; else facebookLogin">\n            <h2>Hi, {{users.name}} ({{users.email}}), how are you??</h2>\n            <p>\n              Gender: {{users.gender}}\n            </p>\n            <p>\n              <img src="{{users.picture.data.url}}" width="100" alt="{{users.name}}" />\n            </p>\n        </div>\n    </ion-grid>\n\n\n\n    <ion-grid *ngIf="infoID == \'C1\'">\n        <ion-scroll scrollbar-y="true" scrollbar-x="true">\n      <div class="evo">\n          <ion-label><b>Evidence of Evolution</b></ion-label>\n            <p>               \n                We cannot watch changes in life directly. They take place over thousands or millions of years. However, scientists cannot find proof that these changes have taken place. Important evidence for evolution comes from fossils, the leftovers of ancient life. When animals or plants die they are pressed into sand or clay. Over millions of years rocks are formed.\n                \n                FossilsScientists have found out that different fossils are found in rocks of different ages. For example, the oldest rocks of our earth are about 3.8 billion years old. They contain no fossils because there was probably no life at that time. Fossils of bacteria appear in rocks that are about 3.5 billion years old. Fish , reptile and mammal fossils appear in younger rocks. Human fossils are found only in the youngest and highest rock layers.\n                \n                Fossils also show that certain groups of animals have evolved from other groups. Amphibians evolved from fish that could breathe air and move on land. They had legs but also scales and a fin.\n            </p>\n\n            <p>    \n                Birds probably evolved from dinosaurs. The archaeopteryx was an animal that had feathers like a bird and could fly. It also had teeth, claws on its wings and a skeleton that looked like a meat-eating dinosaur.\n                \n                But even without fossils there is other proof which shows that evolution has taken place. Different species often have similar features which they probably got from a common ancestor. For example the front limbs of lizards, birds, bats and humans are very much alike. They have one bone in the upper arm, two in the forearm, wrist bones and five fingers.\n                \n                Living creatures might also have structures that they have inherited from an ancestor but have become useless. They don\'t need them any more. Pythons, for example, have the remains of back leg bones, but snakes do not have such legs. The appendix was used by animals that ate only plants but in our bodies these organs have become useless.\n                \n                The way in which different species occur all over the world also gives us evidence for evolution. Similar species, for example, are found together in certain areas. All types of kangaroos are found in Australia. This is because the kangaroos\' ancestors also lived there.\n                \n                Plants and animals do not always live in ideal places. Tropical ocean islands, for example, are ideal places for frogs to live, but no frogs \n            </p>\n          \n      </div>\n    </ion-scroll>\n    </ion-grid>\n\n</ion-content>\n\n<ion-footer >\n    <ion-toolbar *ngIf="infoID == \'C1\'">\n        <button ion-button clear *ngIf="infoID == \'C1\'" class="bicon" (click)="backButtonClick()">\n          <ion-icon name="md-arrow-round-back"></ion-icon>\n        </button>\n        <button ion-button clear *ngIf="infoID == \'C1\'" class="eicon" (click)="exitButtonClick()">\n          <ion-icon name="power"></ion-icon>\n        </button>\n    </ion-toolbar>\n    <ion-toolbar *ngIf="infoID == \'root\'" transparent>\n        <button ion-button clear *ngIf="infoID == \'root\'" class="eicon" (click)="exitButtonClick()">\n            <ion-icon name="power"></ion-icon>\n        </button>\n        <button ion-button clear *ngIf="infoID == \'root\'" class="content2" (click)="info(\'C1\')" color="blue">About</button>\n\n    </ion-toolbar>\n  </ion-footer>'/*ion-inline-end:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/welcome/welcome.html"*/,
+            selector: 'page-welcome',template:/*ion-inline-start:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/welcome/welcome.html"*/'<!--\n  Generated template for the WelcomePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <!--<ion-navbar>\n    <ion-title>ការវិវត្តនៃភាវរស់</ion-title>\n  </ion-navbar>-->\n\n</ion-header>\n\n<ion-content xela class="background-img">\n    \n\n    <!-- <ion-label class="content"></ion-label>\n    \n      <div padding>\n        <button ion-button block class="btn btn-primary btn-lg btn3d" id="btn1"><ion-icon class="ficon" name="logo-facebook"></ion-icon>Facebook</button>\n      </div>\n      <div padding>\n        <button ion-button block class="btn btn-primary btn-lg btn3d" (click)="createForm()">Register</button>\n      </div>\n  \n        <ion-label class="content1" (click)="login()">Log In</ion-label>\n        <ion-label class="content2" color="blue">About Evolution</ion-label> -->\n    \n<!-- </ion-content> -->\n\n<!-- <ion-footer>\n    <ion-toolbar>\n        <button ion-button block clear (click)="exitButtonClick()" (press)="toggleDebug()">\n        <ion-icon name="power"></ion-icon>\n        </button> -->\n\n    <ion-grid *ngIf="infoID == \'root\'">\n    \n        <div padding id="btn1">\n          <button class="btn btn-primary btn-lg btn3d" (click)="fbForm()"><ion-icon class="ficon" name="logo-facebook"></ion-icon>Facebook</button>\n          \n        </div>\n        <div padding id="btn2">\n          <button class="btn btn-primary btn-lg btn3d" (click)="createForm()">Register</button>\n        </div>\n    \n        <ion-label class="content1" (click)="login()">Log In</ion-label>\n\n    </ion-grid>\n\n\n\n   \n\n\n\n    <ion-grid *ngIf="infoID == \'C1\'">\n        <ion-scroll scrollbar-y="true" scrollbar-x="true">\n      <div class="evo">\n          <ion-label><b>Evidence of Evolution</b></ion-label>\n            <p>               \n                We cannot watch changes in life directly. They take place over thousands or millions of years. However, scientists cannot find proof that these changes have taken place. Important evidence for evolution comes from fossils, the leftovers of ancient life. When animals or plants die they are pressed into sand or clay. Over millions of years rocks are formed.\n                \n                FossilsScientists have found out that different fossils are found in rocks of different ages. For example, the oldest rocks of our earth are about 3.8 billion years old. They contain no fossils because there was probably no life at that time. Fossils of bacteria appear in rocks that are about 3.5 billion years old. Fish , reptile and mammal fossils appear in younger rocks. Human fossils are found only in the youngest and highest rock layers.\n                \n                Fossils also show that certain groups of animals have evolved from other groups. Amphibians evolved from fish that could breathe air and move on land. They had legs but also scales and a fin.\n            </p>\n\n            <p>    \n                Birds probably evolved from dinosaurs. The archaeopteryx was an animal that had feathers like a bird and could fly. It also had teeth, claws on its wings and a skeleton that looked like a meat-eating dinosaur.\n                \n                But even without fossils there is other proof which shows that evolution has taken place. Different species often have similar features which they probably got from a common ancestor. For example the front limbs of lizards, birds, bats and humans are very much alike. They have one bone in the upper arm, two in the forearm, wrist bones and five fingers.\n                \n                Living creatures might also have structures that they have inherited from an ancestor but have become useless. They don\'t need them any more. Pythons, for example, have the remains of back leg bones, but snakes do not have such legs. The appendix was used by animals that ate only plants but in our bodies these organs have become useless.\n                \n                The way in which different species occur all over the world also gives us evidence for evolution. Similar species, for example, are found together in certain areas. All types of kangaroos are found in Australia. This is because the kangaroos\' ancestors also lived there.\n                \n                Plants and animals do not always live in ideal places. Tropical ocean islands, for example, are ideal places for frogs to live, but no frogs \n            </p>\n          \n      </div>\n    </ion-scroll>\n    </ion-grid>\n\n</ion-content>\n\n<ion-footer >\n    <ion-toolbar *ngIf="infoID == \'C1\'">\n        <button ion-button clear *ngIf="infoID == \'C1\'" class="bicon" (click)="backButtonClick()">\n          <ion-icon name="md-arrow-round-back"></ion-icon>\n        </button>\n        <button ion-button clear *ngIf="infoID == \'C1\'" class="eicon" (click)="exitButtonClick()">\n          <ion-icon name="power"></ion-icon>\n        </button>\n    </ion-toolbar>\n    <ion-toolbar *ngIf="infoID == \'root\'" transparent>\n        <button ion-button clear *ngIf="infoID == \'root\'" class="eicon" (click)="exitButtonClick()">\n            <ion-icon name="power"></ion-icon>\n        </button>\n        <button ion-button clear *ngIf="infoID == \'root\'" class="content2" (click)="info(\'C1\')" color="blue">About</button>\n\n    </ion-toolbar>\n  </ion-footer>'/*ion-inline-end:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/welcome/welcome.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */],
-            __WEBPACK_IMPORTED_MODULE_5__ionic_native_facebook__["a" /* Facebook */],
+            __WEBPACK_IMPORTED_MODULE_6__ionic_native_facebook__["a" /* Facebook */],
             __WEBPACK_IMPORTED_MODULE_2__ionic_native_toast__["a" /* Toast */]])
     ], WelcomePage);
     return WelcomePage;
@@ -1292,7 +1356,7 @@ var WelcomePage = (function () {
 
 /***/ }),
 
-/***/ 126:
+/***/ 128:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -1305,48 +1369,52 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 126;
+webpackEmptyAsyncContext.id = 128;
 
 /***/ }),
 
-/***/ 168:
+/***/ 170:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"../pages/facebook/facebook.module": [
+		299,
+		9
+	],
 	"../pages/form/form.module": [
-		298,
+		300,
 		8
 	],
 	"../pages/lesson/lesson.module": [
-		299,
+		301,
 		7
 	],
 	"../pages/login/login.module": [
-		300,
+		302,
 		6
 	],
 	"../pages/question/question.module": [
-		301,
+		304,
 		5
 	],
 	"../pages/quiz/quiz.module": [
-		302,
+		303,
 		4
 	],
 	"../pages/section-review/section-review.module": [
-		303,
+		305,
 		3
 	],
 	"../pages/section/section.module": [
-		304,
+		306,
 		2
 	],
 	"../pages/starter/starter.module": [
-		305,
+		308,
 		1
 	],
 	"../pages/welcome/welcome.module": [
-		306,
+		307,
 		0
 	]
 };
@@ -1361,12 +1429,12 @@ function webpackAsyncContext(req) {
 webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 	return Object.keys(map);
 };
-webpackAsyncContext.id = 168;
+webpackAsyncContext.id = 170;
 module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 215:
+/***/ 216:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1477,13 +1545,13 @@ var IonFormWizard = (function () {
 
 /***/ }),
 
-/***/ 216:
+/***/ 217:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(217);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(218);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(241);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -1578,7 +1646,7 @@ var DatabaseProvider = (function () {
 
 /***/ }),
 
-/***/ 240:
+/***/ 241:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1586,35 +1654,37 @@ var DatabaseProvider = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(213);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__ = __webpack_require__(214);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__(294);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_home_home__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__ = __webpack_require__(215);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__(295);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_home_home__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_sqlite__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_toast__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_toast__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__providers_database_database__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_question_question__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_section_section__ = __webpack_require__(115);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(113);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_form_form__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_welcome_welcome__ = __webpack_require__(116);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__wizard_component__ = __webpack_require__(215);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__wizard_step_component__ = __webpack_require__(295);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__angular_platform_browser_animations__ = __webpack_require__(296);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__ionic_native_facebook__ = __webpack_require__(173);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__ionic_native_native_audio__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_lesson_lesson__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_quiz_quiz__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_section_review_section_review__ = __webpack_require__(112);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_starter_starter__ = __webpack_require__(114);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__providers_helpers_helpers__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__angular_http__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_section_section__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_form_form__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_welcome_welcome__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_facebook_facebook__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__wizard_component__ = __webpack_require__(216);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__wizard_step_component__ = __webpack_require__(296);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__angular_platform_browser_animations__ = __webpack_require__(297);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__ionic_native_facebook__ = __webpack_require__(85);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__ionic_native_native_audio__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_lesson_lesson__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_quiz_quiz__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_section_review_section_review__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_starter_starter__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__providers_helpers_helpers__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__angular_http__ = __webpack_require__(172);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -1649,61 +1719,63 @@ var AppModule = (function () {
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */],
                 __WEBPACK_IMPORTED_MODULE_6__pages_home_home__["a" /* HomePage */],
-                __WEBPACK_IMPORTED_MODULE_20__pages_lesson_lesson__["a" /* LessonPage */],
+                __WEBPACK_IMPORTED_MODULE_21__pages_lesson_lesson__["a" /* LessonPage */],
                 __WEBPACK_IMPORTED_MODULE_10__pages_question_question__["a" /* QuestionPage */],
                 __WEBPACK_IMPORTED_MODULE_11__pages_section_section__["a" /* SectionPage */],
                 __WEBPACK_IMPORTED_MODULE_12__pages_login_login__["a" /* LoginPage */],
                 __WEBPACK_IMPORTED_MODULE_13__pages_form_form__["a" /* FormPage */],
                 __WEBPACK_IMPORTED_MODULE_14__pages_welcome_welcome__["a" /* WelcomePage */],
-                __WEBPACK_IMPORTED_MODULE_21__pages_quiz_quiz__["a" /* QuizPage */],
-                __WEBPACK_IMPORTED_MODULE_22__pages_section_review_section_review__["a" /* SectionReviewPage */],
-                __WEBPACK_IMPORTED_MODULE_23__pages_starter_starter__["a" /* StarterPage */],
-                __WEBPACK_IMPORTED_MODULE_15__wizard_component__["a" /* IonFormWizard */],
-                __WEBPACK_IMPORTED_MODULE_16__wizard_step_component__["a" /* IonFormWizardStep */],
-                __WEBPACK_IMPORTED_MODULE_18__ionic_native_facebook__["a" /* Facebook */]
+                __WEBPACK_IMPORTED_MODULE_15__pages_facebook_facebook__["a" /* FacebookPage */],
+                __WEBPACK_IMPORTED_MODULE_22__pages_quiz_quiz__["a" /* QuizPage */],
+                __WEBPACK_IMPORTED_MODULE_23__pages_section_review_section_review__["a" /* SectionReviewPage */],
+                __WEBPACK_IMPORTED_MODULE_24__pages_starter_starter__["a" /* StarterPage */],
+                __WEBPACK_IMPORTED_MODULE_16__wizard_component__["a" /* IonFormWizard */],
+                __WEBPACK_IMPORTED_MODULE_17__wizard_step_component__["a" /* IonFormWizardStep */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["f" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */], {}, {
                     links: [
+                        { loadChildren: '../pages/facebook/facebook.module#FacebookPageModule', name: 'FacebookPage', segment: 'facebook', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/form/form.module#FormPageModule', name: 'FormPage', segment: 'form', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/lesson/lesson.module#LessonPageModule', name: 'LessonPage', segment: 'lesson', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/question/question.module#QuestionPageModule', name: 'QuestionPage', segment: 'question', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/quiz/quiz.module#QuizPageModule', name: 'QuizPage', segment: 'quiz', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/question/question.module#QuestionPageModule', name: 'QuestionPage', segment: 'question', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/section-review/section-review.module#SectionReviewPageModule', name: 'SectionReviewPage', segment: 'section-review', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/section/section.module#SectionPageModule', name: 'SectionPage', segment: 'section', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/starter/starter.module#StarterPageModule', name: 'StarterPage', segment: 'starter', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/welcome/welcome.module#WelcomePageModule', name: 'WelcomePage', segment: 'welcome', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/welcome/welcome.module#WelcomePageModule', name: 'WelcomePage', segment: 'welcome', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/starter/starter.module#StarterPageModule', name: 'StarterPage', segment: 'starter', priority: 'low', defaultHistory: [] }
                     ]
                 }),
-                __WEBPACK_IMPORTED_MODULE_25__angular_http__["c" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_17__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */]
+                __WEBPACK_IMPORTED_MODULE_26__angular_http__["c" /* HttpModule */],
+                __WEBPACK_IMPORTED_MODULE_18__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */]
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicApp */]],
             entryComponents: [
                 __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */],
                 __WEBPACK_IMPORTED_MODULE_6__pages_home_home__["a" /* HomePage */],
-                __WEBPACK_IMPORTED_MODULE_20__pages_lesson_lesson__["a" /* LessonPage */],
+                __WEBPACK_IMPORTED_MODULE_21__pages_lesson_lesson__["a" /* LessonPage */],
                 __WEBPACK_IMPORTED_MODULE_10__pages_question_question__["a" /* QuestionPage */],
                 __WEBPACK_IMPORTED_MODULE_11__pages_section_section__["a" /* SectionPage */],
                 __WEBPACK_IMPORTED_MODULE_12__pages_login_login__["a" /* LoginPage */],
                 __WEBPACK_IMPORTED_MODULE_13__pages_form_form__["a" /* FormPage */],
                 __WEBPACK_IMPORTED_MODULE_14__pages_welcome_welcome__["a" /* WelcomePage */],
-                __WEBPACK_IMPORTED_MODULE_21__pages_quiz_quiz__["a" /* QuizPage */],
-                __WEBPACK_IMPORTED_MODULE_22__pages_section_review_section_review__["a" /* SectionReviewPage */],
-                __WEBPACK_IMPORTED_MODULE_23__pages_starter_starter__["a" /* StarterPage */]
+                __WEBPACK_IMPORTED_MODULE_15__pages_facebook_facebook__["a" /* FacebookPage */],
+                __WEBPACK_IMPORTED_MODULE_22__pages_quiz_quiz__["a" /* QuizPage */],
+                __WEBPACK_IMPORTED_MODULE_23__pages_section_review_section_review__["a" /* SectionReviewPage */],
+                __WEBPACK_IMPORTED_MODULE_24__pages_starter_starter__["a" /* StarterPage */]
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__["a" /* StatusBar */],
                 __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */],
-                __WEBPACK_IMPORTED_MODULE_19__ionic_native_native_audio__["a" /* NativeAudio */],
+                __WEBPACK_IMPORTED_MODULE_20__ionic_native_native_audio__["a" /* NativeAudio */],
                 { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["u" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["e" /* IonicErrorHandler */] },
                 __WEBPACK_IMPORTED_MODULE_7__ionic_native_sqlite__["a" /* SQLite */],
                 __WEBPACK_IMPORTED_MODULE_8__ionic_native_toast__["a" /* Toast */],
                 __WEBPACK_IMPORTED_MODULE_9__providers_database_database__["a" /* DatabaseProvider */],
-                __WEBPACK_IMPORTED_MODULE_24__providers_helpers_helpers__["a" /* HelpersProvider */],
-                __WEBPACK_IMPORTED_MODULE_18__ionic_native_facebook__["a" /* Facebook */]
+                __WEBPACK_IMPORTED_MODULE_25__providers_helpers_helpers__["a" /* HelpersProvider */],
+                __WEBPACK_IMPORTED_MODULE_19__ionic_native_facebook__["a" /* Facebook */]
             ]
         })
     ], AppModule);
@@ -1714,16 +1786,16 @@ var AppModule = (function () {
 
 /***/ }),
 
-/***/ 294:
+/***/ 295:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(214);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(213);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_welcome_welcome__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(215);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_welcome_welcome__ = __webpack_require__(118);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1761,14 +1833,14 @@ var MyApp = (function () {
 
 /***/ }),
 
-/***/ 295:
+/***/ 296:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return IonFormWizardStep; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_animations__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__wizard_component__ = __webpack_require__(215);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_animations__ = __webpack_require__(111);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__wizard_component__ = __webpack_require__(216);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(11);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1917,7 +1989,7 @@ var LessonPage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_database_database__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_native_audio__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__section_review_section_review__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__section_review_section_review__ = __webpack_require__(114);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2258,11 +2330,11 @@ var QuestionPage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_database_database__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__section_section__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__section_section__ = __webpack_require__(117);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_native_audio__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_helpers_helpers__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_helpers_helpers__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_sqlite__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_async__ = __webpack_require__(171);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_async__ = __webpack_require__(173);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_async___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_async__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2787,7 +2859,7 @@ var QuizPage = (function () {
 
 /***/ }),
 
-/***/ 87:
+/***/ 88:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2863,14 +2935,14 @@ var HomePage = (function () {
 
 /***/ }),
 
-/***/ 88:
+/***/ 89:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HelpersProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(172);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(273);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(274);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2936,5 +3008,5 @@ var HelpersProvider = (function () {
 
 /***/ })
 
-},[216]);
+},[217]);
 //# sourceMappingURL=main.js.map
