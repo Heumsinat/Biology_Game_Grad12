@@ -14,7 +14,8 @@
 
 <ion-content xela class="background-img">
     
-    <ion-label class="content"></ion-label>
+
+    <!-- <ion-label class="content"></ion-label>
     
       <div padding>
         <button ion-button block class="btn btn-primary btn-lg btn3d" id="btn1"><ion-icon class="ficon" name="logo-facebook"></ion-icon>Facebook</button>
@@ -24,14 +25,80 @@
       </div>
   
         <ion-label class="content1" (click)="login()">Log In</ion-label>
-        <ion-label class="content2" color="blue">About Evolution</ion-label>
+        <ion-label class="content2" color="blue">About Evolution</ion-label> -->
     
-</ion-content>
+<!-- </ion-content> -->
 
-<ion-footer>
+<!-- <ion-footer>
     <ion-toolbar>
         <button ion-button block clear (click)="exitButtonClick()" (press)="toggleDebug()">
         <ion-icon name="power"></ion-icon>
+        </button> -->
+
+    <ion-grid *ngIf="infoID == 'root'">
+    
+        <div padding id="btn1">
+          <button class="btn btn-primary btn-lg btn3d" (click)="fbForm()"><ion-icon class="ficon" name="logo-facebook"></ion-icon>Facebook</button>
+          
+        </div>
+        <div padding id="btn2">
+          <button class="btn btn-primary btn-lg btn3d" (click)="createForm()">Register</button>
+        </div>
+    
+        <ion-label class="content1" (click)="login()">Log In</ion-label>
+
+    </ion-grid>
+
+
+
+   
+
+
+
+    <ion-grid *ngIf="infoID == 'C1'">
+        <ion-scroll scrollbar-y="true" scrollbar-x="true">
+      <div class="evo">
+          <ion-label><b>Evidence of Evolution</b></ion-label>
+            <p>               
+                We cannot watch changes in life directly. They take place over thousands or millions of years. However, scientists cannot find proof that these changes have taken place. Important evidence for evolution comes from fossils, the leftovers of ancient life. When animals or plants die they are pressed into sand or clay. Over millions of years rocks are formed.
+                
+                FossilsScientists have found out that different fossils are found in rocks of different ages. For example, the oldest rocks of our earth are about 3.8 billion years old. They contain no fossils because there was probably no life at that time. Fossils of bacteria appear in rocks that are about 3.5 billion years old. Fish , reptile and mammal fossils appear in younger rocks. Human fossils are found only in the youngest and highest rock layers.
+                
+                Fossils also show that certain groups of animals have evolved from other groups. Amphibians evolved from fish that could breathe air and move on land. They had legs but also scales and a fin.
+            </p>
+
+            <p>    
+                Birds probably evolved from dinosaurs. The archaeopteryx was an animal that had feathers like a bird and could fly. It also had teeth, claws on its wings and a skeleton that looked like a meat-eating dinosaur.
+                
+                But even without fossils there is other proof which shows that evolution has taken place. Different species often have similar features which they probably got from a common ancestor. For example the front limbs of lizards, birds, bats and humans are very much alike. They have one bone in the upper arm, two in the forearm, wrist bones and five fingers.
+                
+                Living creatures might also have structures that they have inherited from an ancestor but have become useless. They don't need them any more. Pythons, for example, have the remains of back leg bones, but snakes do not have such legs. The appendix was used by animals that ate only plants but in our bodies these organs have become useless.
+                
+                The way in which different species occur all over the world also gives us evidence for evolution. Similar species, for example, are found together in certain areas. All types of kangaroos are found in Australia. This is because the kangaroos' ancestors also lived there.
+                
+                Plants and animals do not always live in ideal places. Tropical ocean islands, for example, are ideal places for frogs to live, but no frogs 
+            </p>
+          
+      </div>
+    </ion-scroll>
+    </ion-grid>
+
+</ion-content>
+
+<ion-footer >
+    <ion-toolbar *ngIf="infoID == 'C1'">
+        <button ion-button clear *ngIf="infoID == 'C1'" class="bicon" (click)="backButtonClick()">
+          <ion-icon name="md-arrow-round-back"></ion-icon>
         </button>
+        <button ion-button clear *ngIf="infoID == 'C1'" class="eicon" (click)="exitButtonClick()">
+          <ion-icon name="power"></ion-icon>
+        </button>
+    </ion-toolbar>
+    <ion-toolbar *ngIf="infoID == 'root'" transparent>
+        <button ion-button clear *ngIf="infoID == 'root'" class="eicon" (click)="exitButtonClick()">
+            <ion-icon name="power"></ion-icon>
+        </button>
+        <button ion-button clear *ngIf="infoID == 'root'" class="content2" (click)="info('C1')" color="blue">About</button>
+
     </ion-toolbar>
   </ion-footer>

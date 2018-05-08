@@ -5,6 +5,7 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
+
 <ion-content class="content">
   <ion-scroll class="view_content" scrollY="true">
     <ion-grid>
@@ -26,6 +27,52 @@
       </ion-row>
     </ion-grid>
   </ion-scroll>
+
+
+<!-- <ion-content xela class="card-background-page">
+    <ion-card>
+        <img src="assets/imgs/01.jpg"/>
+    
+  chapter
+  
+  <ion-list *ngIf="state == 'chapters'" no-lines>
+    <ion-item-sliding *ngFor="let chapters of chapters; let i=index">
+      <ion-item >
+          
+              
+        <button ion-button block color="primary" (click)="chapter(chapters.id)">
+          <div class="number">
+            ជំពូកទី: {{chapters.number}}
+          </div>
+          <div class="text">
+            {{chapters.title}}
+          </div>
+
+        </button>
+      
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>-->
+  
+
+  <!--lesson-->
+  <!--<ion-list equalized *ngIf="state == 'lessons'" no-lines>
+    <ion-item-sliding *ngFor="let lessons of lessons; let i=index">
+      <ion-item width-100 menu-header class="animated fadeInUp">
+        <button ion-button block color="primary" (click)="lesson(lessons.id)">
+
+          <div class="number">
+            មេរៀនទី: {{lessons.number}}<br>
+          </div>
+          <div class="text">
+            {{lessons.title}}
+          </div>
+        </button>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+</ion-card> -->
+
 </ion-content>
 
 <!--<ion-footer>-->

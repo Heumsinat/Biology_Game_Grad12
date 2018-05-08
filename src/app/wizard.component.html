@@ -1,0 +1,27 @@
+<ng-content></ng-content>
+<div [hidden]="hideWizard" class="ion-wizard-footer">
+   <!--Back Button-->
+
+   <!-- div *ngIf="!isOnFirstStep()" left bottom>
+     <button (click)="back()">
+       Back
+     </button>
+   <div> -->
+
+
+   <!--Steps count-->   
+   <ion-badge *ngIf="showSteps">{{step}} / {{steps}}</ion-badge>
+   <!--Next Button-->
+   <div id="btn1" *ngIf="(!isOnFinalStep() && getCondition())">
+     <button ion-button class="btn btn-primary btn-lg btn3d" id="btn0" (click)="next()">
+       បន្ត
+     </button>
+    </div>
+
+   <!--Finish Button-->
+   <div id="btn1" *ngIf="(isOnFinalStep() && getCondition())">
+     <button ion-button class="btn btn-primary btn-lg btn3d" id="btn0" (click)="finish.emit(step + 1)">
+        បន្តទៀត
+     </button>
+   </div>
+ </div>

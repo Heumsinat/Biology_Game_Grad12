@@ -1,41 +1,63 @@
 page-welcome {
 
     .background-img{
-        background-image: url('../assets/imgs/background.png');
-        //height: 100%;
-        //width: 100%;
-        //-webkit-background-size: 100%;
-        //-moz-background-size: 100%;
+
+        background-image: url('../assets/imgs/bg.png');
+
+        
         background-size: cover;
         background-repeat: no-repeat;
-        //background-position: center center;
+       
     }
 
-    .content{
-        color: blue;
-        font-size: 50px;
-        text-align: center;
+    
+    .evo{
+        position: fixed;
+        font-size: 20px;
+        margin: auto;
+        margin-top: 180px;
+        margin-left: 20px;
+        margin-right: 20px;
+        border: 1px solid black;
+        border-radius: 5px;
+        background-color: white;
     }
+
     .content1{
         color: wheat;
-        font-size: 30px;
+        font-size: 25px;
         text-align: center;
-        margin-top: 200px;
+        margin-top: 40px;
     }
     .content2{
-        color: wheat;
-        font-size: 30px;
-        text-align: center;
-        margin-top: 20px;
+        color: #4274D7;
+        font-size: 25px;
+        margin-left: 80px;   
+
     }
     .ficon{
         font-size: 35px;
         text-align: left;
-        
+        margin-right: 5px;
+        text-transform: none;
+    }
+
+    .bicon{
+        font-size: 30px;
+        margin-left: 10px;
+    }
+    .eicon{
+        //width: 10px;
+        //border: 1px solid black;
+        font-size: 30px;
+        margin-left: 20px;
     }
 
     .btn3d {
         position: relative;
+        font-size: 25px;
+        height: 50px;
+        width: 80%;
         top: -6px;
         border: 0;
         transition: all 40ms linear;
@@ -57,7 +79,7 @@ page-welcome {
         top: 2px;
     }
     .btn3d.btn-primary {
-        box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #4D5BBE, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
         background-color: #4274D7;
     }
     
@@ -67,7 +89,13 @@ page-welcome {
         background-color: #4274D7;
     }
     #btn1{
-        margin-top: 30px;
+        margin-top: 220px;
+        margin-left: 25px;
+        -webkit-text-fill-color: white;
+    }
+    #btn2{
+        margin-left: 25px;
+        -webkit-text-fill-color: white;
     }
 
     [xela] {

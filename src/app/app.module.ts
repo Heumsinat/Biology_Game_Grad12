@@ -3,9 +3,6 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-/*import { AngularFireModule } from 'angularfire2';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-/*import { FIREBASE_CREDENTIALS } from "./firebase.credentials";*/
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -14,10 +11,18 @@ import { Toast } from '@ionic-native/toast';
 import { DatabaseProvider } from '../providers/database/database';
 import { QuestionPage } from '../pages/question/question';
 import {SectionPage} from "../pages/section/section";
-
 import { LoginPage } from "../pages/login/login";
 import { FormPage } from "../pages/form/form";
 import { WelcomePage } from "../pages/welcome/welcome";
+import { FacebookPage } from "../pages/facebook/facebook";
+
+
+import { IonFormWizard } from './wizard.component';
+import { IonFormWizardStep } from './wizard.step.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Facebook  } from '@ionic-native/facebook';
+
+
 import {NativeAudio} from "@ionic-native/native-audio";
 import {LessonPage} from "../pages/lesson/lesson";
 import {QuizPage} from "../pages/quiz/quiz";
@@ -32,7 +37,6 @@ import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 @NgModule({
   declarations: [
     MyApp,
-    // WelcomePage,
     HomePage,
     LessonPage,
     QuestionPage,
@@ -40,23 +44,24 @@ import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
     LoginPage,
     FormPage,
     WelcomePage,
+    FacebookPage,
     QuizPage,
     SectionReviewPage,
     StarterPage,
     LeaderboardPage,
+    IonFormWizard,
+    IonFormWizardStep
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpModule
-    /*AngularFireAuthModule.initializeApp(config),*/
-    /*AngularFireModule.initializeApp(FIREBASE_CREDENTIALS),*/
-    /*AngularFireAuthModule*/
+    HttpModule,
+    BrowserAnimationsModule
+    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    // WelcomePage,
     HomePage,
     LessonPage,
     QuestionPage,
@@ -64,6 +69,7 @@ import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
     LoginPage,
     FormPage,
     WelcomePage,
+    FacebookPage,
     QuizPage,
     SectionReviewPage,
     StarterPage,
@@ -77,7 +83,10 @@ import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
     SQLite,
     Toast,
     DatabaseProvider,
-    HelpersProvider
+    HelpersProvider,
+    Facebook
+    
+
   ]
 })
 export class AppModule {}
