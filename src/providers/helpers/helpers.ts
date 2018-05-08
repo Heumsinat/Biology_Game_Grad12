@@ -22,7 +22,7 @@ export class HelpersProvider {
       let headers = new Headers();
       //this.http.post(apiUrl+type, JSON.stringify(credentials),{headers: headers})
       console.log("credentials data = "+JSON.stringify(credentials));
-      //console.log("apiUrl+type = "+apiUrl+type);
+      console.log("apiUrl+type = "+apiUrl+type);
       //this.http.post(apiUrl+type, credentials)
       this.http.post(apiUrl+type, credentials,{headers: headers})
       .subscribe(res => {
