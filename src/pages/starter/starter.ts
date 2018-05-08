@@ -204,8 +204,7 @@ export class StarterPage {
               var resColNames = await db.executeSql("SELECT COUNT(*) as total FROM order_questions",{});
                
               let num_q = resColNames.rows.item(0).total;
-              //_data['number_of_records']=num_q;
-              _data['number_of_records']="99"; //for testing only
+              _data['number_of_records']=num_q;
               callback(null, num_q);
             } catch (err) {
               console.log(err);

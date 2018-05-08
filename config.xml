@@ -87,4 +87,14 @@
     <engine name="android" spec="~7.0.0" />
     <allow-navigation href="http://192.168.2.115:8100" />
     <plugin name="cordova-plugin-camera" spec="^4.0.3" />
+    <plugin name="cordova-plugin-facebook4" spec="^2.1.0">
+        <variable name="APP_ID" value="381829835626342" />
+        <variable name="APP_NAME" value="biologykhmer" />
+        <variable name="ANDROID_SDK_VERSION" value="4.+" />
+    </plugin>
+    <config-file parent="/resources" target="./res/values/strings.xml">
+        <string name="fb_app_id">381829835626342</string>
+        <string name="fb_app_name">biologykhmer</string>
+    </config-file>
+    <plugin name="cordova-plugin-nativeaudio" spec="^3.0.9" />
 </widget>

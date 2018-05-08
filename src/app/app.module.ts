@@ -17,8 +17,7 @@ import { WelcomePage } from "../pages/welcome/welcome";
 import { IonFormWizard } from './wizard.component';
 import { IonFormWizardStep } from './wizard.step.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Camera } from '@ionic-native/camera';
-import { Facebook  } from '@ionic-native/facebook';
+import { Facebook } from '@ionic-native/facebook';
 
 
 import {NativeAudio} from "@ionic-native/native-audio";
@@ -47,7 +46,8 @@ import { HttpModule } from '@angular/http';
     StarterPage,
 
     IonFormWizard,
-    IonFormWizardStep
+    IonFormWizardStep,
+    Facebook
 
 
   ],
@@ -88,8 +88,9 @@ import { HttpModule } from '@angular/http';
 
     HelpersProvider,
 
-    Facebook,
-    Camera
+    Facebook
+    
+    
 
   ]
 })
