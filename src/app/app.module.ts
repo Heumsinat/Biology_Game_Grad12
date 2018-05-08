@@ -3,9 +3,6 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-/*import { AngularFireModule } from 'angularfire2';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-/*import { FIREBASE_CREDENTIALS } from "./firebase.credentials";*/
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -14,12 +11,16 @@ import { Toast } from '@ionic-native/toast';
 import { DatabaseProvider } from '../providers/database/database';
 import { QuestionPage } from '../pages/question/question';
 import {SectionPage} from "../pages/section/section";
-
 import { LoginPage } from "../pages/login/login";
 import { FormPage } from "../pages/form/form";
 import { WelcomePage } from "../pages/welcome/welcome";
+import { IonFormWizard } from './wizard.component';
+import { IonFormWizardStep } from './wizard.step.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Camera } from '@ionic-native/camera';
+import { Facebook  } from '@ionic-native/facebook';
 
-// import {WelcomePage} from "../pages/welcome/welcome";
+
 import {NativeAudio} from "@ionic-native/native-audio";
 import {LessonPage} from "../pages/lesson/lesson";
 import {QuizPage} from "../pages/quiz/quiz";
@@ -33,7 +34,6 @@ import { HttpModule } from '@angular/http';
 @NgModule({
   declarations: [
     MyApp,
-    // WelcomePage,
     HomePage,
     LessonPage,
     QuestionPage,
@@ -41,32 +41,41 @@ import { HttpModule } from '@angular/http';
     LoginPage,
     FormPage,
     WelcomePage,
+
     QuizPage,
     SectionReviewPage,
-    StarterPage
+    StarterPage,
+
+    IonFormWizard,
+    IonFormWizardStep
+
+
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpModule
-    /*AngularFireAuthModule.initializeApp(config),*/
-    /*AngularFireModule.initializeApp(FIREBASE_CREDENTIALS),*/
-    /*AngularFireAuthModule*/
+
+    HttpModule,
+
+    BrowserAnimationsModule
+
+    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    // WelcomePage,
     HomePage,
     LessonPage,
     QuestionPage,
     SectionPage,
     LoginPage,
     FormPage,
+
     WelcomePage,
     QuizPage,
     SectionReviewPage,
     StarterPage
+
   ],
   providers: [
     StatusBar,
@@ -76,7 +85,12 @@ import { HttpModule } from '@angular/http';
     SQLite,
     Toast,
     DatabaseProvider,
-    HelpersProvider
+
+    HelpersProvider,
+
+    Facebook,
+    Camera
+
   ]
 })
 export class AppModule {}

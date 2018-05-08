@@ -4,77 +4,105 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
+<!-- <ion-header>
 
   <ion-navbar>
-    <ion-title>ទម្រង់អ្នកប្រើប្រាស់</ion-title>
+    <ion-title>ព័ត៌មានអ្នកប្រើប្រាស់</ion-title>
   </ion-navbar>
 
-</ion-header>
+</ion-header> -->
 
 
-<ion-content xela padding>
-    <!--<form> (ngSubmit)="saveData()">-->
-      <div class="container">  
-        <ion-list>
-          <ion-item class="form1">
-            <ion-label>ឈ្មោះ</ion-label>
-            <ion-input type="text" [(ngModel)]="data.fullName" name="fullName" aria-required=""></ion-input>
-          </ion-item>
-        
-          <ion-item>
-            <ion-label>ឈ្មោះសម្គាល់</ion-label>
-            <ion-input type="text" [(ngModel)]="data.userName" name="userName" aria-required=""></ion-input>
-          </ion-item>
-
-          <ion-item>
-            <ion-label>ពាក្យសម្ងាត់</ion-label>
-            <ion-input type="password" [(ngModel)]="data.password" name="password" aria-required=""></ion-input>
-          </ion-item>
-        
-          <ion-item>
-              <ion-label>ភេទ</ion-label>
-              <ion-select [(ngModel)]="data.gender" >
-                <ion-option value="ស្រី">ស្រី</ion-option>
-                <ion-option value="ប្រុស">ប្រុស</ion-option>
-              </ion-select>
-          </ion-item>
-
-          <ion-item>
-            <ion-label>លេខទូរស័ព្ទ</ion-label>
-            <ion-input type="text" name="" aria-required=""></ion-input>
-          </ion-item>
-          
-          <ion-item>
-            <ion-label>សាលារៀន</ion-label>
-            <ion-input type="text" [(ngModel)]="data.school" name="school" aria-required=""></ion-input>
-          </ion-item>
-
-          <ion-item>
-            <ion-label>ស្រុក/ខណ្ឌ</ion-label>
-            <ion-input type="text" [(ngModel)]="data.district" name="district" aria-required=""></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>ខេត្ត/ក្រុង</ion-label>
-            <ion-input type="text" [(ngModel)]="data.province" name="province" aria-required=""></ion-input>
-          </ion-item>
-        </ion-list>
-     </div> 
-   <!-- </form>-->
-
-      <div padding>
-          <button ion-button block color="primary">បោះបង់</button>
-      </div>
-      <div padding>
-          <button ion-button block color="primary" type="submit" (click)="saveData()">រក្សាទុក</button>
-      </div>
+<ion-content xela padding class="background-img">
+   
+    <ion-grid>
       
+          
+              <ion-form-wizard [(step)]="step" [showSteps]="false" (finish)="onFinish()" [finishIcon]="'done-all'" [(stepCondition)]="stepCondition">
+                  <ion-wizard-step>
+                    <div class="container">  
+                        <ion-item class="form1">
+                          <ion-label>ឈ្មោះពេញ</ion-label>
+                          <ion-input type="text" [(ngModel)]="data.fullName" name="fullName" aria-required="true"></ion-input>
+                        </ion-item>
+                      
+                        <ion-item class="form1">
+                          <ion-label>ឈ្មោះសម្គាល់</ion-label>
+                          <ion-input type="text" [(ngModel)]="data.userName" name="userName" aria-required=""></ion-input>
+                        </ion-item>
+
+                        <ion-item class="form1">
+                          <ion-label>ពាក្យសម្ងាត់</ion-label>
+                          <ion-input type="password" [(ngModel)]="data.password" name="password" aria-required=""></ion-input>
+                        </ion-item>
+                        
+                        <ion-item class="form1">
+                          <ion-label>លេខទូរស័ព្ទ</ion-label>
+                          <ion-input type="text" [(ngModel)]="data.phone" name="phone" aria-required=""></ion-input>
+                        </ion-item>
+
+                        <ion-item class="form1">
+                            <ion-label>ភេទ</ion-label>
+                            <ion-select [(ngModel)]="data.gender" >
+                              <ion-option value="ស្រី">ស្រី</ion-option>
+                              <ion-option value="ប្រុស">ប្រុស</ion-option>
+                            </ion-select>
+                        </ion-item>
+                    </div>
+                  </ion-wizard-step>
+                        
+
+                  <ion-wizard-step>
+                    
+                      <div class="container1">                          
+                          
+                            <ion-item class="form1">
+                              <ion-label>ខេត្ត</ion-label>
+                            
+                                <ion-select [(ngModel)]="data.province">
+                                    
+                                  <ion-option *ngFor="let province of provinces" [value]="province.pcode">{{province.pname_en}}</ion-option>
+                                
+                                </ion-select>
+                              
+                            </ion-item>
+                            
+                          <ion-item class="form1" >
+                            <ion-label>ស្រុក</ion-label>
+                            <ion-select [(ngModel)]="data.district">
+                              <ion-option *ngFor="let district of districts" [value]="district.dcode">{{district.dname_en}}</ion-option>
+                              
+                            </ion-select>
+                          </ion-item>
+                          
+                          
+                          <ion-item class="form1">
+                            <ion-label>សាលារៀន</ion-label>
+                            <ion-select [(ngModel)]="data.school">
+                              <ion-option *ngFor="let school_list of school_lists" [value]="school_list.school_id">{{school_list.school_name}}</ion-option>
+                              
+                            </ion-select>
+                          </ion-item>
+                      </div>
+                    
+                  </ion-wizard-step>
+
+              </ion-form-wizard>
+         
+    </ion-grid>
+
+
+    
 </ion-content>
+
 
 <ion-footer>
   <ion-toolbar>
-      <button ion-button block clear (click)="exitButtonClick()" (press)="toggleDebug()">
-      <ion-icon name="power"></ion-icon>
+      <button ion-button clear class="bicon" (click)="backButtonClick()">
+        <ion-icon name="md-arrow-round-back"></ion-icon>
+      </button> 
+      <button ion-button clear class="eicon" (click)="exitButtonClick()" (press)="toggleDebug()">
+        <ion-icon name="power"></ion-icon>
       </button>
   </ion-toolbar>
 </ion-footer>

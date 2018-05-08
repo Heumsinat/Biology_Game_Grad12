@@ -30586,20 +30586,157 @@ ion-app {
   color: #222;
 }
 
+ion-form-wizard :host {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+ion-form-wizard .ion-wizard-footer {
+  left: 0;
+  z-index: 100;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+ion-form-wizard .btn3d {
+  position: relative;
+  top: -6px;
+  border: 0;
+  -webkit-transition: all 40ms linear;
+  transition: all 40ms linear;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+ion-form-wizard .btn3d:active:focus,
+ion-form-wizard .btn3d:focus:hover,
+ion-form-wizard .btn3d:focus {
+  -moz-outline-style: none;
+  outline: medium none;
+}
+
+ion-form-wizard .btn3d:active,
+ion-form-wizard .btn3d.active {
+  top: 2px;
+}
+
+ion-form-wizard .btn3d.btn-primary {
+  -webkit-box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
+  background-color: #4274D7;
+}
+
+ion-form-wizard .btn3d.btn-primary:active,
+ion-form-wizard .btn3d.btn-primary.active {
+  -webkit-box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.1);
+  background-color: #4274D7;
+}
+
+ion-form-wizard #btn1 {
+  margin-top: 50px;
+  margin-left: 5px;
+}
+
+ion-form-wizard #btn0 {
+  margin-top: 20px;
+  font-size: 25px;
+  height: 50px;
+  width: 100%;
+}
+
+page-form .background-img {
+  background-image: url("../assets/imgs/bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 page-form .form1 {
   width: 100%;
-  height: 100px;
   border-radius: 10px;
-  border-style: solid;
-  border: 5px;
-  color: blue;
+  border: 2px solid blue;
   margin-bottom: 10px;
 }
 
 page-form .container {
-  width: 300px;
+  margin-top: 50px;
   margin-left: auto;
   margin-right: auto;
+}
+
+page-form .container1 {
+  margin-top: 50px;
+}
+
+page-form .cicon {
+  font-size: 30px;
+  margin-left: 10px;
+}
+
+page-form .bicon {
+  font-size: 30px;
+  margin-left: 10px;
+}
+
+page-form .eicon {
+  font-size: 30px;
+  margin-left: 15px;
+}
+
+page-form .btn3d {
+  position: relative;
+  top: -6px;
+  border: 0;
+  -webkit-transition: all 40ms linear;
+  transition: all 40ms linear;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+page-form .btn3d:active:focus,
+page-form .btn3d:focus:hover,
+page-form .btn3d:focus {
+  -moz-outline-style: none;
+  outline: medium none;
+}
+
+page-form .btn3d:active,
+page-form .btn3d.active {
+  top: 2px;
+}
+
+page-form .btn3d.btn-primary {
+  -webkit-box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
+  background-color: #4274D7;
+}
+
+page-form .btn3d.btn-primary:active,
+page-form .btn3d.btn-primary.active {
+  -webkit-box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.1);
+  background-color: #4274D7;
+}
+
+page-form #btn1 {
+  margin-top: 30px;
+}
+
+page-form #btn0 {
+  font-size: 25px;
+  height: 50px;
 }
 
 page-form [xela] [ion-input] {
@@ -30777,15 +30914,60 @@ page-lesson .btn3d.btn-primary.active {
   background-color: #4274D7;
 }
 
+page-login .background-img {
+  background-image: url("../assets/imgs/bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+page-login .form1 {
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid blue;
+  margin-bottom: 10px;
+}
+
+page-login #btn0 {
+  -webkit-text-fill-color: white;
+  margin-left: 5px;
+}
+
+page-login #btn01 {
+  margin-top: 180px;
+}
+
+page-login #btn02 {
+  margin-top: 30px;
+  font-size: 20px;
+}
+
+page-login .container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 page-login .content {
   color: blue;
   font-size: 50px;
   text-align: center;
 }
 
+page-login .bicon {
+  font-size: 30px;
+  margin-left: 10px;
+}
+
+page-login .eicon {
+  font-size: 30px;
+  margin-left: 15px;
+}
+
 page-login .btn3d {
   position: relative;
   top: -6px;
+  font-size: 25px;
+  height: 50px;
+  width: 80%;
   border: 0;
   -webkit-transition: all 40ms linear;
   transition: all 40ms linear;
@@ -30808,8 +30990,8 @@ page-login .btn3d.active {
 }
 
 page-login .btn3d.btn-primary {
-  -webkit-box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #4D5BBE, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #4D5BBE, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
   background-color: #4274D7;
 }
 
@@ -31259,38 +31441,58 @@ page-starter .btn3d.btn-primary.active {
 }
 
 page-welcome .background-img {
-  background-image: url("../assets/imgs/background.png");
+  background-image: url("../assets/imgs/bg.png");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
-page-welcome .content {
-  color: blue;
-  font-size: 50px;
-  text-align: center;
+page-welcome .evo {
+  position: fixed;
+  font-size: 20px;
+  margin: auto;
+  margin-top: 180px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: white;
 }
 
 page-welcome .content1 {
   color: wheat;
-  font-size: 30px;
+  font-size: 25px;
   text-align: center;
-  margin-top: 200px;
+  margin-top: 40px;
 }
 
 page-welcome .content2 {
-  color: wheat;
-  font-size: 30px;
-  text-align: center;
-  margin-top: 20px;
+  color: #4274D7;
+  font-size: 25px;
+  margin-left: 80px;
 }
 
 page-welcome .ficon {
   font-size: 35px;
   text-align: left;
+  margin-right: 5px;
+  text-transform: none;
+}
+
+page-welcome .bicon {
+  font-size: 30px;
+  margin-left: 10px;
+}
+
+page-welcome .eicon {
+  font-size: 30px;
+  margin-left: 20px;
 }
 
 page-welcome .btn3d {
   position: relative;
+  font-size: 25px;
+  height: 50px;
+  width: 80%;
   top: -6px;
   border: 0;
   -webkit-transition: all 40ms linear;
@@ -31314,8 +31516,8 @@ page-welcome .btn3d.active {
 }
 
 page-welcome .btn3d.btn-primary {
-  -webkit-box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #4D5BBE, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #4D5BBE, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
   background-color: #4274D7;
 }
 
@@ -31327,7 +31529,14 @@ page-welcome .btn3d.btn-primary.active {
 }
 
 page-welcome #btn1 {
-  margin-top: 30px;
+  margin-top: 220px;
+  margin-left: 25px;
+  -webkit-text-fill-color: white;
+}
+
+page-welcome #btn2 {
+  margin-left: 25px;
+  -webkit-text-fill-color: white;
 }
 
 page-welcome [xela] [ion-button] {

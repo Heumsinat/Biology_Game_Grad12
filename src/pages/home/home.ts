@@ -39,43 +39,6 @@ export class HomePage {
           }
         }).catch(e => console.log(e));
   }
-  // getLessons(){
-  //   this.db
-  //       .table("lessons")
-  //       .then(res => {
-  //         this.lessons = [];
-  //         console.log(res);
-  //         for (var i = 0; i<res.rows.length; i++){
-  //           this.lessons.push({
-  //             id:res.rows.item(i).id,
-  //             number:res.rows.item(i).number,
-  //             title:res.rows.item(i).title,
-  //             chapter:res.rows.item(i).chapter,
-  //             created_date:res.rows.item(i).created_date,
-  //             modified_date:res.rows.item(i).modified_date
-  //           })
-  //         }
-  //       }).catch(e => console.log((e)))
-  // }
-
-  // chapter(chapter_id: number) {
-  //   this.db.executeSQL(`SELECT * FROM lessons WHERE chapter = ${chapter_id}`)
-  //       .then(res => {
-  //         this.state = 'lessons';
-  //         this.lessons = [];
-  //         for (var i = 0; i<res.rows.length; i++){
-  //           this.lessons.push({
-  //             id:res.rows.item(i).id,
-  //             number:res.rows.item(i).number,
-  //             title:res.rows.item(i).title,
-  //             chapter:res.rows.item(i).chapter,
-  //             created_date:res.rows.item(i).created_date,
-  //             modified_date:res.rows.item(i).modified_date
-  //           })
-  //         }
-  //       })
-  // }
-
     /*
     Function when click on each of chapter then push to Lesson page
      */
@@ -87,11 +50,4 @@ export class HomePage {
             }
         );
     }
-  // public lesson(lesson_id: number) {
-  //     this.navCtrl.push(
-  //         QuestionPage, {
-  //             lessonID: lesson_id
-  //         }
-  //     );
-  // }
 }

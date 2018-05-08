@@ -5,6 +5,7 @@ import {QuizPage} from "../quiz/quiz";
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { HelpersProvider } from '../../providers/helpers/helpers';
 import async from 'async';
+import {DatabaseProvider} from "../../providers/database/database";
 
 /**
  * Generated class for the StarterPage page.
@@ -21,7 +22,14 @@ import async from 'async';
 export class StarterPage {
   no_of_quiz: any;
   responseData : any;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, private sqlite: SQLite,private helpers: HelpersProvider) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    private alertCtrl: AlertController,
+    private platform: Platform, 
+    private sqlite: SQLite,
+    private helpers: HelpersProvider,
+    public db: DatabaseProvider) {
   }
 
   ionViewDidLoad() {
@@ -64,6 +72,7 @@ export class StarterPage {
     //  Server returns only the updated records recognized by in App modified_date, in Server updated_date
     // else => the total no. of records is different, then
     //  replace all records in App.
+
     var self = this;
     this.totalNoOfOrderQuestions()
       .then(function(value) {
@@ -116,6 +125,37 @@ export class StarterPage {
     // ======END OF API #6 ======== //
     this.navCtrl.push(
         QuizPage);
+
+    /*
+    ****** SINAT ******
+    condition to check number of question that user played and compared with setting before allow user to play game
+    */
+    this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')`)
+            .then(res => {
+                let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
+                console.log('get count number of question', num_q);
+                // localStorage.setItem('num_q',num_q);
+                let num_quiz = Number(localStorage.getItem('settings'));
+                console.log('get number of settings =', num_quiz);
+
+                // compare number of question that user play today with number that set from settings
+                if (num_q < num_quiz){
+                  console.log(num_q);
+                  console.log(num_quiz);
+                  this.navCtrl.push(
+                    QuizPage);
+              }else {
+                let alert = this.alertCtrl.create({
+                  title: 'Welcome to Evolution!',
+                  message: 'You have no more question for today!',
+                  buttons: ['Ok']
+                });
+            
+                alert.present();
+              }
+                // }).catch(e => console.log((e)));
+    }).catch(e => console.log((e)));
+
   }
 
   exitButtonClick() {

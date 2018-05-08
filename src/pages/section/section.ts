@@ -42,114 +42,116 @@ export class SectionPage {
     this.sectionID = this.navParams.get('sectionID');
     this.questionID = this.navParams.get('questionID');
     this.playCompleted = false;
-
-
     // console.log(this.answerCorrect);
     // console.log(this.sectionID);
     // console.log(this.sectionID);
-
-   
   }
 
-    ionViewDidEnter(){
-        this.db.executeSQL(`SELECT * FROM sections WHERE id = ${this.sectionID}`)
-            .then(res => {
-                this.sections = {};
-                // var first = res.rows.item(0).id;
-                this.currentIndex = 0;
-                for (var i = 0; i<res.rows.length; i++){
-                    // this.sectionsID.push(res.rows.item(i).id);
-                    this.sections={
-                        id:res.rows.item(i).id,
-                        order:res.rows.item(i).order,
-                        lesson:res.rows.item(i).lesson,
-                        title:res.rows.item(i).title,
-                        content:res.rows.item(i).content,
-                        image1:res.rows.item(i).image1,
-                        image2:res.rows.item(i).image2,
-                        image3:res.rows.item(i).image3,
-                        image4:res.rows.item(i).image4,
-                        sound:res.rows.item(i).sound,
-                        created_date:res.rows.item(i).created_date,
-                        modified_date:res.rows.item(i).modified_date
-                    }
+    /*
+     ionViewDidEnter runs when the page has fully entered and is now the active page.
+     Display SectionPage query by SELECT * FROM sections WHERE id = ${this.sectionID}
+     */
+  ionViewDidEnter(){
+      this.db.executeSQL(`SELECT * FROM sections WHERE id = ${this.sectionID}`)
+          .then(res => {
+              this.sections = {};
+              // var first = res.rows.item(0).id;
+              this.currentIndex = 0;
+              for (var i = 0; i<res.rows.length; i++){
+                  // this.sectionsID.push(res.rows.item(i).id);
+                  this.sections={
+                      id:res.rows.item(i).id,
+                      order:res.rows.item(i).order,
+                      lesson:res.rows.item(i).lesson,
+                      title:res.rows.item(i).title,
+                      content:res.rows.item(i).content,
+                      image1:res.rows.item(i).image1,
+                      image2:res.rows.item(i).image2,
+                      image3:res.rows.item(i).image3,
+                      image4:res.rows.item(i).image4,
+                      sound:res.rows.item(i).sound,
+                      created_date:res.rows.item(i).created_date,
+                      modified_date:res.rows.item(i).modified_date
+                  }
                     //break;
-                }
-                this.nativeAudio.preloadComplex(this.sections.id, 'assets/sounds/'+this.sections.sound,1,1,0).then(()=>{
-                    this.nativeAudio.play(this.sections.id, ()=>{
-                        this.nativeAudio.unload(this.sections.id);
-                        this.playCompleted = true;
-                        this.changeRef.detectChanges();
-                    });
-                });
-                // console.log(this.sections.sound);
-            }).catch(e => console.log((e)));
-    }
+              }
+              this.nativeAudio.preloadComplex(this.sections.id, 'assets/sounds/'+this.sections.sound,1,1,0).then(()=>{
+                  this.nativeAudio.play(this.sections.id, ()=>{
+                      this.nativeAudio.unload(this.sections.id);
+                      this.playCompleted = true;
+                      this.changeRef.detectChanges();
+                  });
+              });
+              // console.log(this.sections.sound);
+          }).catch(e => console.log((e)));
+  }
+  /*
+     ionViewWillLeave(): when View is about to leave, Stopping current playback sound.
+   */
+  ionViewWillLeave() {
+      this.nativeAudio.stop(this.sections.id).then(() => {
+          this.nativeAudio.unload(this.sections.id);
+      }, () => {
 
+      });
+  }
+  /*
+  function used when clicked on NextButton
+   // num_q is a number that user have play for today
+   // num_quiz is number of settings
+   //if num_q < num_quiz then push to QuizPage
+   // else pop to root page
+   */
+  navigate() {
+      //select count * as column total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')
+      this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')`)
+          .then(res => {
+              let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
+              console.log('get count number of question', num_q);
+              let num_quiz = Number(localStorage.getItem('settings')); // num_quiz get from localStorage and set as a Number
+              console.log('get number of settings =', num_quiz);
+              // compare number of question that user play today with number that set from settings
+              if (num_q < num_quiz){
+                  console.log(num_q);
+                  console.log(num_quiz);
+                  this.navCtrl.push(
+                      QuizPage, {
+                          // questionID: this.getNextQuestionID(),
+                          lessonID: this.sections.lesson
+                      }
+                  );
+              }else {
+                  this.navCtrl.popToRoot();
+              }
+              // }).catch(e => console.log((e)));
+          }).catch(e => console.log((e)));
+  }
+  exitButtonClick() {
+      let alert = this.alertCtrl.create({
+          title: 'ចាកចេញ',
+          message: 'តើ​អ្នក​ពិត​ជា​ចង់​ចាក​ចេញ​ពី​កម្មវិធី​នេះ?​',
+          buttons: [
+              {
+                  text: "ទេ",
+                  role: 'cancel'
+              },
+              {
+                  text: "បាទ​ / ចាស",
+                  handler: () => {
+                      this.platform.exitApp();
+                  }
+              },
+          ]
+      });
+      alert.present();
+  }
+  private replayButtonClick() {
+      this.nativeAudio.stop(this.sections.id).then(() => {
+          this.nativeAudio.play(this.sections.id, ()=>{
+              this.nativeAudio.unload(this.sections.id);
+          });console.log(this.sections.id);
+      },()=>{
 
-    ionViewWillLeave() {
-        this.nativeAudio.stop(this.sections.id).then(() => {
-            this.nativeAudio.unload(this.sections.id);
-        },()=>{
-
-        });
-    }
-
-    navigate() {
-        // this.num_q_today = this.getNumberQuestion();
-        //select count * as column total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')
-        this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')`)
-            .then(res => {
-                let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
-                console.log('get count number of question', num_q);
-                // this.db.executeSQL(`SELECT * FROM settings `)
-                //     .then(res =>{
-                //         //let num_quiz = res.rows.item(0).number_of_quiz ; // num_quiz is a number that set in table settings
-                //         console.log('get number of settings', num_quiz);
-                let num_quiz = localStorage.getItem('settings');
-                // compare number of question that user play today with number that set from settings
-                if (num_q < num_quiz){
-                    this.navCtrl.push(
-                        QuizPage, {
-                            // questionID: this.getNextQuestionID(),
-                            lessonID: this.sections.lesson
-                        }
-                    );
-                }else {
-                    this.navCtrl.popToRoot();
-                }
-                // }).catch(e => console.log((e)));
-            }).catch(e => console.log((e)));
-   }
-
-    exitButtonClick() {
-        let alert = this.alertCtrl.create({
-            title: 'ចាកចេញ',
-            message: 'តើ​អ្នក​ពិត​ជា​ចង់​ចាក​ចេញ​ពី​កម្មវិធី​នេះ?​',
-            buttons: [
-                {
-                    text: "ទេ",
-                    role: 'cancel'
-                },
-                {
-                    text: "បាទ​ / ចាស",
-                    handler: () => {
-                        this.platform.exitApp();
-                    }
-                },
-            ]
-        });
-        alert.present();
-    }
-
-    private replayButtonClick() {
-    
-        this.nativeAudio.stop(this.sections.id).then(() => {
-            this.nativeAudio.play(this.sections.id, ()=>{
-                this.nativeAudio.unload(this.sections.id);
-            });console.log(this.sections.id);
-        },()=>{
-
-        });
-    }
+      });
+  }
 }
