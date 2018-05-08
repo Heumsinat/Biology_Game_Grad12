@@ -818,38 +818,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
  */
 var StarterPage = (function () {
     function StarterPage(navCtrl, navParams, alertCtrl, platform, sqlite, helpers, db) {
-        // TO-DO by Samak using API #4//
-        // Send request from App to get the latest settings
-        //var new_no_of_quiz = this.helpers.getData("get_setting_app");
-        // this.helpers.getData("get_setting_app").then((result) =>
-        // {
-        //   console.log("settings = "+localStorage.getItem('settings'));
-        //   this.no_of_quiz = result;
-        //   // If new settings != old setting, then Update new settings into localStorage settings in App
-        //   if(localStorage.getItem('settings') != this.no_of_quiz)
-        //     localStorage.setItem('settings',this.no_of_quiz);
-        // }, (err) => {
-        //   // Connection fail
-        //   console.log(JSON.stringify("err = "+err));
-        // }).catch((e) => {
-        //   console.log('Error in listOfFacilities:' + e);
-        // });
-        // //this.updateNumberOfQuizColumn(new_no_of_quiz[""]);
-        // // ======END OF API #4 ======== //
-        //
-        // /*
-        //  ****** SINAT ******
-        //  condition to check number of question that user played and compared with setting before allow user to play game
-        //  */
-        // this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')`)
-        //     .then(res => {
-        //       let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
-        //       localStorage.setItem('num_q',num_q);
-        //       console.log('get count number of question', num_q);
-        //       // localStorage.setItem('num_q',num_q);
-        //       let num_quiz = Number(localStorage.getItem('settings'));
-        //       console.log('get number of settings =', num_quiz);
-        //     }).catch(e => console.log((e)));
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.alertCtrl = alertCtrl;
@@ -857,15 +825,12 @@ var StarterPage = (function () {
         this.sqlite = sqlite;
         this.helpers = helpers;
         this.db = db;
-        console.log('get number of settings =', Number(localStorage.getItem('settings')));
-        console.log('get count number of question =', Number(localStorage.getItem('num_q')));
-        this.day_of_quiz = Number(localStorage.getItem('settings')) - Number(localStorage.getItem('num_q'));
     }
-    StarterPage.prototype.ionViewDidEnter = function () {
-    };
     StarterPage.prototype.ionViewDidLoad = function () {
         var _this = this;
         console.log('ionViewDidLoad StarterPage');
+        // TO-DO by Samak using API #4//
+        // Send request from App to get the latest settings
         this.helpers.getData("get_setting_app").then(function (result) {
             console.log("settings = " + localStorage.getItem('settings'));
             _this.no_of_quiz = result;
@@ -884,6 +849,22 @@ var StarterPage = (function () {
         });
         //this.updateNumberOfQuizColumn(new_no_of_quiz[""]);
         // ======END OF API #4 ======== //
+        /*
+         ****** SINAT ******
+         condition to check number of question that user played and compared with setting before allow user to play game
+         */
+        this.db.executeSQL("SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')")
+            .then(function (res) {
+            var num_q = res.rows.item(0).total; // num_q is a number that user have play for today
+            localStorage.setItem('num_q', num_q);
+            console.log('get count number of question', num_q);
+            // localStorage.setItem('num_q',num_q);
+            var num_quiz = Number(localStorage.getItem('settings'));
+            console.log('number of settings =', Number(localStorage.getItem('settings')));
+            console.log('number of question =', Number(localStorage.getItem('num_q')));
+            _this.day_of_quiz = Number(localStorage.getItem('settings')) - Number(localStorage.getItem('num_q'));
+            console.log('get number of settings =', num_quiz);
+        }).catch(function (e) { return console.log((e)); });
         // TO-DO by Samak using API #6//
         // Send request from App with params: 1. total no. of records, 2. last downloaded date to get order quiz data from server
         // if total no. of records in order_questions == that of server,
@@ -933,20 +914,6 @@ var StarterPage = (function () {
             console.log('catch in totalNoOfOrderQuestions:' + e);
         });
         // ======END OF API #6 ======== //
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__quiz_quiz__["a" /* QuizPage */]);
-        /*
-         ****** SINAT ******
-         condition to check number of question that user played and compared with setting before allow user to play game
-         */
-        this.db.executeSQL("SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')")
-            .then(function (res) {
-            var num_q = res.rows.item(0).total; // num_q is a number that user have play for today
-            localStorage.setItem('num_q', num_q);
-            console.log('get count number of question', num_q);
-            // localStorage.setItem('num_q',num_q);
-            var num_quiz = Number(localStorage.getItem('settings'));
-            console.log('get number of settings =', num_quiz);
-        }).catch(function (e) { return console.log((e)); });
     };
     StarterPage.prototype.goToQuiz = function () {
         // compare number of question that user play today with number that set from settings
@@ -967,13 +934,6 @@ var StarterPage = (function () {
             });
             alert_1.present();
         }
-        // TO-DO by Samak using API #6//
-        // Send request from App with params: 1. total no. of records, 2. last downloaded date to get order quiz data from server
-        // if total no. of records in order_questions == that of server,
-        //  Server returns only the updated records recognized by in App modified_date, in Server updated_date
-        // else => the total no. of records is different, then
-        //  replace all records in App.
-        // ======END OF API #6 ======== //
     };
     StarterPage.prototype.goToHomePage = function () {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
