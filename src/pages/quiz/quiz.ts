@@ -120,7 +120,7 @@ export class QuizPage {
     getUserQuestion(){
         this.nextQuestionID = localStorage.getItem("NextQID");
         console.log("local storage NEXTQID = "+this.nextQuestionID);
-        return this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.nextQuestionID}`)
+        return this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.nextQuestionID}`) // =?> Error 
             .then(res => {
                 console.log("res in getUserQuestion = "+JSON.stringify(res));
                 this.userQuestion = res.rows.item(0).id;
@@ -329,8 +329,11 @@ export class QuizPage {
               console.log("response = "+JSON.stringify(self.responseData));
             }, (err) => {
             // Connection fail
-            console.log(JSON.stringify("err = "+err));
-            });
+            console.log(JSON.stringify("err while postData= "+err));
+            })
+            .catch((e) => {
+                console.log('bleh:' + e);
+              });
           })
           .catch((e) => {
             console.log('bleh:' + e);

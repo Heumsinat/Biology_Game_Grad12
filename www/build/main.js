@@ -81,11 +81,7 @@ var FormPage = (function () {
 
 /***/ }),
 
-<<<<<<< HEAD
 /***/ 110:
-=======
-/***/ 109:
->>>>>>> 1c0ad8223fa638bb603aa8418a7712fb37a41761
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -276,87 +272,6 @@ var SectionReviewPage = (function () {
 }());
 
 //# sourceMappingURL=section-review.js.map
-
-/***/ }),
-
-/***/ 110:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(86);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-/*@Component({
-  template:`
-    <ion-item>
-      <ion-label>Athelas</ion-label>
-      <ion-radio value="Athelas"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>Charter</ion-label>
-      <ion-radio value="Charter"></ion-radio>
-    </ion-item>
-  `
-})*/
-var LoginPage = (function () {
-    function LoginPage(navCtrl, navParams, alertCtrl) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.alertCtrl = alertCtrl;
-        this.username = "";
-        this.password = "";
-    }
-    LoginPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad LoginPage');
-    };
-    LoginPage.prototype.showAlert = function (title, message) {
-        var alert = this.alertCtrl.create({
-            title: title,
-            subTitle: message,
-            buttons: ['OK']
-        });
-        alert.present();
-    };
-    LoginPage.prototype.signin = function () {
-        if (/^[a-zA-Z0-9]+$/.test(this.username + this.password)) {
-            this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */], {
-                username: this.username,
-                password: this.password
-            });
-        }
-        else {
-            this.showAlert('Error', 'Invalid Username');
-        }
-    };
-    LoginPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/login/login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>ការវិវត្តនៃភាវរស់</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <ion-label class="content">Signin</ion-label>\n    <ion-list inset>    \n      <ion-item>\n        <ion-label outline>ឈ្មោះសម្គាល់</ion-label>\n        <ion-input type="text"></ion-input>\n      </ion-item>\n        \n      <ion-item>\n        <ion-label>ពាក្យសម្ងាត់</ion-label>\n        <ion-input type="password"></ion-input>\n      </ion-item>     \n    </ion-list>\n\n        <div padding>\n            <button ion-button block class="btn btn-primary btn-lg btn3d" (click)="signin()">Sign In</button>\n        </div>\n        \n\n</ion-content>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/login/login.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
-    ], LoginPage);
-    return LoginPage;
-}());
-
-//# sourceMappingURL=login.js.map
 
 /***/ }),
 
@@ -620,6 +535,8 @@ var SectionPage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__quiz_quiz__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_sqlite__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_helpers_helpers__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_async__ = __webpack_require__(169);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_async___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_async__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -629,6 +546,42 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
 
 
 
@@ -657,7 +610,6 @@ var StarterPage = (function () {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
     };
     StarterPage.prototype.goToQuiz = function () {
-<<<<<<< HEAD
         var _this = this;
         // TO-DO by Samak using API #4//
         // Send request from App to get the latest settings
@@ -666,8 +618,12 @@ var StarterPage = (function () {
             console.log("settings = " + localStorage.getItem('settings'));
             _this.no_of_quiz = result;
             // If new settings != old setting, then Update new settings into localStorage settings in App
-            if (localStorage.getItem('settings') != _this.no_of_quiz)
+            if (localStorage.getItem('settings') != _this.no_of_quiz || localStorage.getItem('settings') == null) {
                 localStorage.setItem('settings', _this.no_of_quiz);
+                console.log("settings 2 = " + localStorage.getItem('settings'));
+            }
+            // else
+            // localStorage.setItem('settings',this.no_of_quiz);
         }, function (err) {
             // Connection fail
             console.log(JSON.stringify("err = " + err));
@@ -675,11 +631,6 @@ var StarterPage = (function () {
             console.log('Error in listOfFacilities:' + e);
         });
         //this.updateNumberOfQuizColumn(new_no_of_quiz[""]);
-=======
-        // TO-DO by Samak using API #4//
-        // Send request from App to get the latest settings
-        // If new settings != old setting, then Update new settings into table settings in App
->>>>>>> 1c0ad8223fa638bb603aa8418a7712fb37a41761
         // ======END OF API #4 ======== //
         // TO-DO by Samak using API #6//
         // Send request from App with params: 1. total no. of records, 2. last downloaded date to get order quiz data from server
@@ -687,7 +638,49 @@ var StarterPage = (function () {
         //  Server returns only the updated records recognized by in App modified_date, in Server updated_date
         // else => the total no. of records is different, then
         //  replace all records in App.
-        // ======END OF API #4 ======== //
+        var self = this;
+        this.totalNoOfOrderQuestions()
+            .then(function (value) {
+            self.helpers.postData(value, "request_data_order_question_app").then(function (result) {
+                self.responseData = result;
+                console.log("Data Inserted Successfully = " + JSON.stringify(self.responseData));
+                var codeReturn = JSON.parse(result["code"]);
+                console.log("codeReturn = " + codeReturn);
+                if (codeReturn == 200) {
+                    // If data is synch successfully, update isSent=1 //
+                    //console.log("Data Inserted Successfully = "+JSON.parse(JSON.parse(result["equal"])));
+                    var equalReturn = JSON.parse(result["equal"]);
+                    console.log("equalReturn = " + equalReturn);
+                    switch (equalReturn) {
+                        case 1:// num_q is not equal, replace a whole order_questions table
+                            var objOrderQuestion = result["data"];
+                            console.log("data = " + objOrderQuestion);
+                            objOrderQuestion.forEach(function (item) {
+                                self.updateOrderQuestion(item["id"], item["question_id"], item["next_question_id"], item["updated_at"]);
+                            });
+                            console.log("Replace Inserted!");
+                            break;
+                        case 0:// num_q is equal, update order_questions by id
+                            var objOrderQuestion = result["data"];
+                            objOrderQuestion.forEach(function (item) {
+                                console.log("Item updated_at = " + item["updated_at"]);
+                                self.replaceIntoOrderQuestion(item["id"], item["question_id"], item["next_question_id"], item["created_date"], item["updated_at"]);
+                            });
+                            console.log("Updated!");
+                            break;
+                    }
+                }
+                else
+                    console.log("Synch Data Error");
+                console.log("response = " + JSON.stringify(self.responseData));
+            }).catch(function (e) {
+                console.log('catch in totalNoOfOrderQuestions:' + e);
+            });
+        })
+            .catch(function (e) {
+            console.log('catch in totalNoOfOrderQuestions:' + e);
+        });
+        // ======END OF API #6 ======== //
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__quiz_quiz__["a" /* QuizPage */]);
     };
     StarterPage.prototype.exitButtonClick = function () {
@@ -709,6 +702,143 @@ var StarterPage = (function () {
             ]
         });
         alert.present();
+    };
+    StarterPage.prototype.totalNoOfOrderQuestions = function () {
+        //var data_return = [];
+        var _data = {
+            "number_of_records": "",
+            "last_download_date": ""
+        };
+        var self = this;
+        var asyncTasks = [];
+        var number_of_records = "number_of_records";
+        var pro = new Promise(function (resolve, reject) {
+            var subTasks = [];
+            // Task to count total number of records in order_questions table
+            subTasks.push(function (callback) {
+                return __awaiter(this, void 0, void 0, function () {
+                    var colNames, db, resColNames, num_q, err_1;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                colNames = [];
+                                _a.label = 1;
+                            case 1:
+                                _a.trys.push([1, 4, , 5]);
+                                return [4 /*yield*/, self.sqlite.create({
+                                        name: 'biology.db',
+                                        location: 'default'
+                                    })];
+                            case 2:
+                                db = _a.sent();
+                                return [4 /*yield*/, db.executeSql("SELECT COUNT(*) as total FROM order_questions", {})];
+                            case 3:
+                                resColNames = _a.sent();
+                                num_q = resColNames.rows.item(0).total;
+                                //_data['number_of_records']=num_q;
+                                _data['number_of_records'] = "99"; //for testing only
+                                callback(null, num_q);
+                                return [3 /*break*/, 5];
+                            case 4:
+                                err_1 = _a.sent();
+                                console.log(err_1);
+                                return [3 /*break*/, 5];
+                            case 5: return [2 /*return*/];
+                        }
+                    });
+                });
+            });
+            // Task to max date from order_questions table
+            subTasks.push(function (callback) {
+                return __awaiter(this, void 0, void 0, function () {
+                    var db, resMaxDate, maxDate, err_2;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 3, , 4]);
+                                return [4 /*yield*/, self.sqlite.create({
+                                        name: 'biology.db',
+                                        location: 'default'
+                                    })];
+                            case 1:
+                                db = _a.sent();
+                                return [4 /*yield*/, db.executeSql('SELECT MAX(modified_date) as max_date FROM order_questions', {})];
+                            case 2:
+                                resMaxDate = _a.sent();
+                                console.log('resMaxDate: ' + resMaxDate);
+                                maxDate = resMaxDate.rows.item(0).max_date;
+                                console.log('maxDate: ' + maxDate);
+                                _data['last_download_date'] = maxDate;
+                                callback(null, _data);
+                                return [3 /*break*/, 4];
+                            case 3:
+                                err_2 = _a.sent();
+                                console.error(err_2);
+                                return [3 /*break*/, 4];
+                            case 4: return [2 /*return*/];
+                        }
+                    });
+                });
+            });
+            /*
+            asyncTasks.push(function(callback) {
+              async.waterfall(subTasks, (err, data) => {
+                if (err) {
+                  console.error(err);
+                } else {
+                  //data_return.push(data);
+                  callback(null);
+                }
+              });
+            });
+          */
+            __WEBPACK_IMPORTED_MODULE_6_async___default.a.series(subTasks, function (err, data) {
+                try {
+                    if (err) {
+                        console.error(err);
+                    }
+                    else {
+                        resolve(_data);
+                        console.log(JSON.stringify(_data));
+                    }
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            });
+        });
+        return pro;
+    };
+    StarterPage.prototype.updateOrderQuestion = function (id, question_id, next_question_id, modified_date) {
+        this.sqlite.create({
+            name: 'biology.db',
+            location: 'default'
+        }).then(function (db) {
+            db.executeSql('UPDATE order_questions SET question_id=?, next_question_id=?, modified_date=? WHERE id=?', [question_id, next_question_id, modified_date, id])
+                .then(function (res) {
+                console.log('Data Updated!');
+            })
+                .catch(function (e) {
+                console.log('Catch in Update order_questions:' + e);
+            });
+        })
+            .catch(function (e) {
+            console.log('Catch in updateOrderQuestion:' + e);
+        });
+    };
+    StarterPage.prototype.replaceIntoOrderQuestion = function (id, question_id, next_question_id, created_date, modified_date) {
+        this.sqlite.create({
+            name: 'biology.db',
+            location: 'default'
+        }).then(function (db) {
+            db.executeSql('REPLACE INTO order_questions(id, question_id,next_question_id,created_date,modified_date) VALUES (?,?,?,?,?)', [id, question_id, next_question_id, created_date, modified_date])
+                .then(function (res) {
+                console.log('Data Updated!');
+            })
+                .catch(function (e) {
+                console.log('Catch in replaceIntoOrderQuestion:' + e);
+            });
+        });
     };
     StarterPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
@@ -757,19 +887,15 @@ var map = {
 		6
 	],
 	"../pages/question/question.module": [
-		295,
+		296,
 		5
 	],
 	"../pages/quiz/quiz.module": [
-<<<<<<< HEAD
-		297,
-=======
-		296,
->>>>>>> 1c0ad8223fa638bb603aa8418a7712fb37a41761
+		295,
 		4
 	],
 	"../pages/section-review/section-review.module": [
-		296,
+		297,
 		3
 	],
 	"../pages/section/section.module": [
@@ -801,20 +927,15 @@ module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 211:
+/***/ 212:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WelcomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-<<<<<<< HEAD
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_form__ = __webpack_require__(109);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(111);
-=======
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_form__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(110);
->>>>>>> 1c0ad8223fa638bb603aa8418a7712fb37a41761
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -861,13 +982,13 @@ var WelcomePage = (function () {
 
 /***/ }),
 
-/***/ 212:
+/***/ 213:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(213);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(236);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(237);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -875,7 +996,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 236:
+/***/ 237:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -883,36 +1004,24 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(209);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__ = __webpack_require__(210);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(210);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__ = __webpack_require__(211);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__(291);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_home_home__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_sqlite__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_toast__ = __webpack_require__(167);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__providers_database_database__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_question_question__ = __webpack_require__(56);
-<<<<<<< HEAD
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_section_section__ = __webpack_require__(112);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_form_form__ = __webpack_require__(109);
-=======
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_section_section__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_form_form__ = __webpack_require__(108);
->>>>>>> 1c0ad8223fa638bb603aa8418a7712fb37a41761
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_welcome_welcome__ = __webpack_require__(211);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_welcome_welcome__ = __webpack_require__(212);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__ionic_native_native_audio__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_lesson_lesson__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_quiz_quiz__ = __webpack_require__(57);
-<<<<<<< HEAD
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_section_review_section_review__ = __webpack_require__(110);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_starter_starter__ = __webpack_require__(113);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__providers_helpers_helpers__ = __webpack_require__(87);
-=======
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_section_review_section_review__ = __webpack_require__(109);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_starter_starter__ = __webpack_require__(112);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__providers_helpers_helpers__ = __webpack_require__(167);
->>>>>>> 1c0ad8223fa638bb603aa8418a7712fb37a41761
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_http__ = __webpack_require__(168);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -972,13 +1081,9 @@ var AppModule = (function () {
                         { loadChildren: '../pages/form/form.module#FormPageModule', name: 'FormPage', segment: 'form', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/lesson/lesson.module#LessonPageModule', name: 'LessonPage', segment: 'lesson', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/quiz/quiz.module#QuizPageModule', name: 'QuizPage', segment: 'quiz', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/question/question.module#QuestionPageModule', name: 'QuestionPage', segment: 'question', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/quiz/quiz.module#QuizPageModule', name: 'QuizPage', segment: 'quiz', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/section-review/section-review.module#SectionReviewPageModule', name: 'SectionReviewPage', segment: 'section-review', priority: 'low', defaultHistory: [] },
-<<<<<<< HEAD
-                        { loadChildren: '../pages/quiz/quiz.module#QuizPageModule', name: 'QuizPage', segment: 'quiz', priority: 'low', defaultHistory: [] },
-=======
->>>>>>> 1c0ad8223fa638bb603aa8418a7712fb37a41761
                         { loadChildren: '../pages/section/section.module#SectionPageModule', name: 'SectionPage', segment: 'section', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/starter/starter.module#StarterPageModule', name: 'StarterPage', segment: 'starter', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/welcome/welcome.module#WelcomePageModule', name: 'WelcomePage', segment: 'welcome', priority: 'low', defaultHistory: [] }
@@ -1030,8 +1135,8 @@ var AppModule = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(210);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(209);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(211);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(210);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_starter_starter__ = __webpack_require__(113);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1254,13 +1359,8 @@ var LessonPage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_database_database__ = __webpack_require__(30);
-<<<<<<< HEAD
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_native_audio__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__section_review_section_review__ = __webpack_require__(110);
-=======
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_native_audio__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__section_review_section_review__ = __webpack_require__(109);
->>>>>>> 1c0ad8223fa638bb603aa8418a7712fb37a41761
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1995,7 +2095,7 @@ var QuestionPage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_native_audio__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_helpers_helpers__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_sqlite__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_async__ = __webpack_require__(270);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_async__ = __webpack_require__(169);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_async___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_async__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2041,378 +2141,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-<<<<<<< HEAD
-// import { Component } from '@angular/core';
-// import {AlertController, App, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
-// import { DatabaseProvider } from "../../providers/database/database";
-// import {SectionPage} from "../section/section";
-// import { NativeAudio } from '@ionic-native/native-audio';
-//
-// /**
-//  * Generated class for the QuizPage page.
-//  *
-//  * See https://ionicframework.com/docs/components/#navigation for more info on
-//  * Ionic pages and navigation.
-//  */
-//
-// @IonicPage()
-// @Component({
-//   selector: 'page-quiz',
-//template:/*ion-inline-start:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/quiz/quiz.html"*/'<!--\n  Generated template for the QuizPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="skyblue" >\n    <ion-title>សំណួរ</ion-title>\n      <!--<ion-title>សំណួរទី {{current.question_number || \'\'}}</ion-title>-->\n  </ion-navbar>\n</ion-header>\n<ion-content >\n    <ion-grid class="content">\n    <!--<ion-row class="content">-->\n    <!--<ion-col text-wrap width-100 padding>-->\n    <!--&lt;!&ndash;{{sections.image1}}&ndash;&gt;-->\n    <!--{{current.question_number || \'\'}}-->\n    <!--{{current.question_text || \'\'}}-->\n    <!--</ion-col>-->\n    <!--</ion-row>-->\n    <ion-row class="choice">\n        <ion-item >\n        <ion-item-sliding no-lines no-padding width-100 *ngFor="let answers of answers; let i=index">\n          <ion-item no-lines no-padding>\n            <button ion-button class="btn btn-primary btn-lg btn3d" width-100 menu-header block color="primary" (click)="answer(answers.is_correct_answer, answers.question_id,answers.answer_order)">\n              {{answers.answer_text}}\n            </button>\n          </ion-item>\n        </ion-item-sliding>\n        </ion-item>\n    </ion-row>\n    </ion-grid>\n</ion-content>\n<ion-footer unit-footer>\n  <ion-toolbar  color="lightgreen">\n    <button ion-button float-start clear (click)="backButtonClick()">\n      <ion-icon name="arrow-back"></ion-icon>\n    </button>\n    <button ion-button clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>'/*ion-inline-end:"/home/samak/Documents/00 Biology_Game/Soft Code/Biology_Game_Grad12/src/pages/quiz/quiz.html"*/,
-// })
-// export class QuizPage {
-//   current: any = {};
-//   questions: any = {};
-//   answers: any = [];
-//   lessonID: number;
-//   sectionID: number;
-//   nextQuestion: number;
-//   userQuestion: number;
-//
-//   constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio, private app: App) {
-//     this.lessonID = navParams.get('lessonID');
-//     this.nextQuestion = this.navParams.get('nextQuestion');
-//
-//     console.log("Next Question ID ", this.nextQuestion);
-//     // this.getUserQuestion(1).then(()=>{
-//     //     this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.userQuestion}`)
-//     //         .then(res => {
-//     //             this.questions = {};
-//     //             var first = res.rows.item(0).id;
-//     //             for (var i = 0; i < res.rows.length; i++){
-//     //                 this.questions[res.rows.item(i).id] = {
-//     //                     id:res.rows.item(i).id,
-//     //                     question_number:res.rows.item(i).question_number,
-//     //                     question_text:res.rows.item(i).question_text,
-//     //                     image1:res.rows.item(i).image1,
-//     //                     image2:res.rows.item(i).image2,
-//     //                     image3:res.rows.item(i).image3,
-//     //                     question_sound:res.rows.item(i).question_sound,
-//     //                     num_of_answer:res.rows.item(i).num_of_answer,
-//     //                     correct_answer_number:res.rows.item(i).correct_answer_number,
-//     //                     score:res.rows.item(i).score,
-//     //                     section_id:res.rows.item(i).section_id,
-//     //                     correct_answer_sound:res.rows.item(i).correct_answer_sound,
-//     //                     incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
-//     //                     next_question_id:res.rows.item(i).next_question_id,
-//     //                     created_date:res.rows.item(i).created_date,
-//     //                     modified_date:res.rows.item(i).modified_date
-//     //                 }
-//     //                 //break;
-//     //             }
-//     //             console.log(this.questions);
-//     //             this.content(first);
-//     //
-//     //         }).catch(e => console.log((e)))
-//     // });
-//
-//       platform.ready().then(() => {
-//           //Registration of push in Android and Windows Phone
-//           platform.registerBackButtonAction(() => {
-//               let nav = this.app.getActiveNav();
-//               console.log('Back is click')
-//               if (nav.canGoBack()){ //Can we go back?
-//                   nav.popToRoot();
-//               }else{
-//                   this.platform.exitApp(); //Exit from app
-//               }
-//           });
-//       });
-//
-//   }
-//     ionViewDidEnter(){
-//       //Previous Question
-//
-//         this.getUserQuestion(1).then(()=>{
-//             // this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.userQuestion}`)
-//             this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.userQuestion}`)
-//                 .then(res => {
-//                     this.questions = {};
-//                     var first = res.rows.item(0).id;
-//                     for (var i = 0; i < res.rows.length; i++){
-//                         this.questions[res.rows.item(i).id] = {
-//                             id:res.rows.item(i).id,
-//                             question_number:res.rows.item(i).question_number,
-//                             question_text:res.rows.item(i).question_text,
-//                             image1:res.rows.item(i).image1,
-//                             image2:res.rows.item(i).image2,
-//                             image3:res.rows.item(i).image3,
-//                             question_sound:res.rows.item(i).question_sound,
-//                             num_of_answer:res.rows.item(i).num_of_answer,
-//                             correct_answer_number:res.rows.item(i).correct_answer_number,
-//                             score:res.rows.item(i).score,
-//                             section_id:res.rows.item(i).section_id,
-//                             correct_answer_sound:res.rows.item(i).correct_answer_sound,
-//                             incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
-//                             next_question_id:res.rows.item(i).next_question_id,
-//                             created_date:res.rows.item(i).created_date,
-//                             modified_date:res.rows.item(i).modified_date
-//                         }
-//                         //break;
-//                     }
-//                     console.log(this.questions);
-//                     this.content(first);
-//
-//                 }).catch(e => console.log((e)))
-//         });
-//     }
-//     ionViewWillLeave() {
-//         console.log("ionViewWillLeave(): View is about to leave, Stopping current playback sound.")
-//         this.nativeAudio.stop(this.current.id).then(() => {
-//             this.nativeAudio.unload(this.current.id);
-//         },()=>{
-//
-//         });
-//     }
-//
-//   getSectionID (){
-//         return this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.nextQuestion}`)
-//             .then(res => {
-//                 this.sectionID = res.rows.item(0).section_id;
-//                 console.log(this.sectionID);
-//             }).catch(e => console.log((e)))
-//   }
-//   getNextQuestions(section_id: number){
-//         return this.db.executeSQL(`SELECT * FROM questions WHERE section_id = ${section_id} ORDER BY id DESC LIMIT 1`)
-//             .then(res => {
-//                 //this.questions = {};
-//                 for (var i = 0; i < res.rows.length; i++){
-//                     this.questions = {
-//                         id:res.rows.item(i).id,
-//                         question_number:res.rows.item(i).question_number,
-//                         question_text:res.rows.item(i).question_text,
-//                         image1:res.rows.item(i).image1,
-//                         image2:res.rows.item(i).image2,
-//                         image3:res.rows.item(i).image3,
-//                         question_sound:res.rows.item(i).question_sound,
-//                         num_of_answer:res.rows.item(i).num_of_answer,
-//                         correct_answer_number:res.rows.item(i).correct_answer_number,
-//                         score:res.rows.item(i).score,
-//                         section_id:res.rows.item(i).section_id,
-//                         correct_answer_sound:res.rows.item(i).correct_answer_sound,
-//                         incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
-//                         next_question_id:res.rows.item(i).next_question_id,
-//                         created_date:res.rows.item(i).created_date,
-//                         modified_date:res.rows.item(i).modified_date
-//                     }
-//                     //break;
-//                 }
-//                 console.log("Last Question", this.questions);
-//             }).catch(e => console.log((e)));
-//   };
-//
-//   // getQuestions(lesson_id: number){
-//   //     return this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${lesson_id}`)
-//   //         .then(res => {
-//   //             this.questions = {};
-//   //             var first = res.rows.item(0).id;
-//   //             for (var i = 0; i < res.rows.length; i++){
-//   //                 this.questions[res.rows.item(i).id] = {
-//   //                     id:res.rows.item(i).id,
-//   //                     question_number:res.rows.item(i).question_number,
-//   //                     question_text:res.rows.item(i).question_text,
-//   //                     image1:res.rows.item(i).image1,
-//   //                     image2:res.rows.item(i).image2,
-//   //                     image3:res.rows.item(i).image3,
-//   //                     question_sound:res.rows.item(i).question_sound,
-//   //                     num_of_answer:res.rows.item(i).num_of_answer,
-//   //                     correct_answer_number:res.rows.item(i).correct_answer_number,
-//   //                     score:res.rows.item(i).score,
-//   //                     section_id:res.rows.item(i).section_id,
-//   //                     correct_answer_sound:res.rows.item(i).correct_answer_sound,
-//   //                     incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
-//   //                     next_question_id:res.rows.item(i).next_question_id,
-//   //                     created_date:res.rows.item(i).created_date,
-//   //                     modified_date:res.rows.item(i).modified_date
-//   //                 }
-//   //                 //break;
-//   //             }
-//   //             console.log("questions", this.questions);
-//   //         }).catch(e => console.log((e)))
-//   // };
-//
-//   getUserQuestion(user_id: number){
-//         return this.db.executeSQL(`SELECT * FROM user_questions WHERE user_id = ${user_id}`)
-//             .then(res => {
-//                 // console.log("lesson", res);
-//                 this.userQuestion = res.rows.item(0).next_question_id;
-//             }).catch(e => {
-//                 console.log((e));
-//                 this.userQuestion =1;
-//             });
-//   }
-//
-//   // getLessonID(question_id: number){
-//   //     return this.db.executeSQL(`SELECT * FROM questions WHERE question_number = ${question_id}`)
-//   //         .then(res => {
-//   //             console.log("lesson", res);
-//   //                 this.lessonID = res.rows.item(0).lesson_id;
-//   //         }).catch(e => console.log((e)))
-//   // }
-//
-//   getAnswers(questions_id: number) {
-//     this.db.executeSQL(`SELECT * FROM answers WHERE question_id = ${questions_id}`)
-//         .then(res => {
-//           this.answers = [];
-//           console.log(res);
-//           for (var i = 0; i<res.rows.length; i++){
-//             this.answers.push({
-//               id:res.rows.item(i).id,
-//               answer_text:res.rows.item(i).answer_text,
-//               answer_order:res.rows.item(i).answer_order,
-//               answer_image:res.rows.item(i).answer_image,
-//               answer_sound:res.rows.item(i).answer_sound,
-//               question_id:res.rows.item(i).question_id,
-//               is_correct_answer:res.rows.item(i).is_correct_answer,
-//               created_date:res.rows.item(i).created_date,
-//               modified_date:res.rows.item(i).modified_date
-//             })
-//           }
-//         }).catch(e => console.log((e)));
-//   }
-//
-//   content(id) {
-//     console.log(id);
-//     console.log("Hello : ", id);
-//
-//     if (this.nextQuestion){
-//         //let temp = this.questions[this.nextQuestion];
-//         let temp;
-//         // if (typeof temp !== 'undefined') {
-//         //     //Get Next Question
-//         //     this.current = temp;
-//         // }
-//         console.group('Current');
-//         console.log('Get Next Question: ', this.current);
-//         console.groupEnd();
-//
-//         if (typeof temp == 'undefined'){
-//             this.getSectionID().then(()=>{
-//                 console.log("SECTION_ID : " + this.sectionID);
-//                 this.getNextQuestions(this.sectionID).then(()=>{
-//                     console.log("QUESTION", this.questions);
-//                     this.current = this.questions;
-//                     console.log('TEST CUR:', this.current);
-//                     console.log(this.current.id);
-//                     console.log(this.current.question_sound);
-//                     this.getAnswers(this.current.id);
-//                     this.nativeAudio.preloadComplex(this.current.id, 'assets/sounds/'+this.current.question_sound,1,1,0).then(()=>{
-//                         this.nativeAudio.play(this.current.id, ()=>{
-//                             this.nativeAudio.unload(this.current.id);
-//                         });
-//                     });
-//                     console.log(this.current.question_sound);
-//                 });
-//             });
-//         } else {
-//             this.getAnswers(this.current.id);
-//         }
-//     }
-//     else{
-//         this.current = this.questions[id];
-//         console.log(this.current);
-//         this.getAnswers(this.current.id);
-//         this.nativeAudio.preloadComplex(this.current.id, 'assets/sounds/'+this.current.question_sound,1,1,0).then(()=>{
-//             this.nativeAudio.play(this.current.id, ()=>{
-//                 this.nativeAudio.unload(this.current.id);
-//             });
-//         });console.log(this.current.question_sound);
-//     }
-//   }
-//   public answer (correct_ans: number, question_id: number){
-//       if (correct_ans == 1){
-//           return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
-//               return this.nativeAudio.play('correct', ()=>{
-//                   this.nativeAudio.unload('correct');
-//                   this.db.executeSQL(`select * from questions where id = '${question_id}'`)
-//                       .then(res => {
-//                           let section_id = res.rows.item(0).section_id;
-//                           let next_question_id = res.rows.item(0).next_question_id;
-//                           console.log('section_id', section_id);
-//                           //Save User_Question
-//                           this.db.executeSQL(`INSERT INTO user_question ( is_correct, question_id, user_id)
-//                                             VALUES (1,` + next_question_id + `, ` + section_id + `)`).then(res=>{
-//                               console.log(res);
-//                           });
-//                           //End Save
-//                           // console.log(this.current.question_sound);
-//                           this.navCtrl.push(SectionPage, {
-//                               answerCorrect: correct_ans,
-//                               sectionID: section_id,
-//                               nextQuestionID: next_question_id
-//                           });
-//                       });
-//               });
-//           });
-//       }else {
-//           return this.nativeAudio.preloadComplex('wrong', 'assets/sounds/wrong.mp3',1,1,0).then(()=>{
-//               return this.nativeAudio.play('wrong', ()=>{
-//                   this.nativeAudio.unload('wrong');
-//                   this.db.executeSQL(`select * from questions where id = '${question_id}'`)
-//                       .then(res => {
-//                           let section_id = res.rows.item(0).section_id;
-//                           let next_question_id = res.rows.item(0).next_question_id;
-//                           console.log('section_id', section_id);
-//                           //Save User_Question
-//                           this.db.executeSQL(`INSERT INTO user_question ( is_correct, question_id, user_id)
-//                                             VALUES (1,` + next_question_id + `, ` + section_id + `)`).then(res=>{
-//                               console.log(res);
-//                           });
-//                           //End Save
-//                           // console.log(this.current.question_sound);
-//                           this.navCtrl.push(SectionPage, {
-//                               answerCorrect: correct_ans,
-//                               sectionID: section_id,
-//                               nextQuestionID: next_question_id
-//                           });
-//                       });
-//               });
-//           });
-//       }
-//   }
-//
-//   backButtonClick(){
-//       this.navCtrl.pop();
-//   }
-//
-//   exitButtonClick() {
-//       let alert = this.alertCtrl.create({
-//           title: 'ចាកចេញ',
-//           message: 'តើ​អ្នក​ពិត​ជា​ចង់​ចាក​ចេញ​ពី​កម្មវិធី​នេះ?​',
-//           buttons: [
-//               {
-//                   text: "ទេ",
-//                   role: 'cancel'
-//               },
-//               {
-//                   text: "បាទ​ / ចាស",
-//                   handler: () => {
-//                       this.platform.exitApp();
-//                   }
-//               },
-//           ]
-//       });
-//       alert.present();
-//   }
-//
-//     replayButtonClick() {
-//         // this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
-//         //     this.nativeAudio.play(this.current.id, ()=>{
-//         //         this.nativeAudio.unload(this.current.id);
-//         //     });
-//         // });
-//         // console.log(this.current.question_sound);
-//         this.nativeAudio.stop(this.current.id).then(() => {
-//             this.nativeAudio.play(this.current.id, ()=>{
-//                 this.nativeAudio.unload(this.current.id);
-//             });console.log(this.current.question_sound);
-//         },()=>{
-//
-//         });
-//     }
-// }
-=======
->>>>>>> 1c0ad8223fa638bb603aa8418a7712fb37a41761
 
 
 
@@ -2529,7 +2257,7 @@ var QuizPage = (function () {
         var _this = this;
         this.nextQuestionID = localStorage.getItem("NextQID");
         console.log("local storage NEXTQID = " + this.nextQuestionID);
-        return this.db.executeSQL("SELECT * FROM questions WHERE id = " + this.nextQuestionID)
+        return this.db.executeSQL("SELECT * FROM questions WHERE id = " + this.nextQuestionID) // =?> Error 
             .then(function (res) {
             console.log("res in getUserQuestion = " + JSON.stringify(res));
             _this.userQuestion = res.rows.item(0).id;
@@ -2599,11 +2327,7 @@ var QuizPage = (function () {
                         // let next_question_id = res.rows.item(0).next_question_id;
                         console.log('section_id', section_id);
                         /*
-<<<<<<< HEAD
-                         //Save data to table User_Quiz
-=======
                          //Save data to table user_quizzes
->>>>>>> 1c0ad8223fa638bb603aa8418a7712fb37a41761
                          Samak API #2
                         */
                         //Save User_Question
@@ -2734,7 +2458,10 @@ var QuizPage = (function () {
                 console.log("response = " + JSON.stringify(self.responseData));
             }, function (err) {
                 // Connection fail
-                console.log(JSON.stringify("err = " + err));
+                console.log(JSON.stringify("err while postData= " + err));
+            })
+                .catch(function (e) {
+                console.log('bleh:' + e);
             });
         })
             .catch(function (e) {
@@ -3011,7 +2738,7 @@ var HomePage = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HelpersProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(168);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(269);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(270);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -3043,7 +2770,7 @@ var HelpersProvider = (function () {
             var headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Headers */]();
             //this.http.post(apiUrl+type, JSON.stringify(credentials),{headers: headers})
             console.log("credentials data = " + JSON.stringify(credentials));
-            //console.log("apiUrl+type = "+apiUrl+type);
+            console.log("apiUrl+type = " + apiUrl + type);
             //this.http.post(apiUrl+type, credentials)
             _this.http.post(apiUrl + type, credentials, { headers: headers })
                 .subscribe(function (res) {
@@ -3077,5 +2804,5 @@ var HelpersProvider = (function () {
 
 /***/ })
 
-},[212]);
+},[213]);
 //# sourceMappingURL=main.js.map
