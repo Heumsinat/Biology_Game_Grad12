@@ -18,8 +18,6 @@ import {SectionPage} from "../pages/section/section";
 import { LoginPage } from "../pages/login/login";
 import { FormPage } from "../pages/form/form";
 import { WelcomePage } from "../pages/welcome/welcome";
-
-// import {WelcomePage} from "../pages/welcome/welcome";
 import {NativeAudio} from "@ionic-native/native-audio";
 import {LessonPage} from "../pages/lesson/lesson";
 import {QuizPage} from "../pages/quiz/quiz";
@@ -27,6 +25,7 @@ import {SectionReviewPage} from "../pages/section-review/section-review";
 import {StarterPage} from "../pages/starter/starter";
 import { HelpersProvider } from '../providers/helpers/helpers';
 import { HttpModule } from '@angular/http';
+import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 
 
 
@@ -43,7 +42,8 @@ import { HttpModule } from '@angular/http';
     WelcomePage,
     QuizPage,
     SectionReviewPage,
-    StarterPage
+    StarterPage,
+    LeaderboardPage,
   ],
   imports: [
     BrowserModule,
@@ -66,7 +66,8 @@ import { HttpModule } from '@angular/http';
     WelcomePage,
     QuizPage,
     SectionReviewPage,
-    StarterPage
+    StarterPage,
+    LeaderboardPage
   ],
   providers: [
     StatusBar,

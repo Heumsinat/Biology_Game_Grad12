@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component , ChangeDetectorRef} from '@angular/core';
 import {AlertController, App, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import { DatabaseProvider } from "../../providers/database/database";
 import {SectionPage} from "../section/section";
@@ -33,9 +33,20 @@ export class QuizPage {
     currentQuestionID: any;
     userQuestion: number;
     responseData : any;
+    public playCompleted: boolean;
 
-
-    constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController,private platform: Platform, public db: DatabaseProvider, private nativeAudio: NativeAudio, private app: App, private helpers: HelpersProvider, private sqlite: SQLite) {
+    constructor(
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        private alertCtrl: AlertController,
+        private platform: Platform,
+        public db: DatabaseProvider,
+        private nativeAudio: NativeAudio,
+        private app: App,
+        private helpers: HelpersProvider,
+        private sqlite: SQLite,
+        private changeRef: ChangeDetectorRef
+    ) {
         this.lessonID = navParams.get('lessonID'); //Get param lessonID from SectionPage
         this.currentQuestionID = this.navParams.get('questionID');
         //console.log('current question id in constructor = ', this.currentQuestionID);
@@ -51,6 +62,7 @@ export class QuizPage {
                 }
             });
         });
+        this.playCompleted = false;
     }
 
     ionViewDidEnter(){
@@ -166,6 +178,8 @@ export class QuizPage {
                 this.nativeAudio.preloadComplex(this.current.id, 'assets/sounds/'+this.current.question_sound,1,1,0).then(()=>{
                     this.nativeAudio.play(this.current.id, ()=>{
                         this.nativeAudio.unload(this.current.id);
+                        this.playCompleted = true;
+                        this.changeRef.detectChanges();
                     });
                 });
                 console.log(this.current.question_sound);

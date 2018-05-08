@@ -1,10 +1,9 @@
 import { Component , ChangeDetectorRef} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {DatabaseProvider} from "../../providers/database/database";
-import {QuestionPage} from "../question/question";
 import { NativeAudio } from '@ionic-native/native-audio';
-import {QuizPageModule} from "../quiz/quiz.module";
 import {QuizPage} from "../quiz/quiz";
+import {LeaderboardPage} from "../leaderboard/leaderboard";
 
 /**
  * Generated class for the SectionPage page.
@@ -121,7 +120,7 @@ export class SectionPage {
                       }
                   );
               }else {
-                  this.navCtrl.popToRoot();
+                  this.navCtrl.push(LeaderboardPage);
               }
               // }).catch(e => console.log((e)));
           }).catch(e => console.log((e)));
