@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, Platform } from '
 import { Toast } from '@ionic-native/toast';
 import { FormPage } from '../form/form';
 import { LoginPage } from '../login/login';
+import { FacebookPage } from '../facebook/facebook';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
 /**
@@ -20,8 +21,8 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 export class WelcomePage {
 
   public infoID;
-  isLoggedIn:boolean = false;
-  users: any;
+  // isLoggedIn:boolean = false;
+  // users: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
@@ -45,6 +46,7 @@ export class WelcomePage {
   }
 
   fbForm(){
+    this.navCtrl.push(FacebookPage);
       // this.fb.login(['public_profile', 'user_friends', 'email'])
       //     .then((res: FacebookLoginResponse) => console.log('Logged into Facebook!', res))
       //     .catch(e => console.log('Error logging into Facebook', e));
@@ -52,28 +54,7 @@ export class WelcomePage {
 
       // this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
 
-      this.fb.login(['public_profile', 'user_friends', 'email'])
-    .then(res => {
-      if(res.status === "connected") {
-        this.isLoggedIn = true;
-        this.getUserDetail(res.authResponse.userID);
-      } else {
-        this.isLoggedIn = false;
-      }
-    })
-    .catch(e => console.log('Error logging into Facebook', e));
-
-  }
-
-  getUserDetail(userid) {
-    this.fb.api("/"+userid+"/?fields=id,email,name,picture,gender",["public_profile"])
-      .then(res => {
-        console.log(res);
-        this.users = res;
-      })
-      .catch(e => {
-        console.log(e);
-      });
+     
   }
   
 

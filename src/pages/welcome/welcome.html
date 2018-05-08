@@ -38,7 +38,7 @@
     <ion-grid *ngIf="infoID == 'root'">
     
         <div padding id="btn1">
-          <button class="btn btn-primary btn-lg btn3d" (click)="info('C2')" (click)="fbForm()"><ion-icon class="ficon" name="logo-facebook"></ion-icon>Facebook</button>
+          <button class="btn btn-primary btn-lg btn3d" (click)="fbForm()"><ion-icon class="ficon" name="logo-facebook"></ion-icon>Facebook</button>
           
         </div>
         <div padding id="btn2">
@@ -51,17 +51,7 @@
 
 
 
-    <ion-grid *ngIf="infoID == 'C2'">
-        <div *ngIf="isLoggedIn; else facebookLogin">
-            <h2>Hi, {{users.name}} ({{users.email}}), how are you??</h2>
-            <p>
-              Gender: {{users.gender}}
-            </p>
-            <p>
-              <img src="{{users.picture.data.url}}" width="100" alt="{{users.name}}" />
-            </p>
-        </div>
-    </ion-grid>
+   
 
 
 

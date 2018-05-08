@@ -14,10 +14,12 @@ import {SectionPage} from "../pages/section/section";
 import { LoginPage } from "../pages/login/login";
 import { FormPage } from "../pages/form/form";
 import { WelcomePage } from "../pages/welcome/welcome";
+import { FacebookPage } from "../pages/facebook/facebook";
+
+
 import { IonFormWizard } from './wizard.component';
 import { IonFormWizardStep } from './wizard.step.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Camera } from '@ionic-native/camera';
 import { Facebook  } from '@ionic-native/facebook';
 
 
@@ -41,24 +43,18 @@ import { HttpModule } from '@angular/http';
     LoginPage,
     FormPage,
     WelcomePage,
-
+    FacebookPage,
     QuizPage,
     SectionReviewPage,
     StarterPage,
-
     IonFormWizard,
     IonFormWizardStep
-
-
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-
     HttpModule,
-
     BrowserAnimationsModule
-
     
   ],
   bootstrap: [IonicApp],
@@ -70,8 +66,8 @@ import { HttpModule } from '@angular/http';
     SectionPage,
     LoginPage,
     FormPage,
-
     WelcomePage,
+    FacebookPage,
     QuizPage,
     SectionReviewPage,
     StarterPage
@@ -85,11 +81,9 @@ import { HttpModule } from '@angular/http';
     SQLite,
     Toast,
     DatabaseProvider,
-
     HelpersProvider,
-
-    Facebook,
-    Camera
+    Facebook
+    
 
   ]
 })
