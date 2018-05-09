@@ -31429,7 +31429,7 @@ page-starter .button-clear-md {
 }
 
 page-starter .content {
-  background-image: url("../assets/img/screen_background.png");
+  background-image: url("../assets/img/Evolution_screen.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
@@ -31440,18 +31440,46 @@ page-starter .content {
   vertical-align: middle;
 }
 
+page-starter .content .profile {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+page-starter .content .profile img {
+  border-radius: 50%;
+  width: 100%;
+  text-align: right;
+}
+
+page-starter .content .profile .col {
+  text-align: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  color: #f53d3d;
+  font-size: 24px;
+}
+
+page-starter .content .profile [col-5] {
+  padding-top: 20px;
+  text-align: center;
+}
+
 page-starter .content .message {
-  padding-top: 32%;
+  padding-top: 45px;
   padding-left: 20px;
   padding-right: 20px;
 }
 
 page-starter .content .message .card-md {
-  height: 100px;
+  height: 85px;
 }
 
 page-starter .content .message .card-content-md {
-  font-size: 26px;
+  padding: 0;
+  font-size: 25px;
   text-align: center;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -31461,18 +31489,18 @@ page-starter .content .message .card-content-md {
 }
 
 page-starter .content .btnQuiz {
-  padding-top: 5px;
+  padding-top: 3px;
   padding-left: 30px;
   padding-right: 30px;
 }
 
 page-starter .content .btnQuiz [ion-button] {
   height: 100px;
-  font-size: 2.8em;
+  font-size: 2.7em;
 }
 
 page-starter .content .btnReview {
-  padding-top: 5px;
+  padding-top: 3px;
   padding-left: 30px;
   padding-right: 30px;
 }

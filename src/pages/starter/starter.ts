@@ -23,6 +23,7 @@ export class StarterPage {
   no_of_quiz: any;
   day_of_quiz : any;
   responseData : any;
+  total_score: any;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -32,11 +33,19 @@ export class StarterPage {
     private helpers: HelpersProvider,
     public db: DatabaseProvider,
   ) {
-
-
+    //******** Sinat *********/
+    //  Get total score that user has played
+    this.db.executeSQL(`SELECT SUM(score) as total FROM user_quizzes WHERE user_id= 1`)
+    .then(res => {
+     this.total_score = res.rows.item(0).total; // total_score is a number that user have play for today
+      console.log('Total score =', this.total_score);
+  
+    }).catch(e => console.log((e)));
+   
   }
 
   ionViewDidLoad() {
+    
 
     console.log('ionViewDidLoad StarterPage');
 
@@ -64,8 +73,6 @@ export class StarterPage {
     //this.updateNumberOfQuizColumn(new_no_of_quiz[""]);
     // ======END OF API #4 ======== //
 
-
-
     /*
      ****** SINAT ******
      condition to check number of question that user played and compared with setting before allow user to play game
@@ -82,8 +89,9 @@ export class StarterPage {
           this.day_of_quiz = Number(localStorage.getItem('settings')) - Number(localStorage.getItem('num_q'));
           console.log('get number of settings =', num_quiz);
         }).catch(e => console.log((e)));
+
     /*
-     ******Eng SINAT *****
+     ******End SINAT *****
      */
   
 
@@ -144,13 +152,11 @@ export class StarterPage {
         console.log('catch in totalNoOfOrderQuestions:' + e);
       }); 
     // ======END OF API #6 ======== //
-   
-    
-
 
   }
 
   goToQuiz() {
+    //**** Sinat**** 
     // condition to check number of question that user played and compared with setting before allow user to play game
     // compare number of question that user play today with number that set from settings
     let num_quiz = Number(localStorage.getItem('settings'));
