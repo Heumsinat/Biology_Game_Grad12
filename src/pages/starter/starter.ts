@@ -6,6 +6,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { HelpersProvider } from '../../providers/helpers/helpers';
 import async from 'async';
 import {DatabaseProvider} from "../../providers/database/database";
+import { ProfilePage } from '../profile/profile';
 
 /**
  * Generated class for the StarterPage page.
@@ -39,6 +40,7 @@ export class StarterPage {
     .then(res => {
      this.total_score = res.rows.item(0).total; // total_score is a number that user have play for today
       console.log('Total score =', this.total_score);
+      localStorage.setItem('Score',this.total_score);
   
     }).catch(e => console.log((e)));
    
@@ -316,5 +318,10 @@ export class StarterPage {
           console.log('Catch in replaceIntoOrderQuestion:' + e);
         });
       })
+    }
+
+    GotoProfilePage(){
+      this.navCtrl.push(
+        ProfilePage);
     }
 }

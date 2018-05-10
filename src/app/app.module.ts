@@ -16,12 +16,10 @@ import { FormPage } from "../pages/form/form";
 import { WelcomePage } from "../pages/welcome/welcome";
 import { FacebookPage } from "../pages/facebook/facebook";
 
-
 import { IonFormWizard } from './wizard.component';
 import { IonFormWizardStep } from './wizard.step.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Facebook  } from '@ionic-native/facebook';
-
 
 import {NativeAudio} from "@ionic-native/native-audio";
 import {LessonPage} from "../pages/lesson/lesson";
@@ -31,7 +29,7 @@ import {StarterPage} from "../pages/starter/starter";
 import { HelpersProvider } from '../providers/helpers/helpers';
 import { HttpModule } from '@angular/http';
 import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
-
+import { ProfilePage } from '../pages/profile/profile';
 
 
 @NgModule({
@@ -50,7 +48,8 @@ import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
     StarterPage,
     LeaderboardPage,
     IonFormWizard,
-    IonFormWizardStep
+    IonFormWizardStep,
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -73,7 +72,8 @@ import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
     QuizPage,
     SectionReviewPage,
     StarterPage,
-    LeaderboardPage
+    LeaderboardPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,
@@ -86,7 +86,6 @@ import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
     HelpersProvider,
     Facebook
     
-
   ]
 })
 export class AppModule {}

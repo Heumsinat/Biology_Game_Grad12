@@ -31098,6 +31098,93 @@ page-login .btn3d.btn-primary.active {
   background-color: #4274D7;
 }
 
+page-profile .content {
+  background-color: #13BA33;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+page-profile .content .scroll-content {
+  overflow-y: hidden !important;
+}
+
+page-profile .content .title {
+  padding-top: 20px;
+  text-align: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 40px;
+  color: white;
+}
+
+page-profile .content .show_content {
+  padding: 10px 30px !important;
+}
+
+page-profile .content .show_content .profile {
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+page-profile .content .show_content .profile img {
+  border-radius: 50%;
+  width: 100%;
+  text-align: right;
+}
+
+page-profile .content .show_content .score {
+  text-align: left;
+  padding-top: 20px;
+  padding-left: 20px;
+  font-size: 24px;
+  color: #1569ff;
+}
+
+page-profile .content .show_content .badge {
+  text-align: left;
+  padding-top: 20px;
+  padding-left: 20px;
+  font-size: 24px;
+  color: #1569ff;
+}
+
+page-profile .content .show_content .badge_image {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+page-profile .content .show_content .badge_image h1 {
+  color: #1569ff;
+}
+
+page-profile .content .show_content .badge_image img {
+  width: 70px;
+  height: 70px;
+}
+
+page-profile [unit-footer] ion-toolbar {
+  text-align: center;
+}
+
+page-profile [unit-footer] ion-toolbar .button-clear-md {
+  color: white;
+}
+
+page-profile [unit-footer] ion-toolbar [ion-button] {
+  font-size: 1.6em;
+}
+
+page-profile [unit-footer] .toolbar-background {
+  border-color: transparent;
+}
+
+page-profile [unit-footer]:before {
+  background-image: none;
+}
+
 page-question .toolbar-background-md {
   background: transparent;
 }
@@ -31462,13 +31549,8 @@ page-starter .content .profile .col {
   font-size: 24px;
 }
 
-page-starter .content .profile [col-5] {
-  padding-top: 20px;
-  text-align: center;
-}
-
 page-starter .content .message {
-  padding-top: 45px;
+  padding-top: 20%;
   padding-left: 20px;
   padding-right: 20px;
 }

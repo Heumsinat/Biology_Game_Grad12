@@ -7,7 +7,7 @@ page-starter {
     color: white;
   }
   .content{
-    // background-image: url('../assets/img/screen_background.png');
+    //  background-image: url('../assets/img/screen_background.png');
     background-image: url('../assets/img/Evolution_screen.png');
     background-repeat: no-repeat;
     background-size:cover;
@@ -15,7 +15,6 @@ page-starter {
     justify-content: center;
     vertical-align: middle;
     .profile{
-      
       padding-left: 20px;
       padding-right: 20px;
       img {
@@ -30,14 +29,14 @@ page-starter {
         color: #f53d3d;
         font-size: 24px;
       }
-      [col-5]{
-        padding-top: 20px;
-        text-align: center;
-      }
+      // [col-5]{
+      //   padding-top: 20px;
+      //   text-align: center;
+      // }
       
     }
     .message{
-      padding-top: 45px;
+      padding-top: 20%;
       padding-left: 20px;
       padding-right: 20px;
       .card-md {
