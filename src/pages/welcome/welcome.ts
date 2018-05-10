@@ -21,15 +21,15 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 export class WelcomePage {
 
   public infoID;
-  // isLoggedIn:boolean = false;
-  // users: any;
+  isLoggedIn:boolean = false;
+  users: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
               public alertCtrl: AlertController, 
               public platform: Platform, 
               private fb: Facebook,
-              private toast: Toast) { typeof this.navParams.get('infoID') == 'undefined' ? this.infoID = 'root' : this.infoID = this.navParams.get('infoID');
+              private toast: Toast) {  typeof this.navParams.get('infoID') == 'undefined' ? this.infoID = 'root' : this.infoID = this.navParams.get('infoID');
 
     //           fb.getLoginStatus()
     // .then(res => {
@@ -45,8 +45,53 @@ export class WelcomePage {
 
   }
 
+
+  // getFbData(){
+  //   this.fb.login(['public_profile', 'user_friends', 'email'])
+  //   .then(res => {
+  //     if(res.status === "connected") {
+  //       this.isLoggedIn = true;
+  //       this.getUserDetail(res.authResponse.userID);
+  //     } else {
+  //       this.isLoggedIn = false;
+  //     }
+  //   })
+  //   .catch(e => console.log('Error logging into Facebook', e));
+  // }
+
+  getUserDetail(userid) {
+    this.fb.api("/"+userid+"/?fields=id,email,name,picture",["public_profile"])
+    
+      .then(res => {
+        
+        console.log(res);
+        this.users = res;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    } 
+
   fbForm(){
-    this.navCtrl.push(FacebookPage);
+
+    this.fb.login(['public_profile', 'user_friends', 'email'])
+    .then(res => {
+      if(res.status === "connected") {
+        this.isLoggedIn = true;
+        this.toast.show('Successful!','5000', 'center').subscribe(toast => {
+          this.navCtrl.push(FormPage);
+  
+       });
+        //this.getUserDetail(res.authResponse.userID);
+      } else {
+        this.isLoggedIn = false;
+        console.log("Fail!");
+      }
+      // .then(res => {
+      
+     })
+    .catch(e => console.log('Error logging into Facebook', e));
+    
       // this.fb.login(['public_profile', 'user_friends', 'email'])
       //     .then((res: FacebookLoginResponse) => console.log('Logged into Facebook!', res))
       //     .catch(e => console.log('Error logging into Facebook', e));

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { WelcomePage } from "../welcome/welcome";
 
 /**
  * Generated class for the FacebookPage page.
@@ -57,6 +58,7 @@ export class FacebookPage {
     this.fb.logout()
     .then( res => this.isLoggedIn = false)
     .catch(e => console.log('Error logout from Facebook', e));
+    this.navCtrl.push(WelcomePage);
 
   }
 

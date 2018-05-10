@@ -7,7 +7,9 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
 import { WelcomePage } from '../welcome/welcome';
 import { HomePage } from '../home/home';
+import { StarterPage } from '../starter/starter';
 import { NumberFormatStyle } from '@angular/common';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
 /**
  * Generated class for the FormPage page.
@@ -36,6 +38,8 @@ export class FormPage {
   stepDefaultCondition: any;
   currentStep: any;
 
+  isLoggedIn:boolean = false;
+  private userFb: any;
 
   constructor(public navCtrl: NavController, 
               public alertCtrl: AlertController, 
@@ -45,13 +49,20 @@ export class FormPage {
               //public http: Http,
               private sqlite: SQLite,
               private toast: Toast,
-              public db: DatabaseProvider) { 
-
+              public db: DatabaseProvider,
+              public fb: Facebook) { 
+                
+                this.getFbData();
+                
+                //  this.data.fullName = this.userFb.name;
+                //  console.log(this.data.fullName);
                   this.getProvinces();
                   // console.log('getprovince',this.provinces);
                   this.getDistricts();
                   this.getSchools();
                   this.navParams.get('userParams');
+
+                 
 
   
                   console.log('Hello SqlStorage Provider');
@@ -71,6 +82,36 @@ export class FormPage {
                   });
 
   }
+
+  getFbData(){
+      this.fb.login(['public_profile', 'user_friends', 'email'])
+      .then(res => {
+        if(res.status === "connected") {
+          this.isLoggedIn = true;
+          return this.getUserDetail(res.authResponse.userID);
+        } else {
+          this.isLoggedIn = false;
+        }
+      })
+      
+      .catch(e => console.log('Error logging into Facebook', e));
+
+      
+    }
+
+  getUserDetail(userid) {
+    this.fb.api("/"+userid+"/?fields=id,email,name,picture",["public_profile"])
+    .then(res => {
+      console.log('fbdata');
+      this.userFb = res;
+      console.log(this.userFb);
+      this.data.fullName = res.name;
+      //console.log(this.data.fullName);
+    })
+    .catch(e => {
+      console.log(e);
+    });
+  } 
 
 
   // getdistricts() {
@@ -214,7 +255,7 @@ export class FormPage {
       name: 'biology',
       location: 'default'
     }).then((db: SQLiteObject)  => {
-      db.executeSql('create table users(fullName VARCHAR(32), userName VARCHAR(32), password VARCHAR(20), phone VARCHAR(10), gender VARCHAR(6), province VARCHAR(50), district VARCHAR(50), school VARCHAR(50))',{})
+      db.executeSql('create users(fullName VARCHAR(32), userName VARCHAR(32), password VARCHAR(20), phone VARCHAR(10), gender VARCHAR(6), province VARCHAR(50), district VARCHAR(50), school VARCHAR(50))',{})
       .then( res => console.log('execuated SQL!'))
       .catch(e => console.log(e));
     })
@@ -232,7 +273,7 @@ export class FormPage {
           this.toast.show('Data saved', '5000', 'center').subscribe(
             toast => {
               //this.navCtrl.popToRoot();
-              this.navCtrl.push(HomePage);
+              this.navCtrl.push(StarterPage);
             }
           );
         })
