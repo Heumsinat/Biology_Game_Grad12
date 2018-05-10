@@ -793,9 +793,17 @@ var SectionPage = (function () {
         this.sectionID = this.navParams.get('sectionID');
         this.questionID = this.navParams.get('questionID');
         this.playCompleted = false;
+        this.next_question = false;
+        this.no_question = false;
         // console.log(this.answerCorrect);
         // console.log(this.sectionID);
         // console.log(this.sectionID);
+        this.db.executeSQL("SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')")
+            .then(function (res) {
+            var num_q = res.rows.item(0).total; // num_q is a number that user have play for today
+            localStorage.setItem('num_q', num_q);
+            console.log('get count number of question', num_q);
+        }).catch(function (e) { return console.log((e)); });
     }
     /*
      ionViewDidEnter runs when the page has fully entered and is now the active page.
@@ -829,6 +837,16 @@ var SectionPage = (function () {
             _this.nativeAudio.preloadComplex(_this.sections.id, 'assets/sounds/' + _this.sections.sound, 1, 1, 0).then(function () {
                 _this.nativeAudio.play(_this.sections.id, function () {
                     _this.nativeAudio.unload(_this.sections.id);
+                    var num_quiz = Number(localStorage.getItem('settings'));
+                    console.log('Settings =', num_quiz);
+                    var num_of_q = Number(localStorage.getItem('num_q'));
+                    console.log('get count number of question =', num_of_q);
+                    if (num_of_q < num_quiz) {
+                        _this.next_question = true;
+                    }
+                    else {
+                        _this.no_question = true;
+                    }
                     _this.playCompleted = true;
                     _this.changeRef.detectChanges();
                 });
@@ -909,7 +927,7 @@ var SectionPage = (function () {
     };
     SectionPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-section',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section/section.html"*/'<!--\n  Generated template for the SectionPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar >\n    <!--<ion-title>-->\n      <!--មេរៀន​​ជំនួយ-->\n    <!--</ion-title>-->\n    <ion-buttons [hidden]="!playCompleted" end>\n         <!--<ion-buttons  end>-->\n      <button ion-button icon-only (click)="navigate(current.next_question_id)">\n        សំនួរ​បន្ទាប់\n        <ion-icon name="arrow-round-forward"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n<ion-content class="content">\n  <ion-scroll class="view_content" scrollY="true">\n    <ion-grid>\n      <ion-row>\n        <!--<ion-card text-wrap padding="10px">-->\n          <ion-col>\n            {{sections.content || \'\'}}\n          </ion-col>\n          <!--<ion-col width-100>-->\n            <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->\n              <!--សំនួរ​បន្ទាប់-->\n              <!--<ion-icon name="arrow-forward"></ion-icon>-->\n            <!--</button>-->\n          <!--</ion-col>-->\n        <!--</ion-card>-->\n      </ion-row>\n    </ion-grid>\n  </ion-scroll>\n</ion-content>\n\n<ion-footer unit-footer>\n  <ion-toolbar color="lightgreen">\n    <!--<button ion-button float-start clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->\n      <!--<ion-icon name="arrow-back"></ion-icon>-->\n    <!--</button>-->\n    <button ion-button float-start clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section/section.html"*/,
+            selector: 'page-section',template:/*ion-inline-start:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section/section.html"*/'<!--\n  Generated template for the SectionPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <!--<ion-title>-->\n      <!--មេរៀន​​ជំនួយ-->\n    <!--</ion-title>-->\n    <ion-buttons [hidden]="!playCompleted" end *ngIf="next_question ">\n         <!--<ion-buttons  end>-->\n      <button ion-button icon-only (click)="navigate(current.next_question_id)">\n        សំនួរ​បន្ទាប់\n        <ion-icon name="arrow-round-forward"></ion-icon>\n      </button>\n    </ion-buttons>\n    <ion-buttons [hidden]="!playCompleted" end *ngIf="no_question">\n      <!--<ion-buttons  end>-->\n      <button ion-button icon-only (click)="navigate(current.next_question_id)">\n        Leaderboard\n        <ion-icon name="arrow-round-forward"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n<ion-content class="content">\n  <ion-scroll class="view_content" scrollY="true">\n    <ion-grid>\n      <ion-row>\n        <!--<ion-card text-wrap padding="10px">-->\n          <ion-col>\n            {{sections.content || \'\'}}\n          </ion-col>\n          <!--<ion-col width-100>-->\n            <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->\n              <!--សំនួរ​បន្ទាប់-->\n              <!--<ion-icon name="arrow-forward"></ion-icon>-->\n            <!--</button>-->\n          <!--</ion-col>-->\n        <!--</ion-card>-->\n      </ion-row>\n    </ion-grid>\n  </ion-scroll>\n</ion-content>\n\n<ion-footer unit-footer>\n  <ion-toolbar color="lightgreen">\n    <!--<button ion-button float-start clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->\n      <!--<ion-icon name="arrow-back"></ion-icon>-->\n    <!--</button>-->\n    <button ion-button float-start clear (click)="replayButtonClick()">\n      <ion-icon name="refresh"></ion-icon>\n    </button>\n    <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">\n      <ion-icon name="power"></ion-icon>\n    </button>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/home/sinat/Desktop/Ionic Project/Biology_Game_Grad12/src/pages/section/section.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */],
