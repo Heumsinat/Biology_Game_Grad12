@@ -30836,6 +30836,102 @@ page-home .btn3d.btn-primary.active {
   background-color: #4274D7;
 }
 
+page-leaderboard .toolbar-background-md {
+  background: transparent;
+}
+
+page-leaderboard .button-clear-md {
+  color: white;
+}
+
+page-leaderboard .content {
+  background-image: url("../assets/img/screen_background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+page-leaderboard .content .btnQuiz {
+  padding-top: 40%;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+page-leaderboard .content .btnQuiz [ion-button] {
+  height: 100px;
+  font-size: 2.2em;
+}
+
+page-leaderboard .content .btnReview {
+  padding-top: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+page-leaderboard .content .btnReview [ion-button] {
+  height: 70px;
+  font-size: 1.6em;
+}
+
+page-leaderboard ion-footer {
+  left: 30px;
+  right: 30px;
+  width: 85%;
+}
+
+page-leaderboard ion-footer .btn-wrapper {
+  text-align: center;
+}
+
+page-leaderboard ion-footer .button-md {
+  height: 6rem;
+  font-size: 2.2rem;
+  background: transparent;
+  padding: 0px;
+}
+
+page-leaderboard .btn3d {
+  position: relative;
+  top: -6px;
+  border: 0;
+  -webkit-transition: all 40ms linear;
+  transition: all 40ms linear;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+page-leaderboard .btn3d:active:focus,
+page-leaderboard .btn3d:focus:hover,
+page-leaderboard .btn3d:focus {
+  -moz-outline-style: none;
+  outline: medium none;
+}
+
+page-leaderboard .btn3d:active,
+page-leaderboard .btn3d.active {
+  top: 2px;
+}
+
+page-leaderboard .btn3d.btn-primary {
+  -webkit-box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
+  background-color: #4274D7;
+}
+
+page-leaderboard .btn3d.btn-primary:active,
+page-leaderboard .btn3d.btn-primary.active {
+  -webkit-box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.1);
+  background-color: #4274D7;
+}
+
 page-lesson .toolbar-background-md {
   background: transparent;
 }
@@ -31000,6 +31096,93 @@ page-login .btn3d.btn-primary.active {
   -webkit-box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.1);
   background-color: #4274D7;
+}
+
+page-profile .content {
+  background-color: #13BA33;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+page-profile .content .scroll-content {
+  overflow-y: hidden !important;
+}
+
+page-profile .content .title {
+  padding-top: 20px;
+  text-align: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 40px;
+  color: white;
+}
+
+page-profile .content .show_content {
+  padding: 10px 30px !important;
+}
+
+page-profile .content .show_content .profile {
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+page-profile .content .show_content .profile img {
+  border-radius: 50%;
+  width: 100%;
+  text-align: right;
+}
+
+page-profile .content .show_content .score {
+  text-align: left;
+  padding-top: 20px;
+  padding-left: 20px;
+  font-size: 24px;
+  color: #1569ff;
+}
+
+page-profile .content .show_content .badge {
+  text-align: left;
+  padding-top: 20px;
+  padding-left: 20px;
+  font-size: 24px;
+  color: #1569ff;
+}
+
+page-profile .content .show_content .badge_image {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+page-profile .content .show_content .badge_image h1 {
+  color: #1569ff;
+}
+
+page-profile .content .show_content .badge_image img {
+  width: 70px;
+  height: 70px;
+}
+
+page-profile [unit-footer] ion-toolbar {
+  text-align: center;
+}
+
+page-profile [unit-footer] ion-toolbar .button-clear-md {
+  color: white;
+}
+
+page-profile [unit-footer] ion-toolbar [ion-button] {
+  font-size: 1.6em;
+}
+
+page-profile [unit-footer] .toolbar-background {
+  border-color: transparent;
+}
+
+page-profile [unit-footer]:before {
+  background-image: none;
 }
 
 page-question .toolbar-background-md {
@@ -31333,7 +31516,7 @@ page-starter .button-clear-md {
 }
 
 page-starter .content {
-  background-image: url("../assets/img/screen_background.png");
+  background-image: url("../assets/img/Evolution_screen.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
@@ -31344,18 +31527,41 @@ page-starter .content {
   vertical-align: middle;
 }
 
+page-starter .content .profile {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+page-starter .content .profile img {
+  border-radius: 50%;
+  width: 100%;
+  text-align: right;
+}
+
+page-starter .content .profile .col {
+  text-align: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  color: #f53d3d;
+  font-size: 24px;
+}
+
 page-starter .content .message {
-  padding-top: 32%;
+  padding-top: 20%;
   padding-left: 20px;
   padding-right: 20px;
 }
 
 page-starter .content .message .card-md {
-  height: 100px;
+  height: 85px;
 }
 
 page-starter .content .message .card-content-md {
-  font-size: 24px;
+  padding: 0;
+  font-size: 25px;
   text-align: center;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -31365,18 +31571,18 @@ page-starter .content .message .card-content-md {
 }
 
 page-starter .content .btnQuiz {
-  padding-top: 5px;
+  padding-top: 3px;
   padding-left: 30px;
   padding-right: 30px;
 }
 
 page-starter .content .btnQuiz [ion-button] {
   height: 100px;
-  font-size: 2.8em;
+  font-size: 2.7em;
 }
 
 page-starter .content .btnReview {
-  padding-top: 5px;
+  padding-top: 3px;
   padding-left: 30px;
   padding-right: 30px;
 }
