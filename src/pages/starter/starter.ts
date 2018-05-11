@@ -9,6 +9,9 @@ import {DatabaseProvider} from "../../providers/database/database";
 import { ProfilePage } from '../profile/profile';
 import { Network } from '@ionic-native/network';
 
+
+
+
 /**
  * Generated class for the StarterPage page.
  *
