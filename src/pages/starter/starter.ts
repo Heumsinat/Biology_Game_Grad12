@@ -332,6 +332,8 @@ export class StarterPage {
       })
     }
 
+
+
     GotoProfilePage(){
       this.navCtrl.push(
         ProfilePage);
