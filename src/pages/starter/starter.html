@@ -36,8 +36,11 @@
     </ion-card>
   </div>
   <div class="btnQuiz">
-    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToQuiz()">
+    <button *ngIf="!is_leaderboard" ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToQuiz()">
       Play
+    </button>
+    <button *ngIf="is_leaderboard" ion-button class="btn btn-primary btn-lg btn3d"  block color="primary" (click)="gotoLeaderboard()">
+      Leaderboard
     </button>
   </div>
   <div class="btnReview">
