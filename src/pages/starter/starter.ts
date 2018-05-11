@@ -256,7 +256,7 @@ export class StarterPage {
         .then(function(value) {
           self.helpers.postData(value,"request_data_order_question_app").then((result) => {
             self.responseData = result;
-            console.log("Data Inserted Successfully = "+JSON.stringify(self.responseData));
+            console.log("Data Inserted Successfully in request_data_order_question_app = "+JSON.stringify(self.responseData));
             var codeReturn = JSON.parse(result["code"]);
               console.log("codeReturn = "+codeReturn);
             if(codeReturn==200) 

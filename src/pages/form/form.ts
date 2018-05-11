@@ -25,7 +25,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 })
 export class FormPage {
 
-  data = { fullName:"", userName:"", password:"",phone:"", gender:"", school:"", district:"", province:"" };
+  public data = { fullName:"", userName:"", password:"",phone:"", gender:"", school:"", district:"", province:"" };
 
   
   provinces: any [];
@@ -102,11 +102,13 @@ export class FormPage {
   getUserDetail(userid) {
     this.fb.api("/"+userid+"/?fields=id,email,name,picture",["public_profile"])
     .then(res => {
-      console.log('fbdata');
+      
       this.userFb = res;
+      console.log('my data');
+      
       console.log(this.userFb);
       this.data.fullName = res.name;
-      //console.log(this.data.fullName);
+      console.log(this.data.fullName);
     })
     .catch(e => {
       console.log(e);
@@ -270,13 +272,14 @@ export class FormPage {
         .then(res => {
           console.log(JSON.stringify(res));
           console.log("fullName = "+this.data.fullName + "; "+"userName = "+this.data.userName +";"+"password ="+this.data.password +";"+"phone = "+this.data.phone+"; "+"gender = "+this.data.gender+";"+"province="+this.data.province);
-          this.toast.show('Data saved', '5000', 'center').subscribe(
-            toast => {
+          // this.toast.show('Data saved', '5000', 'center').subscribe(
+          //   toast => {
               //this.navCtrl.popToRoot();
-              this.navCtrl.push(StarterPage);
-            }
-          );
+             
+          //   }
+          // );
         })
+        this.navCtrl.push(StarterPage);
         // .catch(e => {
         //   console.log(e);
         //   this.toast.show(e, '5000', 'center').subscribe(
@@ -315,6 +318,7 @@ export class FormPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad FormPage');
     this.createTableUsers();
+   
   }
 
   // public form(id) {

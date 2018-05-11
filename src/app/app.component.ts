@@ -20,7 +20,7 @@ export class MyApp {
 
   // rootPage:any = WelcomePage;
 
-  rootPage:any = StarterPage;
+  rootPage:any = WelcomePage;
 
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {

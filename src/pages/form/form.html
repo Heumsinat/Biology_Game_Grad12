@@ -20,9 +20,9 @@
           
               <ion-form-wizard [(step)]="step" [showSteps]="false" (finish)="onFinish()" [finishIcon]="'done-all'" [(stepCondition)]="stepCondition">
                   <ion-wizard-step>
-                    <div class="container" *ngIf="isLoggedIn; else facebookLogin">  
+                    <div class="container">  
                       
-                        <ion-item class="form1">
+                        <ion-item class="form1" *ngIf="isLoggedIn; else facebookLogin">
                           <ion-label>ឈ្មោះពេញ</ion-label>
                           <ion-input type="text" [(ngModel)]="data.fullName" name="fullName"></ion-input>
                         </ion-item>
