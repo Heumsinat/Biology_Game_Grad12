@@ -7,6 +7,7 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { HelpersProvider } from '../../providers/helpers/helpers';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import async from 'async';
+import { Network } from '@ionic-native/network';
 
 
 /**
@@ -45,7 +46,8 @@ export class QuizPage {
         private app: App,
         private helpers: HelpersProvider,
         private sqlite: SQLite,
-        private changeRef: ChangeDetectorRef
+        private changeRef: ChangeDetectorRef,
+        private network: Network
     ) {
         this.lessonID = navParams.get('lessonID'); //Get param lessonID from SectionPage
         this.currentQuestionID = this.navParams.get('questionID');
@@ -215,7 +217,12 @@ export class QuizPage {
                                 console.log('Current number of question that has insert', res);
 
                             });
-                            this.synchUserQuizeToServer();
+                            // If There is Interent Connection,
+                            // Synch offline data into server
+                            if(this.network.type != "none")
+                            {
+                                this.helpers.synchUserQuizeToServer();
+                            }
                             //End Save
                             // console.log(this.current.question_sound);
                             localStorage.setItem("currentQID",question_id);
@@ -255,7 +262,13 @@ export class QuizPage {
                                 console.log('Current number of question that has insert', res);
 
                             });
-                            this.synchUserQuizeToServer();
+                            // If There is Interent Connection,
+                            // Synch offline data into server
+                            if(this.network.type != "none")
+                            {
+                                this.helpers.synchUserQuizeToServer();
+                            }
+                            
                             //End Save
                             // console.log(this.current.question_sound);
                             localStorage.setItem("currentQID",question_id);
@@ -322,37 +335,7 @@ export class QuizPage {
 
     // *** END Creator: SINAT *** //
 
-    // *** Creator: Samak *** //
-    // * Function to synchronize data into server, then update isSent = 1 * //
     
-    synchUserQuizeToServer() {
-        var listOfTable = ["user_quizzes"];
-        var self = this;
-        this.retrieveDBSchema(listOfTable)
-          .then(function(value) {
-            self.helpers.postData(value,"insert_user_quiz_app").then((result) => {
-              self.responseData = result;
-              if(JSON.parse(result["code"])==200) 
-              {
-                // If data is synch successfully, update isSent=1 //
-                self.updateIsSentColumn();
-                console.log("Data Inserted Successfully");
-              }
-              else
-                console.log("Synch Data Error");
-              console.log("response = "+JSON.stringify(self.responseData));
-            }, (err) => {
-            // Connection fail
-            console.log(JSON.stringify("err while postData= "+err));
-            })
-            .catch((e) => {
-                console.log('bleh:' + e);
-              });
-          })
-          .catch((e) => {
-            console.log('bleh:' + e);
-          });
-      }
     
     // *** Creator: Samak *** //
     // * Function to select DB schema (column names), then construct JSON data to be sent to server* //
@@ -456,19 +439,5 @@ export class QuizPage {
     return pro;
     }
 
-    // *** Creator: Samak *** //
-    // * Function to update isSent after data has been synchronized into server * //
-  
-    updateIsSentColumn(){
-        this.sqlite.create({
-          name: 'biology.db',
-          location: 'default'
-        }).then((db: SQLiteObject)  => {
-          db.executeSql('UPDATE user_quizzes SET isSent=? WHERE isSent=0', [1])
-          .then( res => {
-            console.log('Data Updated!');
-          })
-          .catch(e => console.log(e));
-        })
-    }
+    
 }

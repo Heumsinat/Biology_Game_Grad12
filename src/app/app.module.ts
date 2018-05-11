@@ -30,6 +30,7 @@ import { HelpersProvider } from '../providers/helpers/helpers';
 import { HttpModule } from '@angular/http';
 import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 import { ProfilePage } from '../pages/profile/profile';
+import { Network } from '@ionic-native/network';
 
 
 @NgModule({
@@ -84,7 +85,8 @@ import { ProfilePage } from '../pages/profile/profile';
     Toast,
     DatabaseProvider,
     HelpersProvider,
-    Facebook
+    Facebook,
+    Network
     
   ]
 })
