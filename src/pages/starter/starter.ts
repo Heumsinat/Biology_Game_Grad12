@@ -8,6 +8,7 @@ import async from 'async';
 import {DatabaseProvider} from "../../providers/database/database";
 import { ProfilePage } from '../profile/profile';
 import { Network } from '@ionic-native/network';
+import {LeaderboardPage} from "../leaderboard/leaderboard";
 
 /**
  * Generated class for the StarterPage page.
@@ -26,6 +27,7 @@ export class StarterPage {
   day_of_quiz : any;
   responseData : any;
   total_score: any;
+  is_leaderboard : boolean;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -45,7 +47,7 @@ export class StarterPage {
       localStorage.setItem('Score',this.total_score);
   
     }).catch(e => console.log((e)));
-   
+    this.is_leaderboard = false;
   }
 
   ionViewDidLoad() {
@@ -344,7 +346,19 @@ export class StarterPage {
 
         // display number that user play for today (day_of_quiz)
         this.day_of_quiz = Number(localStorage.getItem('settings')) - Number(localStorage.getItem('num_q'));
+        // check condition is day_of_quiz ==0 change label button PLAY to LEADERBOARD
+        if (this.day_of_quiz == 0){
+          this.is_leaderboard = true;
+        }else {
+          this.is_leaderboard = false;
+        }
+        console.log('Day_of_Quiz =', this.day_of_quiz);
+        console.log('Leaderboard', this.is_leaderboard);
         console.log('get number of settings =', num_quiz);
+        
       }).catch(e => console.log((e)));
+    }
+    gotoLeaderboard(){
+      this.navCtrl.push(LeaderboardPage);
     }
 }
