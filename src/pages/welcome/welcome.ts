@@ -74,12 +74,12 @@ export class WelcomePage {
 
   fbForm(){
 
-    this.fb.login(['public_profile', 'user_friends', 'email'])
+    this.fb.login(['public_profile', 'user_friends', 'email', 'name'])
     .then(res => {
       if(res.status === "connected") {
         this.isLoggedIn = true;
         this.toast.show('Successful!','5000', 'center').subscribe(toast => {
-          this.navCtrl.push(FormPage,);
+          this.navCtrl.push(FormPage);
   
        });
         //this.getUserDetail(res.authResponse.userID);

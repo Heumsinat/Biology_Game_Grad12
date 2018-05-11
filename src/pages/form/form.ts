@@ -41,47 +41,49 @@ export class FormPage {
   isLoggedIn:boolean = false;
   private userFb: any;
 
-  constructor(public navCtrl: NavController, 
-              public alertCtrl: AlertController, 
-              public platform: Platform,
-              public navParams: NavParams,
-              public evts: Events,
-              //public http: Http,
-              private sqlite: SQLite,
-              private toast: Toast,
-              public db: DatabaseProvider,
-              public fb: Facebook) { 
-                
-                this.getFbData();
-                
-                //  this.data.fullName = this.userFb.name;
-                //  console.log(this.data.fullName);
-                  this.getProvinces();
-                  // console.log('getprovince',this.provinces);
-                  this.getDistricts();
-                  this.getSchools();
-                  this.navParams.get('userParams');
+  constructor(
+    public navCtrl: NavController, 
+    public alertCtrl: AlertController, 
+    public platform: Platform,
+    public navParams: NavParams,
+    public evts: Events,
+    //public http: Http,
+    private sqlite: SQLite,
+    private toast: Toast,
+    public db: DatabaseProvider,
+    public fb: Facebook
+  ) {
+    this.getFbData();
+      
+    //  this.data.fullName = this.userFb.name;
+    //  console.log(this.data.fullName);
+      this.getProvinces();
+      // console.log('getprovince',this.provinces);
+      // this.getDistricts();
+      // this.getSchools();
+      this.navParams.get('userParams');
 
-                 
+      console.log('Hello SqlStorage Provider');
 
-  
-                  console.log('Hello SqlStorage Provider');
-
-                  this.step = 1;
-                  this.stepCondition = true;
-                  this.stepDefaultCondition = this.stepCondition;
-                  this.evts.subscribe('step:changed', step => {
-                    this.currentStep = step;
-                    this.stepCondition = this.stepDefaultCondition;
-                  });
-                  this.evts.subscribe('step:next', () => {
-                    console.log('Next pressed: ', this.currentStep);
-                  });
-                  this.evts.subscribe('step:back', () => {
-                    console.log('Back pressed: ', this.currentStep);
-                  });
+      this.step = 1;
+      this.stepCondition = true;
+      this.stepDefaultCondition = this.stepCondition;
+      this.evts.subscribe('step:changed', step => {
+        this.currentStep = step;
+        this.stepCondition = this.stepDefaultCondition;
+      });
+      this.evts.subscribe('step:next', () => {
+        console.log('Next pressed: ', this.currentStep);
+      });
+      this.evts.subscribe('step:back', () => {
+        console.log('Back pressed: ', this.currentStep);
+      });
 
   }
+
+  // ionViewWillEnter(){
+  //   this.getProvinces();
+  // }
 
   getFbData(){
       this.fb.login(['public_profile', 'user_friends', 'email'])
@@ -107,6 +109,8 @@ export class FormPage {
       console.log('my data');
       
       console.log(this.userFb);
+      console.log(this.userFb.name);
+      //console.log(this.userFb.gender);
       this.data.fullName = res.name;
       console.log(this.data.fullName);
     })
@@ -143,7 +147,7 @@ export class FormPage {
         .table("provinces")
         .then(res => {
           this.provinces = [];
-        
+        console.log(res);
           for (var i = 0; i<res.rows.length; i++){
             this.provinces.push({
               pcode:res.rows.item(i).pcode,
