@@ -27,6 +27,8 @@ export class SectionPage {
   sectionID: number;
   questionID;
   public playCompleted: boolean;
+  no_question: boolean;
+  next_question: boolean;
 
   constructor(
       public navCtrl: NavController,
@@ -41,9 +43,18 @@ export class SectionPage {
     this.sectionID = this.navParams.get('sectionID');
     this.questionID = this.navParams.get('questionID');
     this.playCompleted = false;
+    this.next_question = false;
+    this.no_question = false;
     // console.log(this.answerCorrect);
     // console.log(this.sectionID);
     // console.log(this.sectionID);
+
+      this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')`)
+          .then(res => {
+              let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
+              localStorage.setItem('num_q',num_q);
+              console.log('get count number of question', num_q);
+          }).catch(e => console.log((e)));
   }
 
     /*
@@ -77,6 +88,16 @@ export class SectionPage {
               this.nativeAudio.preloadComplex(this.sections.id, 'assets/sounds/'+this.sections.sound,1,1,0).then(()=>{
                   this.nativeAudio.play(this.sections.id, ()=>{
                       this.nativeAudio.unload(this.sections.id);
+                      let num_quiz = Number(localStorage.getItem('settings'));
+                      console.log('Settings =', num_quiz);
+                      let num_of_q = Number(localStorage.getItem('num_q'));
+                      console.log('get count number of question =', num_of_q);
+
+                      if (num_of_q < num_quiz){
+                          this.next_question = true;
+                      }else {
+                          this.no_question = true;
+                      }
                       this.playCompleted = true;
                       this.changeRef.detectChanges();
                   });
