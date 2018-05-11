@@ -3,7 +3,7 @@ import {AlertController, IonicPage, NavController, NavParams, Platform} from 'io
 import {DatabaseProvider} from "../../providers/database/database";
 import { NativeAudio } from '@ionic-native/native-audio';
 import {QuizPage} from "../quiz/quiz";
-import {LeaderboardPage} from "../leaderboard/leaderboard";
+import {StarterPage} from "../starter/starter";
 
 /**
  * Generated class for the SectionPage page.
@@ -141,7 +141,7 @@ export class SectionPage {
                       }
                   );
               }else {
-                  this.navCtrl.push(LeaderboardPage);
+                  this.navCtrl.push(StarterPage);
               }
               // }).catch(e => console.log((e)));
           }).catch(e => console.log((e)));

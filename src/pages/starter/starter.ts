@@ -7,6 +7,8 @@ import { HelpersProvider } from '../../providers/helpers/helpers';
 import async from 'async';
 import {DatabaseProvider} from "../../providers/database/database";
 import { ProfilePage } from '../profile/profile';
+import { Network } from '@ionic-native/network';
+import {LeaderboardPage} from "../leaderboard/leaderboard";
 
 /**
  * Generated class for the StarterPage page.
@@ -25,6 +27,7 @@ export class StarterPage {
   day_of_quiz : any;
   responseData : any;
   total_score: any;
+  is_leaderboard : boolean;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -33,6 +36,7 @@ export class StarterPage {
     private sqlite: SQLite,
     private helpers: HelpersProvider,
     public db: DatabaseProvider,
+    private network: Network
   ) {
     //******** Sinat *********/
     //  Get total score that user has played
@@ -43,118 +47,36 @@ export class StarterPage {
       localStorage.setItem('Score',this.total_score);
   
     }).catch(e => console.log((e)));
-   
+    this.is_leaderboard = false;
   }
 
   ionViewDidLoad() {
-    
-
-    console.log('ionViewDidLoad StarterPage');
-
-    // TO-DO by Samak using API #4//
-    // Send request from App to get the latest settings
-    this.helpers.getData("get_setting_app").then((result) =>
+    console.log('network type = '+this.network.type);
+    // If Internet is connected, Request settings from Server //
+    if(this.network.type != "none")
     {
-      console.log("settings = "+localStorage.getItem('settings'));
-      this.no_of_quiz = result;
-      // If new settings != old setting, then Update new settings into localStorage settings in App
-      if(localStorage.getItem('settings') != this.no_of_quiz || localStorage.getItem('settings')==null)
-      {
-        localStorage.setItem('settings',this.no_of_quiz);
-        console.log("settings 2 = "+localStorage.getItem('settings'));
-      }
-        
-      // else
-      // localStorage.setItem('settings',this.no_of_quiz);
-    }, (err) => {
-      // Connection fail
-      console.log(JSON.stringify("err = "+err));
-    }).catch((e) => {
-      console.log('Error in listOfFacilities:' + e);
+      this.requestToGetSettings();
+      this.calculateRemainingNoOfQuestionToday();
+      this.requestToUpdateOrderQuestions();
+      this.helpers.synchUserQuizeToServer();
+    }
+    // Watch Internet connect when it is connected, do... //
+    let connectSubscription = this.network.onConnect().subscribe(() => {
+      console.log('network connected!');
+      // We just got a connection but we need to wait briefly
+      // before we determine the connection type. Might need to wait.
+      // prior to doing any api requests as well.
+      setTimeout(() => {
+        console.log('ionViewDidLoad StarterPage');
+        this.requestToGetSettings();
+        this.calculateRemainingNoOfQuestionToday();
+        this.requestToUpdateOrderQuestions();
+        this.helpers.synchUserQuizeToServer();
+        connectSubscription.unsubscribe();
+      }, 0);
     });
-    //this.updateNumberOfQuizColumn(new_no_of_quiz[""]);
-    // ======END OF API #4 ======== //
 
-    /*
-     ****** SINAT ******
-     condition to check number of question that user played and compared with setting before allow user to play game
-     */
-    this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')`)
-        .then(res => {
-          let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
-          localStorage.setItem('num_q',num_q);
-          console.log('get count number of question', num_q);
-          // localStorage.setItem('num_q',num_q);
-          let num_quiz = Number(localStorage.getItem('settings'));
-
-          // display number that user play for today (day_of_quiz)
-          this.day_of_quiz = Number(localStorage.getItem('settings')) - Number(localStorage.getItem('num_q'));
-          console.log('get number of settings =', num_quiz);
-        }).catch(e => console.log((e)));
-
-    /*
-     ******End SINAT *****
-     */
-  
-
-    // TO-DO by Samak using API #6//
-    // Send request from App with params: 1. total no. of records, 2. last downloaded date to get order quiz data from server
-    // if total no. of records in order_questions == that of server,
-    //  Server returns only the updated records recognized by in App modified_date, in Server updated_date
-    // else => the total no. of records is different, then
-    //  replace all records in App.
-
-    var self = this;
-    this.totalNoOfOrderQuestions()
-      .then(function(value) {
-        self.helpers.postData(value,"request_data_order_question_app").then((result) => {
-          self.responseData = result;
-          console.log("Data Inserted Successfully = "+JSON.stringify(self.responseData));
-          var codeReturn = JSON.parse(result["code"]);
-            console.log("codeReturn = "+codeReturn);
-          if(codeReturn==200) 
-          {
-            // If data is synch successfully, update isSent=1 //
-            //console.log("Data Inserted Successfully = "+JSON.parse(JSON.parse(result["equal"])));
-
-            var equalReturn = JSON.parse(result["equal"]);
-            console.log("equalReturn = "+equalReturn);
-            switch(equalReturn)
-            {
-              case 1: // num_q is not equal, replace a whole order_questions table
-                var objOrderQuestion = result["data"];
-                console.log("data = "+objOrderQuestion);
-                objOrderQuestion.forEach(item =>{
-                  self.updateOrderQuestion(item["id"],item["question_id"],item["next_question_id"], item["updated_at"]);
-                  
-                });
-                console.log("Replace Inserted!");
-                
-                break;
-              case 0: // num_q is equal, update order_questions by id
-              var objOrderQuestion = result["data"];
-                objOrderQuestion.forEach(item =>{
-                  console.log("Item updated_at = "+item["updated_at"]);
-                  
-                  self.replaceIntoOrderQuestion(item["id"], item["question_id"],item["next_question_id"],item["created_date"], item["updated_at"]);
-                });
-                console.log("Updated!");
-                break;
-            }
-            
-          }
-          else
-            console.log("Synch Data Error");
-          console.log("response = "+JSON.stringify(self.responseData));
-        }).catch((e) => {
-          console.log('catch in totalNoOfOrderQuestions:' + e);
-        });
-      })
-      .catch((e) => {
-        console.log('catch in totalNoOfOrderQuestions:' + e);
-      }); 
-    // ======END OF API #6 ======== //
-
+    this.calculateRemainingNoOfQuestionToday();
   }
 
   goToQuiz() {
@@ -206,6 +128,9 @@ export class StarterPage {
     alert.present();
   } 
 
+  // Creator: SAMAK //
+  // Function to query no. of order questions and last_download_date from order_questions table, 
+  // for sending request for new order question from Server//
   totalNoOfOrderQuestions(){
       //var data_return = [];
       var _data = {
@@ -257,19 +182,7 @@ export class StarterPage {
               console.error(err);
             }
           });
-          /*
-          asyncTasks.push(function(callback) {
-            async.waterfall(subTasks, (err, data) => {
-              if (err) {
-                console.error(err);
-              } else {
-                //data_return.push(data);
-                callback(null);
-              }
-            });
-          });
-        */
-    
+              
         async.series(subTasks, function(err, data) {
           try {
             if (err) {
@@ -287,6 +200,8 @@ export class StarterPage {
       return pro;
     }
 
+    // Creator: SAMAK //
+    // Function to update a few records of order questions table//
     updateOrderQuestion(id: number,question_id:number,next_question_id:number,modified_date:any){
       this.sqlite.create({
         name: 'biology.db',
@@ -305,6 +220,8 @@ export class StarterPage {
       });
     }
 
+    // Creator: SAMAK //
+    // Function to replace the whole order questions table//
     replaceIntoOrderQuestion(id: number,question_id:number,next_question_id:number,created_date:any,modified_date:any){
       this.sqlite.create({
         name: 'biology.db',
@@ -320,8 +237,128 @@ export class StarterPage {
       })
     }
 
+
+
     GotoProfilePage(){
       this.navCtrl.push(
         ProfilePage);
+    }
+
+    // Creator: SAMAK //
+    // Function to request and update latest order questions //
+    requestToUpdateOrderQuestions()
+    {
+      // TO-DO by Samak using API #6//
+      // Send request from App with params: 1. total no. of records, 2. last downloaded date to get order quiz data from server
+      // if total no. of records in order_questions == that of server,
+      //  Server returns only the updated records recognized by in App modified_date, in Server updated_date
+      // else => the total no. of records is different, then
+      //  replace all records in App.
+
+      var self = this;
+      this.totalNoOfOrderQuestions()
+        .then(function(value) {
+          self.helpers.postData(value,"request_data_order_question_app").then((result) => {
+            self.responseData = result;
+            console.log("Data Inserted Successfully in request_data_order_question_app = "+JSON.stringify(self.responseData));
+            var codeReturn = JSON.parse(result["code"]);
+              console.log("codeReturn = "+codeReturn);
+            if(codeReturn==200) 
+            {
+              // If data is synch successfully, update isSent=1 //
+              //console.log("Data Inserted Successfully = "+JSON.parse(JSON.parse(result["equal"])));
+
+              var equalReturn = JSON.parse(result["equal"]);
+              console.log("equalReturn = "+equalReturn);
+              switch(equalReturn)
+              {
+                case 1: // num_q is not equal, replace a whole order_questions table
+                  var objOrderQuestion = result["data"];
+                  console.log("data = "+objOrderQuestion);
+                  objOrderQuestion.forEach(item =>{
+                    self.updateOrderQuestion(item["id"],item["question_id"],item["next_question_id"], item["updated_at"]);
+                    
+                  });
+                  console.log("Replace Inserted!");
+                  
+                  break;
+                case 0: // num_q is equal, update order_questions by id
+                var objOrderQuestion = result["data"];
+                  objOrderQuestion.forEach(item =>{
+                    console.log("Item updated_at = "+item["updated_at"]);
+                    
+                    self.replaceIntoOrderQuestion(item["id"], item["question_id"],item["next_question_id"],item["created_date"], item["updated_at"]);
+                  });
+                  console.log("Updated!");
+                  break;
+              }
+              
+            }
+            else
+              console.log("Synch Data Error");
+            console.log("response = "+JSON.stringify(self.responseData));
+          }).catch((e) => {
+            console.log('catch in totalNoOfOrderQuestions:' + e);
+          });
+        })
+        .catch((e) => {
+          console.log('catch in totalNoOfOrderQuestions:' + e);
+        }); 
+      // ======END OF API #6 ======== //
+    }
+
+    // Creator: SAMAK //
+    // Function to request and update latest settings in localStorage //
+    requestToGetSettings()
+    {
+      // TO-DO by Samak using API #4//
+        // Send request from App to get the latest settings
+        this.helpers.getData("get_setting_app").then((result) =>
+        {
+          console.log("settings = "+localStorage.getItem('settings'));
+          this.no_of_quiz = result;
+          // If new settings != old setting, then Update new settings into localStorage settings in App
+          if(localStorage.getItem('settings') != this.no_of_quiz || localStorage.getItem('settings')==null)
+          {
+            localStorage.setItem('settings',this.no_of_quiz);
+            console.log("settings 2 = "+localStorage.getItem('settings'));
+          }
+        }, (err) => {
+          console.log(JSON.stringify("err = "+err));
+        }).catch((e) => {
+          console.log('Error in listOfFacilities:' + e);
+        });
+    }
+
+     /*
+     ****** SINAT ******
+     condition to check number of question that user played and compared with setting before allow user to play game
+     */
+    calculateRemainingNoOfQuestionToday(){
+     
+      this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')`)
+      .then(res => {
+        let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
+        localStorage.setItem('num_q',num_q);
+        console.log('get count number of question', num_q);
+        // localStorage.setItem('num_q',num_q);
+        let num_quiz = Number(localStorage.getItem('settings'));
+
+        // display number that user play for today (day_of_quiz)
+        this.day_of_quiz = Number(localStorage.getItem('settings')) - Number(localStorage.getItem('num_q'));
+        // check condition is day_of_quiz ==0 change label button PLAY to LEADERBOARD
+        if (this.day_of_quiz == 0){
+          this.is_leaderboard = true;
+        }else {
+          this.is_leaderboard = false;
+        }
+        console.log('Day_of_Quiz =', this.day_of_quiz);
+        console.log('Leaderboard', this.is_leaderboard);
+        console.log('get number of settings =', num_quiz);
+        
+      }).catch(e => console.log((e)));
+    }
+    gotoLeaderboard(){
+      this.navCtrl.push(LeaderboardPage);
     }
 }

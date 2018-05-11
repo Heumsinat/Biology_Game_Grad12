@@ -15,7 +15,7 @@ import {HomePage} from "../home/home";
   templateUrl: 'leaderboard.html',
 })
 export class LeaderboardPage {
-
+  leaderboard: string = "School";
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
@@ -25,9 +25,9 @@ export class LeaderboardPage {
   goToLeaderBoard(){
 
   }
-  goToHomePage() {
-    this.navCtrl.push(
-        HomePage);
-  }
+  // goToHomePage() {
+  //   this.navCtrl.push(
+  //       HomePage);
+  // }
 
 }
