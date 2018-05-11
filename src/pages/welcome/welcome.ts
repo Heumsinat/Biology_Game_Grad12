@@ -79,13 +79,13 @@ export class WelcomePage {
       if(res.status === "connected") {
         this.isLoggedIn = true;
         this.toast.show('Successful!','5000', 'center').subscribe(toast => {
-          this.navCtrl.push(FormPage);
+          this.navCtrl.push(FormPage,);
   
        });
         //this.getUserDetail(res.authResponse.userID);
       } else {
         this.isLoggedIn = false;
-        console.log("Fail!");
+       
       }
       // .then(res => {
       
