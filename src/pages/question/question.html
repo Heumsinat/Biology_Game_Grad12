@@ -23,7 +23,7 @@
         <ion-item>
             <ion-item-sliding width-100 *ngFor="let answers of answers; let i=index">
                 <ion-item no-lines no-padding>
-                    <button ion-button class="btn btn-primary btn-lg btn3d" width-100 menu-header block color="primary" (click)="answer(answers.is_correct_answer, answers.question_id)">
+                    <button [hidden]="!playCompleted" ion-button class="btn btn-primary btn-lg btn3d" width-100 menu-header block color="primary" (click)="answer(answers.is_correct_answer, answers.question_id)">
                         {{answers.answer_text}}
                     </button>
                 </ion-item>

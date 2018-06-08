@@ -23,11 +23,15 @@ import {LeaderboardPage} from "../leaderboard/leaderboard";
   templateUrl: 'starter.html',
 })
 export class StarterPage {
+
   no_of_quiz: any;
   day_of_quiz : any;
   responseData : any;
   total_score: any;
   is_leaderboard : boolean;
+  profile: any;
+  fbName: any;
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -38,6 +42,14 @@ export class StarterPage {
     public db: DatabaseProvider,
     private network: Network
   ) {
+
+    const fbData = this.navParams.get('fbData');
+    console.log('My fbdata:',fbData);
+                  if(fbData){
+                    this.profile = fbData.picture.data.url;
+                    this.fbName = fbData.name;
+                  }
+
     //******** Sinat *********/
     //  Get total score that user has played
     this.db.executeSQL(`SELECT SUM(score) as total FROM user_quizzes WHERE user_id= 1`)

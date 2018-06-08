@@ -86,4 +86,9 @@ page-form {
             color: blue;
         }
     }
+
+    ion-select{
+        max-width: 75% !important;
+        text-align: left;
+    }
 }

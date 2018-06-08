@@ -16,18 +16,19 @@
     <!-- <ion-card no-padding> -->
         <ion-row>
           <ion-col col-3 push-9>
+              <!-- assets/img/profile.png -->
                 <img src="assets/img/profile.png" (click)="GotoProfilePage()"/> 
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col col-5 push-8>
-            Score: {{ total_score }}
+            Score: 0{{ total_score }}
           </ion-col>
         </ion-row>
         
     <!-- </ion-card> -->
   </div>
-  <div class="message ">
+  <div class="message " *ngIf="!is_leaderboard">
     <ion-card no-padding>
       <ion-card-content>
         Today you have <br>
@@ -39,7 +40,9 @@
     <button *ngIf="!is_leaderboard" ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToQuiz()">
       Play
     </button>
-    <button *ngIf="is_leaderboard" ion-button class="btn btn-primary btn-lg btn3d"  block color="primary" (click)="gotoLeaderboard()">
+  <!-- </div>
+  <div class="btnLeaderboard"> -->
+    <button *ngIf="is_leaderboard" ion-button id="btnLeaderboard" class="btn btn-primary btn-lg btn3d"  block color="primary" (click)="gotoLeaderboard()">
       Leaderboard
     </button>
   </div>

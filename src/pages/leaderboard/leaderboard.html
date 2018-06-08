@@ -39,35 +39,70 @@
 <!--</ion-footer>-->
 
 <ion-header>
-  <ion-navbar no-border-bottom color ="secondary">
-    <ion-title>
-      Leaderboard
+  <ion-navbar no-border-bottom  color="primary">
+    <ion-title class="leaderboard">
+      {{leaderboard}}
     </ion-title>
   </ion-navbar>
 
-  <ion-toolbar color="secondary" no-border class="scrollable-segments">
+  <ion-toolbar color="primary" no-border class="scrollable-segments">
     <ion-segment [(ngModel)]="leaderboard">
-      <ion-segment-button value="School">
-        School
-      </ion-segment-button>
-      <ion-segment-button value="Province">
-        Province
-      </ion-segment-button>
-      <ion-segment-button value="District">
-        District
-      </ion-segment-button>
-      <ion-segment-button value="Commune">
-        Commune
-      </ion-segment-button>
-      <ion-segment-button value="National">
-        National
-      </ion-segment-button>
+      <div class="segBtn">
+        <ion-segment-button value="Facebook">
+          Facebook
+        </ion-segment-button>
+        <ion-segment-button value="School">
+          School
+        </ion-segment-button>
+      </div>
+      <div class="segBtn">
+        <ion-segment-button value="National">
+          National
+        </ion-segment-button>
+        <ion-segment-button value="Province">
+          Province
+        </ion-segment-button>
+        <ion-segment-button value="District">
+          District
+        </ion-segment-button>
+      </div>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding="10px">
   <div [ngSwitch]="leaderboard">
+      <ion-list *ngSwitchCase="'Facebook'">
+          <ion-item>
+            <ion-thumbnail item-start>
+              <img src="assets/img/profile.png">
+            </ion-thumbnail>
+            <h2>Username</h2>
+            <h1 item-end >ពិន្ទុ : 15</h1>
+          </ion-item>
+          <ion-item>
+            <ion-thumbnail item-start>
+              <img src="assets/img/profile.png">
+            </ion-thumbnail>
+            <h2>Username</h2>
+            <h1 item-end>ពិន្ទុ : 8</h1>
+          </ion-item>
+          <ion-item>
+            <ion-thumbnail item-start>
+              <img src="assets/img/profile.png">
+            </ion-thumbnail>
+            <h2>Username</h2>
+            <h1 item-end>ពិន្ទុ : 11</h1>
+          </ion-item>
+          <ion-item>
+            <ion-thumbnail item-start>
+              <img src="assets/img/profile.png">
+            </ion-thumbnail>
+            <h2>Username</h2>
+            <h1 item-end>ពិន្ទុ : 5</h1>
+          </ion-item>
+      </ion-list>
+
     <ion-list *ngSwitchCase="'School'">
       <ion-item>
         <ion-thumbnail item-start>
@@ -112,7 +147,7 @@
           <img src="assets/img/profile.png">
         </ion-thumbnail>
         <h2>Username</h2>
-        <h1 item-end>ពិន្ទុ : 10</h1>
+        <h1 item-end>ពិន្ទុ : 18</h1>
       </ion-item>
       <ion-item>
         <ion-thumbnail item-start>
@@ -126,7 +161,7 @@
           <img src="assets/img/profile.png">
         </ion-thumbnail>
         <h2>Username</h2>
-        <h1 item-end>ពិន្ទុ : 10</h1>
+        <h1 item-end>ពិន្ទុ : 19</h1>
       </ion-item>
     </ion-list>
 
@@ -136,14 +171,14 @@
           <img src="assets/img/profile.png">
         </ion-thumbnail>
         <h2>Username</h2>
-        <h1 item-end>ពិន្ទុ : 10</h1>
+        <h1 item-end>ពិន្ទុ : 14</h1>
       </ion-item>
       <ion-item>
         <ion-thumbnail item-start>
           <img src="assets/img/profile.png">
         </ion-thumbnail>
         <h2>Username</h2>
-        <h1 item-end>ពិន្ទុ : 10</h1>
+        <h1 item-end>ពិន្ទុ : 17</h1>
       </ion-item>
       <ion-item>
         <ion-thumbnail item-start>

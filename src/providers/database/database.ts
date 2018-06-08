@@ -12,6 +12,13 @@ export class DatabaseProvider {
   private _config;
   constructor(private sqlite: SQLite) {
     this.init({ name: "biology.db", location: "default" });
+
+    // this.sqlite.create({ name: "biology.db", location: "default" }).then((db: SQLiteObject) => {
+    //   return db.executeSql("CREATE TABLE test(id int)", {}).then((data)=>{
+    //     console.log(data)
+    //   }).catch((e)=>console.log(e))
+    // });
+
   }
   /**
    * Prepare Database for Application
@@ -34,10 +41,19 @@ export class DatabaseProvider {
         sqlDBLocation = 1;
         break;
       default:
-        sqlDBLocation = 2;
+        sqlDBLocation = 0;
         break;
     }
-    plugins.sqlDB.copy("biology.db", 0, this.dbCopySuccess, this.dbCopyError);
+    plugins.sqlDB.copy("biology.db", sqlDBLocation ,(res)=>{
+      console.log(res)
+    }, (err)=>{
+      // plugins.sqlDB.remove("biology.db", sqlDBLocation, (res)=>{
+      //    console.log(res);
+      //    plugins.sqlDB.copy("biology.db", sqlDBLocation , this.dbCopySuccess, this.dbCopyError);
+      // },(err)=>{});
+    });
+
+
   }
   /**
    * Select * from tableName
@@ -64,4 +80,9 @@ export class DatabaseProvider {
   private dbCopyError(err) {
     console.log(err);
   }
+
+  public getInstance(){
+    return this.sqlite.create(this._config);
+  }
+
 }

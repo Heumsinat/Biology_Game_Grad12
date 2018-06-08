@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {AlertController, App, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import { DatabaseProvider } from "../../providers/database/database";
 import { NativeAudio } from '@ionic-native/native-audio';
@@ -24,6 +24,7 @@ export class QuestionPage {
     sectionID: number;
     chapterID: number;
     currentQuestionID:number;
+    public playCompleted: boolean;
 
     constructor(
         public navCtrl: NavController,
@@ -32,7 +33,8 @@ export class QuestionPage {
         private nativeAudio: NativeAudio,
         private alertCtrl: AlertController,
         private platform: Platform,
-        public app: App
+        public app: App,
+        private changeRef: ChangeDetectorRef,
     ) {
         this.lessonID = navParams.get('lessonID');
         this.currentQuestionID  = this.navParams.get('currentQuestionID');
@@ -49,6 +51,7 @@ export class QuestionPage {
                     }
                 });
             });
+            this.playCompleted = false;
     }
     /*
      ionViewDidEnter runs when the page has fully entered and is now the active page.
@@ -148,7 +151,7 @@ export class QuestionPage {
         this.db.executeSQL(`SELECT * FROM answers WHERE question_id = ${questions_id}`)
             .then(res => {
                 this.answers = [];
-                console.log(res);
+                console.log('My answer: ',res);
                 for (var i = 0; i<res.rows.length; i++){
                     this.answers.push({
                         id:res.rows.item(i).id,
@@ -192,10 +195,14 @@ export class QuestionPage {
                         console.log('TEST CUR:', this.current);
                         console.log(this.current.id);
                         console.log(this.current.question_sound);
+                        console.log('hi');
                         this.getAnswers(this.current.id);
                         this.nativeAudio.preloadComplex(this.current.id, 'assets/sounds/'+this.current.question_sound, 1,1,0).then(()=>{
                             this.nativeAudio.play(this.current.id, ()=>{
                                 this.nativeAudio.unload(this.current.id);
+                                this.playCompleted = true;
+                                this.changeRef.detectChanges();
+                                
                             });
                         });
                         console.log(this.current.question_sound);
@@ -212,6 +219,9 @@ export class QuestionPage {
             this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
                 this.nativeAudio.play(this.current.id, ()=>{
                     this.nativeAudio.unload(this.current.id);
+                    this.playCompleted = true;
+                    this.changeRef.detectChanges();
+                    
                 });
             });console.log(this.current.question_sound);
         }

@@ -14,96 +14,100 @@
 
 
 <ion-content xela padding class="background-img">
-   
-    <ion-grid>
-      
-          
-              <ion-form-wizard [(step)]="step" [showSteps]="false" (finish)="onFinish()" [finishIcon]="'done-all'" [(stepCondition)]="stepCondition">
-                  <ion-wizard-step>
-                    <div class="container">  
-                      
-                        <ion-item class="form1" *ngIf="isLoggedIn; else facebookLogin">
-                          <ion-label>ឈ្មោះពេញ</ion-label>
-                          <ion-input type="text" [(ngModel)]="data.fullName" name="fullName"></ion-input>
-                        </ion-item>
-                      
-                        <ion-item class="form1">
-                          <ion-label>ឈ្មោះសម្គាល់</ion-label>
-                          <ion-input type="text" [(ngModel)]="data.userName" name="userName" aria-required=""></ion-input>
-                        </ion-item>
 
-                        <ion-item class="form1">
-                          <ion-label>ពាក្យសម្ងាត់</ion-label>
-                          <ion-input type="password" [(ngModel)]="data.password" name="password" aria-required=""></ion-input>
-                        </ion-item>
-                        
-                        <ion-item class="form1">
-                          <ion-label>លេខទូរស័ព្ទ</ion-label>
-                          <ion-input type="text" [(ngModel)]="data.phone" name="phone" aria-required=""></ion-input>
-                        </ion-item>
+  <ion-grid>
+    <ion-form-wizard [(step)]="step" [showSteps]="false" (finish)="onFinish()" [finishIcon]="'done-all'" [(stepCondition)]="stepCondition">
+      <ion-wizard-step>
+        <form [formGroup]="valForm">
+          <div class="container">
+            <!-- <form >   -->
 
-                        <ion-item class="form1">
-                            <ion-label>ភេទ</ion-label>
-                            <ion-select [(ngModel)]="data.gender" >
-                              <ion-option value="ស្រី">ស្រី</ion-option>
-                              <ion-option value="ប្រុស">ប្រុស</ion-option>
-                            </ion-select>
-                        </ion-item>
-                    </div>
-                  </ion-wizard-step>
-                        
+            <ion-item class="form1">
+              <ion-label>ឈ្មោះពេញ</ion-label>
+              <!-- <div [formGroup]="valForm"> -->
+              <ion-input formControlName="fullName" type="text" [(ngModel)]="data.fullName" name="fullName"></ion-input>
+              
+              <!-- </div> -->
+            </ion-item>
 
-                  <ion-wizard-step>
-                    
-                      <div class="container1">                          
-                          
-                            <ion-item class="form1">
-                              <ion-label>ខេត្ត</ion-label>
-                            
-                                <ion-select [(ngModel)]="data.province">
-                                    
-                                  <ion-option *ngFor="let province of provinces" [value]="province.pcode">{{province.pname_en}}</ion-option>
-                                
-                                </ion-select>
-                              
-                            </ion-item>
-                            
-                          <ion-item class="form1" >
-                            <ion-label>ស្រុក</ion-label>
-                            <ion-select [(ngModel)]="data.district">
-                              <ion-option *ngFor="let district of districts" [value]="district.dcode">{{district.dname_en}}</ion-option>
-                              
-                            </ion-select>
-                          </ion-item>
-                          
-                          
-                          <ion-item class="form1">
-                            <ion-label>សាលារៀន</ion-label>
-                            <ion-select [(ngModel)]="data.school">
-                              <ion-option *ngFor="let school_list of school_lists" [value]="school_list.school_id">{{school_list.school_name}}</ion-option>
-                              
-                            </ion-select>
-                          </ion-item>
-                      </div>
-                    
-                  </ion-wizard-step>
+            <ion-item class="form1">
+              <ion-label>ឈ្មោះសម្គាល់</ion-label>
+              <ion-input formControlName="userName" type="text" [(ngModel)]="data.userName" name="userName"></ion-input>
+            </ion-item>
 
-              </ion-form-wizard>
-         
-    </ion-grid>
+            <ion-item class="form1">
+              <ion-label>បង្កើតពាក្យសម្ងាត់</ion-label>
+              <ion-input formControlName="password" type="password" [(ngModel)]="data.password" name="password"></ion-input>
+            </ion-item>
+            
+            <ion-item class="form1">
+              <ion-label>លេខទូរស័ព្ទ</ion-label>
+              <ion-input formControlName="phone" type="text" [(ngModel)]="data.phone" name="phone"></ion-input>
+            </ion-item>
+
+            <ion-item class="form1">
+                <ion-label>ភេទ</ion-label>
+                <ion-select formControlName="gender" [(ngModel)]="data.gender" >
+                  <ion-option value="ស្រី">ស្រី</ion-option>
+                  <ion-option value="ប្រុស">ប្រុស</ion-option>
+                </ion-select>
+            </ion-item>
+            <!-- </form> -->
+          </div>
+        </form>
+      </ion-wizard-step>
 
 
-    
+      <ion-wizard-step>
+
+        <div class="container1">
+
+          <ion-item class="form1">
+            <ion-label>ខេត្ត</ion-label>
+
+            <ion-select (ionChange)="onChangeSelectProvince($event)" [(ngModel)]="data.province">
+
+              <ion-option *ngFor="let province of provinces" [value]="province.pcode">{{province.pname_en}}</ion-option>
+
+            </ion-select>
+
+          </ion-item>
+
+          <ion-item class="form1">
+            <ion-label>ស្រុក</ion-label>
+            <ion-select (ionChange)="onChangeSelectDistrict($event)" [(ngModel)]="data.district">
+              <ion-option *ngFor="let district of districts" [value]="district.dcode">{{district.dname_en}}</ion-option>
+
+            </ion-select>
+          </ion-item>
+
+
+          <ion-item class="form1">
+            <ion-label>សាលារៀន</ion-label>
+            <ion-select [(ngModel)]="data.school">
+              <ion-option *ngFor="let school_list of school_lists" [value]="school_list.id">{{school_list.school_name}}</ion-option>
+
+            </ion-select>
+          </ion-item>
+        </div>
+
+      </ion-wizard-step>
+
+    </ion-form-wizard>
+
+  </ion-grid>
+
+
 </ion-content>
 
 
 <ion-footer>
   <ion-toolbar>
-      <button ion-button clear class="bicon" (click)="backButtonClick()">
-        <ion-icon name="md-arrow-round-back"></ion-icon>
-      </button> 
-      <button ion-button clear class="eicon" (click)="exitButtonClick()" (press)="toggleDebug()">
-        <ion-icon name="power"></ion-icon>
-      </button>
+    <button ion-button clear class="bicon" (click)="backButtonClick()">
+      <ion-icon name="md-arrow-round-back"></ion-icon>
+    </button>
+    <button ion-button clear class="eicon" (click)="exitButtonClick()" (press)="toggleDebug()">
+      <ion-icon name="power"></ion-icon>
+    </button>
   </ion-toolbar>
 </ion-footer>

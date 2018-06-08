@@ -8,8 +8,10 @@ import { Toast } from '@ionic-native/toast';
 import { WelcomePage } from '../welcome/welcome';
 import { HomePage } from '../home/home';
 import { StarterPage } from '../starter/starter';
+import { FacebookPage } from '../facebook/facebook';
 import { NumberFormatStyle } from '@angular/common';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { FormControl, FormControlName, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 /**
  * Generated class for the FormPage page.
@@ -25,7 +27,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 })
 export class FormPage {
 
-  public data = { fullName:"", userName:"", password:"",phone:"", gender:"", school:"", district:"", province:"" };
+  public data = { fullName:"", userName:"", password:"",phone:"", gender:"", province:"", district:"", school:"" };
 
   
   provinces: any [];
@@ -38,8 +40,10 @@ export class FormPage {
   stepDefaultCondition: any;
   currentStep: any;
 
-  isLoggedIn:boolean = false;
-  private userFb: any;
+  // isLoggedIn:boolean = false;
+  // private userFb: any;
+  valForm: FormGroup;
+  picture: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -48,32 +52,61 @@ export class FormPage {
     public navParams: NavParams,
     public evts: Events,
     //public http: Http,
-    private sqlite: SQLite,
+    //private sqlite: SQLite,
     private toast: Toast,
     public db: DatabaseProvider,
-    public fb: Facebook
+    public fb: Facebook,
+    public formBuilder: FormBuilder,
   ) {
-    this.getFbData();
-      
-    //  this.data.fullName = this.userFb.name;
-    //  console.log(this.data.fullName);
-      this.getProvinces();
-      // console.log('getprovince',this.provinces);
-      // this.getDistricts();
-      // this.getSchools();
-      this.navParams.get('userParams');
+   
 
-      console.log('Hello SqlStorage Provider');
+    /**Get data of facebook user from welcomepage
+     * 
+     */
+      const fbData = this.navParams.get('data');
+                  if(fbData){
+                    this.data.fullName = fbData.name;
+                    this.navParams = fbData;
+                    //this.picture = fbData.picture;
+                  }
+          
+     
+      // this.data.fullName= new FormCtrl('',);
+      this.valForm = formBuilder.group({
+        fullName: ['',Validators.compose([Validators.pattern('[a-zA-Z*]'),Validators.required])],
+        userName: ['',Validators.compose([Validators.required])],
+        password: ['',Validators.compose([Validators.required,Validators.minLength(4)])],
+        phone: ['', Validators.compose([Validators.pattern('[0-9*]')])],
+        gender:['']
+    
+  
+      });
 
+    //   this.valForm = new FormGroup({
+    //     fullName: new FormControl('',Validators.compose([Validators.pattern('[a-zA-Z*]'),Validators.required])),
+    //     userName: new FormControl('',Validators.compose([Validators.required])),
+    //     password: new FormControl('',Validators.compose([Validators.required,Validators.minLength(4)])),
+    //  });
+
+
+      /**Pass data in form1 to form2 in a page
+       * 
+       */
       this.step = 1;
       this.stepCondition = true;
       this.stepDefaultCondition = this.stepCondition;
       this.evts.subscribe('step:changed', step => {
         this.currentStep = step;
         this.stepCondition = this.stepDefaultCondition;
+        console.log(this.currentStep)
+        if(this.currentStep == 2){}
+
       });
       this.evts.subscribe('step:next', () => {
         console.log('Next pressed: ', this.currentStep);
+        if(this.currentStep == 2){
+          this.getProvinces();
+        }
       });
       this.evts.subscribe('step:back', () => {
         console.log('Back pressed: ', this.currentStep);
@@ -81,67 +114,9 @@ export class FormPage {
 
   }
 
-  // ionViewWillEnter(){
-  //   this.getProvinces();
-  // }
-
-  getFbData(){
-      this.fb.login(['public_profile', 'user_friends', 'email'])
-      .then(res => {
-        if(res.status === "connected") {
-          this.isLoggedIn = true;
-          return this.getUserDetail(res.authResponse.userID);
-        } else {
-          this.isLoggedIn = false;
-        }
-      })
-      
-      .catch(e => console.log('Error logging into Facebook', e));
-
-      
-    }
-
-  getUserDetail(userid) {
-    this.fb.api("/"+userid+"/?fields=id,email,name,picture",["public_profile"])
-    .then(res => {
-      
-      this.userFb = res;
-      console.log('my data');
-      
-      console.log(this.userFb);
-      console.log(this.userFb.name);
-      //console.log(this.userFb.gender);
-      this.data.fullName = res.name;
-      console.log(this.data.fullName);
-    })
-    .catch(e => {
-      console.log(e);
-    });
-  } 
-
-
-  // getdistricts() {
-  //   this.sqlite.create({
-  //     name: 'biology',
-  //     location: 'default'
-  //       }).then((db: SQLiteObject)  => {
-  //         db.executeSql('SELECT * FROM districts',{})
-  //           .then(res => {
-  //             this.districts = [];
-  //             console.log(res);
-  //             for (var i = 0; i<res.rows.length; i++){
-  //               this.districts.push({
-  //                 pcode:res.rows.item(i).pcode,
-  //                 pname_en:res.rows.item(i).pname_en
-  //               })
-  //             }
-
-  //           })
-  //           .catch(e => console.log((e)))
-  //         })
-
-  // }
-
+/**Function get all provinces from biology.db
+ * 
+ */
   getProvinces(){
     this.db
         .table("provinces")
@@ -160,10 +135,16 @@ export class FormPage {
         }).catch(e => console.log(e));
   }
 
-  getDistricts(){
+ 
+   
+
+  /**Get all districts of province
+   * 
+   */
+  getDistricts(id){
+    console.log(this.db)
     this.db
-        // .executeSQL(`SELECT * FROM districts WHERE pcode=${}`)  
-        .table("districts")
+        .executeSQL(`SELECT * FROM districts WHERE pcode=${id}`)  
         .then(res => {
           this.districts = [];
         
@@ -180,28 +161,16 @@ export class FormPage {
 
         
   }
+
   
-  // pcode=this.data.province;
-  // province() {
-  //   this.db.executeSQL(`SELECT * FROM districts WHERE pcode=${this.data.province}`)
-  //       .then(res => {
-  //        // console.log(pcode);
-  //         //this.state = 'districts';
-  //         this.districts = [];
-  //         for (var i = 0; i<res.rows.length; i++){
-  //           this.districts.push({
-  //             dcode:res.rows.item(i).dcode,
-  //             prefix:res.rows.item(i).prefix,
-  //             dname_kh:res.rows.item(i).dname_kh
-  //           })
-  //         }
-  //       })
-  // }
-
-
-  getSchools(){
-    this.db
-        .table("school_lists")
+  /**Get all schools of district
+   * 
+   */
+  getSchools(id){
+    console.log(id);
+    this.db.executeSQL(`SELECT * FROM school_lists WHERE district_id=${id}`)
+        // .table("school_lists")
+      
         .then(res => {
           this.school_lists = [];
         
@@ -209,89 +178,54 @@ export class FormPage {
             this.school_lists.push({
               school_id:res.rows.item(i).school_id,
               school_name:res.rows.item(i).school_name
-              // dname_kh:res.rows.item(i).dname_kh
-             
+                          
             })
           }
         }).catch(e => console.log(e));
   }
 
-  school(dcode: number) {
-    this.db.executeSQL(`SELECT * FROM districts WHERE dcode=${dcode}`)
-        .then(res => {
-          // this.state = 'districts';
-          this.school_lists = [];
-          for (var i = 0; i<res.rows.length; i++){
-            this.school_lists.push({
-              school_id:res.rows.item(i).school_id,
-              school_name:res.rows.item(i).school_name
-              // dcode:res.rows.item(i).dcode,
-              // prefix:res.rows.item(i).prefix,
-              // dname_kh:res.rows.item(i).dname_kh
-            })
-          }
-        })
-  }
-
-  // getDistricts(){
-  //   this.sqlite.create({
-  //         name: 'biology',
-  //         location: 'default'
-  //           }).then((db: SQLiteObject)  => {
-  //             db.executeSql('SELECT * FROM districts WHERE d',{})
-  //               .then(res => {
-  //                 this.districts = [];
-  //                 console.log(res);
-  //                 for (var i = 0; i<res.rows.length; i++){
-  //                   this.districts.push({
-  //                     dcode:res.rows.item(i).dcode,
-  //                     dname_kh:res.rows.item(i).dname_kh
-  //                   })
-  //                 }
-    
-  //               })
-  //               .catch(e => console.log((e)))
-  //             })
-    
-
-  // }
+  
 
   createTableUsers(){
-    this.sqlite.create({
-      name: 'biology',
-      location: 'default'
-    }).then((db: SQLiteObject)  => {
-      db.executeSql('create users(fullName VARCHAR(32), userName VARCHAR(32), password VARCHAR(20), phone VARCHAR(10), gender VARCHAR(6), province VARCHAR(50), district VARCHAR(50), school VARCHAR(50))',{})
+    this.db.getInstance().then((db: SQLiteObject)  => {
+      db.executeSql(`create table if NOT exists users(
+        "id " integer not null primary key autoincrement,
+        fullName VARCHAR(32), userName VARCHAR(32), password VARCHAR(20), phone VARCHAR(10), gender VARCHAR(6), province VARCHAR(50), district VARCHAR(50), school VARCHAR(50))`,{})
       .then( res => console.log('execuated SQL!'))
       .catch(e => console.log(e));
     })
   }
 
+
+  /**Save data after form completed
+   * 
+   */
   onFinish() {
-    this.sqlite.create({
-      name: 'biology',
-      location: 'default'
-    }).then((db: SQLiteObject) => {
-      db.executeSql('INSERT INTO users VALUES(?,?,?,?,?,?,?,?)',[this.data.fullName,this.data.userName,this.data.password,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school])
+    let data = [this.data.fullName,this.data.userName,this.data.password,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school];
+    this.db.getInstance().then((db: SQLiteObject) => {
+
+      db.executeSql('INSERT INTO users(fullName, userName, password, phone, gender, province, district, school) VALUES(?,?,?,?,?,?,?,?)', data)
+      // db.executeSql('INSERT INTO users VALUES(?,?,?,?,?,?,?,?)',[this.data.fullName, this.data.userName, this.data.password, this.data.phone, this.data.gender, this.data.province, this.data.district, this.data.school])
+        
         .then(res => {
-          console.log(JSON.stringify(res));
-          console.log("fullName = "+this.data.fullName + "; "+"userName = "+this.data.userName +";"+"password ="+this.data.password +";"+"phone = "+this.data.phone+"; "+"gender = "+this.data.gender+";"+"province="+this.data.province);
-          // this.toast.show('Data saved', '5000', 'center').subscribe(
-          //   toast => {
-              //this.navCtrl.popToRoot();
-             
-          //   }
-          // );
+            console.log('hello gay!',JSON.stringify(res));
+            console.log("fullName = "+this.data.fullName + "; "+"userName = "+this.data.userName +";"+"password ="+this.data.password +";"+"phone = "+this.data.phone+"; "+"gender = "+this.data.gender+";"+"province="+this.data.province);
+            this.toast.show('Data saved', '5000', 'center').subscribe(
+              toast => {
+                this.navCtrl.push(StarterPage);
+              
+              }
+            );
         })
-        this.navCtrl.push(StarterPage);
-        // .catch(e => {
-        //   console.log(e);
-        //   this.toast.show(e, '5000', 'center').subscribe(
-        //     toast => {
-        //       console.log(toast);
-        //     }
-        //   );
-        // });
+        
+        .catch(e => {
+          console.log(e);
+          this.toast.show(e, '5000', 'center').subscribe(
+            toast => {
+              console.log(toast);
+            }
+          );
+        });
     })
     // .catch(e => {
     //   console.log(e);
@@ -301,7 +235,8 @@ export class FormPage {
     //     }
     //   );
     // });
-   console.log('Error');
+    //this.navCtrl.push(StarterPage);
+    console.log('Error to save data');
 
 
     //console.log(this.data)
@@ -315,22 +250,12 @@ export class FormPage {
     // }).present();
   }
 
- 
-
-
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FormPage');
     this.createTableUsers();
    
   }
-
-  // public form(id) {
-  //   this.navCtrl.push(
-  //     FormPage, {
-  //       formID: id
-  //   });
-  // }
 
   private backButtonClick(){
     let confirm = this.alertCtrl.create({
@@ -370,6 +295,16 @@ export class FormPage {
       ]
     });
     alert.present();
+  }
+
+  onChangeSelectProvince(e){
+    this.school_lists = [];
+    this.data.school = "";
+    this.getDistricts(e)
+  }
+
+  onChangeSelectDistrict(e){
+    this.getSchools(e);
   }
 
 
