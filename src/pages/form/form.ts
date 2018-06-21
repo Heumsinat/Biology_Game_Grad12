@@ -204,7 +204,7 @@ export class FormPage {
     let data = [this.data.fullName,this.data.userName,this.data.password,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school];
     this.db.getInstance().then((db: SQLiteObject) => {
 
-      db.executeSql('INSERT INTO users(full_name, user_name, password, phone_number, gender, province, district, school) VALUES(?,?,?,?,?,?,?,?)', data)
+      db.executeSql('INSERT INTO users(full_name, user_name, password, phone_number, gender, province_pcode, district_dcode, school_id) VALUES(?,?,?,?,?,?,?,?)', data)
       // db.executeSql('INSERT INTO users VALUES(?,?,?,?,?,?,?,?)',[this.data.fullName, this.data.userName, this.data.password, this.data.phone, this.data.gender, this.data.province, this.data.district, this.data.school])
         
         .then(res => {
