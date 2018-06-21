@@ -186,15 +186,15 @@ export class FormPage {
 
   
 
-  createTableUsers(){
-    this.db.getInstance().then((db: SQLiteObject)  => {
-      db.executeSql(`create table if NOT exists users(
-        "id " integer not null primary key autoincrement,
-        fullName VARCHAR(32), userName VARCHAR(32), password VARCHAR(20), phone VARCHAR(10), gender VARCHAR(6), province VARCHAR(50), district VARCHAR(50), school VARCHAR(50))`,{})
-      .then( res => console.log('execuated SQL!'))
-      .catch(e => console.log(e));
-    })
-  }
+  // createTableUsers(){
+  //   this.db.getInstance().then((db: SQLiteObject)  => {
+  //     db.executeSql(`create table if NOT exists users(
+  //       "id " integer not null primary key autoincrement,
+  //       fullName VARCHAR(32), userName VARCHAR(32), password VARCHAR(20), phone VARCHAR(10), gender VARCHAR(6), province VARCHAR(50), district VARCHAR(50), school VARCHAR(50))`,{})
+  //     .then( res => console.log('execuated SQL!'))
+  //     .catch(e => console.log(e));
+  //   })
+  // }
 
 
   /**Save data after form completed
@@ -204,7 +204,7 @@ export class FormPage {
     let data = [this.data.fullName,this.data.userName,this.data.password,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school];
     this.db.getInstance().then((db: SQLiteObject) => {
 
-      db.executeSql('INSERT INTO users(fullName, userName, password, phone, gender, province, district, school) VALUES(?,?,?,?,?,?,?,?)', data)
+      db.executeSql('INSERT INTO users(full_name, user_name, password, phone_number, gender, province, district, school) VALUES(?,?,?,?,?,?,?,?)', data)
       // db.executeSql('INSERT INTO users VALUES(?,?,?,?,?,?,?,?)',[this.data.fullName, this.data.userName, this.data.password, this.data.phone, this.data.gender, this.data.province, this.data.district, this.data.school])
         
         .then(res => {
@@ -253,7 +253,7 @@ export class FormPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FormPage');
-    this.createTableUsers();
+    // this.createTableUsers();
    
   }
 
