@@ -209,7 +209,7 @@ export class FormPage {
     let data = [this.data.fullName,this.data.userName,this.data.password,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school];
     this.db.getInstance().then((db: SQLiteObject) => {
 
-      db.executeSql('INSERT INTO users(fullName, userName, password, phone, gender, province, district, school) VALUES(?,?,?,?,?,?,?,?)', data)
+      db.executeSql('INSERT INTO users(full_name, user_name, password, phone_number, gender, province_pcode, district_dcode, school_id) VALUES(?,?,?,?,?,?,?,?)', data)
       // db.executeSql('INSERT INTO users VALUES(?,?,?,?,?,?,?,?)',[this.data.fullName, this.data.userName, this.data.password, this.data.phone, this.data.gender, this.data.province, this.data.district, this.data.school])
         /* Soriya's Code before insert SynchData function */
         /* .then(res => {
@@ -224,19 +224,20 @@ export class FormPage {
         }) */
 
         .then(res => {
-            
           if (this.network.type == "none") {
             console.log('Data Inserted into monitor_measurements!');
             this.helpers.presentLoadingCustom(2000, "កំពុងផ្ទុកទិន្នន័យ...");
           }
           else {
-            this.helpers.synchUserQuizeToServer(["users"],"user_register_or_update_app", 8);
+            this.helpers.synchUserQuizeToServer(["users"],"user_register_or_update_app", 7);
             this.helpers.presentLoadingCustom(2000, "កំពុងបញ្ជូនទិន្នន័យទៅកាន់ម៉ាស៊ីនមេ...");
+            this.navCtrl.push(StarterPage);
           }
         })
         
         .catch(e => {
           console.log(e);
+          console.log('Error to save data');
           this.toast.show(e, '5000', 'center').subscribe(
             toast => {
               console.log(toast);
@@ -253,7 +254,7 @@ export class FormPage {
     //   );
     // });
     //this.navCtrl.push(StarterPage);
-    console.log('Error to save data');
+    // console.log('Error to save data');
 
 
     //console.log(this.data)
@@ -270,7 +271,7 @@ export class FormPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FormPage');
-    this.createTableUsers();
+    // this.createTableUsers();
    
   }
 

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map'; 
 import async from 'async';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { LoadingController} from 'ionic-angular';
+import { ToastController, LoadingController} from 'ionic-angular';
 
 let apiUrl = "http://biology.open.org.kh/api/";
 
@@ -18,7 +18,8 @@ export class HelpersProvider {
 
   constructor(public http: Http,
     private sqlite: SQLite,
-    public loadingCtrl: LoadingController) {
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController) {
     console.log('Hello HelpersProvider Provider');
   }
 
@@ -81,12 +82,14 @@ export class HelpersProvider {
       
               var resColNames = await db.executeSql("PRAGMA table_info('"+ tableName +"')",{});
               var colNames = [];
-              // ex: colNames: ["user_id","question_id","user_ans_id","ans_correct","score"]
+              // colNames: ["full_name","user_name","password","phone_number","gender","province_pcode","district_dcode","school_id"]
               var index_colName =0;
               for (let index = 1; index <= noOfCols; index++) {
                   colNames[index_colName]=resColNames.rows.item(index).name;
                   index_colName++;
               }
+              if(tableName === 'users')
+                 colNames.push("update");
   
               callback(null, colNames);
               } catch (err) {
@@ -96,32 +99,47 @@ export class HelpersProvider {
       
           subTasks.push(async function(colNames, callback) {
               console.log('colNames: ' + JSON.stringify(colNames));
+              console.log('tableName: ' + JSON.stringify(tableName));
               try {
               var db = await self.sqlite.create({
                   name: 'biology.db',
                   location: 'default'
               });
               var resOfflineRecords = await db.executeSql('SELECT * FROM '+ tableName + ' where isSent=?',[0])
-              //var resOfflineRecords = await db.executeSql('SELECT * FROM user_quizzes',[])
               console.log('resOfflineRecords: ' + JSON.stringify(resOfflineRecords));
-              //console.log('object of resOfflineRecords: '+JSON.parse(resOfflineRecords));
               for (let i = 0; i < resOfflineRecords.rows.length; i++) {
-                  
+                var valFromTable = [];
                   var eachData = resOfflineRecords.rows.item(i);
                   console.log("test eachData: "+eachData);
+                  if(tableName==="users")
+                  {
+                    valFromTable = [eachData.full_name,
+                    eachData.user_name,
+                    eachData.password,
+                    eachData.phone_number,
+                    eachData.gender,
+                    eachData.school_id,
+                    eachData.fb_id];
+                  }
+                  else if(tableName==="user_quizzes")
+                  {
                   // Retrieve All Columns Name From table user_quizzes //
-                  var valFromTable = [eachData.user_id,
-                  eachData.question_id,
-                  eachData.user_ans_id,
-                  eachData.ans_correct,
-                  eachData.score];
+                    valFromTable = [eachData.user_id,
+                    eachData.question_id,
+                    eachData.user_ans_id,
+                    eachData.ans_correct,
+                    eachData.score];
+                  }
                   var col = null;
                   var obj = {};
                   for (let j = 0; j < colNames.length; j++) {
-                  // Construct JSON string with key (column name)/value (offline data) pair //
-                  col = colNames[j];
-                  obj[col] = valFromTable[j];
+                    // Construct JSON string with key (column name)/value (offline data) pair //
+                    col = colNames[j];
+                    obj[col] = valFromTable[j];
+                    if(tableName==="users" && colNames[j] === "update" )
+                      obj[col] = "";
                   }
+                  
                   
                   _data[tableName].push(obj);
                   console.log('_data = ' + JSON.stringify(_data));
@@ -232,6 +250,18 @@ export class HelpersProvider {
       });
     
       loading.present();
+    }
+
+     // *** Creator: Samak @25-06-2018 *** //
+     // * Function to show simple dialog * //
+     // * Param1: msg => the msg to be shown * //
+    presentToast(msg: string) {
+      let toastObj = this.toastCtrl.create({
+        message: msg,
+        position: "bottom",
+        duration: 4000
+      });
+      toastObj.present();
     }
 
 }
