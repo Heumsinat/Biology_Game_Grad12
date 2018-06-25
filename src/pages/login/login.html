@@ -15,20 +15,22 @@
 
 <ion-content padding class="background-img">
   <!--<ion-label class="content">Signin</ion-label>-->
-  <div>    
+  <form [formGroup]="loginValidate">
+    <div> 
       <ion-item class="form1" id="btn01">
         <ion-label outline>ឈ្មោះសម្គាល់</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text"  value="" [(ngModel)]="userData.name_id" formControlName="usr"></ion-input>
       </ion-item>
         
       <ion-item class="form1">
         <ion-label>ពាក្យសម្ងាត់</ion-label>
-        <ion-input type="password"></ion-input>
+        <ion-input type="password" value="" [(ngModel)]="userData.pwd" formControlName="pwd"></ion-input>
       </ion-item>     
   </div>
   <div padding id="btn02">
       <button block class="btn btn-primary btn-lg btn3d" id="btn0" (click)="signin()">Sign In</button>
   </div>
+</form>
   
 
 </ion-content>

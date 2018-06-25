@@ -12,6 +12,9 @@ import { FacebookPage } from '../facebook/facebook';
 import { NumberFormatStyle } from '@angular/common';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { FormControl, FormControlName, FormBuilder, FormGroup, Validators } from '@angular/forms';
+// Samak imported //
+import { Network } from '@ionic-native/network';
+import { HelpersProvider } from '../../providers/helpers/helpers';
 
 /**
  * Generated class for the FormPage page.
@@ -57,6 +60,8 @@ export class FormPage {
     public db: DatabaseProvider,
     public fb: Facebook,
     public formBuilder: FormBuilder,
+    public network: Network,
+    public helpers: HelpersProvider
   ) {
    
 
@@ -186,15 +191,15 @@ export class FormPage {
 
   
 
-  // createTableUsers(){
-  //   this.db.getInstance().then((db: SQLiteObject)  => {
-  //     db.executeSql(`create table if NOT exists users(
-  //       "id " integer not null primary key autoincrement,
-  //       fullName VARCHAR(32), userName VARCHAR(32), password VARCHAR(20), phone VARCHAR(10), gender VARCHAR(6), province VARCHAR(50), district VARCHAR(50), school VARCHAR(50))`,{})
-  //     .then( res => console.log('execuated SQL!'))
-  //     .catch(e => console.log(e));
-  //   })
-  // }
+  createTableUsers(){
+    this.db.getInstance().then((db: SQLiteObject)  => {
+      db.executeSql(`create table if NOT exists users(
+        "id " integer not null primary key autoincrement,
+        fullName VARCHAR(32), userName VARCHAR(32), password VARCHAR(20), phone VARCHAR(10), gender VARCHAR(6), province VARCHAR(50), district VARCHAR(50), school VARCHAR(50), isSent INT)`,{})
+      .then( res => console.log('execuated SQL!'))
+      .catch(e => console.log(e));
+    })
+  }
 
 
   /**Save data after form completed
@@ -206,8 +211,8 @@ export class FormPage {
 
       db.executeSql('INSERT INTO users(full_name, user_name, password, phone_number, gender, province_pcode, district_dcode, school_id) VALUES(?,?,?,?,?,?,?,?)', data)
       // db.executeSql('INSERT INTO users VALUES(?,?,?,?,?,?,?,?)',[this.data.fullName, this.data.userName, this.data.password, this.data.phone, this.data.gender, this.data.province, this.data.district, this.data.school])
-        
-        .then(res => {
+        /* Soriya's Code before insert SynchData function */
+        /* .then(res => {
             console.log('hello gay!',JSON.stringify(res));
             console.log("fullName = "+this.data.fullName + "; "+"userName = "+this.data.userName +";"+"password ="+this.data.password +";"+"phone = "+this.data.phone+"; "+"gender = "+this.data.gender+";"+"province="+this.data.province);
             this.toast.show('Data saved', '5000', 'center').subscribe(
@@ -216,10 +221,23 @@ export class FormPage {
               
               }
             );
+        }) */
+
+        .then(res => {
+          if (this.network.type == "none") {
+            console.log('Data Inserted into monitor_measurements!');
+            this.helpers.presentLoadingCustom(2000, "កំពុងផ្ទុកទិន្នន័យ...");
+          }
+          else {
+            this.helpers.synchUserQuizeToServer(["users"],"user_register_or_update_app", 7);
+            this.helpers.presentLoadingCustom(2000, "កំពុងបញ្ជូនទិន្នន័យទៅកាន់ម៉ាស៊ីនមេ...");
+            this.navCtrl.push(StarterPage);
+          }
         })
         
         .catch(e => {
           console.log(e);
+          console.log('Error to save data');
           this.toast.show(e, '5000', 'center').subscribe(
             toast => {
               console.log(toast);
@@ -236,7 +254,7 @@ export class FormPage {
     //   );
     // });
     //this.navCtrl.push(StarterPage);
-    console.log('Error to save data');
+    // console.log('Error to save data');
 
 
     //console.log(this.data)

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map'; 
 import async from 'async';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { ToastController, LoadingController} from 'ionic-angular';
 
 let apiUrl = "http://biology.open.org.kh/api/";
 
@@ -16,7 +17,9 @@ let apiUrl = "http://biology.open.org.kh/api/";
 export class HelpersProvider {
 
   constructor(public http: Http,
-    private sqlite: SQLite) {
+    private sqlite: SQLite,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController) {
     console.log('Hello HelpersProvider Provider');
   }
 
@@ -53,10 +56,11 @@ export class HelpersProvider {
 
   // *** Creator: Samak *** //
     // * Function to select DB schema (column names), then construct JSON data to be sent to server* //
-    // * Params: listOfTable: a list of tables whose column name will be retrieved //
+    // * Param1: listOfTable: a list of tables whose column name will be retrieved //
+    // * Param2: noOfCols: no. of columns to be retrieved //
     // * Return: Promise of JSON DATA to be sent to Server.
 
-    retrieveDBSchemaHelper(listOfTable:string[]){
+    retrieveDBSchemaHelper(listOfTable:string[], noOfCols: number){
       var data_return = [];
       var _data = {};
       var self = this;
@@ -78,11 +82,14 @@ export class HelpersProvider {
       
               var resColNames = await db.executeSql("PRAGMA table_info('"+ tableName +"')",{});
               var colNames = [];
+              // colNames: ["full_name","user_name","password","phone_number","gender","province_pcode","district_dcode","school_id"]
               var index_colName =0;
-              for (var index = 1; index < 6; index++) {
+              for (let index = 1; index <= noOfCols; index++) {
                   colNames[index_colName]=resColNames.rows.item(index).name;
                   index_colName++;
               }
+              if(tableName === 'users')
+                 colNames.push("update");
   
               callback(null, colNames);
               } catch (err) {
@@ -92,32 +99,47 @@ export class HelpersProvider {
       
           subTasks.push(async function(colNames, callback) {
               console.log('colNames: ' + JSON.stringify(colNames));
+              console.log('tableName: ' + JSON.stringify(tableName));
               try {
               var db = await self.sqlite.create({
                   name: 'biology.db',
                   location: 'default'
               });
-              var resOfflineRecords = await db.executeSql('SELECT * FROM user_quizzes where isSent=?',[0])
-              //var resOfflineRecords = await db.executeSql('SELECT * FROM user_quizzes',[])
+              var resOfflineRecords = await db.executeSql('SELECT * FROM '+ tableName + ' where isSent=?',[0])
               console.log('resOfflineRecords: ' + JSON.stringify(resOfflineRecords));
-              //console.log('object of resOfflineRecords: '+JSON.parse(resOfflineRecords));
-              for (var i = 0; i < resOfflineRecords.rows.length; i++) {
-                  
+              for (let i = 0; i < resOfflineRecords.rows.length; i++) {
+                var valFromTable = [];
                   var eachData = resOfflineRecords.rows.item(i);
                   console.log("test eachData: "+eachData);
+                  if(tableName==="users")
+                  {
+                    valFromTable = [eachData.full_name,
+                    eachData.user_name,
+                    eachData.password,
+                    eachData.phone_number,
+                    eachData.gender,
+                    eachData.school_id,
+                    eachData.fb_id];
+                  }
+                  else if(tableName==="user_quizzes")
+                  {
                   // Retrieve All Columns Name From table user_quizzes //
-                  var valFromTable = [eachData.user_id,
-                  eachData.question_id,
-                  eachData.user_ans_id,
-                  eachData.ans_correct,
-                  eachData.score];
+                    valFromTable = [eachData.user_id,
+                    eachData.question_id,
+                    eachData.user_ans_id,
+                    eachData.ans_correct,
+                    eachData.score];
+                  }
                   var col = null;
                   var obj = {};
-                  for (var j = 0; j < colNames.length; j++) {
-                  // Construct JSON string with key (column name)/value (offline data) pair //
-                  col = colNames[j];
-                  obj[col] = valFromTable[j];
+                  for (let j = 0; j < colNames.length; j++) {
+                    // Construct JSON string with key (column name)/value (offline data) pair //
+                    col = colNames[j];
+                    obj[col] = valFromTable[j];
+                    if(tableName==="users" && colNames[j] === "update" )
+                      obj[col] = "";
                   }
+                  
                   
                   _data[tableName].push(obj);
                   console.log('_data = ' + JSON.stringify(_data));
@@ -154,16 +176,20 @@ export class HelpersProvider {
       }
 
     
-      // *** Creator: Samak *** //
+      // *** Creator: Samak @11-05-2018 *** //
     // * Function to synchronize data into server, then update isSent = 1 * //
+    // * Param1: listOfTable => array of table names whose data to be sent to Server * //
+    // * Param2: apiAddress => URL Address of Server's API* //
+    // * Param3: noOfColsInSynch => No. of columns to be retrieved from table* //
     
-    synchUserQuizeToServer() {
-      var listOfTable = ["user_quizzes"];
+    synchUserQuizeToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number) {
+      
       var self = this;
       //this.retrieveDBSchema(listOfTable)
-      self.retrieveDBSchemaHelper(listOfTable)
+      self.retrieveDBSchemaHelper(listOfTable,noOfColsInSynch)
         .then(function(value) {
-          self.postData(value,"insert_user_quiz_app").then((result) => {
+          // self.postData(value,"insert_user_quiz_app").then((result) => {
+          self.postData(value,apiAddress).then((result) => {
             //self.responseData = result;
             if(JSON.parse(result["code"])==200) 
             {
@@ -187,8 +213,9 @@ export class HelpersProvider {
         });
     }
 
-    // *** Creator: Samak *** //
+    // *** Creator: Samak @11-05-2018 *** //
     // * Function to update isSent after data has been synchronized into server * //
+    // * Param1: listOfTable => array of table names whose isSent column to be updated from 0 to 1 * //
   
     updateIsSentColumn(listOfTable:string[]){
       this.sqlite.create({
@@ -203,6 +230,38 @@ export class HelpersProvider {
           .catch(e => console.log(e));
         }
       })
+    }
+
+     // *** Creator: Samak @21-06-2018 *** //
+     // * Function to show loading dialog * //
+     // * Param1: duriationTime => how long to show the msg (milli-sec)* //
+     // * Param2: str => text msg to be shown * //
+    presentLoadingCustom(duriationTime: number, str: string) {
+      let loading = this.loadingCtrl.create({
+        content: `
+          <div class="custom-spinner-container">
+            <div class="custom-spinner-box"> `+ str +` </div>
+          </div>`,
+        duration: duriationTime
+      });
+    
+      loading.onDidDismiss(() => {
+        console.log('Dismissed loading');
+      });
+    
+      loading.present();
+    }
+
+     // *** Creator: Samak @25-06-2018 *** //
+     // * Function to show simple dialog * //
+     // * Param1: msg => the msg to be shown * //
+    presentToast(msg: string) {
+      let toastObj = this.toastCtrl.create({
+        message: msg,
+        position: "bottom",
+        duration: 4000
+      });
+      toastObj.present();
     }
 
 }

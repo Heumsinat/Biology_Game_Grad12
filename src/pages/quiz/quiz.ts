@@ -194,7 +194,7 @@ export class QuizPage {
     public answer (correct_ans: number, question_id: number, answer_order:number ){
         console.log('USER ANSWER ID', answer_order);
         // if correct_ans , play audio correct then push to SectionReviewPage
-
+        var listOfTable = ["user_quizzes"];
         if (correct_ans == 1){
             return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
                 return this.nativeAudio.play('correct', ()=>{
@@ -221,7 +221,8 @@ export class QuizPage {
                             // Synch offline data into server
                             if(this.network.type != "none")
                             {
-                                this.helpers.synchUserQuizeToServer();
+                                
+                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",5);
                             }
                             //End Save
                             // console.log(this.current.question_sound);
@@ -266,7 +267,7 @@ export class QuizPage {
                             // Synch offline data into server
                             if(this.network.type != "none")
                             {
-                                this.helpers.synchUserQuizeToServer();
+                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",5);
                             }
                             
                             //End Save
