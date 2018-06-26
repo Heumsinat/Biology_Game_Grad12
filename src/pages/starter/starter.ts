@@ -52,7 +52,12 @@ export class StarterPage {
 
     //******** Sinat *********/
     //  Get total score that user has played
-    this.db.executeSQL(`SELECT SUM(score) as total FROM user_quizzes WHERE user_id= 1`)
+    var userDataLS = localStorage.getItem('userData');
+    console.log('User ID = ',userDataLS);
+    var usr_id = JSON.parse(userDataLS).id;
+    console.log('U ID Num= ',usr_id);
+    
+    this.db.executeSQL(`SELECT SUM(score) as total FROM user_quizzes WHERE user_id= ` + usr_id)
     .then(res => {
      this.total_score = res.rows.item(0).total; // total_score is a number that user have play for today
       console.log('Total score =', this.total_score);
@@ -347,8 +352,12 @@ export class StarterPage {
      condition to check number of question that user played and compared with setting before allow user to play game
      */
     calculateRemainingNoOfQuestionToday(){
+      
+      let userDataLS = localStorage.getItem('userData');
+      console.log('User ID***** = ',userDataLS);
+      let usr_id = JSON.parse(userDataLS).id;
      
-      this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')`)
+      this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = `+ usr_id + ` and created_date = date('now')`)
       .then(res => {
         let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
         localStorage.setItem('num_q',num_q);

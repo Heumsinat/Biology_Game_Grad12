@@ -193,6 +193,12 @@ export class QuizPage {
      */
     public answer (correct_ans: number, question_id: number, answer_order:number ){
         console.log('USER ANSWER ID', answer_order);
+        let userDataLS = localStorage.getItem('userData');
+        console.log('User ID***** = ',userDataLS);
+        let usr_id = JSON.parse(userDataLS).id;
+        console.log('User ID_Num***** = ',usr_id);
+
+
         // if correct_ans , play audio correct then push to SectionReviewPage
         var listOfTable = ["user_quizzes"];
         if (correct_ans == 1){
@@ -212,7 +218,7 @@ export class QuizPage {
 
                             //Save User_Question
                             this.db.executeSQL(`INSERT INTO user_quizzes ( user_id, question_id,user_ans_id, ans_correct, score, created_date, isSent) 
-                                            VALUES (1,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, date('now'), 0)`).then(res=>{
+                                            VALUES (`+ usr_id +`,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, date('now'), 0)`).then(res=>{
 
                                 console.log('Current number of question that has insert', res);
 
@@ -259,7 +265,7 @@ export class QuizPage {
                             console.log('section_id', section_id);
                             //Save User_Question
                             this.db.executeSQL(`INSERT INTO user_quizzes ( user_id, question_id,user_ans_id, ans_correct, score, created_date, isSent) 
-                                            VALUES (1,` + question_id + `,` + answer_order + `,` + correct_ans + `,0, date('now'), 0)`).then(res=>{
+                                            VALUES (`+ usr_id +`,` + question_id + `,` + answer_order + `,` + correct_ans + `,0, date('now'), 0)`).then(res=>{
                                 console.log('Current number of question that has insert', res);
 
                             });
