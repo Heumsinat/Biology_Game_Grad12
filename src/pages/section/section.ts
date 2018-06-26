@@ -29,6 +29,7 @@ export class SectionPage {
   public playCompleted: boolean;
   no_question: boolean;
   next_question: boolean;
+  userId: number;
 
   constructor(
       public navCtrl: NavController,
@@ -39,6 +40,7 @@ export class SectionPage {
       private nativeAudio: NativeAudio,
       private changeRef: ChangeDetectorRef
   ) {
+    this.userId = JSON.parse(localStorage.getItem("userData")).id;
     this.answerCorrect = this.navParams.get('answerCorrect');
     this.sectionID = this.navParams.get('sectionID');
     this.questionID = this.navParams.get('questionID');
@@ -49,7 +51,7 @@ export class SectionPage {
     // console.log(this.sectionID);
     // console.log(this.sectionID);
 
-      this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')`)
+      this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = `+ this.userId +` and created_at = datetime('now')`)
           .then(res => {
               let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
               localStorage.setItem('num_q',num_q);
@@ -91,7 +93,7 @@ export class SectionPage {
                       let num_quiz = Number(localStorage.getItem('settings'));
                       console.log('Settings =', num_quiz);
                       let num_of_q = Number(localStorage.getItem('num_q'));
-                      console.log('get count number of question =', num_of_q);
+                      console.log('get count number of question in starter page =', num_of_q);
 
                       if (num_of_q < num_quiz){
                           this.next_question = true;
@@ -124,7 +126,7 @@ export class SectionPage {
    */
   navigate() {
       //select count * as column total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')
-      this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = 1 and created_date = date('now')`)
+      this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = `+ this.userId+" and created_at between strftime('%Y-%m-%d 00:00:00', date('now')) and strftime('%Y-%m-%d 23:59:59', date('now'))")
           .then(res => {
               let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
               console.log('get count number of question', num_q);

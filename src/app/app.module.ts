@@ -53,8 +53,8 @@ import { Network } from '@ionic-native/network';
     ProfilePage
   ],
   imports: [
-    BrowserModule,
     IonicModule.forRoot(MyApp),
+    BrowserModule,
     HttpModule,
     BrowserAnimationsModule
     

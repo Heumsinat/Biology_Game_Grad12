@@ -128,7 +128,8 @@ export class HelpersProvider {
                     eachData.question_id,
                     eachData.user_ans_id,
                     eachData.ans_correct,
-                    eachData.score];
+                    eachData.score,
+                    eachData.created_at];
                   }
                   var col = null;
                   var obj = {};

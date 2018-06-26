@@ -31,6 +31,7 @@ export class StarterPage {
   is_leaderboard : boolean;
   profile: any;
   fbName: any;
+  userId: number;
 
   constructor(
     public navCtrl: NavController, 
@@ -42,7 +43,8 @@ export class StarterPage {
     public db: DatabaseProvider,
     private network: Network
   ) {
-
+    console.log("localStorage of userData ="+localStorage.getItem("userData"));
+    this.userId = JSON.parse(localStorage.getItem("userData")).id;
     const fbData = this.navParams.get('fbData');
     console.log('My fbdata:',fbData);
                   if(fbData){
@@ -52,12 +54,7 @@ export class StarterPage {
 
     //******** Sinat *********/
     //  Get total score that user has played
-    var userDataLS = localStorage.getItem('userData');
-    console.log('User ID = ',userDataLS);
-    var usr_id = JSON.parse(userDataLS).id;
-    console.log('U ID Num= ',usr_id);
-    
-    this.db.executeSQL(`SELECT SUM(score) as total FROM user_quizzes WHERE user_id= ` + usr_id)
+    this.db.executeSQL(`SELECT SUM(score) as total FROM user_quizzes WHERE user_id= `+this.userId)
     .then(res => {
      this.total_score = res.rows.item(0).total; // total_score is a number that user have play for today
       console.log('Total score =', this.total_score);
@@ -65,6 +62,7 @@ export class StarterPage {
   
     }).catch(e => console.log((e)));
     this.is_leaderboard = false;
+    
   }
 
   ionViewDidLoad() {
@@ -75,7 +73,7 @@ export class StarterPage {
       this.requestToGetSettings();
       this.calculateRemainingNoOfQuestionToday();
       this.requestToUpdateOrderQuestions();
-      this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",5);
+      this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6);
     }
     // Watch Internet connect when it is connected, do... //
     let connectSubscription = this.network.onConnect().subscribe(() => {
@@ -88,7 +86,7 @@ export class StarterPage {
         this.requestToGetSettings();
         this.calculateRemainingNoOfQuestionToday();
         this.requestToUpdateOrderQuestions();
-        this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",5);
+        this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6);
         connectSubscription.unsubscribe();
       }, 0);
     });
@@ -103,7 +101,7 @@ export class StarterPage {
     let num_quiz = Number(localStorage.getItem('settings'));
     console.log('get number of settings =', num_quiz);
     let num_q = Number(localStorage.getItem('num_q'));
-    console.log('get count number of question =', num_q);
+    console.log('get count number of question in starter page =', num_q);
    
     if (num_q < num_quiz) {
       console.log(num_q);
@@ -352,16 +350,13 @@ export class StarterPage {
      condition to check number of question that user played and compared with setting before allow user to play game
      */
     calculateRemainingNoOfQuestionToday(){
+      console.log("calculateRemainingNoOfQuestionToday this.userId= "+this.userId);
       
-      let userDataLS = localStorage.getItem('userData');
-      console.log('User ID***** = ',userDataLS);
-      let usr_id = JSON.parse(userDataLS).id;
-     
-      this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = `+ usr_id + ` and created_date = date('now')`)
+      this.db.executeSQL("SELECT count(*) as total FROM user_quizzes WHERE user_id ="+this.userId +" and created_at between strftime('%Y-%m-%d 00:00:00', date('now')) and strftime('%Y-%m-%d 23:59:59', date('now'))")
       .then(res => {
         let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
         localStorage.setItem('num_q',num_q);
-        console.log('get count number of question', num_q);
+        console.log('get count number of question in setItem', num_q);
         // localStorage.setItem('num_q',num_q);
         let num_quiz = Number(localStorage.getItem('settings'));
 
@@ -379,6 +374,7 @@ export class StarterPage {
         
       }).catch(e => console.log((e)));
     }
+
     gotoLeaderboard(){
       this.navCtrl.push(LeaderboardPage);
     }
