@@ -35,6 +35,7 @@ export class QuizPage {
     userQuestion: number;
     responseData : any;
     public playCompleted: boolean;
+    userId: number;
 
     constructor(
         public navCtrl: NavController,
@@ -49,6 +50,7 @@ export class QuizPage {
         private changeRef: ChangeDetectorRef,
         private network: Network
     ) {
+        this.userId = JSON.parse(localStorage.getItem("userData")).id;
         this.lessonID = navParams.get('lessonID'); //Get param lessonID from SectionPage
         this.currentQuestionID = this.navParams.get('questionID');
         //console.log('current question id in constructor = ', this.currentQuestionID);
@@ -92,7 +94,7 @@ export class QuizPage {
                             correct_answer_sound:res.rows.item(i).correct_answer_sound,
                             incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
                             next_question_id:res.rows.item(i).next_question_id,
-                            created_date:res.rows.item(i).created_date,
+                            created_at:res.rows.item(i).created_at,
                             modified_date:res.rows.item(i).modified_date
                         }
                         //break;
@@ -161,7 +163,7 @@ export class QuizPage {
                         answer_sound:res.rows.item(i).answer_sound,
                         question_id:res.rows.item(i).question_id,
                         is_correct_answer:res.rows.item(i).is_correct_answer,
-                        created_date:res.rows.item(i).created_date,
+                        created_at:res.rows.item(i).created_at,
                         modified_date:res.rows.item(i).modified_date,
                     });
                 }
@@ -193,6 +195,7 @@ export class QuizPage {
      */
     public answer (correct_ans: number, question_id: number, answer_order:number ){
         console.log('USER ANSWER ID', answer_order);
+        //console.log('date now = '+ date('now'));
         // if correct_ans , play audio correct then push to SectionReviewPage
         var listOfTable = ["user_quizzes"];
         if (correct_ans == 1){
@@ -211,8 +214,8 @@ export class QuizPage {
                             */
 
                             //Save User_Question
-                            this.db.executeSQL(`INSERT INTO user_quizzes ( user_id, question_id,user_ans_id, ans_correct, score, created_date, isSent) 
-                                            VALUES (1,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, date('now'), 0)`).then(res=>{
+                            this.db.executeSQL(`INSERT INTO user_quizzes ( user_id, question_id,user_ans_id, ans_correct, score, created_at, isSent) 
+                                            VALUES (` + this.userId + `,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, datetime('now'), 0)`).then(res=>{
 
                                 console.log('Current number of question that has insert', res);
 
@@ -222,7 +225,7 @@ export class QuizPage {
                             if(this.network.type != "none")
                             {
                                 
-                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",5);
+                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6);
                             }
                             //End Save
                             // console.log(this.current.question_sound);
@@ -258,8 +261,8 @@ export class QuizPage {
                             let next_question_id = res.rows.item(0).next_question_id;
                             console.log('section_id', section_id);
                             //Save User_Question
-                            this.db.executeSQL(`INSERT INTO user_quizzes ( user_id, question_id,user_ans_id, ans_correct, score, created_date, isSent) 
-                                            VALUES (1,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, date('now'), 0)`).then(res=>{
+                            this.db.executeSQL(`INSERT INTO user_quizzes ( user_id, question_id,user_ans_id, ans_correct, score, created_at, isSent) 
+                                            VALUES (` + this.userId + `,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, datetime('now'), 0)`).then(res=>{
                                 console.log('Current number of question that has insert', res);
 
                             });
@@ -267,7 +270,7 @@ export class QuizPage {
                             // Synch offline data into server
                             if(this.network.type != "none")
                             {
-                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",5);
+                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6);
                             }
                             
                             //End Save
