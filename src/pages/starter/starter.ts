@@ -73,7 +73,7 @@ export class StarterPage {
       this.requestToGetSettings();
       this.calculateRemainingNoOfQuestionToday();
       this.requestToUpdateOrderQuestions();
-      this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,StarterPage);
+      this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6);
     }
     // Watch Internet connect when it is connected, do... //
     let connectSubscription = this.network.onConnect().subscribe(() => {
@@ -86,7 +86,7 @@ export class StarterPage {
         this.requestToGetSettings();
         this.calculateRemainingNoOfQuestionToday();
         this.requestToUpdateOrderQuestions();
-        this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,StarterPage);
+        this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6);
         connectSubscription.unsubscribe();
       }, 0);
     });
