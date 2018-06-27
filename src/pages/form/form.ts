@@ -228,7 +228,7 @@ export class FormPage {
 
         .then(res => {
           if (this.network.type == "none") {
-            console.log('Data Inserted into monitor_measurements!');
+            console.log('Data Inserted into users!');
             this.helpers.presentLoadingCustom(2000, "កំពុងផ្ទុកទិន្នន័យ...");
           }
           else {

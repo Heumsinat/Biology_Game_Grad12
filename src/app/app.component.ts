@@ -32,10 +32,7 @@ export class MyApp {
       {
         this.rootPage = StarterPage;
       }
-      // else
-      // {
-      //   this.rootPage = LoginPage;
-      // }
+      
       statusBar.styleDefault();
       splashScreen.hide();
     });

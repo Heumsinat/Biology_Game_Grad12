@@ -194,6 +194,13 @@ export class HelpersProvider {
             //self.responseData = result;
             if(JSON.parse(result["code"])==200) 
             {
+              if(apiAddress==="user_register_or_update_app")
+              {
+                console.log("API ="+apiAddress);
+                localStorage.setItem('userData',JSON.stringify(result["user"]));
+              }
+                
+              
               // If data is synch successfully, update isSent=1 //
               self.updateIsSentColumn(listOfTable);
               console.log("Data Inserted Successfully for "+listOfTable);
