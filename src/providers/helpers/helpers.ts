@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map'; 
 import async from 'async';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { ToastController, LoadingController} from 'ionic-angular';
+import { ToastController, LoadingController, App} from 'ionic-angular';
+import { Page } from 'ionic-angular/navigation/nav-util';
 
 let apiUrl = "http://biology.open.org.kh/api/";
 
@@ -19,7 +20,8 @@ export class HelpersProvider {
   constructor(public http: Http,
     private sqlite: SQLite,
     public loadingCtrl: LoadingController,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,
+  public appCtrl: App) {
     console.log('Hello HelpersProvider Provider');
   }
 
@@ -183,7 +185,7 @@ export class HelpersProvider {
     // * Param2: apiAddress => URL Address of Server's API* //
     // * Param3: noOfColsInSynch => No. of columns to be retrieved from table* //
     
-    synchUserQuizeToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number) {
+    synchUserQuizeToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number,  pushTo: Page) {
       
       var self = this;
       //this.retrieveDBSchema(listOfTable)
@@ -194,6 +196,15 @@ export class HelpersProvider {
             //self.responseData = result;
             if(JSON.parse(result["code"])==200) 
             {
+              if(apiAddress==="user_register_or_update_app")
+              {
+                console.log("API ="+apiAddress);
+                localStorage.setItem('userData',JSON.stringify(result["user"]));
+                //this.appCtrl.getActiveNav().push(pushTo);
+                //this.appCtrl.getActiveNav.push(pushTo);
+              }
+                
+              
               // If data is synch successfully, update isSent=1 //
               self.updateIsSentColumn(listOfTable);
               console.log("Data Inserted Successfully for "+listOfTable);

@@ -225,11 +225,11 @@ export class FormPage {
 
         .then(res => {
           if (this.network.type == "none") {
-            console.log('Data Inserted into monitor_measurements!');
+            console.log('Data Inserted into users!');
             this.helpers.presentLoadingCustom(2000, "កំពុងផ្ទុកទិន្នន័យ...");
           }
           else {
-            this.helpers.synchUserQuizeToServer(["users"],"user_register_or_update_app", 7);
+            this.helpers.synchUserQuizeToServer(["users"],"user_register_or_update_app", 7,StarterPage);
             this.helpers.presentLoadingCustom(2000, "កំពុងបញ្ជូនទិន្នន័យទៅកាន់ម៉ាស៊ីនមេ...");
             this.navCtrl.push(StarterPage);
           }

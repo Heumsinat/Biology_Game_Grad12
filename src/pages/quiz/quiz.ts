@@ -225,7 +225,7 @@ export class QuizPage {
                             if(this.network.type != "none")
                             {
                                 
-                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6);
+                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6,QuizPage);
                             }
                             //End Save
                             // console.log(this.current.question_sound);
@@ -270,7 +270,7 @@ export class QuizPage {
                             // Synch offline data into server
                             if(this.network.type != "none")
                             {
-                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6);
+                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6,QuizPage);
                             }
                             
                             //End Save
