@@ -47,6 +47,7 @@ export class FormPage {
   // private userFb: any;
   valForm: FormGroup;
   picture: any;
+  fb_id: number;
 
   constructor(
     public navCtrl: NavController, 
@@ -72,6 +73,8 @@ export class FormPage {
                   if(fbData){
                     this.data.fullName = fbData.name;
                     this.navParams = fbData;
+                    this.fb_id = fbData.id;
+                    console.log('My fb id: ',fbData.id);
                     //this.picture = fbData.picture;
                   }
           
@@ -191,25 +194,25 @@ export class FormPage {
 
   
 
-  createTableUsers(){
-    this.db.getInstance().then((db: SQLiteObject)  => {
-      db.executeSql(`create table if NOT exists users(
-        "id " integer not null primary key autoincrement,
-        fullName VARCHAR(32), userName VARCHAR(32), password VARCHAR(20), phone VARCHAR(10), gender VARCHAR(6), province VARCHAR(50), district VARCHAR(50), school VARCHAR(50), isSent INT)`,{})
-      .then( res => console.log('execuated SQL!'))
-      .catch(e => console.log(e));
-    })
-  }
+  // createTableUsers(){
+  //   this.db.getInstance().then((db: SQLiteObject)  => {
+  //     db.executeSql(`create table if NOT exists users(
+  //       "id " integer not null primary key autoincrement,
+  //       fullName VARCHAR(32), userName VARCHAR(32), password VARCHAR(20), phone VARCHAR(10), gender VARCHAR(6), province VARCHAR(50), district VARCHAR(50), school VARCHAR(50), isSent INT)`,{})
+  //     .then( res => console.log('execuated SQL!'))
+  //     .catch(e => console.log(e));
+  //   })
+  // }
 
 
   /**Save data after form completed
    * 
    */
   onFinish() {
-    let data = [this.data.fullName,this.data.userName,this.data.password,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school];
+    let data = [this.data.fullName,this.data.userName,this.data.password,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school,this.fb_id];
     this.db.getInstance().then((db: SQLiteObject) => {
 
-      db.executeSql('INSERT INTO users(full_name, user_name, password, phone_number, gender, province_pcode, district_dcode, school_id) VALUES(?,?,?,?,?,?,?,?)', data)
+      db.executeSql('INSERT INTO users(full_name, user_name, password, phone_number, gender, province_pcode, district_dcode, school_id, fb_id) VALUES(?,?,?,?,?,?,?,?,?)', data)
       // db.executeSql('INSERT INTO users VALUES(?,?,?,?,?,?,?,?)',[this.data.fullName, this.data.userName, this.data.password, this.data.phone, this.data.gender, this.data.province, this.data.district, this.data.school])
         /* Soriya's Code before insert SynchData function */
         /* .then(res => {

@@ -261,7 +261,7 @@ export class QuizPage {
                             console.log('section_id', section_id);
                             //Save User_Question
                             this.db.executeSQL(`INSERT INTO user_quizzes ( user_id, question_id,user_ans_id, ans_correct, score, created_at, isSent) 
-                                            VALUES (` + this.userId + `,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, datetime('now'), 0)`).then(res=>{
+                                            VALUES (` + this.userId + `,` + question_id + `,` + answer_order + `,` + correct_ans + `,0, datetime('now'), 0)`).then(res=>{
                                 console.log('Current number of question that has insert', res);
 
                             });

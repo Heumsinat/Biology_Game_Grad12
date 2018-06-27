@@ -45,6 +45,8 @@ export class StarterPage {
   ) {
     console.log("localStorage of userData ="+localStorage.getItem("userData"));
     this.userId = JSON.parse(localStorage.getItem("userData")).id;
+    console.log('UserID',this.userId);
+
     const fbData = this.navParams.get('fbData');
     console.log('My fbdata:',fbData);
                   if(fbData){
