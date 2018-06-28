@@ -73,9 +73,9 @@ export class StarterPage {
     if(this.network.type != "none")
     {
       this.requestToGetSettings();
-      this.calculateRemainingNoOfQuestionToday();
       this.requestToUpdateOrderQuestions();
-      this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6);
+      this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,StarterPage);
+      this.calculateRemainingNoOfQuestionToday();
     }
     // Watch Internet connect when it is connected, do... //
     let connectSubscription = this.network.onConnect().subscribe(() => {
@@ -86,9 +86,9 @@ export class StarterPage {
       setTimeout(() => {
         console.log('ionViewDidLoad StarterPage');
         this.requestToGetSettings();
-        this.calculateRemainingNoOfQuestionToday();
         this.requestToUpdateOrderQuestions();
-        this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6);
+        this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,StarterPage);
+        this.calculateRemainingNoOfQuestionToday();
         connectSubscription.unsubscribe();
       }, 0);
     });
@@ -296,7 +296,7 @@ export class StarterPage {
                     self.updateOrderQuestion(item["id"],item["question_id"],item["next_question_id"], item["updated_at"]);
                     
                   });
-                  console.log("Replace Inserted!");
+                  console.log("Updated!");
                   
                   break;
                 case 0: // num_q is equal, update order_questions by id
@@ -306,7 +306,7 @@ export class StarterPage {
                     
                     self.replaceIntoOrderQuestion(item["id"], item["question_id"],item["next_question_id"],item["created_date"], item["updated_at"]);
                   });
-                  console.log("Updated!");
+                  console.log("Replace Inserted!");
                   break;
               }
               
@@ -353,8 +353,8 @@ export class StarterPage {
      */
     calculateRemainingNoOfQuestionToday(){
       console.log("calculateRemainingNoOfQuestionToday this.userId= "+this.userId);
-      
-      this.db.executeSQL("SELECT count(*) as total FROM user_quizzes WHERE user_id ="+this.userId +" and created_at between strftime('%Y-%m-%d 00:00:00', date('now')) and strftime('%Y-%m-%d 23:59:59', date('now'))")
+      var sqlCount =`SELECT count(*) as total FROM user_quizzes WHERE user_id =${this.userId} and created_at between strftime('%Y-%m-%d 00:00:00', date('now')) and strftime('%Y-%m-%d 23:59:59', date('now'))`;
+      this.db.executeSQL(sqlCount)
       .then(res => {
         let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
         localStorage.setItem('num_q',num_q);
@@ -374,7 +374,8 @@ export class StarterPage {
         console.log('Leaderboard', this.is_leaderboard);
         console.log('get number of settings =', num_quiz);
         
-      }).catch(e => console.log((e)));
+      }).catch(e => console.log((JSON.stringify(e))));
+    
     }
 
     gotoLeaderboard(){

@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map'; 
 import async from 'async';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { ToastController, LoadingController} from 'ionic-angular';
+import { ToastController, LoadingController, App} from 'ionic-angular';
+import { Page } from 'ionic-angular/navigation/nav-util';
+import { StarterPage } from '../../pages/starter/starter';
 
 let apiUrl = "http://biology.open.org.kh/api/";
 
@@ -15,11 +17,12 @@ let apiUrl = "http://biology.open.org.kh/api/";
 */
 @Injectable()
 export class HelpersProvider {
-
+  userQuizzes = { "user_id": "" , "number_of_records": "", "last_update_date":""};
   constructor(public http: Http,
     private sqlite: SQLite,
     public loadingCtrl: LoadingController,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,
+    public appCtrl : App) {
     console.log('Hello HelpersProvider Provider');
   }
 
@@ -110,7 +113,7 @@ export class HelpersProvider {
               for (let i = 0; i < resOfflineRecords.rows.length; i++) {
                 var valFromTable = [];
                   var eachData = resOfflineRecords.rows.item(i);
-                  console.log("test eachData: "+eachData);
+                  console.log("test eachData in helpers: "+eachData);
                   if(tableName==="users")
                   {
                     valFromTable = [eachData.full_name,
@@ -182,8 +185,9 @@ export class HelpersProvider {
     // * Param1: listOfTable => array of table names whose data to be sent to Server * //
     // * Param2: apiAddress => URL Address of Server's API* //
     // * Param3: noOfColsInSynch => No. of columns to be retrieved from table* //
+    // * Param4: goToPage => Page to be pushed to after all processes done * //
     
-    synchUserQuizeToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number) {
+    synchUserQuizeToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, goToPage: Page) {
       
       var self = this;
       //this.retrieveDBSchema(listOfTable)
@@ -204,6 +208,49 @@ export class HelpersProvider {
               // If data is synch successfully, update isSent=1 //
               self.updateIsSentColumn(listOfTable);
               console.log("Data Inserted Successfully for "+listOfTable);
+            }
+            else
+              console.log("Synch Data Error");
+            console.log("response in synchUserQuizeToServer= "+JSON.stringify(result));
+            if(goToPage!=StarterPage)
+              self.appCtrl.getActiveNav().push(goToPage);
+          }, (err) => {
+          // Connection fail
+          console.log(JSON.stringify("err while postData= "+err));
+          })
+          .catch((e) => {
+              console.log('bleh:' + e);
+            });
+        })
+        .catch((e) => {
+          console.log('bleh:' + e);
+        });
+    }
+
+     // *** Creator: Samak @11-05-2018 *** //
+    // * Function to synchronize data into server, then update isSent = 1 * //
+    // * Param1: listOfTable => array of table names whose data to be sent to Server * //
+    // * Param2: apiAddress => URL Address of Server's API* //
+    // * Param3: noOfColsInSynch => No. of columns to be retrieved from table* //
+    
+    synchUserRegistrationToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, pushTo: Page) {
+      
+      var self = this;
+      //this.retrieveDBSchema(listOfTable)
+      self.retrieveDBSchemaHelper(listOfTable,noOfColsInSynch)
+        .then(function(value) {
+          // self.postData(value,"insert_user_quiz_app").then((result) => {
+          self.postData(value,apiAddress).then((result) => {
+            //self.responseData = result;
+            if(JSON.parse(result["code"])==200) 
+            {
+              console.log("API ="+apiAddress);
+              localStorage.setItem('userData',JSON.stringify(result["inserted_user"]));
+              
+              // If data is synch successfully, update isSent=1 //
+              self.updateIsSentColumn(listOfTable);
+              console.log("Data Inserted Successfully for "+listOfTable);
+              self.appCtrl.getActiveNav().push(pushTo);
             }
             else
               console.log("Synch Data Error");
@@ -272,4 +319,81 @@ export class HelpersProvider {
       toastObj.present();
     }
 
+    // Creator: SAMAK //
+    // Function to replace the whole order questions table//
+    public replaceIntoUserQuizzes(data: any, goToPage: Page){
+      var self = this;
+      console.log('inside replaceIntoUserQuizzes!');
+      self.sqlite.create({
+        name: 'biology.db',
+        location: 'default'
+      }).then((db: SQLiteObject)  => {
+        //for(var iData=0; iData<)
+        //var parseData = 
+        data.forEach((item, index) =>{
+          db.executeSql('REPLACE INTO user_quizzes(id, user_id,question_id,user_ans_id, ans_correct, score, created_at, isSent) VALUES (?,?,?,?,?,?,?,?)',[item["id"],item["user_id"], item["question_id"], item["user_ans_id"], item["ans_correct"], item["score"],item["created_at"],1])
+        .then( res => {
+          console.log('Data Updated in replaceIntoUserQuizzes!');
+          console.log('data.length='+data.length + '& index='+index);
+          if(data.length == (index+1))
+          {
+            this.appCtrl.getActiveNav().push(goToPage);
+          }
+        })
+        .catch((e) => {
+          console.log('Catch in replaceIntoUserQuizzes:' + JSON.stringify(e));
+        });
+        });
+        
+      })
+    }
+    /* // Creator: SAMAK //
+    // Function to replace the whole order questions table//
+    public replaceIntoUserQuizzes(id: number,user_id:number,question_id:number,user_ans_id: number, ans_correct: number, score: number, created_at:any, isSent: number){
+      console.log('inside replaceIntoUserQuizzes!');
+      this.sqlite.create({
+        name: 'biology.db',
+        location: 'default'
+      }).then((db: SQLiteObject)  => {
+        db.executeSql('REPLACE INTO user_quizzes(id, user_id,question_id,user_ans_id, ans_correct, score, created_at, isSent) VALUES (?,?,?,?,?,?,?,?)',[id, user_id,question_id,user_ans_id, ans_correct, score, created_at,isSent])
+        .then( res => {
+          console.log('Data Updated in replaceIntoUserQuizzes!');
+        })
+        .catch((e) => {
+          console.log('Catch in replaceIntoUserQuizzes:' + JSON.stringify(e));
+        });
+      })
+    } */
+
+
+
+    // Creator: SAMAK @ 26-06-2018//
+    //  //
+     // *** Creator: Samak @26-06-2018 *** //
+    // * Function to get total no. of user quiz and max date of user quiz * //
+    // * Param1: userId => whose user quizzes to be count for. * //
+    public noOfRecordsInUserQuizzes(userId: number)
+    {
+      return new Promise((resolve, reject) => {
+        this.sqlite.create({
+          name: 'biology.db',
+          location: 'default'
+        }).then((db: SQLiteObject)  => {
+          db.executeSql('SELECT COUNT(*) as total, MAX(created_at) as maxDate FROM user_quizzes where user_id=? ',[userId])
+          .then( resNoOfUserQuiz => {
+            console.log("userId in helpers = "+userId);
+            console.log("resNoOfUserQuiz= "+JSON.stringify(resNoOfUserQuiz));
+  
+            let num_user_quizzes = resNoOfUserQuiz.rows.item(0).total;
+            let max_date_user_quizzes = resNoOfUserQuiz.rows.item(0).maxDate;
+            this.userQuizzes['user_id']=String(userId);
+            this.userQuizzes['last_update_date']=max_date_user_quizzes;
+            this.userQuizzes['number_of_records']=num_user_quizzes;
+          })
+          .catch((e) => {
+            console.log('Catch in num_user_quizzes in helpers:' + JSON.stringify(e));
+          });
+        })
+      })
+    }
 }
