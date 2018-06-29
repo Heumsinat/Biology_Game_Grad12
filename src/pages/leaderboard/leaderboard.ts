@@ -22,6 +22,7 @@ export class LeaderboardPage {
   leaderboard: string = "School";
   user_quizzes: any = [];
   userId : number;
+  user_scores_fb =[];
 
 
   constructor(public navCtrl: NavController, 
@@ -31,7 +32,7 @@ export class LeaderboardPage {
 
     this.userId = JSON.parse(localStorage.getItem("userData")).id;
     console.log('ID = ',this.userId);
-    this.getUser();
+    //this.getUser();
   }
 
   ionViewDidLoad() {
@@ -69,9 +70,24 @@ export class LeaderboardPage {
         }).catch(e => console.log(e));
   }
 
-  // getScoreForLeaderboard()
-  // {
-  //   this.helpers.postData
-  // }
+  getScoreForLeaderboard(leaderboard_type: string)
+  {
+    let dataPosted={"user_id" :this.userId};
+    this.helpers.postData(dataPosted,"leader_board_app")
+    .then((result) => {
+      if(JSON.parse(result["code"])==200)
+      {
+        var res_user_scores = JSON.parse(result[leaderboard_type]);
+        for(let i=0; i<res_user_scores.length(); i++){
+          this.user_scores_fb.push(res_user_scores[i]);
+        }
+        console.log("this.user_scores_fb ="+this.user_scores_fb);
+      }
+      
+    })
+    .catch((e) => {
+      console.log('Catch in getScoreForLeaderboard:' + JSON.stringify(e));
+    });
+  }
 
 }

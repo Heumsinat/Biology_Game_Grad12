@@ -48,21 +48,21 @@
   <ion-toolbar color="primary" no-border class="scrollable-segments">
     <ion-segment [(ngModel)]="leaderboard">
       <div class="segBtn">
-        <ion-segment-button value="Facebook">
+        <ion-segment-button value="Facebook" (click)="getScoreForLeaderboard('fb')">
           Facebook
         </ion-segment-button>
-        <ion-segment-button value="School">
+        <ion-segment-button value="School" (click)="getScoreForLeaderboard('school')">
           School
         </ion-segment-button>
       </div>
       <div class="segBtn">
-        <ion-segment-button value="National">
+        <ion-segment-button value="National" (click)="getScoreForLeaderboard('national')">
           National
         </ion-segment-button>
-        <ion-segment-button value="Province">
+        <ion-segment-button value="Province" (click)="getScoreForLeaderboard('province')">
           Province
         </ion-segment-button>
-        <ion-segment-button value="District">
+        <ion-segment-button value="District" (click)="getScoreForLeaderboard('district')">
           District
         </ion-segment-button>
       </div>
@@ -71,13 +71,27 @@
 </ion-header>
 
 <ion-content padding="10px">
+  <div>
+      <ion-list >
+          <ion-item *ngFor="let user_score_fb of user_scores_fb">
+            <ion-thumbnail item-start>
+              <img src="assets/img/profile.png">
+            </ion-thumbnail>
+            <h2>{{user_score_fb.user_name}}</h2>
+            <h1 item-end >ពិន្ទុ : {{user_score_fb.score}}</h1>
+          </ion-item>
+      </ion-list>
+  </div>
+</ion-content>
+
+<!-- <ion-content padding="10px">
   <div [ngSwitch]="leaderboard">
       <ion-list *ngSwitchCase="'Facebook'">
           <ion-item *ngFor="let user_score_fb of user_scores_fb">
             <ion-thumbnail item-start>
               <img src="assets/img/profile.png">
             </ion-thumbnail>
-            <h2>{{user_score_fb.user_id}}</h2>
+            <h2>{{user_score_fb.user_name}}</h2>
             <h1 item-end >ពិន្ទុ : {{user_score_fb.score}}</h1>
           </ion-item>
       </ion-list>
@@ -235,4 +249,4 @@
       </ion-item>
     </ion-list>
   </div>
-</ion-content>
+</ion-content> -->
