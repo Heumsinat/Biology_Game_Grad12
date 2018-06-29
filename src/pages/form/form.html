@@ -1,15 +1,12 @@
 <!--
   Generated template for the FormPage page.
-
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
 <!-- <ion-header>
-
   <ion-navbar>
     <ion-title>ព័ត៌មានអ្នកប្រើប្រាស់</ion-title>
   </ion-navbar>
-
 </ion-header> -->
 
 
@@ -18,32 +15,49 @@
   <ion-grid>
     <ion-form-wizard [(step)]="step" [showSteps]="false" (finish)="onFinish()" [finishIcon]="'done-all'" [(stepCondition)]="stepCondition">
       <ion-wizard-step>
-        <form [formGroup]="valForm">
+        <form [formGroup]="valForm1">
           <div class="container">
             <!-- <form >   -->
 
             <ion-item class="form1">
               <ion-label>ឈ្មោះពេញ</ion-label>
-              <!-- <div [formGroup]="valForm"> -->
-              <ion-input formControlName="fullName" type="text" [(ngModel)]="data.fullName" name="fullName"></ion-input>
               
-              <!-- </div> -->
+              <ion-input [class.invalid]="!valForm1.controls.fullName.valid && valForm1.controls.fullName.dirty" formControlName="fullName" type="text" [(ngModel)]="data.fullName" name="fullName"></ion-input>
             </ion-item>
+            <div class="alert" *ngIf="!valForm1.controls.fullName.valid && !valForm1.controls.fullName.pending && valForm1.controls.fullName.dirty">
+              <p>All charecters are letter!</p>
+              
+            </div>
 
             <ion-item class="form1">
               <ion-label>ឈ្មោះសម្គាល់</ion-label>
-              <ion-input formControlName="userName" type="text" [(ngModel)]="data.userName" name="userName"></ion-input>
+              <ion-input [class.invalid]="!valForm1.controls.userName.valid && valForm1.controls.userName.dirty" formControlName="userName" type="text" [(ngModel)]="data.userName" name="userName"></ion-input>
+
             </ion-item>
+            <div class="alert" *ngIf="valForm1.controls.userName.pending">
+              <p>Checking username...</p>
+            </div>
+
+            <div class="alert" *ngIf="!valForm1.controls.userName.valid && !valForm1.controls.userName.pending && valForm1.controls.userName.dirty">
+                <p>Please input at least 3 characters!</p>
+            </div>
+            
 
             <ion-item class="form1">
               <ion-label>បង្កើតពាក្យសម្ងាត់</ion-label>
-              <ion-input formControlName="password" type="password" [(ngModel)]="data.password" name="password"></ion-input>
+              <ion-input [class.invalid]="!valForm1.controls.password.valid && valForm1.controls.password.dirty" formControlName="password" type="password" [(ngModel)]="data.password" name="password"></ion-input>
             </ion-item>
+            <div class="alert" *ngIf="!valForm1.controls.password.valid && valForm1.controls.password.dirty">
+              <p>Please input at least 4 characters!</p>
+            </div>
             
             <ion-item class="form1">
               <ion-label>លេខទូរស័ព្ទ</ion-label>
-              <ion-input formControlName="phone" type="text" [(ngModel)]="data.phone" name="phone"></ion-input>
+              <ion-input [class.invalid]="!valForm1.controls.phone.valid && valForm1.controls.phone.dirty" formControlName="phone" type="text" [(ngModel)]="data.phone" name="phone"></ion-input>
             </ion-item>
+            <div class="alert" *ngIf="!valForm1.controls.phone.valid && valForm1.controls.phone.dirty">
+              <p>Please input number and at least 9 characters!</p>
+            </div>
 
             <ion-item class="form1">
                 <ion-label>ភេទ</ion-label>
@@ -59,13 +73,13 @@
 
 
       <ion-wizard-step>
-
+        <form [formGroup]="valForm2">
         <div class="container1">
 
           <ion-item class="form1">
             <ion-label>ខេត្ត</ion-label>
 
-            <ion-select (ionChange)="onChangeSelectProvince($event)" [(ngModel)]="data.province">
+            <ion-select formControlName="province" (ionChange)="onChangeSelectProvince($event)" [(ngModel)]="data.province">
 
               <ion-option *ngFor="let province of provinces" [value]="province.pcode">{{province.pname_en}}</ion-option>
 
@@ -75,22 +89,28 @@
 
           <ion-item class="form1">
             <ion-label>ស្រុក</ion-label>
-            <ion-select (ionChange)="onChangeSelectDistrict($event)" [(ngModel)]="data.district">
+            <ion-select [class.invalid]="!valForm2.controls.district.valid && valForm2.controls.district.dirty" formControlName="district" (ionChange)="onChangeSelectDistrict($event)" [(ngModel)]="data.district">
               <ion-option *ngFor="let district of districts" [value]="district.dcode">{{district.dname_en}}</ion-option>
 
             </ion-select>
+          </ion-item>
+          <ion-item *ngIf="!valForm2.controls.district.valid && valForm2.controls.district.dirty">
+            <p>Please select province first!</p>
           </ion-item>
 
 
           <ion-item class="form1">
             <ion-label>សាលារៀន</ion-label>
-            <ion-select [(ngModel)]="data.school">
+            <ion-select [class.invalid]="!valForm2.controls.school.valid && valForm2.controls.school.dirty" formControlName="school" [(ngModel)]="data.school">
               <ion-option *ngFor="let school_list of school_lists" [value]="school_list.id">{{school_list.school_name}}</ion-option>
 
             </ion-select>
           </ion-item>
+          <ion-item *ngIf="!valForm2.controls.school.valid && valForm2.controls.school.dirty">
+            <p>Please select district first!</p>
+          </ion-item>
         </div>
-
+      </form>
       </ion-wizard-step>
 
     </ion-form-wizard>
