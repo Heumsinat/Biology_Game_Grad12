@@ -15,6 +15,7 @@ import { FormControl, FormControlName, FormBuilder, FormGroup, Validators } from
 // Samak imported //
 import { Network } from '@ionic-native/network';
 import { HelpersProvider } from '../../providers/helpers/helpers';
+import { elementEventFullName } from '@angular/core/src/view';
 
 /**
  * Generated class for the FormPage page.
@@ -84,7 +85,7 @@ export class FormPage {
      
       // this.data.fullName= new FormCtrl('',);
       this.valForm1 = formBuilder.group({
-        fullName: [null, Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
+        fullName: [null, Validators.required],
         userName: [null, Validators.compose([Validators.required, Validators.minLength(3)])],
         password: [null, Validators.compose([Validators.required, Validators.minLength(4)])],
         phone: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(9)])],
@@ -135,7 +136,7 @@ export class FormPage {
           console.log("success!")
           console.log(this.valForm1.value);
           console.log(this.valForm2.value);
-          //this.onFinish();
+          this.onFinish();
       }
  
 
