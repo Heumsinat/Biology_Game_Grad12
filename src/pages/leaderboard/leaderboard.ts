@@ -22,7 +22,12 @@ export class LeaderboardPage {
   leaderboard: string = "School";
   user_quizzes: any = [];
   userId : number;
-  user_scores_fb =[];
+  user_scores =[];
+  total_scores_national =[];
+  total_scores_province =[];
+  total_scores_district =[];
+  total_scores_school =[];
+  total_scores_fb =[];
 
 
   constructor(public navCtrl: NavController, 
@@ -32,11 +37,14 @@ export class LeaderboardPage {
 
     this.userId = JSON.parse(localStorage.getItem("userData")).id;
     console.log('ID = ',this.userId);
+    
+    // this.getScoreLevel(2);
     //this.getUser();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LeaderboardPage');
+    this.getScoreForLeaderboard();
   }
   goToLeaderBoard(){
 
@@ -70,24 +78,66 @@ export class LeaderboardPage {
         }).catch(e => console.log(e));
   }
 
-  getScoreForLeaderboard(leaderboard_type: string)
+  public getScoreForLeaderboard()
   {
-    let dataPosted={"user_id" :this.userId};
+    var dataPosted={"user_id":this.userId};
     this.helpers.postData(dataPosted,"leader_board_app")
-    .then((result) => {
-      if(JSON.parse(result["code"])==200)
+    //var dataPosted = {"fb_id" : "104874973720343"};
+    //this.helpers.postData(dataPosted,"check_fb_id")
+    .then((resultTotalScores) => {
+      console.log('result = '+JSON.stringify(resultTotalScores));
+      console.log('parse JSON of code = '+JSON.parse(resultTotalScores["code"]));
+      if(JSON.parse(resultTotalScores["code"])==200)
       {
-        var res_user_scores = JSON.parse(result[leaderboard_type]);
+        /* var res_user_scores = JSON.parse(result[leaderboard_type]);
         for(let i=0; i<res_user_scores.length(); i++){
           this.user_scores_fb.push(res_user_scores[i]);
-        }
-        console.log("this.user_scores_fb ="+this.user_scores_fb);
-      }
+        } */
+        console.log('parse JSON of school = '+resultTotalScores["school"]);
+        
+        this.total_scores_school = resultTotalScores["school"];
+        this.total_scores_national = resultTotalScores["national"];
+        this.total_scores_province = resultTotalScores["province"];
+        this.total_scores_district = resultTotalScores["district"];
+        this.total_scores_fb = resultTotalScores["fb"];
+        this.user_scores = this.total_scores_school;
+        console.log("this.user_scores ="+this.user_scores);
+        
+      } 
       
     })
     .catch((e) => {
       console.log('Catch in getScoreForLeaderboard:' + JSON.stringify(e));
     });
+  }
+
+  public getScoreLevel(scoreLevel: number)
+  {
+    console.log("scoreLevel = "+scoreLevel);
+    
+    switch(scoreLevel)
+    {
+      case 1:
+        this.user_scores = this.total_scores_fb;
+      break;
+
+      case 2:
+        this.user_scores = this.total_scores_school;
+      break;
+
+      case 3:
+        this.user_scores = this.total_scores_national;
+      break;
+
+      case 4:
+        this.user_scores = this.total_scores_province;
+      break;
+
+      case 5:
+        this.user_scores = this.total_scores_district;
+      break;
+    }
+    console.log("user_score = "+this.user_scores);
   }
 
 }
