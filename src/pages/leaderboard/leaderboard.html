@@ -73,33 +73,12 @@
 <ion-content padding="10px">
   <div [ngSwitch]="leaderboard">
       <ion-list *ngSwitchCase="'Facebook'">
-          <ion-item>
+          <ion-item *ngFor="let user_score_fb of user_scores_fb">
             <ion-thumbnail item-start>
               <img src="assets/img/profile.png">
             </ion-thumbnail>
-            <h2>{{user_quizzes.user_id}}</h2>
-            <h1 item-end >ពិន្ទុ : {{user_quizzes.score}}</h1>
-          </ion-item>
-          <ion-item>
-            <ion-thumbnail item-start>
-              <img src="assets/img/profile.png">
-            </ion-thumbnail>
-            <h2>Username</h2>
-            <h1 item-end>ពិន្ទុ : 8</h1>
-          </ion-item>
-          <ion-item>
-            <ion-thumbnail item-start>
-              <img src="assets/img/profile.png">
-            </ion-thumbnail>
-            <h2>Username</h2>
-            <h1 item-end>ពិន្ទុ : 11</h1>
-          </ion-item>
-          <ion-item>
-            <ion-thumbnail item-start>
-              <img src="assets/img/profile.png">
-            </ion-thumbnail>
-            <h2>Username</h2>
-            <h1 item-end>ពិន្ទុ : 5</h1>
+            <h2>{{user_score_fb.user_id}}</h2>
+            <h1 item-end >ពិន្ទុ : {{user_score_fb.score}}</h1>
           </ion-item>
       </ion-list>
 

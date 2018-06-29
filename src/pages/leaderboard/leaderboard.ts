@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DatabaseProvider } from "../../providers/database/database";
 import {HomePage} from "../home/home";
+import { HelpersProvider } from '../../providers/helpers/helpers';
 
 /**
  * Generated class for the LeaderboardPage page.
@@ -21,7 +22,10 @@ export class LeaderboardPage {
   user_quizzes: any = [];
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public db: DatabaseProvider) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public db: DatabaseProvider,
+    public helpers: HelpersProvider) {
 
     this.getUser();
   }
@@ -59,6 +63,11 @@ export class LeaderboardPage {
             })
           }
         }).catch(e => console.log(e));
+  }
+
+  getScoreForLeaderboard()
+  {
+    this.helpers.postData
   }
 
 }
