@@ -15,6 +15,7 @@
   <ion-grid>
     <ion-form-wizard [(step)]="step" [showSteps]="false" (finish)="onFinish()" [finishIcon]="'done-all'" [(stepCondition)]="stepCondition">
       <ion-wizard-step>
+        <p *ngIf="submitAttempt" style="color: #ea6153;"></p>
         <form [formGroup]="valForm1">
           <div class="container">
             <!-- <form >   -->

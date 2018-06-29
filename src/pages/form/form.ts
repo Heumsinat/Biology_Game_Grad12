@@ -47,6 +47,8 @@ export class FormPage {
   // private userFb: any;
   valForm1: FormGroup;
   valForm2: FormGroup;
+  submitAttempt: boolean = false;
+
   picture: any;
   fb_id: number;
 
@@ -118,6 +120,24 @@ export class FormPage {
       this.evts.subscribe('step:back', () => {
         console.log('Back pressed: ', this.currentStep);
       });
+
+
+
+      this.submitAttempt = true;
+ 
+      if(!this.valForm1.valid){
+          this.step=1;
+      }
+      else if(!this.valForm2.valid){
+          this.step=2;
+      }
+      else {
+          console.log("success!")
+          console.log(this.valForm1.value);
+          console.log(this.valForm2.value);
+          //this.onFinish();
+      }
+ 
 
   }
 
@@ -207,7 +227,9 @@ export class FormPage {
   /**Save data after form completed
    * 
    */
-  onFinish() {
+  onFinish() { 
+
+    // this.submitAttempt = true;
     let data = [this.data.fullName,this.data.userName,this.data.password,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school,this.fb_id];
     this.db.getInstance().then((db: SQLiteObject) => {
 

@@ -69,9 +69,9 @@ export class LeaderboardPage {
         }).catch(e => console.log(e));
   }
 
-  getScoreForLeaderboard()
-  {
-    this.helpers.postData
-  }
+  // getScoreForLeaderboard()
+  // {
+  //   this.helpers.postData
+  // }
 
 }
