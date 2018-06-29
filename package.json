@@ -73,7 +73,8 @@
         "APP_NAME": "biologykhmer",
         "ANDROID_SDK_VERSION": "4.+"
       },
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-statusbar": {}
     },
     "platforms": [
       "android"

@@ -1,4 +1,21 @@
 page-form {
+    p {
+        color: red;
+        font-size: 20px;
+        text-align: center;
+    }
+    .alert{
+        
+        background: transparent;
+        margin-top: 0px;
+    }
+    .help-block {
+        color: red;
+    }
+    .invalid {
+        border: 1px solid #ea6153;
+        border-radius: 5%;
+    }
 
     .background-img{
         background-image: url('../assets/imgs/bg.png');

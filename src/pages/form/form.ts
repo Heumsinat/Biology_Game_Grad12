@@ -45,7 +45,8 @@ export class FormPage {
 
   // isLoggedIn:boolean = false;
   // private userFb: any;
-  valForm: FormGroup;
+  valForm1: FormGroup;
+  valForm2: FormGroup;
   picture: any;
   fb_id: number;
 
@@ -80,21 +81,19 @@ export class FormPage {
           
      
       // this.data.fullName= new FormCtrl('',);
-      this.valForm = formBuilder.group({
-        fullName: ['',Validators.compose([Validators.pattern('[a-zA-Z*]'),Validators.required])],
-        userName: ['',Validators.compose([Validators.required])],
-        password: ['',Validators.compose([Validators.required,Validators.minLength(4)])],
-        phone: ['', Validators.compose([Validators.pattern('[0-9*]')])],
-        gender:['']
-    
-  
+      this.valForm1 = formBuilder.group({
+        fullName: [null, Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
+        userName: [null, Validators.compose([Validators.required, Validators.minLength(3)])],
+        password: [null, Validators.compose([Validators.required, Validators.minLength(4)])],
+        phone: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(9)])],
+        gender:[null]
       });
 
-    //   this.valForm = new FormGroup({
-    //     fullName: new FormControl('',Validators.compose([Validators.pattern('[a-zA-Z*]'),Validators.required])),
-    //     userName: new FormControl('',Validators.compose([Validators.required])),
-    //     password: new FormControl('',Validators.compose([Validators.required,Validators.minLength(4)])),
-    //  });
+      this.valForm2 = formBuilder.group({
+        province: [null],
+        district: [null, Validators.required],
+        school: [null, Validators.required]       
+      });
 
 
       /**Pass data in form1 to form2 in a page
