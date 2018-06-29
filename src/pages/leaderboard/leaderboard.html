@@ -48,21 +48,21 @@
   <ion-toolbar color="primary" no-border class="scrollable-segments">
     <ion-segment [(ngModel)]="leaderboard">
       <div class="segBtn">
-        <ion-segment-button value="Facebook" (click)="getScoreForLeaderboard('fb')">
+        <ion-segment-button value="Facebook"  (click)="getScoreLevel(1)">
           Facebook
         </ion-segment-button>
-        <ion-segment-button value="School" (click)="getScoreForLeaderboard('school')">
+        <ion-segment-button value="School"  (click)="getScoreLevel(2)">
           School
         </ion-segment-button>
       </div>
       <div class="segBtn">
-        <ion-segment-button value="National" (click)="getScoreForLeaderboard('national')">
+        <ion-segment-button value="National"  (click)="getScoreLevel(3)">
           National
         </ion-segment-button>
-        <ion-segment-button value="Province" (click)="getScoreForLeaderboard('province')">
+        <ion-segment-button value="Province"  (click)="getScoreLevel(4)">
           Province
         </ion-segment-button>
-        <ion-segment-button value="District" (click)="getScoreForLeaderboard('district')">
+        <ion-segment-button value="District" (click)="getScoreLevel(5)">
           District
         </ion-segment-button>
       </div>
@@ -73,12 +73,12 @@
 <ion-content padding="10px">
   <div>
       <ion-list >
-          <ion-item *ngFor="let user_score_fb of user_scores_fb">
+          <ion-item *ngFor="let user_score of user_scores">
             <ion-thumbnail item-start>
               <img src="assets/img/profile.png">
             </ion-thumbnail>
-            <h2>{{user_score_fb.user_name}}</h2>
-            <h1 item-end >ពិន្ទុ : {{user_score_fb.score}}</h1>
+            <h2>{{user_score.user_name}}</h2>
+            <h1 item-end >ពិន្ទុ : {{user_score.total_score}}</h1>
           </ion-item>
       </ion-list>
   </div>
