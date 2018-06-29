@@ -252,6 +252,11 @@ export class HelpersProvider {
               console.log("Data Inserted Successfully for "+listOfTable);
               self.appCtrl.getActiveNav().push(pushTo);
             }
+            else if(JSON.parse(result["code"])==500)
+            {
+              self.updateIsSentColumn(listOfTable);
+              self.presentToast("ឈ្មោះសម្គាល់នេះត្រូវបានគេប្រើរួចហើយ!")
+            }
             else
               console.log("Synch Data Error");
             console.log("response in synchUserQuizeToServer= "+JSON.stringify(result));
