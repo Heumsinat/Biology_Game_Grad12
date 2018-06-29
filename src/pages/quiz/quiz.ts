@@ -8,6 +8,7 @@ import { HelpersProvider } from '../../providers/helpers/helpers';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import async from 'async';
 import { Network } from '@ionic-native/network';
+import { StarterPage } from '../starter/starter';
 
 
 /**
@@ -224,7 +225,7 @@ export class QuizPage {
                             if(this.network.type != "none")
                             {
                                 
-                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6);
+                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6,StarterPage);
                             }
                             //End Save
                             // console.log(this.current.question_sound);
@@ -269,7 +270,7 @@ export class QuizPage {
                             // Synch offline data into server
                             if(this.network.type != "none")
                             {
-                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6);
+                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6,StarterPage);
                             }
                             
                             //End Save
