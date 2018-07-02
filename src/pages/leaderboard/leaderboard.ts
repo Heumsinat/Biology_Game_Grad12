@@ -53,30 +53,30 @@ export class LeaderboardPage {
   //   this.navCtrl.push(
   //       HomePage);
   // }
-  getUser(){
-    console.log(this.db)
-    // console.log(this.userId);
-    let userDataLS = localStorage.getItem('userData');
-    console.log('User ID***** = ',userDataLS);
-    let usr_id = JSON.parse(userDataLS).id;
-    console.log('ID=',usr_id);
+  // getUser(){
+  //   console.log(this.db)
+  //   // console.log(this.userId);
+  //   let userDataLS = localStorage.getItem('userData');
+  //   console.log('User ID***** = ',userDataLS);
+  //   let usr_id = JSON.parse(userDataLS).id;
+  //   console.log('ID=',usr_id);
 
-    this.db
-        .executeSQL(`SELECT * FROM user_quizzes WHERE user_id=${usr_id}`)  
-        .then(res => {
-          // console.log('Data',res.rows.item(0));
-          this.user_quizzes = [];
+  //   this.db
+  //       .executeSQL(`SELECT * FROM user_quizzes WHERE user_id=${usr_id}`)  
+  //       .then(res => {
+  //         // console.log('Data',res.rows.item(0));
+  //         this.user_quizzes = [];
         
-          for (var i = 0; i<res.rows.length; i++){
-            this.user_quizzes.push({
+  //         for (var i = 0; i<res.rows.length; i++){
+  //           this.user_quizzes.push({
               
-              user_id: res.rows.item(i).user_id,
-              score: res.rows.item(i).score
+  //             user_id: res.rows.item(i).user_id,
+  //             score: res.rows.item(i).score
       
-            })
-          }
-        }).catch(e => console.log(e));
-  }
+  //           })
+  //         }
+  //       }).catch(e => console.log(e));
+  // }
 
   public getScoreForLeaderboard()
   {
