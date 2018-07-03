@@ -6,6 +6,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { ToastController, LoadingController, App} from 'ionic-angular';
 import { Page } from 'ionic-angular/navigation/nav-util';
 import { StarterPage } from '../../pages/starter/starter';
+import { DatabaseProvider } from '../database/database';
 
 let apiUrl = "http://biology.open.org.kh/api/";
 
@@ -22,7 +23,8 @@ export class HelpersProvider {
     private sqlite: SQLite,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    public appCtrl : App) {
+    public appCtrl : App,
+  public dbProvider: DatabaseProvider) {
     console.log('Hello HelpersProvider Provider');
   }
 
@@ -340,10 +342,12 @@ export class HelpersProvider {
         .then( res => {
           console.log('Data Updated in replaceIntoUserQuizzes!');
           console.log('data.length='+data.length + '& index='+index);
+          
           if(data.length == (index+1))
           {
             this.appCtrl.getActiveNav().push(goToPage);
           }
+
         })
         .catch((e) => {
           console.log('Catch in replaceIntoUserQuizzes:' + JSON.stringify(e));
@@ -400,5 +404,27 @@ export class HelpersProvider {
           });
         })
       })
+    }
+
+    // Creator: SAMAK @ 03-07-2018//
+    //  //
+     // *** Creator: Samak @03-07-2018 *** //
+    // * Function to get current question id of user quiz * //
+    // * Param1: userId => whose question id to be retrieved . * //
+    public getCurrentQID(userId: number)
+    {
+      //return new Promise((resolve, reject) => {
+        var cQID = 0;
+        this.dbProvider.executeSQL(`SELECT MAX(created_at) as maxDate, question_id as currentQID FROM user_quizzes where user_id=${userId}`)
+          .then( resNoOfUserQuiz => {
+            cQID = resNoOfUserQuiz.rows.item(0).currentQID;
+            localStorage.setItem('currentQID',cQID.toString());
+            console.log('GetCurrent QID = '+cQID);
+          })
+          .catch((e) => {
+            console.log('Catch in getCurrentQID in helpers:' + JSON.stringify(e));
+          });
+        //return cQID;
+      //})
     }
 }
