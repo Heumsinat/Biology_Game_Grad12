@@ -15,6 +15,7 @@ import { FormControl, FormControlName, FormBuilder, FormGroup, Validators } from
 // Samak imported //
 import { Network } from '@ionic-native/network';
 import { HelpersProvider } from '../../providers/helpers/helpers';
+import { elementEventFullName } from '@angular/core/src/view';
 
 /**
  * Generated class for the FormPage page.
@@ -47,6 +48,8 @@ export class FormPage {
   // private userFb: any;
   valForm1: FormGroup;
   valForm2: FormGroup;
+  submitAttempt: boolean = false;
+
   picture: any;
   fb_id: number;
 
@@ -82,7 +85,7 @@ export class FormPage {
      
       // this.data.fullName= new FormCtrl('',);
       this.valForm1 = formBuilder.group({
-        fullName: [null, Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
+        fullName: [null, Validators.required],
         userName: [null, Validators.compose([Validators.required, Validators.minLength(3)])],
         password: [null, Validators.compose([Validators.required, Validators.minLength(4)])],
         phone: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(9)])],
@@ -118,6 +121,24 @@ export class FormPage {
       this.evts.subscribe('step:back', () => {
         console.log('Back pressed: ', this.currentStep);
       });
+
+
+
+      this.submitAttempt = true;
+ 
+      if(!this.valForm1.valid){
+          this.step=1;
+      }
+      else if(!this.valForm2.valid){
+          this.step=2;
+      }
+      else {
+          console.log("success!")
+          console.log(this.valForm1.value);
+          console.log(this.valForm2.value);
+          this.onFinish();
+      }
+ 
 
   }
 
@@ -207,7 +228,9 @@ export class FormPage {
   /**Save data after form completed
    * 
    */
-  onFinish() {
+  onFinish() { 
+
+    // this.submitAttempt = true;
     let data = [this.data.fullName,this.data.userName,this.data.password,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school,this.fb_id];
     this.db.getInstance().then((db: SQLiteObject) => {
 
