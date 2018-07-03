@@ -30,6 +30,7 @@ export class SectionPage {
   no_question: boolean;
   next_question: boolean;
   userId: number;
+  appCtrl: any;
 
   constructor(
       public navCtrl: NavController,
@@ -40,6 +41,13 @@ export class SectionPage {
       private nativeAudio: NativeAudio,
       private changeRef: ChangeDetectorRef
   ) {
+    platform.ready().then(()=>{
+        platform.registerBackButtonAction(() =>{
+          this.appCtrl.getRootNav().push();
+        });
+  
+      });
+
     this.userId = JSON.parse(localStorage.getItem("userData")).id;
     this.answerCorrect = this.navParams.get('answerCorrect');
     this.sectionID = this.navParams.get('sectionID');

@@ -37,6 +37,7 @@ export class QuizPage {
     responseData : any;
     public playCompleted: boolean;
     userId: number;
+    appCtrl: any;
 
     constructor(
         public navCtrl: NavController,
@@ -51,6 +52,13 @@ export class QuizPage {
         private changeRef: ChangeDetectorRef,
         private network: Network
     ) {
+        platform.ready().then(()=>{
+            platform.registerBackButtonAction(() =>{
+              this.appCtrl.getRootNav().push();
+            });
+      
+          });
+
         this.userId = JSON.parse(localStorage.getItem("userData")).id;
         this.lessonID = navParams.get('lessonID'); //Get param lessonID from SectionPage
         this.currentQuestionID = this.navParams.get('questionID');

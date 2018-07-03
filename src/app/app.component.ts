@@ -30,7 +30,7 @@ export class MyApp {
       var localStorage_userData = JSON.parse(localStorage.getItem("userData"));
       if(localStorage_userData != null)
       {
-        this.rootPage = StarterPage;
+        this.rootPage = WelcomePage ;
       }
       
       statusBar.styleDefault();

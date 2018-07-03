@@ -92,12 +92,12 @@
             <ion-label>ស្រុក</ion-label>
             <ion-select [class.invalid]="!valForm2.controls.district.valid && valForm2.controls.district.dirty" formControlName="district" (ionChange)="onChangeSelectDistrict($event)" [(ngModel)]="data.district">
               <ion-option *ngFor="let district of districts" [value]="district.dcode">{{district.dname_en}}</ion-option>
-
             </ion-select>
           </ion-item>
-          <ion-item *ngIf="!valForm2.controls.district.valid && valForm2.controls.district.dirty">
+          <div class="alert" *ngIf="!valForm2.controls.district.valid && valForm2.controls.district.dirty">
             <p>Please select province first!</p>
-          </ion-item>
+          </div>
+          
 
 
           <ion-item class="form1">
@@ -107,9 +107,9 @@
 
             </ion-select>
           </ion-item>
-          <ion-item *ngIf="!valForm2.controls.school.valid && valForm2.controls.school.dirty">
+          <div class="alert" *ngIf="!valForm2.controls.school.valid && valForm2.controls.school.dirty">
             <p>Please select district first!</p>
-          </ion-item>
+          </div>
         </div>
       </form>
       </ion-wizard-step>

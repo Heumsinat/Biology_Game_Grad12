@@ -32,6 +32,7 @@ export class StarterPage {
   profile: any;
   fbName: any;
   userId: number;
+  appCtrl: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -43,6 +44,14 @@ export class StarterPage {
     public db: DatabaseProvider,
     private network: Network
   ) {
+
+    platform.ready().then(()=>{
+      platform.registerBackButtonAction(() =>{
+        this.appCtrl.getRootNav().push();
+      });
+
+    });
+
     console.log("localStorage of userData ="+localStorage.getItem("userData"));
     this.userId = JSON.parse(localStorage.getItem("userData")).id;
     console.log('UserID',this.userId);
