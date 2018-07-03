@@ -102,7 +102,7 @@
           <ion-item class="form1">
             <ion-label>សាលារៀន</ion-label>
             <ion-select [class.invalid]="!valForm2.controls.school.valid && valForm2.controls.school.dirty" formControlName="school" [(ngModel)]="data.school">
-              <ion-option *ngFor="let school_list of school_lists" [value]="school_list.id">{{school_list.school_name}}</ion-option>
+              <ion-option *ngFor="let school_list of school_lists" [value]="school_list.school_id">{{school_list.school_name}}</ion-option>
 
             </ion-select>
           </ion-item>

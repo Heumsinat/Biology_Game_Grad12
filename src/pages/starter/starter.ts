@@ -73,6 +73,9 @@ export class StarterPage {
     if(this.network.type != "none")
     {
       this.requestToGetSettings();
+      //localStorage.setItem('currentQID',String(this.helpers.getCurrentQID(this.userId)));
+      this.helpers.getCurrentQID(this.userId);
+      console.log('Current QID in starter localstorage ='+localStorage.getItem('currentQID'));
       this.requestToUpdateOrderQuestions();
       this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,StarterPage);
       this.calculateRemainingNoOfQuestionToday();
@@ -100,6 +103,16 @@ export class StarterPage {
     //**** Sinat**** 
     // condition to check number of question that user played and compared with setting before allow user to play game
     // compare number of question that user play today with number that set from settings
+    this.db.executeSQL(`SELECT * FROM order_questions WHERE question_id = ${localStorage.getItem("currentQID")}`)
+      .then(res => {
+          //this.questions = {};
+          var nextQID:any;
+          console.log("res result in getNextQuestionID = "+JSON.stringify(res));
+          nextQID = res.rows.item(0).next_question_id;
+          // set local storage for NextQID
+          localStorage.setItem("NextQID",nextQID);
+      }).catch(e => console.log((e)));
+
     let num_quiz = Number(localStorage.getItem('settings'));
     console.log('get number of settings =', num_quiz);
     let num_q = Number(localStorage.getItem('num_q'));
