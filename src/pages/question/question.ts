@@ -25,6 +25,7 @@ export class QuestionPage {
     chapterID: number;
     currentQuestionID:number;
     public playCompleted: boolean;
+    isPlaying: boolean= false ;
 
     constructor(
         public navCtrl: NavController,
@@ -199,7 +200,9 @@ export class QuestionPage {
                         this.getAnswers(this.current.id);
                         this.nativeAudio.preloadComplex(this.current.id, 'assets/sounds/'+this.current.question_sound, 1,1,0).then(()=>{
                             this.nativeAudio.play(this.current.id, ()=>{
+                                this.isPlaying = true;
                                 this.nativeAudio.unload(this.current.id);
+                                this.isPlaying = false;
                                 this.playCompleted = true;
                                 this.changeRef.detectChanges();
                                 
@@ -218,7 +221,9 @@ export class QuestionPage {
             this.getAnswers(this.current.id);
             this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
                 this.nativeAudio.play(this.current.id, ()=>{
+                    this.isPlaying = true;
                     this.nativeAudio.unload(this.current.id);
+                    this.isPlaying = false;
                     this.playCompleted = true;
                     this.changeRef.detectChanges();
                     
@@ -302,14 +307,28 @@ export class QuestionPage {
     /*
     Function to replay audio sound file when clicked on button
      */
-    replayButtonClick() {
-        this.nativeAudio.stop(this.current.id).then(() => {
-            this.nativeAudio.play(this.current.id, ()=>{
-                this.nativeAudio.unload(this.current.id);
-            });console.log(this.current.question_sound);
-        },()=>{
+    // replayButtonClick() {
+    //     this.nativeAudio.stop(this.current.id).then(() => {
+    //         this.nativeAudio.play(this.current.id, ()=>{
+    //             this.nativeAudio.unload(this.current.id);
+    //         });console.log(this.current.question_sound);
+    //     },()=>{
 
-        });
+    //     });
+    // }
+
+    replayButtonClick() {
+        if (this.isPlaying){
+            this.nativeAudio.stop(this.current.id).then(() => {
+                this.nativeAudio.unload(this.current.id).then(()=>{
+                    this.content(this.current.id);    
+                    console.log("Replay sound:",this.current.id);
+                });
+            });
+        } else{
+            this.content(this.current.id);    
+        }
+       
     }
     /*
     Function back page when clicked on button

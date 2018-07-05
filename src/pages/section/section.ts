@@ -175,7 +175,7 @@ export class SectionPage {
       });
       alert.present();
   }
-  private replayButtonClick() {
+  replayButtonClick() {
       this.nativeAudio.stop(this.sections.id).then(() => {
           this.nativeAudio.play(this.sections.id, ()=>{
               this.nativeAudio.unload(this.sections.id);
@@ -184,4 +184,19 @@ export class SectionPage {
 
       });
   }
+
+//   replayButtonClick() {
+//     if (this.isPlaying){
+//         this.nativeAudio.stop(this.current.id).then(() => {
+//             this.nativeAudio.unload(this.current.id).then(()=>{
+//                 this.content(this.current.id);    
+//                 console.log("Replay sound:",this.current.id);
+//             });
+//         });
+//     } else{
+//         this.content(this.current.id);    
+//     }
+   
+// }
+ 
 }

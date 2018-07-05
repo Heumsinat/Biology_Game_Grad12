@@ -38,6 +38,7 @@ export class QuizPage {
     public playCompleted: boolean;
     userId: number;
     appCtrl: any;
+    isPlaying: boolean = false;
 
     constructor(
         public navCtrl: NavController,
@@ -52,12 +53,12 @@ export class QuizPage {
         private changeRef: ChangeDetectorRef,
         private network: Network
     ) {
-        platform.ready().then(()=>{
-            platform.registerBackButtonAction(() =>{
-              this.appCtrl.getRootNav().push();
-            });
+        // platform.ready().then(()=>{
+        //     platform.registerBackButtonAction(() =>{
+        //       this.appCtrl.getRootNav().push();
+        //     });
       
-          });
+        //   });
 
         this.userId = JSON.parse(localStorage.getItem("userData")).id;
         this.lessonID = navParams.get('lessonID'); //Get param lessonID from SectionPage
@@ -155,6 +156,25 @@ export class QuizPage {
                 this.userQuestion = 1;
             });
     }
+
+    /*
+     Function to replay audio sound file of current.id of question when clicked on button
+     */
+    replayButtonClick() {
+        if (this.isPlaying){
+            this.nativeAudio.stop(this.current.id).then(() => {
+                this.nativeAudio.unload(this.current.id).then(()=>{
+                    this.content(this.current.id);    
+                    console.log("Replay sound:",this.current.id);
+                });
+            });
+        } else{
+            this.content(this.current.id);    
+        }
+       
+    }
+     
+
     /*
     Function Get Answers query by question_id
      */
@@ -190,7 +210,10 @@ export class QuizPage {
                 this.getAnswers(this.current.id);
                 this.nativeAudio.preloadComplex(this.current.id, 'assets/sounds/'+this.current.question_sound,1,1,0).then(()=>{
                     this.nativeAudio.play(this.current.id, ()=>{
-                        this.nativeAudio.unload(this.current.id);
+                        this.isPlaying = true;
+                        this.nativeAudio.unload(this.current.id).then(()=>{
+                            this.isPlaying = false;
+                        });
                         this.playCompleted = true;
                         this.changeRef.detectChanges();
                     });
@@ -332,18 +355,7 @@ export class QuizPage {
         });
         alert.present();
     }
-    /*
-     Function to replay audio sound file of current.id of question when clicked on button
-     */
-    replayButtonClick() {
-        this.nativeAudio.stop(this.current.id).then(() => {
-            this.nativeAudio.play(this.current.id, ()=>{
-                this.nativeAudio.unload(this.current.id);
-            });console.log(this.current.question_sound);
-        },()=>{
-
-        });
-    }
+    
 
     // *** END Creator: SINAT *** //
 
