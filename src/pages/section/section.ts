@@ -31,6 +31,7 @@ export class SectionPage {
   next_question: boolean;
   userId: number;
   appCtrl: any;
+  isPlaying: boolean=false;
 
   constructor(
       public navCtrl: NavController,
@@ -97,7 +98,9 @@ export class SectionPage {
               }
               this.nativeAudio.preloadComplex(this.sections.id, 'assets/sounds/'+this.sections.sound,1,1,0).then(()=>{
                   this.nativeAudio.play(this.sections.id, ()=>{
+                      this.isPlaying = true;
                       this.nativeAudio.unload(this.sections.id);
+                      this.isPlaying = false;
                       let num_quiz = Number(localStorage.getItem('settings'));
                       console.log('Settings =', num_quiz);
                       let num_of_q = Number(localStorage.getItem('num_q'));
@@ -175,28 +178,26 @@ export class SectionPage {
       });
       alert.present();
   }
-  replayButtonClick() {
-      this.nativeAudio.stop(this.sections.id).then(() => {
-          this.nativeAudio.play(this.sections.id, ()=>{
-              this.nativeAudio.unload(this.sections.id);
-          });console.log(this.sections.id);
-      },()=>{
-
-      });
-  }
-
 //   replayButtonClick() {
-//     if (this.isPlaying){
-//         this.nativeAudio.stop(this.current.id).then(() => {
-//             this.nativeAudio.unload(this.current.id).then(()=>{
-//                 this.content(this.current.id);    
-//                 console.log("Replay sound:",this.current.id);
-//             });
-//         });
-//     } else{
-//         this.content(this.current.id);    
-//     }
+//       this.nativeAudio.stop(this.sections.id).then(() => {
+//           this.nativeAudio.play(this.sections.id, ()=>{
+//               this.nativeAudio.unload(this.sections.id);
+//           });console.log(this.sections.id);
+//       });
+//   }
+
+  replayButtonClick() {
+    if (this.isPlaying){
+        this.nativeAudio.stop(this.current.id).then(() => {
+            this.nativeAudio.unload(this.current.id).then(()=>{
+                this.current.id;    
+                console.log("Replay sound:",this.current.id);
+            });
+        });
+    } else{
+        this.current.id;    
+    }
    
-// }
+}
  
 }

@@ -162,9 +162,7 @@ export class FormPage {
           }
         }).catch(e => console.log(e));
   }
-
- 
-   
+  
 
   /**Get all districts of province
    * 
@@ -212,18 +210,6 @@ export class FormPage {
         }).catch(e => console.log(e));
   }
 
-  
-
-  // createTableUsers(){
-  //   this.db.getInstance().then((db: SQLiteObject)  => {
-  //     db.executeSql(`create table if NOT exists users(
-  //       "id " integer not null primary key autoincrement,
-  //       fullName VARCHAR(32), userName VARCHAR(32), password VARCHAR(20), phone VARCHAR(10), gender VARCHAR(6), province VARCHAR(50), district VARCHAR(50), school VARCHAR(50), isSent INT)`,{})
-  //     .then( res => console.log('execuated SQL!'))
-  //     .catch(e => console.log(e));
-  //   })
-  // }
-
 
   /**Save data after form completed
    * 
@@ -270,27 +256,7 @@ export class FormPage {
           );
         });
     })
-    // .catch(e => {
-    //   console.log(e);
-    //   this.toast.show(e, '5000', 'center').subscribe(
-    //     toast => {
-    //       console.log(toast);
-    //     }
-    //   );
-    // });
-    //this.navCtrl.push(StarterPage);
-    // console.log('Error to save data');
-
-
-    //console.log(this.data)
-    
-    // this.alertCtrl.create({
-    //   message: 'Saved',
-    //   //title: 'Work here',
-    //   buttons: [{
-    //     text: 'Ok'
-    //   }]
-    // }).present();
+   
   }
 
 
