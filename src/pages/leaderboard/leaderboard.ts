@@ -4,6 +4,7 @@ import { DatabaseProvider } from "../../providers/database/database";
 import {HomePage} from "../home/home";
 import { HelpersProvider } from '../../providers/helpers/helpers';
 import { BROWSER_ANIMATIONS_PROVIDERS } from '@angular/platform-browser/animations/src/providers';
+import { Network } from '@ionic-native/network';
 
 /**
  * Generated class for the LeaderboardPage page.
@@ -33,50 +34,25 @@ export class LeaderboardPage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
     public db: DatabaseProvider,
-    public helpers: HelpersProvider) {
+    public helpers: HelpersProvider,
+    public network: Network) {
 
     this.userId = JSON.parse(localStorage.getItem("userData")).id;
     console.log('ID = ',this.userId);
     
-    // this.getScoreLevel(2);
-    //this.getUser();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LeaderboardPage');
-    this.getScoreForLeaderboard();
+    if(this.network.type != 'none')
+    {
+      this.getScoreForLeaderboard();
+    }
   }
+  
   goToLeaderBoard(){
 
   }
-  // goToHomePage() {
-  //   this.navCtrl.push(
-  //       HomePage);
-  // }
-  // getUser(){
-  //   console.log(this.db)
-  //   // console.log(this.userId);
-  //   let userDataLS = localStorage.getItem('userData');
-  //   console.log('User ID***** = ',userDataLS);
-  //   let usr_id = JSON.parse(userDataLS).id;
-  //   console.log('ID=',usr_id);
-
-  //   this.db
-  //       .executeSQL(`SELECT * FROM user_quizzes WHERE user_id=${usr_id}`)  
-  //       .then(res => {
-  //         // console.log('Data',res.rows.item(0));
-  //         this.user_quizzes = [];
-        
-  //         for (var i = 0; i<res.rows.length; i++){
-  //           this.user_quizzes.push({
-              
-  //             user_id: res.rows.item(i).user_id,
-  //             score: res.rows.item(i).score
-      
-  //           })
-  //         }
-  //       }).catch(e => console.log(e));
-  // }
 
   public getScoreForLeaderboard()
   {
@@ -89,10 +65,6 @@ export class LeaderboardPage {
       console.log('parse JSON of code = '+JSON.parse(resultTotalScores["code"]));
       if(JSON.parse(resultTotalScores["code"])==200)
       {
-        /* var res_user_scores = JSON.parse(result[leaderboard_type]);
-        for(let i=0; i<res_user_scores.length(); i++){
-          this.user_scores_fb.push(res_user_scores[i]);
-        } */
         console.log('parse JSON of school = '+resultTotalScores["school"]);
         
         this.total_scores_school = resultTotalScores["school"];
@@ -114,30 +86,37 @@ export class LeaderboardPage {
   public getScoreLevel(scoreLevel: number)
   {
     console.log("scoreLevel = "+scoreLevel);
-    
-    switch(scoreLevel)
+    if(this.network.type != 'none')
     {
-      case 1:
-        this.user_scores = this.total_scores_fb;
-      break;
+      switch(scoreLevel)
+      {
+        case 1:
+          this.user_scores = this.total_scores_fb;
+        break;
 
-      case 2:
-        this.user_scores = this.total_scores_school;
-      break;
+        case 2:
+          this.user_scores = this.total_scores_school;
+        break;
 
-      case 3:
-        this.user_scores = this.total_scores_national;
-      break;
+        case 3:
+          this.user_scores = this.total_scores_national;
+        break;
 
-      case 4:
-        this.user_scores = this.total_scores_province;
-      break;
+        case 4:
+          this.user_scores = this.total_scores_province;
+        break;
 
-      case 5:
-        this.user_scores = this.total_scores_district;
-      break;
+        case 5:
+          this.user_scores = this.total_scores_district;
+        break;
+      }
+      console.log("user_score = "+this.user_scores);
     }
-    console.log("user_score = "+this.user_scores);
+    else
+    {
+      this.helpers.presentToast("មិនមានសេវាអ៊ិនធឺណិតទេ");
+    }
+    
   }
 
 }

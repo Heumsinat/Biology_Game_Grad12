@@ -189,7 +189,7 @@ export class HelpersProvider {
     // * Param3: noOfColsInSynch => No. of columns to be retrieved from table* //
     // * Param4: goToPage => Page to be pushed to after all processes done * //
     
-    synchUserQuizeToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, goToPage: Page) {
+    synchUserQuizeToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, redirect: boolean, goToPage: Page) {
       
       var self = this;
       //this.retrieveDBSchema(listOfTable)
@@ -198,23 +198,23 @@ export class HelpersProvider {
           // self.postData(value,"insert_user_quiz_app").then((result) => {
           self.postData(value,apiAddress).then((result) => {
             //self.responseData = result;
-            if(JSON.parse(result["code"])==200) 
-            {
+            if(JSON.parse(result["code"])==200) {
               if(apiAddress==="user_register_or_update_app")
               {
                 console.log("API ="+apiAddress);
                 localStorage.setItem('userData',JSON.stringify(result["user"]));
               }
-                
               
               // If data is synch successfully, update isSent=1 //
               self.updateIsSentColumn(listOfTable);
               console.log("Data Inserted Successfully for "+listOfTable);
-            }
-            else
+            } else {
               console.log("Synch Data Error");
+            }
+
             console.log("response in synchUserQuizeToServer= "+JSON.stringify(result));
-            if(goToPage!=StarterPage)
+            //if(goToPage!=StarterPage)
+            if(redirect)
               self.appCtrl.getActiveNav().push(goToPage);
           }, (err) => {
           // Connection fail
@@ -356,25 +356,6 @@ export class HelpersProvider {
         
       })
     }
-    /* // Creator: SAMAK //
-    // Function to replace the whole order questions table//
-    public replaceIntoUserQuizzes(id: number,user_id:number,question_id:number,user_ans_id: number, ans_correct: number, score: number, created_at:any, isSent: number){
-      console.log('inside replaceIntoUserQuizzes!');
-      this.sqlite.create({
-        name: 'biology.db',
-        location: 'default'
-      }).then((db: SQLiteObject)  => {
-        db.executeSql('REPLACE INTO user_quizzes(id, user_id,question_id,user_ans_id, ans_correct, score, created_at, isSent) VALUES (?,?,?,?,?,?,?,?)',[id, user_id,question_id,user_ans_id, ans_correct, score, created_at,isSent])
-        .then( res => {
-          console.log('Data Updated in replaceIntoUserQuizzes!');
-        })
-        .catch((e) => {
-          console.log('Catch in replaceIntoUserQuizzes:' + JSON.stringify(e));
-        });
-      })
-    } */
-
-
 
     // Creator: SAMAK @ 26-06-2018//
     //  //
@@ -383,27 +364,24 @@ export class HelpersProvider {
     // * Param1: userId => whose user quizzes to be count for. * //
     public noOfRecordsInUserQuizzes(userId: number)
     {
-      return new Promise((resolve, reject) => {
-        this.sqlite.create({
-          name: 'biology.db',
-          location: 'default'
-        }).then((db: SQLiteObject)  => {
-          db.executeSql('SELECT COUNT(*) as total, MAX(created_at) as maxDate FROM user_quizzes where user_id=? ',[userId])
+      var self = this;
+      return new Promise(function(resolve, reject){
+        self.dbProvider.executeSQL(`SELECT COUNT(*) as total, MAX(created_at) as maxDate FROM user_quizzes where user_id=${userId}`)
           .then( resNoOfUserQuiz => {
-            console.log("userId in helpers = "+userId);
-            console.log("resNoOfUserQuiz= "+JSON.stringify(resNoOfUserQuiz));
+            //console.log("userId in helpers = "+userId);
+            //console.log("resNoOfUserQuiz= "+JSON.stringify(resNoOfUserQuiz));
   
-            let num_user_quizzes = resNoOfUserQuiz.rows.item(0).total;
-            let max_date_user_quizzes = resNoOfUserQuiz.rows.item(0).maxDate;
-            this.userQuizzes['user_id']=String(userId);
-            this.userQuizzes['last_update_date']=max_date_user_quizzes;
-            this.userQuizzes['number_of_records']=num_user_quizzes;
+            
+            //this.userQuizzes['user_id']=String(userId);
+            self.userQuizzes.last_update_date=resNoOfUserQuiz.rows.item(0).maxDate;
+            self.userQuizzes.number_of_records=resNoOfUserQuiz.rows.item(0).total;
+            resolve('done');
           })
           .catch((e) => {
             console.log('Catch in num_user_quizzes in helpers:' + JSON.stringify(e));
           });
         })
-      })
+      
     }
 
     // Creator: SAMAK @ 03-07-2018//
@@ -413,7 +391,6 @@ export class HelpersProvider {
     // * Param1: userId => whose question id to be retrieved . * //
     public getCurrentQID(userId: number)
     {
-      //return new Promise((resolve, reject) => {
         var cQID = 0;
         this.dbProvider.executeSQL(`SELECT MAX(created_at) as maxDate, question_id as currentQID FROM user_quizzes where user_id=${userId}`)
           .then( resNoOfUserQuiz => {
@@ -424,7 +401,5 @@ export class HelpersProvider {
           .catch((e) => {
             console.log('Catch in getCurrentQID in helpers:' + JSON.stringify(e));
           });
-        //return cQID;
-      //})
     }
 }

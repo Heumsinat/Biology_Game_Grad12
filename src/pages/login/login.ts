@@ -28,7 +28,6 @@ export class LoginPage {
   link_login = "user_login_app";
   link_user_quizzes = "request_data_from_user_quiz_app";
   userData = { "name_id": "", "pwd": "" };
-  userQuizzes = { "user_id": "", "number_of_records": "", "last_update_date":""};
 
   loginValidate: FormGroup;
 
@@ -77,50 +76,54 @@ export class LoginPage {
             localStorage.setItem('userData', JSON.stringify(result["user"]));
             // result["user"] = {id":1,"full_name":"u1","fb_id":"","phone_number":"012000000","gender":1,"school_id":"1020101005"}
             //var user = JSON.parse(result["user"]);
+
             console.log('user= '+result["user"]);
-            this.userQuizzes.user_id=result["user"].id;
-            this.noOfRecordsInUserQuizzes(result["user"].id);
-            /// Access to API #3 ///
-            this.helpers.postData(this.userQuizzes, this.link_user_quizzes).then((resultUserQuizz) => {
-              // self.responseData = result;
-              console.log("Data Inserted Successfully in resultUserQuizz = "+JSON.stringify(resultUserQuizz));
-              // {"code":"200","equal":"2","data":[{"id":1,"user_id":1,"question_id":1,"user_ans_id":3,"ans_correct":1,"score":1,"created_at":"2018-06-22 03:37:57"}]}
-              var codeReturn = JSON.parse(resultUserQuizz["code"]);
-              console.log("codeReturn = "+codeReturn);
-              if(codeReturn==200) 
-              {
-                // If data is synch successfully, update isSent=1 //
-                //console.log("Data Inserted Successfully = "+JSON.parse(JSON.parse(result["equal"])));
-
-                var equalReturn = JSON.parse(resultUserQuizz["equal"]);
-                console.log("equalReturn = "+equalReturn);
-                switch(equalReturn)
+            this.helpers.userQuizzes.user_id=result["user"].id;
+            this.helpers.noOfRecordsInUserQuizzes(result["user"].id).then(res=> {
+              //alert("Other task");
+              /// Access to API #3 ///
+              this.helpers.postData(this.helpers.userQuizzes, this.link_user_quizzes).then((resultUserQuizz) => {
+                // self.responseData = result;
+                console.log("Data Inserted Successfully in resultUserQuizz = "+JSON.stringify(resultUserQuizz));
+                // {"code":"200","equal":"2","data":[{"id":1,"user_id":1,"question_id":1,"user_ans_id":3,"ans_correct":1,"score":1,"created_at":"2018-06-22 03:37:57"}]}
+                var codeReturn = JSON.parse(resultUserQuizz["code"]);
+                console.log("codeReturn = "+codeReturn);
+                if(codeReturn==200) 
                 {
-                  case 1: // num_q in Server is equal, do nothing
-                    this.navCtrl.push(StarterPage);
-                    console.log("Equal");
-                    break;
-                  case 0: // num_q in Server is less than, send the rest of records and last_date to Server
-                    var objOrderQuestion = resultUserQuizz["data"];
-                    this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,StarterPage);
-                    console.log("Updated isSent=1 in user_quizzes table.");
-                    break;
-                  case 2: // num_q in Server is greater than, update user_quizzes by adding the returned records
-                    var objOrderQuestion = resultUserQuizz["data"];
-                    this.helpers.replaceIntoUserQuizzes(objOrderQuestion,StarterPage);
-                    console.log("Updated in replaceIntoUserQuizzes!");
-                    break;
-                }
-              
-              }
-              else
-                console.log("Synch Data Error");
-            }, (err) => {
-              // Connection fail
-              console.log(JSON.stringify("err in link_user_quizzes = " + err));
-            });
-            console.log("Login Successfully");
+                  // If data is synch successfully, update isSent=1 //
+                  //console.log("Data Inserted Successfully = "+JSON.parse(JSON.parse(result["equal"])));
 
+                  var equalReturn = JSON.parse(resultUserQuizz["equal"]);
+                  console.log("equalReturn = "+equalReturn);
+                  switch(equalReturn)
+                  {
+                    case 1: // num_q in Server is equal, do nothing
+                      this.navCtrl.push(StarterPage);
+                      console.log("Equal");
+                      break;
+                    case 0: // num_q in Server is less than, send the rest of records and last_date to Server
+                      var objOrderQuestion = resultUserQuizz["data"];
+                      this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,true,StarterPage);
+                      console.log("Updated isSent=1 in user_quizzes table.");
+                      break;
+                    case 2: // num_q in Server is greater than, update user_quizzes by adding the returned records
+                      var objOrderQuestion = resultUserQuizz["data"];
+                      this.helpers.replaceIntoUserQuizzes(objOrderQuestion,StarterPage);
+                      console.log("Updated in replaceIntoUserQuizzes!");
+                      break;
+                  }
+                
+                }
+                else
+                  console.log("Synch Data Error");
+              }, (err) => {
+                // Connection fail
+                console.log(JSON.stringify("err in link_user_quizzes = " + err));
+              });
+              console.log("Login Successfully");
+
+              }).catch(e => console.log(JSON.stringify(e)));
+            
             
            
           }
@@ -150,18 +153,6 @@ export class LoginPage {
       this.helpers.presentToast("មិនមានសេវាអ៊ិនធឺណិតទេ");
     }
   } 
-
-  /* public signin(){
-    if(/^[a-zA-Z0-9]+$/.test(this.username+this.password)){
-      this.navCtrl.push(StarterPage, {
-        username: this.username,
-        password: this.password
-      });
-    } else {
-      this.showAlert('Error', 'Invalid Username');
-
-    }  
-  } */
 
   private backButtonClick(){
     let confirm = this.alertCtrl.create({
@@ -202,22 +193,6 @@ export class LoginPage {
     });
     alert.present();
   }
-
-  public noOfRecordsInUserQuizzes(userId: number)
-    {
-      let sql = `SELECT COUNT(*) as total, MAX(created_at) as maxDate FROM user_quizzes where user_id=${userId}`;
-
-      this.databaseProvider.executeSQL(sql)
-      .then( resNoOfUserQuiz => {
-        let num_user_quizzes = resNoOfUserQuiz.rows.item(0).total;
-        let max_date_user_quizzes = resNoOfUserQuiz.rows.item(0).maxDate;
-        this.userQuizzes['last_update_date']=max_date_user_quizzes;
-        this.userQuizzes['number_of_records']=num_user_quizzes;
-      })
-      .catch((e) => {
-        console.log('Catch in num_user_quizzes in welcomes:' + JSON.stringify(e));
-      });
-    }
 } 
 
 
