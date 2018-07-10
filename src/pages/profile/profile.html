@@ -1,67 +1,47 @@
-<!--
-  Generated template for the ProfilePage page.
+<html ng-app="ionic.example">
+  <head>
+    <meta charset="utf-8">
+    <title>Profile</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    
+    <title>PROFILE</title>
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-
-
-
-<ion-content>
-    <div class="title">
-        <div style="text-align: center">
-            Profile
+    <link href="https://code.ionicframework.com/0.9.25/css/ionic.min.css" rel="stylesheet">
+    <script src="https://code.ionicframework.com/0.9.25/js/ionic.bundle.min.js"></script>
+  </head>
+  <body ng-controller="ProfileCtrl">
+    <div class="bar bar-header bar-danger">
+      <button class="button button-icon"  (click)="backButtonClick()"><i class="icon ion-arrow-left-c"></i></button>
+      <h1 class="title" id="profile-title">YOUR PROFILE</h1>
+      <button class="button button-icon"><i class="icon-gear-b"></i></button>
+    </div>
+    <!-- <ion-header  id="profile-title" >
+      <ion-navbar>
+        <ion-title><h1 class="title" id="profile-title">YOUR PROFILE</h1></ion-title>
+      </ion-navbar>
+    </ion-header> -->
+    
+    <ion-content has-header="true">
+      <div id="profile-bg"></div>
+      <div id="content">
+        <div id="profile-info">
+          <img id="profile-image" src="assets/img/profile.png">
+          <h3 id="profile-name">{{user_data.full_name}}</h3>
+          <span id="profile-score">Score: {{total_score}}</span>
         </div>
-    </div>
-    <div class="show_content">
-        <ion-grid>
-            <ion-card>
-                <div class="profile" >
-                    <ion-row>
-                        <ion-col col-4 push-9>
-                            <img src="assets/img/profile.png" />
-                        </ion-col>
-                    </ion-row>
-                </div>
-                <div class="score">
-                    Score : {{ total_score }}
-                </div>
-                <div class="badge">
-                    Badges
-                </div>
-                <div class="badge_image">
-                    <ion-row>
-                        <ion-col col-6 push-1>
-                            <img src="assets/img/medal.png" />
-                            <h1>badge 1</h1>
-                        </ion-col>
-                        <ion-col col-6 push-1>
-                            <img src="assets/img/medal.png" />
-                            <h1> badge 2</h1>
-                        </ion-col>
-                    </ion-row>
-                    <ion-row>
-                        <ion-col col-6 push-1>
-                            <img src="assets/img/medal.png" />
-                            <h1> badge 3</h1>
-                        </ion-col>
-                        <ion-col col-6 push-1>
-                            <img src="assets/img/medal.png" />
-                            <h1> badge 4</h1>
-                        </ion-col>
-                    </ion-row>
-                </div>
-            </ion-card>
-        </ion-grid>
-    </div>
-</ion-content>
-<ion-footer unit-footer>
-    <ion-toolbar color="lightgreen">
-        <button ion-button float-start clear (click)="backButtonClick()">
-            <ion-icon name="arrow-back"></ion-icon>
-        </button>
-        <button ion-button float-end clear (click)="exitButtonClick()" (press)="toggleDebug()">
-            <ion-icon name="power"></ion-icon>
-        </button>
-    </ion-toolbar>
-</ion-footer>
+        <div>
+            <button ion-button id="profile-edit-btn" (click)=editProfile()>
+                <i class="icon ion-edit"></i><h1 class="title" id="profile-title">Edit Profile</h1>
+            </button>
+        </div>
+        <div id="profile-detail">
+            <h4 >User Name: {{user_data.user_name}}</h4>
+            <h4 >Gender: {{gender}}</h4>
+            <h4 >Phone: {{user_data.phone_number}}</h4>
+            <h4 >School: {{school_name}}</h4>
+        </div>
+      </div>
+    </ion-content>
+    
+  </body>
+</html>

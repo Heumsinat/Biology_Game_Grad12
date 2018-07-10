@@ -6,18 +6,13 @@
 -->
 <ion-header>
   <ion-navbar>
-    <!--<ion-title>-->
-      <!--មេរៀន​​ជំនួយ-->
-    <!--</ion-title>-->
     <ion-buttons [hidden]="!playCompleted" end *ngIf="next_question ">
-         <!--<ion-buttons  end>-->
       <button ion-button icon-only (click)="navigate(current.next_question_id)">
         សំនួរ​បន្ទាប់
         <ion-icon name="arrow-round-forward"></ion-icon>
       </button>
     </ion-buttons>
     <ion-buttons [hidden]="!playCompleted" end *ngIf="no_question">
-      <!--<ion-buttons  end>-->
       <button ion-button icon-only (click)="navigate(current.next_question_id)">
         ទំព័រដើម
         <ion-icon name="arrow-round-forward"></ion-icon>
@@ -29,17 +24,9 @@
   <ion-scroll class="view_content" scrollY="true">
     <ion-grid>
       <ion-row>
-        <!--<ion-card text-wrap padding="10px">-->
           <ion-col>
             {{sections.content || ''}}
           </ion-col>
-          <!--<ion-col width-100>-->
-            <!--<button width-100 *ngIf="answerCorrect" ion-button block color="primary" (click)="navigate(current.next_question_id)">-->
-              <!--សំនួរ​បន្ទាប់-->
-              <!--<ion-icon name="arrow-forward"></ion-icon>-->
-            <!--</button>-->
-          <!--</ion-col>-->
-        <!--</ion-card>-->
       </ion-row>
     </ion-grid>
   </ion-scroll>
@@ -47,9 +34,6 @@
 
 <ion-footer unit-footer>
   <ion-toolbar color="lightgreen">
-    <!--<button ion-button float-start clear (click)="backButtonClick()" *ngIf="isUnitNextAllow == false">-->
-      <!--<ion-icon name="arrow-back"></ion-icon>-->
-    <!--</button>-->
     <button ion-button float-start clear (click)="replayButtonClick()">
       <ion-icon name="refresh"></ion-icon>
     </button>

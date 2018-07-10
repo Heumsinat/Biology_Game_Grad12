@@ -51,38 +51,28 @@ export class QuizPage {
         private helpers: HelpersProvider,
         private sqlite: SQLite,
         private changeRef: ChangeDetectorRef,
-        private network: Network
-    ) {
-        // platform.ready().then(()=>{
-        //     platform.registerBackButtonAction(() =>{
-        //       this.appCtrl.getRootNav().push();
-        //     });
-      
-        //   });
-
-        this.userId = JSON.parse(localStorage.getItem("userData")).id;
-        this.lessonID = navParams.get('lessonID'); //Get param lessonID from SectionPage
-        this.currentQuestionID = this.navParams.get('questionID');
-        //console.log('current question id in constructor = ', this.currentQuestionID);
-        platform.ready().then(() => {
-            //Registration of push in Android and Windows Phone
-            platform.registerBackButtonAction(() => {
-                let nav = this.app.getActiveNav();
-                console.log('Back is click')
-                if (nav.canGoBack()){ //Can we go back?
-                    nav.popToRoot();
-                }else{
-                    this.platform.exitApp(); //Exit from app
-                }
+        private network: Network) {
+            this.userId = JSON.parse(localStorage.getItem("userData")).id;
+            this.lessonID = navParams.get('lessonID'); //Get param lessonID from SectionPage
+            this.currentQuestionID = this.navParams.get('questionID');
+            platform.ready().then(() => {
+                //Registration of push in Android and Windows Phone
+                platform.registerBackButtonAction(() => {
+                    let nav = this.app.getActiveNav();
+                    console.log('Back is click')
+                    if (nav.canGoBack()){ //Can we go back?
+                        nav.popToRoot();
+                    }else{
+                        this.platform.exitApp(); //Exit from app
+                    }
+                });
             });
-        });
-        this.playCompleted = false;
+            this.playCompleted = false;
     }
 
     ionViewDidEnter(){
         //Previous Question
         this.getUserQuestion().then(()=>{
-            // this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.userQuestion}`)
             console.log("userQuestion = "+this.userQuestion);
             this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.userQuestion}`)
                 .then(res => {
@@ -107,7 +97,6 @@ export class QuizPage {
                             created_at:res.rows.item(i).created_at,
                             modified_date:res.rows.item(i).modified_date
                         }
-                        //break;
                     }
                     console.log("Question Object"+JSON.stringify(this.questions));
                     this.content(first);
@@ -171,10 +160,7 @@ export class QuizPage {
         } else{
             this.content(this.current.id);    
         }
-       
     }
-     
-
     /*
     Function Get Answers query by question_id
      */
@@ -355,11 +341,7 @@ export class QuizPage {
         });
         alert.present();
     }
-    
-
     // *** END Creator: SINAT *** //
-
-    
     
     // *** Creator: Samak *** //
     // * Function to select DB schema (column names), then construct JSON data to be sent to server* //
@@ -462,6 +444,4 @@ export class QuizPage {
 
     return pro;
     }
-
-    
 }

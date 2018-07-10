@@ -56,9 +56,6 @@ export class SectionPage {
     this.playCompleted = false;
     this.next_question = false;
     this.no_question = false;
-    // console.log(this.answerCorrect);
-    // console.log(this.sectionID);
-    // console.log(this.sectionID);
 
       this.db.executeSQL(`SELECT count(*) as total FROM user_quizzes WHERE user_id = `+ this.userId +` and created_at = datetime('now')`)
           .then(res => {
@@ -76,10 +73,8 @@ export class SectionPage {
       this.db.executeSQL(`SELECT * FROM sections WHERE id = ${this.sectionID}`)
           .then(res => {
               this.sections = {};
-              // var first = res.rows.item(0).id;
               this.currentIndex = 0;
               for (var i = 0; i<res.rows.length; i++){
-                  // this.sectionsID.push(res.rows.item(i).id);
                   this.sections={
                       id:res.rows.item(i).id,
                       order:res.rows.item(i).order,
@@ -94,7 +89,6 @@ export class SectionPage {
                       created_date:res.rows.item(i).created_date,
                       modified_date:res.rows.item(i).modified_date
                   }
-                    //break;
               }
               this.nativeAudio.preloadComplex(this.sections.id, 'assets/sounds/'+this.sections.sound,1,1,0).then(()=>{
                   this.nativeAudio.play(this.sections.id, ()=>{
@@ -115,7 +109,6 @@ export class SectionPage {
                       this.changeRef.detectChanges();
                   });
               });
-              // console.log(this.sections.sound);
           }).catch(e => console.log((e)));
   }
   /*
@@ -178,26 +171,18 @@ export class SectionPage {
       });
       alert.present();
   }
-//   replayButtonClick() {
-//       this.nativeAudio.stop(this.sections.id).then(() => {
-//           this.nativeAudio.play(this.sections.id, ()=>{
-//               this.nativeAudio.unload(this.sections.id);
-//           });console.log(this.sections.id);
-//       });
-//   }
 
-  replayButtonClick() {
-    if (this.isPlaying){
-        this.nativeAudio.stop(this.current.id).then(() => {
-            this.nativeAudio.unload(this.current.id).then(()=>{
-                this.current.id;    
-                console.log("Replay sound:",this.current.id);
+    replayButtonClick() {
+        if (this.isPlaying){
+            this.nativeAudio.stop(this.current.id).then(() => {
+                this.nativeAudio.unload(this.current.id).then(()=>{
+                    this.current.id;    
+                    console.log("Replay sound:",this.current.id);
+                });
             });
-        });
-    } else{
-        this.current.id;    
+        } else{
+            this.current.id;    
+        }
     }
-   
-}
  
 }
