@@ -22,6 +22,7 @@ export class ProfilePage {
   user_data: any;
   gender: string;
   school_name: string;
+  pic_path: string;
   constructor(
       public navCtrl: NavController,
       public navParams: NavParams,
@@ -31,13 +32,21 @@ export class ProfilePage {
       public network: Network,
       public helpers: HelpersProvider
   ) {
-    this.total_score = localStorage.getItem('Score');
+    var score = localStorage.getItem('Score');
+    if(score == null) this.total_score = 0;
+    else this.total_score = localStorage.getItem('Score');
     this.user_data = JSON.parse(localStorage.getItem('userData'));
     console.log("user_data = "+JSON.stringify(this.user_data));
     if(this.user_data.gender == "2"){
       this.gender = "ស្រី";
     } else this.gender ="ប្រុស";
     this.getSchoolName(this.user_data.school_id);
+    this.pic_path = "assets/img/profile.png";
+    var fb_id = JSON.parse(localStorage.getItem("userData")).fb_id;
+    if(fb_id != null)
+    {
+      this.pic_path = "file:///data/user/0/kh.org.open.biology12/files/"+fb_id+".jpg";
+    }
 
 
   }

@@ -3,6 +3,8 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import {File} from '@ionic-native/file';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -14,7 +16,6 @@ import {SectionPage} from "../pages/section/section";
 import { LoginPage } from "../pages/login/login";
 import { FormPage } from "../pages/form/form";
 import { WelcomePage } from "../pages/welcome/welcome";
-import { FacebookPage } from "../pages/facebook/facebook";
 
 import { IonFormWizard } from './wizard.component';
 import { IonFormWizardStep } from './wizard.step.component';
@@ -43,7 +44,6 @@ import { Network } from '@ionic-native/network';
     LoginPage,
     FormPage,
     WelcomePage,
-    FacebookPage,
     QuizPage,
     SectionReviewPage,
     StarterPage,
@@ -69,7 +69,6 @@ import { Network } from '@ionic-native/network';
     LoginPage,
     FormPage,
     WelcomePage,
-    FacebookPage,
     QuizPage,
     SectionReviewPage,
     StarterPage,
@@ -86,7 +85,10 @@ import { Network } from '@ionic-native/network';
     DatabaseProvider,
     HelpersProvider,
     Facebook,
-    Network
+    Network,
+    File,
+    FileTransfer,
+    FileTransferObject
     
   ]
 })

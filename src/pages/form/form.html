@@ -12,6 +12,12 @@
 
 <ion-content xela padding class="background-img">
 
+    <!-- <div>
+        <p>
+            <img src="{{picture.data.url}}" width="100" alt="{{data.fullName}}" />
+        </p>
+    </div> -->
+
   <ion-grid>
     <ion-form-wizard [(step)]="step" [showSteps]="false" (finish)="onFinish()" [finishIcon]="'done-all'" [(stepCondition)]="stepCondition">
       <ion-wizard-step>
@@ -82,7 +88,7 @@
 
             <ion-select formControlName="province" (ionChange)="onChangeSelectProvince($event)" [(ngModel)]="data.province">
 
-              <ion-option *ngFor="let province of provinces" [value]="province.pcode">{{province.pname_en}}</ion-option>
+              <ion-option *ngFor="let province of provinces" [value]="province.pcode">{{province.pname_kh}}</ion-option>
 
             </ion-select>
 
@@ -91,7 +97,7 @@
           <ion-item class="form1">
             <ion-label>ស្រុក</ion-label>
             <ion-select [class.invalid]="!valForm2.controls.district.valid && valForm2.controls.district.dirty" formControlName="district" (ionChange)="onChangeSelectDistrict($event)" [(ngModel)]="data.district">
-              <ion-option *ngFor="let district of districts" [value]="district.dcode">{{district.dname_en}}</ion-option>
+              <ion-option *ngFor="let district of districts" [value]="district.dcode">{{district.dname_kh}}</ion-option>
             </ion-select>
           </ion-item>
           <div class="alert" *ngIf="!valForm2.controls.district.valid && valForm2.controls.district.dirty">
@@ -124,10 +130,10 @@
 
 <ion-footer>
   <ion-toolbar>
-    <button ion-button clear class="bicon" (click)="backButtonClick()">
+    <button ion-button float-start clear class="bicon" (click)="backButtonClick()">
       <ion-icon name="md-arrow-round-back"></ion-icon>
     </button>
-    <button ion-button clear class="eicon" (click)="exitButtonClick()" (press)="toggleDebug()">
+    <button ion-button float-end clear class="eicon" (click)="exitButtonClick()" (press)="toggleDebug()">
       <ion-icon name="power"></ion-icon>
     </button>
   </ion-toolbar>

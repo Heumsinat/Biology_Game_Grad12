@@ -317,7 +317,7 @@ export class QuizPage {
      Function back page when clicked on button
      */
     backButtonClick(){
-        this.navCtrl.pop();
+        this.navCtrl.push(StarterPage);
     }
     /*
      Function to exit app when clicked on button
