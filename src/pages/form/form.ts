@@ -79,6 +79,7 @@ export class FormPage {
     /**Get data of facebook user from welcomepage
      * 
      */
+    console.log('data = '+this.navParams.get('data'));
       const fbData = this.navParams.get('data');
                   if(fbData){
                     this.data.fullName = fbData.name;

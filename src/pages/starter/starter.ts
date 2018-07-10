@@ -416,9 +416,7 @@ export class StarterPage {
         let num_q = res.rows.item(0).total; // num_q is a number that user have play for today
         localStorage.setItem('num_q',num_q);
         console.log('get count number of question in setItem', num_q);
-        // localStorage.setItem('num_q',num_q);
         let num_quiz = Number(localStorage.getItem('settings'));
-
         // display number that user play for today (day_of_quiz)
         this.day_of_quiz = Number(localStorage.getItem('settings')) - Number(localStorage.getItem('num_q'));
         // check condition is day_of_quiz ==0 change label button PLAY to LEADERBOARD
