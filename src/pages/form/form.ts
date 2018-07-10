@@ -57,6 +57,7 @@ export class FormPage {
   storage: string = '';
   picture: any;
   fb_id: number;
+  is_register: boolean = true;
 
   constructor(
     public navCtrl: NavController, 
@@ -78,6 +79,7 @@ export class FormPage {
     /**Get data of facebook user from welcomepage
      * 
      */
+    if(!this.is_register){
       const fbData = this.navParams.get('data');
                   if(fbData){
                     this.data.fullName = fbData.name;
@@ -86,6 +88,7 @@ export class FormPage {
                     console.log('My fb id: ',fbData.id);
                     this.picture = fbData.picture;
                   }
+    
 
                   this.platform.ready().then(() => {
                     // make sure this is on a device, not an emulation (e.g. chrome tools device mode)
@@ -139,7 +142,7 @@ export class FormPage {
               
                   });
           
-     
+    }
       // this.data.fullName= new FormCtrl('',);
       this.valForm1 = formBuilder.group({
         fullName: [null, Validators.required],
