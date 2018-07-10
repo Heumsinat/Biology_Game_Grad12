@@ -187,7 +187,7 @@ export class WelcomePage {
   public createForm() {
     if(this.network.type != 'none')
     {
-      this.navCtrl.push(FormPage);
+      this.navCtrl.push(FormPage,{ data: 1 });
     }
     else
     {

@@ -79,7 +79,6 @@ export class FormPage {
     /**Get data of facebook user from welcomepage
      * 
      */
-    if(!this.is_register){
       const fbData = this.navParams.get('data');
                   if(fbData){
                     this.data.fullName = fbData.name;
@@ -94,8 +93,7 @@ export class FormPage {
                     // make sure this is on a device, not an emulation (e.g. chrome tools device mode)
                     if(!this.platform.is('cordova')) {
                       return false;
-                    }
-              
+                    }              
                     if (this.platform.is('ios')) {
                       this.storageDirectory = cordova.file.documentsDirectory;
                     }
@@ -111,21 +109,14 @@ export class FormPage {
                   const img = this.picture.data.url;
                   console.log('*****My picture url: ',img);
                   this.platform.ready().then(() => {
-
                     const fileTransfer: FileTransferObject = this.fileTransfer.create();
-              
-                    // const imageLocation = `${cordova.file.applicationDirectory}${img}`;
-                    // this.storage = '${cordova.file.storageDirectory}src/assets/fb_imgs';
-
                     console.log('==>Fb id: ', this.fb_id);
-                    fileTransfer.download(img, this.storageDirectory + this.fb_id + `.jpg`).then((entry) => {
-              
+                    fileTransfer.download(img, this.storageDirectory + this.fb_id + `.jpg`).then((entry) => {             
                       const alertSuccess = this.alertCtrl.create({
-                        title: `Download Succeeded!`,
-                        subTitle: `${img} was successfully downloaded to: ${entry.toURL()}`,
+                        title: `Succeeded!`,
+                        // subTitle: `${img} was successfully downloaded to: ${entry.toURL()}`,
                         buttons: ['Ok']
-                      });
-              
+                      });             
                       alertSuccess.present();
               
                     }, (error) => {
@@ -134,15 +125,13 @@ export class FormPage {
                         title: `Download Failed!`,
                         subTitle: `${img} was not successfully downloaded. Error code: ${error.code}`,
                         buttons: ['Ok']
-                      });
-              
+                      });             
                       alertFailure.present();
               
                     });
               
                   });
           
-    }
       // this.data.fullName= new FormCtrl('',);
       this.valForm1 = formBuilder.group({
         fullName: [null, Validators.required],
@@ -202,42 +191,6 @@ export class FormPage {
 
   }
   
-
-  // downloadImage(image) {
-
-  //   console.log('*****My image: ',image);
-
-  //   this.platform.ready().then(() => {
-
-  //     const fileTransfer: FileTransferObject = this.fileTransfer.create();
-
-  //     const imageLocation = `${cordova.file.applicationDirectory}src/assets/fb_imgs/${image}`;
-
-  //     fileTransfer.download(imageLocation, this.storageDirectory + image).then((entry) => {
-
-  //       const alertSuccess = this.alertCtrl.create({
-  //         title: `Download Succeeded!`,
-  //         subTitle: `${image} was successfully downloaded to: ${entry.toURL()}`,
-  //         buttons: ['Ok']
-  //       });
-
-  //       alertSuccess.present();
-
-  //     }, (error) => {
-
-  //       const alertFailure = this.alertCtrl.create({
-  //         title: `Download Failed!`,
-  //         subTitle: `${image} was not successfully downloaded. Error code: ${error.code}`,
-  //         buttons: ['Ok']
-  //       });
-
-  //       alertFailure.present();
-
-  //     });
-
-  //   });
-
-  // }
 
 
 /**Function get all provinces from biology.db
