@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, ToastController, NavController, NavParams, Platform} from 'ionic-angular';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import {HomePage} from "../home/home";
 import {QuizPage} from "../quiz/quiz";
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
@@ -29,10 +30,14 @@ export class StarterPage {
   responseData : any;
   total_score: any;
   is_leaderboard : boolean;
-  profile: any;
   fbName: any;
   userId: number;
+  fb_id: number;
   appCtrl: any;
+
+  imageURI:any;
+  imageFileName:any;
+  presentToast: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -42,7 +47,10 @@ export class StarterPage {
     private sqlite: SQLite,
     private helpers: HelpersProvider,
     public db: DatabaseProvider,
-    private network: Network
+    private network: Network,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
+    public fileTransfer: FileTransfer
   ) {
 
     platform.ready().then(()=>{
@@ -54,14 +62,11 @@ export class StarterPage {
 
     console.log("localStorage of userData ="+localStorage.getItem("userData"));
     this.userId = JSON.parse(localStorage.getItem("userData")).id;
+    this.fb_id = JSON.parse(localStorage.getItem("userData")).fb_id;
     console.log('UserID',this.userId);
+    
 
-    const fbData = this.navParams.get('fbData');
-    console.log('My fbdata:',fbData);
-                  if(fbData){
-                    this.profile = fbData.picture.data.url;
-                    this.fbName = fbData.name;
-                  }
+    
 
     //******** Sinat *********/
     //  Get total score that user has played
@@ -75,6 +80,36 @@ export class StarterPage {
     this.is_leaderboard = false;
     
   }
+
+
+  // uploadFile() {
+  //   let loader = this.loadingCtrl.create({
+  //     content: "Uploading..."
+  //   });
+  //   loader.present();
+  //   const fileTransfer: FileTransferObject = this.fileTransfer.create();
+  
+  //   let options: FileUploadOptions = {
+  //     fileKey: 'ionicfile',
+  //     fileName: 'ionicfile',
+  //     chunkedMode: false,
+  //     mimeType: "image/jpeg",
+  //     headers: {}
+  //   }
+  
+  //   fileTransfer.upload(this.imageURI, 'http://192.168.0.7:8080/api/uploadImage', options)
+  //     .then((data) => {
+  //     console.log(data+" Uploaded Successfully");
+  //     this.imageFileName = "http://192.168.0.7:8080/static/images/ionicfile.jpg"
+  //     loader.dismiss();
+  //     this.presentToast("Image uploaded successfully");
+  //   }, (err) => {
+  //     console.log(err);
+  //     loader.dismiss();
+  //     this.presentToast(err);
+  //   });
+  // }
+
 
   ionViewDidLoad() {
     console.log('network type = '+this.network.type);

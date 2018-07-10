@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, AlertController, Events } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, LoadingController, NavParams, Platform, AlertController, Events } from 'ionic-angular';
 import { DatabaseProvider } from "../../providers/database/database";
 // import { Http } from '@angular/http';
 
@@ -8,10 +8,11 @@ import { Toast } from '@ionic-native/toast';
 import { WelcomePage } from '../welcome/welcome';
 import { HomePage } from '../home/home';
 import { StarterPage } from '../starter/starter';
-import { FacebookPage } from '../facebook/facebook';
 import { NumberFormatStyle } from '@angular/common';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { FormControl, FormControlName, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
 // Samak imported //
 import { Network } from '@ionic-native/network';
 import { HelpersProvider } from '../../providers/helpers/helpers';
@@ -23,6 +24,8 @@ import { elementEventFullName } from '@angular/core/src/view';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
+
+declare var cordova: any;
 
 @IonicPage()
 @Component({
@@ -50,6 +53,8 @@ export class FormPage {
   valForm2: FormGroup;
   submitAttempt: boolean = false;
 
+  storageDirectory: string = '';
+  storage: string = '';
   picture: any;
   fb_id: number;
 
@@ -59,14 +64,14 @@ export class FormPage {
     public platform: Platform,
     public navParams: NavParams,
     public evts: Events,
-    //public http: Http,
-    //private sqlite: SQLite,
     private toast: Toast,
     public db: DatabaseProvider,
     public fb: Facebook,
     public formBuilder: FormBuilder,
     public network: Network,
-    public helpers: HelpersProvider
+    public helpers: HelpersProvider,
+    public fileTransfer: FileTransfer,
+    public toastCtrl: ToastController
   ) {
    
 
@@ -79,8 +84,60 @@ export class FormPage {
                     this.navParams = fbData;
                     this.fb_id = fbData.id;
                     console.log('My fb id: ',fbData.id);
-                    //this.picture = fbData.picture;
+                    this.picture = fbData.picture;
                   }
+
+                  this.platform.ready().then(() => {
+                    // make sure this is on a device, not an emulation (e.g. chrome tools device mode)
+                    if(!this.platform.is('cordova')) {
+                      return false;
+                    }
+              
+                    if (this.platform.is('ios')) {
+                      this.storageDirectory = cordova.file.documentsDirectory;
+                    }
+                    else if(this.platform.is('android')) {
+                      this.storageDirectory = cordova.file.dataDirectory;
+                    }
+                    else {
+                      // exit otherwise, but you could add further types here e.g. Windows
+                      return false;
+                    }
+                  });
+
+                  const img = this.picture.data.url;
+                  console.log('*****My picture url: ',img);
+                  this.platform.ready().then(() => {
+
+                    const fileTransfer: FileTransferObject = this.fileTransfer.create();
+              
+                    // const imageLocation = `${cordova.file.applicationDirectory}${img}`;
+                    // this.storage = '${cordova.file.storageDirectory}src/assets/fb_imgs';
+
+                    console.log('==>Fb id: ', this.fb_id);
+                    fileTransfer.download(img, this.storageDirectory + this.fb_id + `.jpg`).then((entry) => {
+              
+                      const alertSuccess = this.alertCtrl.create({
+                        title: `Download Succeeded!`,
+                        subTitle: `${img} was successfully downloaded to: ${entry.toURL()}`,
+                        buttons: ['Ok']
+                      });
+              
+                      alertSuccess.present();
+              
+                    }, (error) => {
+              
+                      const alertFailure = this.alertCtrl.create({
+                        title: `Download Failed!`,
+                        subTitle: `${img} was not successfully downloaded. Error code: ${error.code}`,
+                        buttons: ['Ok']
+                      });
+              
+                      alertFailure.present();
+              
+                    });
+              
+                  });
           
      
       // this.data.fullName= new FormCtrl('',);
@@ -141,6 +198,44 @@ export class FormPage {
  
 
   }
+  
+
+  // downloadImage(image) {
+
+  //   console.log('*****My image: ',image);
+
+  //   this.platform.ready().then(() => {
+
+  //     const fileTransfer: FileTransferObject = this.fileTransfer.create();
+
+  //     const imageLocation = `${cordova.file.applicationDirectory}src/assets/fb_imgs/${image}`;
+
+  //     fileTransfer.download(imageLocation, this.storageDirectory + image).then((entry) => {
+
+  //       const alertSuccess = this.alertCtrl.create({
+  //         title: `Download Succeeded!`,
+  //         subTitle: `${image} was successfully downloaded to: ${entry.toURL()}`,
+  //         buttons: ['Ok']
+  //       });
+
+  //       alertSuccess.present();
+
+  //     }, (error) => {
+
+  //       const alertFailure = this.alertCtrl.create({
+  //         title: `Download Failed!`,
+  //         subTitle: `${image} was not successfully downloaded. Error code: ${error.code}`,
+  //         buttons: ['Ok']
+  //       });
+
+  //       alertFailure.present();
+
+  //     });
+
+  //   });
+
+  // }
+
 
 /**Function get all provinces from biology.db
  * 
@@ -194,9 +289,7 @@ export class FormPage {
    */
   getSchools(id){
     console.log(id);
-    this.db.executeSQL(`SELECT * FROM school_lists WHERE district_id=${id}`)
-        // .table("school_lists")
-      
+    this.db.executeSQL(`SELECT * FROM school_lists WHERE district_id=${id}`)  
         .then(res => {
           this.school_lists = [];
         
@@ -221,19 +314,6 @@ export class FormPage {
     this.db.getInstance().then((db: SQLiteObject) => {
 
       db.executeSql('INSERT INTO users(full_name, user_name, password, phone_number, gender, province_pcode, district_dcode, school_id, fb_id) VALUES(?,?,?,?,?,?,?,?,?)', data)
-      // db.executeSql('INSERT INTO users VALUES(?,?,?,?,?,?,?,?)',[this.data.fullName, this.data.userName, this.data.password, this.data.phone, this.data.gender, this.data.province, this.data.district, this.data.school])
-        /* Soriya's Code before insert SynchData function */
-        /* .then(res => {
-            console.log('hello gay!',JSON.stringify(res));
-            console.log("fullName = "+this.data.fullName + "; "+"userName = "+this.data.userName +";"+"password ="+this.data.password +";"+"phone = "+this.data.phone+"; "+"gender = "+this.data.gender+";"+"province="+this.data.province);
-            this.toast.show('Data saved', '5000', 'center').subscribe(
-              toast => {
-                this.navCtrl.push(StarterPage);
-              
-              }
-            );
-        }) */
-
         .then(res => {
           if (this.network.type == "none") {
             console.log('Data Inserted into users!');
@@ -242,7 +322,7 @@ export class FormPage {
           else {
             this.helpers.synchUserRegistrationToServer(["users"],"user_register_or_update_app", 7,StarterPage);
             this.helpers.presentLoadingCustom(2000, "កំពុងបញ្ជូនទិន្នន័យទៅកាន់ម៉ាស៊ីនមេ...");
-            //this.navCtrl.push(StarterPage);
+            
           }
         })
         

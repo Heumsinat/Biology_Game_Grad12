@@ -4,7 +4,6 @@ import { Toast } from '@ionic-native/toast';
 import { FormPage } from '../form/form';
 import { MyApp } from '../../app/app.component';
 import { LoginPage } from '../login/login';
-import { FacebookPage } from '../facebook/facebook';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { HelpersProvider } from '../../providers/helpers/helpers';
 import { StarterPage } from '../starter/starter';

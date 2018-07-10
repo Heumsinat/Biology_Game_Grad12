@@ -13,10 +13,13 @@
 </ion-header> -->
 <ion-content  class="content">
   <div class="profile" > 
-    <!-- <ion-card no-padding> -->
-        <ion-row>
+        <ion-row *ngIf = "fb_id">
           <ion-col col-3 push-9>
-              <!-- assets/img/profile.png -->
+                <img src="file:///data/user/0/kh.org.open.biology12/files/{{fb_id}}.jpg" (click)="GotoProfilePage()"/> 
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf = "!fb_id">
+          <ion-col col-3 push-9>        
                 <img src="assets/img/profile.png" (click)="GotoProfilePage()"/> 
           </ion-col>
         </ion-row>
@@ -25,8 +28,6 @@
             Score: 0{{ total_score }}
           </ion-col>
         </ion-row>
-        
-    <!-- </ion-card> -->
   </div>
   <div class="message " *ngIf="!is_leaderboard">
     <ion-card no-padding>

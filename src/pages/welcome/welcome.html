@@ -64,18 +64,18 @@
 
 <ion-footer >
     <ion-toolbar *ngIf="infoID == 'C1'">
-        <button ion-button clear *ngIf="infoID == 'C1'" class="bicon" (click)="backButtonClick()">
+        <button ion-button float-start clear *ngIf="infoID == 'C1'" class="bicon" (click)="backButtonClick()">
           <ion-icon name="md-arrow-round-back"></ion-icon>
         </button>
-        <button ion-button clear *ngIf="infoID == 'C1'" class="eicon" (click)="exitButtonClick()">
+        <button ion-button float-end clear *ngIf="infoID == 'C1'" class="eicon" (click)="exitButtonClick()">
           <ion-icon name="power"></ion-icon>
         </button>
     </ion-toolbar>
     <ion-toolbar *ngIf="infoID == 'root'" transparent>
-        <button ion-button clear *ngIf="infoID == 'root'" class="eicon" (click)="exitButtonClick()">
+        <button ion-button float-start clear *ngIf="infoID == 'root'" class="eicon" (click)="exitButtonClick()">
             <ion-icon name="power"></ion-icon>
         </button>
-        <button ion-button clear *ngIf="infoID == 'root'" class="content2" (click)="info('C1')" color="blue">About</button>
+        <button ion-button float-end clear *ngIf="infoID == 'root'" class="content2" (click)="info('C1')" color="blue">About</button>
 
     </ion-toolbar>
   </ion-footer>

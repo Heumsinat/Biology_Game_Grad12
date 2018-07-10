@@ -7,7 +7,6 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { FormPage } from "../pages/form/form";
 import { WelcomePage } from '../pages/welcome/welcome';
-import { FacebookPage } from '../pages/facebook/facebook';
 
 import {QuestionPage} from "../pages/question/question";
 import {StarterPage} from "../pages/starter/starter";
