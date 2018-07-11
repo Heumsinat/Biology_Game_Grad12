@@ -20,15 +20,15 @@ import { Network } from '@ionic-native/network';
 })
 export class LeaderboardPage {
 
-  leaderboard: string = "School";
+  leaderboard: string = "លំដាប់ពិន្ទុ";
   user_quizzes: any = [];
   userId : number;
-  user_scores =[];
-  total_scores_national =[];
-  total_scores_province =[];
-  total_scores_district =[];
-  total_scores_school =[];
-  total_scores_fb =[];
+  user_scores = [];
+  total_scores_national = [];
+  total_scores_province = [];
+  total_scores_district = [];
+  total_scores_school = [];
+  total_scores_fb = [];
 
 
   constructor(public navCtrl: NavController, 

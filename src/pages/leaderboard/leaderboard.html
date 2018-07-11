@@ -14,22 +14,22 @@
   <ion-toolbar color="primary" no-border class="scrollable-segments">
     <ion-segment [(ngModel)]="leaderboard">
       <div class="segBtn">
-        <ion-segment-button value="Facebook"  (click)="getScoreLevel(1)">
-          Facebook
+        <ion-segment-button value="{{'facebook' | translate}}"  (click)="getScoreLevel(1)">
+          {{'facebook' | translate}}
         </ion-segment-button>
-        <ion-segment-button value="School"  (click)="getScoreLevel(2)">
-          School
+        <ion-segment-button value="{{'school' | translate}}"  (click)="getScoreLevel(2)">
+          {{'school' | translate}}
         </ion-segment-button>
       </div>
       <div class="segBtn">
-        <ion-segment-button value="National"  (click)="getScoreLevel(3)">
-          National
+        <ion-segment-button value="{{'national' | translate}}"  (click)="getScoreLevel(3)">
+          {{'national' | translate}}
         </ion-segment-button>
-        <ion-segment-button value="Province"  (click)="getScoreLevel(4)">
-          Province
+        <ion-segment-button value="{{'province' | translate}}"  (click)="getScoreLevel(4)">
+          {{'province' | translate}}
         </ion-segment-button>
-        <ion-segment-button value="District" (click)="getScoreLevel(5)">
-          District
+        <ion-segment-button value="{{'district' | translate}}" (click)="getScoreLevel(5)">
+          {{'district' | translate}}
         </ion-segment-button>
       </div>
     </ion-segment>
@@ -44,7 +44,7 @@
               <img style="height:60px;width:60px;" src="assets/img/profile.png">
             </ion-thumbnail>
             <h2>{{user_score.user_name}}</h2>
-            <h1 item-end >ពិន្ទុ : {{user_score.total_score}}</h1>
+            <h1 item-end >{{'score' | translate}} : {{user_score.total_score}}</h1>
           </ion-item>
       </ion-list>
   </div>

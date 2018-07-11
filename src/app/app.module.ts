@@ -26,16 +26,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Facebook  } from '@ionic-native/facebook';
 
 import {NativeAudio} from "@ionic-native/native-audio";
+import { ImagePicker } from '@ionic-native/image-picker';
+import { Base64 } from '@ionic-native/base64';
 import {LessonPage} from "../pages/lesson/lesson";
 import {QuizPage} from "../pages/quiz/quiz";
 import {SectionReviewPage} from "../pages/section-review/section-review";
 import {StarterPage} from "../pages/starter/starter";
 import { HelpersProvider } from '../providers/helpers/helpers';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
 import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 import { ProfilePage } from '../pages/profile/profile';
 import { Network } from '@ionic-native/network';
 
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -64,7 +69,7 @@ import { Network } from '@ionic-native/network';
     TranslateModule.forRoot({
         loader: {
             provide: TranslateLoader,
-            useFactory: (HttpLoaderFactory),
+            useFactory: (createTranslateLoader),
             deps: [HttpClient]
         }
     }),
@@ -99,13 +104,10 @@ import { Network } from '@ionic-native/network';
     Network,
     File,
     FileTransfer,
-    FileTransferObject
-    // TranslateService
+    FileTransferObject,
+    ImagePicker,
+    Base64
     
   ]
 })
 export class AppModule {}
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
-}

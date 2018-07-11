@@ -5,6 +5,7 @@ import { DatabaseProvider } from "../../providers/database/database";
 
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
+import { Base64 } from '@ionic-native/base64';
 import { WelcomePage } from '../welcome/welcome';
 import { HomePage } from '../home/home';
 import { StarterPage } from '../starter/starter';
@@ -72,7 +73,8 @@ export class FormPage {
     public network: Network,
     public helpers: HelpersProvider,
     public fileTransfer: FileTransfer,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    private base64: Base64
   ) {
    
 
@@ -80,6 +82,7 @@ export class FormPage {
      * 
      */
     console.log('data = '+this.navParams.get('data'));
+    //if(!this.is_register){
       const fbData = this.navParams.get('data');
                   if(fbData){
                     this.data.fullName = fbData.name;
@@ -111,7 +114,7 @@ export class FormPage {
                   console.log('*****My picture url: ',img);
                   this.platform.ready().then(() => {
                     const fileTransfer: FileTransferObject = this.fileTransfer.create();
-                    console.log('==>Fb id: ', this.fb_id);
+                    console.log('========>Fb id: ', this.fb_id);
                     fileTransfer.download(img, this.storageDirectory + this.fb_id + `.jpg`).then((entry) => {             
                       const alertSuccess = this.alertCtrl.create({
                         title: `Succeeded!`,
@@ -132,7 +135,15 @@ export class FormPage {
                     });
               
                   });
-          
+
+                  let filePath: string = 'file:///data/user/0/kh.org.open.biology12/files/'+ this.fb_id +'.jpg';
+                  console.log('=========> My filePath: ',filePath);
+                  this.base64.encodeFile(filePath).then((base64File: string) => {
+                    console.log('=========> My base64file: ',base64File);
+                  }, (err) => {
+                    console.log(err);
+                  });
+    //}  
       // this.data.fullName= new FormCtrl('',);
       this.valForm1 = formBuilder.group({
         fullName: [null, Validators.required],
@@ -191,6 +202,8 @@ export class FormPage {
  
 
   }
+
+  
   
 
 
@@ -310,7 +323,7 @@ export class FormPage {
       buttons: [
         {
           text: 'បោះបង់',
-          role: 'calcel'
+          role: 'cancel'
         }, {
           text: 'ចាកចេញ',
           handler: () => {

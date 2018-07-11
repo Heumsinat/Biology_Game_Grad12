@@ -18,29 +18,29 @@
         </ion-row>
         <ion-row>
           <ion-col col-5 push-8>
-            Score: 0{{ total_score }}
+            {{'score' | translate}}: 0{{ total_score }}
           </ion-col>
         </ion-row>
   </div>
   <div class="message " *ngIf="!is_leaderboard">
     <ion-card no-padding>
       <ion-card-content>
-        Today you have <br>
-        {{ day_of_quiz }} questions
+        {{'today you have' | translate}} <br>
+        {{ day_of_quiz }} {{'question' | translate}}
       </ion-card-content>
     </ion-card>
   </div>
   <div class="btnQuiz">
     <button *ngIf="!is_leaderboard" ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToQuiz()">
-      Play
+      {{'play' | translate}}
     </button>
     <button *ngIf="is_leaderboard" ion-button id="btnLeaderboard" class="btn btn-primary btn-lg btn3d"  block color="primary" (click)="gotoLeaderboard()">
-      Leaderboard
+      {{'leaderboad' | translate}}
     </button>
   </div>
   <div class="btnReview">
     <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToHomePage()">
-      Review
+      {{'review' | translate}}
     </button>
   </div>
 </ion-content>
@@ -51,7 +51,7 @@
       <ion-icon name="power"></ion-icon>
     </button>
     <button ion-button clear float-end (click)="aboutButtonClick()">
-      About
+      {{'about' | translate}}
     </button>
   </div>
 </ion-footer>
