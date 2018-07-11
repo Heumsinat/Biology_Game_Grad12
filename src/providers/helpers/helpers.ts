@@ -65,7 +65,7 @@ export class HelpersProvider {
     // * Param2: noOfCols: no. of columns to be retrieved //
     // * Return: Promise of JSON DATA to be sent to Server.
 
-    retrieveDBSchemaHelper(listOfTable:string[], noOfCols: number){
+    retrieveDBSchemaHelper(listOfTable:string[], noOfCols: number, isUpdate: boolean){
       var data_return = [];
       var _data = {};
       var self = this;
@@ -94,7 +94,11 @@ export class HelpersProvider {
                   index_colName++;
               }
               if(tableName === 'users')
-                 colNames.push("update");
+              {
+                colNames.push("update");
+                colNames.push("photo");
+              }
+                 
   
               callback(null, colNames);
               } catch (err) {
@@ -105,12 +109,20 @@ export class HelpersProvider {
           subTasks.push(async function(colNames, callback) {
               console.log('colNames: ' + JSON.stringify(colNames));
               console.log('tableName: ' + JSON.stringify(tableName));
+              var sql ='SELECT * FROM '+ tableName + ' where isSent=?';
+              var valCondition = 0;
+              if(isUpdate)
+              {
+                sql ='SELECT * FROM '+ tableName + ' where user_id=?';
+                valCondition = JSON.parse(localStorage.getItem('userData')).id;
+              }
               try {
               var db = await self.sqlite.create({
                   name: 'biology.db',
                   location: 'default'
               });
-              var resOfflineRecords = await db.executeSql('SELECT * FROM '+ tableName + ' where isSent=?',[0])
+              console.log('sql select date = '+sql + ' valCon = '+ valCondition + ' ; ls = '+localStorage.getItem('userData'));
+              var resOfflineRecords = await db.executeSql(sql,[valCondition])
               console.log('resOfflineRecords: ' + JSON.stringify(resOfflineRecords));
               for (let i = 0; i < resOfflineRecords.rows.length; i++) {
                 var valFromTable = [];
@@ -142,8 +154,18 @@ export class HelpersProvider {
                     // Construct JSON string with key (column name)/value (offline data) pair //
                     col = colNames[j];
                     obj[col] = valFromTable[j];
-                    if(tableName==="users" && colNames[j] === "update" )
-                      obj[col] = "";
+                    if(tableName==="users" && colNames[j] === "update")
+                    {
+                      if(isUpdate) obj[col] = "1";
+                      else obj[col] = "";
+                    }
+
+                    if(tableName==="users" && colNames[j] === "photo")
+                    {
+                      if(isUpdate) obj[col] = "";
+                      else obj[col] = "xx";
+                    }
+                      
                   }
                   
                   
@@ -189,11 +211,11 @@ export class HelpersProvider {
     // * Param3: noOfColsInSynch => No. of columns to be retrieved from table* //
     // * Param4: goToPage => Page to be pushed to after all processes done * //
     
-    synchUserQuizeToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, redirect: boolean, goToPage: Page) {
+    synchUserQuizeToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, redirect: boolean, goToPage: Page, isUpdate:boolean) {
       
       var self = this;
       //this.retrieveDBSchema(listOfTable)
-      self.retrieveDBSchemaHelper(listOfTable,noOfColsInSynch)
+      self.retrieveDBSchemaHelper(listOfTable,noOfColsInSynch,isUpdate)
         .then(function(value) {
           // self.postData(value,"insert_user_quiz_app").then((result) => {
           self.postData(value,apiAddress).then((result) => {
@@ -235,13 +257,14 @@ export class HelpersProvider {
     // * Param2: apiAddress => URL Address of Server's API* //
     // * Param3: noOfColsInSynch => No. of columns to be retrieved from table* //
     
-    synchUserRegistrationToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, pushTo: Page) {
+    synchUserRegistrationToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, pushTo: Page, isUpdate: boolean) {
       
       var self = this;
       //this.retrieveDBSchema(listOfTable)
-      self.retrieveDBSchemaHelper(listOfTable,noOfColsInSynch)
+      self.retrieveDBSchemaHelper(listOfTable,noOfColsInSynch,isUpdate)
         .then(function(value) {
-          // self.postData(value,"insert_user_quiz_app").then((result) => {
+          console.log('value to be sent:');
+          console.log(value);
           self.postData(value,apiAddress).then((result) => {
             //self.responseData = result;
             if(JSON.parse(result["code"])==200) 
@@ -250,7 +273,9 @@ export class HelpersProvider {
               localStorage.setItem('userData',JSON.stringify(result["inserted_user"]));
               
               // If data is synch successfully, update isSent=1 //
-              self.updateIsSentColumn(listOfTable);
+              //self.updateIsSentColumn(listOfTable);
+              console.log(result["inserted_user"]);
+              self.updateUserIdOffline(result["inserted_user"].user_id);
               console.log("Data Inserted Successfully for "+listOfTable);
               self.appCtrl.getActiveNav().push(pushTo);
             }
@@ -291,6 +316,23 @@ export class HelpersProvider {
           })
           .catch(e => console.log(e));
         }
+      })
+    }
+
+    // *** Creator: Samak @11-05-2018 *** //
+    // * Function to update user_id after data has been synchronized into server * //
+    // * Param1: userID => User_Id that gets from Server * //
+  
+    updateUserIdOffline(userID: string){
+      this.sqlite.create({
+        name: 'biology.db',
+        location: 'default'
+      }).then((db: SQLiteObject)  => {
+          db.executeSql('UPDATE users SET user_id=?,isSent=? WHERE isSent=0', [userID,1])
+          .then( res => {
+            console.log('Data Updated in updateUserIdOffline');
+          })
+          .catch(e => console.log(e));
       })
     }
 

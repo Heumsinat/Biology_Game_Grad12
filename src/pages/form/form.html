@@ -50,7 +50,7 @@
             </div>
             
 
-            <ion-item class="form1">
+            <ion-item class="form1" [hidden]="">
               <ion-label>បង្កើតពាក្យសម្ងាត់</ion-label>
               <ion-input [class.invalid]="!valForm1.controls.password.valid && valForm1.controls.password.dirty" formControlName="password" type="password" [(ngModel)]="data.password" name="password"></ion-input>
             </ion-item>

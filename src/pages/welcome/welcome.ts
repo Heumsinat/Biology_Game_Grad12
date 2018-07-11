@@ -125,7 +125,7 @@ export class WelcomePage {
                         break;
                       case 0: // num_q in Server is less than, send the rest of records and last_date to Server
                         var objOrderQuestion = resultUserQuizz["data"];
-                        this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,true,StarterPage);
+                        this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,true,StarterPage,false);
                         console.log("Updated isSent=1 in user_quizzes table.");
                         break;
                       case 2: // num_q in Server is greater than, update user_quizzes by adding the returned records
@@ -187,6 +187,7 @@ export class WelcomePage {
   public createForm() {
     if(this.network.type != 'none')
     {
+      // {data: 1} => means register with user name
       this.navCtrl.push(FormPage,{ data: 1 });
     }
     else

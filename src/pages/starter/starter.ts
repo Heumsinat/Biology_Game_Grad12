@@ -121,7 +121,7 @@ export class StarterPage {
       this.helpers.getCurrentQID(this.userId);
       console.log('Current QID in starter localstorage ='+localStorage.getItem('currentQID'));
       this.requestToUpdateOrderQuestions();
-      this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,false, StarterPage);
+      this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,false, StarterPage, false);
       this.calculateRemainingNoOfQuestionToday();
     }
     // Watch Internet connect when it is connected, do... //
@@ -134,7 +134,7 @@ export class StarterPage {
         console.log('ionViewDidLoad StarterPage');
         this.requestToGetSettings();
         this.requestToUpdateOrderQuestions();
-        this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,false, StarterPage);
+        this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,false, StarterPage, false);
         this.calculateRemainingNoOfQuestionToday();
         connectSubscription.unsubscribe();
       }, 0);

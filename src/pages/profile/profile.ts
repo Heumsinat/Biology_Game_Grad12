@@ -34,7 +34,7 @@ export class ProfilePage {
   ) {
     // To display score =0 instead of null, otherwise display real number
     var score = localStorage.getItem('Score');
-    if(score == null) this.total_score = 0;
+    if(score == "null") this.total_score = 0;
     else this.total_score = localStorage.getItem('Score');
     this.user_data = JSON.parse(localStorage.getItem('userData'));
     console.log("user_data = "+JSON.stringify(this.user_data));
@@ -89,7 +89,7 @@ export class ProfilePage {
     this.dbProvider.executeSQL(`SELECT school_name FROM school_lists WHERE school_id=${school_id}`)
         .then(res => {
           for (var i = 0; i<res.rows.length; i++){
-            this.school_name = res.rows.item(i).school_name
+            this.school_name = res.rows.item(i).school_name;
           }    
         }).catch(e => console.log(e));
   }
@@ -98,7 +98,8 @@ export class ProfilePage {
   public editProfile() {
     if(this.network.type != 'none')
     {
-      this.navCtrl.push(FormPage);
+      // {data: 2} => means updating user register
+      this.navCtrl.push(FormPage, {data:2});
     }
     else
     {
