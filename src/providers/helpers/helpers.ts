@@ -7,6 +7,7 @@ import { ToastController, LoadingController, App} from 'ionic-angular';
 import { Page } from 'ionic-angular/navigation/nav-util';
 import { StarterPage } from '../../pages/starter/starter';
 import { DatabaseProvider } from '../database/database';
+import { Base64 } from '@ionic-native/base64';
 
 let apiUrl = "http://biology.open.org.kh/api/";
 
@@ -24,7 +25,8 @@ export class HelpersProvider {
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     public appCtrl : App,
-  public dbProvider: DatabaseProvider) {
+    public dbProvider: DatabaseProvider,
+    public base64: Base64) {
     console.log('Hello HelpersProvider Provider');
   }
 
@@ -74,120 +76,136 @@ export class HelpersProvider {
       var pro = new Promise(function(resolve, reject) {
           for (var tableName of listOfTable) {
               console.log('tableName = '+tableName);
-          var subTasks = [];
-          _data[tableName] = [];
+              var subTasks = [];
+              _data[tableName] = [];
+              
+              subTasks.push(async function(callback) {
+      
+                  try {
+                  var db = await self.sqlite.create({
+                      name: 'biology.db',
+                      location: 'default'
+                  });
           
-          subTasks.push(async function(callback) {
-  
-              try {
-              var db = await self.sqlite.create({
-                  name: 'biology.db',
-                  location: 'default'
-              });
-      
-              var resColNames = await db.executeSql("PRAGMA table_info('"+ tableName +"')",{});
-              var colNames = [];
-              // colNames: ["full_name","user_name","password","phone_number","gender","province_pcode","district_dcode","school_id"]
-              var index_colName =0;
-              for (let index = 1; index <= noOfCols; index++) {
-                  colNames[index_colName]=resColNames.rows.item(index).name;
-                  index_colName++;
-              }
-              if(tableName === 'users')
-              {
-                colNames.push("update");
-                colNames.push("photo");
-              }
-                 
-  
-              callback(null, colNames);
-              } catch (err) {
-              console.log(err);
-              }
-          });
-      
-          subTasks.push(async function(colNames, callback) {
-              console.log('colNames: ' + JSON.stringify(colNames));
-              console.log('tableName: ' + JSON.stringify(tableName));
-              var sql ='SELECT * FROM '+ tableName + ' where isSent=?';
-              var valCondition = 0;
-              if(isUpdate)
-              {
-                sql ='SELECT * FROM '+ tableName + ' where user_id=?';
-                valCondition = JSON.parse(localStorage.getItem('userData')).id;
-              }
-              try {
-              var db = await self.sqlite.create({
-                  name: 'biology.db',
-                  location: 'default'
-              });
-              console.log('sql select date = '+sql + ' valCon = '+ valCondition + ' ; ls = '+localStorage.getItem('userData'));
-              var resOfflineRecords = await db.executeSql(sql,[valCondition])
-              console.log('resOfflineRecords: ' + JSON.stringify(resOfflineRecords));
-              for (let i = 0; i < resOfflineRecords.rows.length; i++) {
-                var valFromTable = [];
-                  var eachData = resOfflineRecords.rows.item(i);
-                  console.log("test eachData in helpers: "+eachData);
-                  if(tableName==="users")
-                  {
-                    valFromTable = [eachData.full_name,
-                    eachData.user_name,
-                    eachData.password,
-                    eachData.phone_number,
-                    eachData.gender,
-                    eachData.school_id,
-                    eachData.fb_id];
+                  var resColNames = await db.executeSql("PRAGMA table_info('"+ tableName +"')",{});
+                  var colNames = [];
+                  // colNames: ["full_name","user_name","password","phone_number","gender","province_pcode","district_dcode","school_id"]
+                  var index_colName =0;
+                  for (let index = 1; index <= noOfCols; index++) {
+                      colNames[index_colName]=resColNames.rows.item(index).name;
+                      index_colName++;
                   }
-                  else if(tableName==="user_quizzes")
+                  if(tableName === 'users')
                   {
-                  // Retrieve All Columns Name From table user_quizzes //
-                    valFromTable = [eachData.user_id,
-                    eachData.question_id,
-                    eachData.user_ans_id,
-                    eachData.ans_correct,
-                    eachData.score,
-                    eachData.created_at];
+                    colNames.push("update");
+                    colNames.push("photo");
                   }
-                  var col = null;
-                  var obj = {};
-                  for (let j = 0; j < colNames.length; j++) {
-                    // Construct JSON string with key (column name)/value (offline data) pair //
-                    col = colNames[j];
-                    obj[col] = valFromTable[j];
-                    if(tableName==="users" && colNames[j] === "update")
-                    {
-                      if(isUpdate) obj[col] = "1";
-                      else obj[col] = "";
-                    }
+                    
+      
+                  callback(null, colNames);
+                  } catch (err) {
+                  console.log(err);
+                  }
+              });
+          
+              subTasks.push(async function(colNames, callback) {
+                  console.log('colNames: ' + JSON.stringify(colNames));
+                  console.log('tableName: ' + JSON.stringify(tableName));
 
-                    if(tableName==="users" && colNames[j] === "photo")
-                    {
-                      if(isUpdate) obj[col] = "";
-                      else obj[col] = "xx";
-                    }
-                      
+                  var sql ='SELECT * FROM '+ tableName + ' where isSent=?';
+                  var valCondition = 0;
+                  var user_info = JSON.parse(localStorage.getItem('userData'));
+
+                  if (isUpdate) {
+                    sql ='SELECT * FROM '+ tableName + ' where user_id=?';
+                    valCondition = user_info.id;
                   }
                   
-                  
-                  _data[tableName].push(obj);
-                  console.log('_data = ' + JSON.stringify(_data));
-              }
-              callback(null, _data);
-              } catch (err) {
-              console.error(err);
-              }
-          });
-      
-          asyncTasks.push(function(callback) {
-              async.waterfall(subTasks, (err, data) => {
-              if (err) {
-                  console.error(err);
-              } else {
-                  data_return.push(data);
-                  callback(null);
-              }
+                  try {
+                      var db = await self.sqlite.create({
+                          name: 'biology.db',
+                          location: 'default'
+                      });
+                      
+                      console.log('sql select data = '+sql + ' valCon = '+ valCondition + ' ; ls = '+localStorage.getItem('userData'));
+
+                      var resOfflineRecords = await db.executeSql(sql,[valCondition]);
+
+                      console.log('resOfflineRecords: ' + JSON.stringify(resOfflineRecords));
+
+                      for (let i = 0; i < resOfflineRecords.rows.length; i++) {
+                          var valFromTable = [];
+                          var eachData = resOfflineRecords.rows.item(i)
+
+                          console.log("test eachData in helpers: ");
+                          console.log(eachData);
+                          console.log(eachData.fb_id);
+                          
+                          if(tableName==="users") {
+                            valFromTable = [eachData.full_name,
+                            eachData.user_name,
+                            eachData.password,
+                            eachData.phone_number,
+                            eachData.gender,
+                            eachData.school_id,
+                            eachData.fb_id];
+                            
+                          } else if (tableName==="user_quizzes") {
+                          // Retrieve All Columns Name From table user_quizzes //
+                            valFromTable = [eachData.user_id,
+                            eachData.question_id,
+                            eachData.user_ans_id,
+                            eachData.ans_correct,
+                            eachData.score,
+                            eachData.created_at];
+                          }
+
+                          var col = null;
+                          var obj = {};
+
+                          for (let j = 0; j < colNames.length; j++) {
+                            // Construct JSON string with key (column name)/value (offline data) pair //
+                            col = colNames[j];
+                            obj[col] = valFromTable[j];
+
+                            if (tableName==="users" && colNames[j] === "update") {
+                              obj[col] = (isUpdate) ? "1" : "";
+                            } else if (tableName==="users" && colNames[j] === "photo") {
+                              console.log("isUpdate ="+isUpdate);
+
+                              if (isUpdate) {
+                                obj[col] = ""; // => no need to update picture profile, so set it to be blank.
+                              } else { // => if insert new, and facebook id is exist, get picture profile for sending to server.
+                              
+                                if (eachData.fb_id != null)  {
+                                  let filePath: string = 'file:///data/user/0/kh.org.open.biology12/files/'+ eachData.fb_id +'.jpg';
+                                  let base64File = await self.base64.encodeFile(filePath);
+                                  obj[col] = base64File;
+                                  console.log(obj[col]);
+                                }   
+                              }
+                            }
+                          }
+                          
+                          _data[tableName].push(obj);
+                          console.log('_data = ' + JSON.stringify(_data));
+                      }
+                      callback(null, _data);
+                  } catch (err) {
+                      console.error(err);
+                  }
               });
-          });
+          
+              asyncTasks.push(function(callback) {
+                  async.waterfall(subTasks, (err, data) => {
+                  if (err) {
+                      console.error(err);
+                  } else {
+                      data_return.push(data);
+                      callback(null);
+                  }
+                  });
+              });
           }
       
           async.series(asyncTasks, function(err, data) {
@@ -269,13 +287,18 @@ export class HelpersProvider {
             //self.responseData = result;
             if(JSON.parse(result["code"])==200) 
             {
-              console.log("API ="+apiAddress);
-              localStorage.setItem('userData',JSON.stringify(result["inserted_user"]));
+              console.log("API ="+apiAddress +' and isUpdate = '+isUpdate);
+              
               
               // If data is synch successfully, update isSent=1 //
               //self.updateIsSentColumn(listOfTable);
               console.log(result["inserted_user"]);
-              self.updateUserIdOffline(result["inserted_user"].user_id);
+              localStorage.setItem('userData',JSON.stringify(result["inserted_user"]));
+              if (isUpdate == false) {
+                self.updateUserIdOffline(result["inserted_user"].id);
+                  
+              }
+              // else self.updateIsSentColumn(listOfTable);
               console.log("Data Inserted Successfully for "+listOfTable);
               self.appCtrl.getActiveNav().push(pushTo);
             }
@@ -330,7 +353,7 @@ export class HelpersProvider {
       }).then((db: SQLiteObject)  => {
           db.executeSql('UPDATE users SET user_id=?,isSent=? WHERE isSent=0', [userID,1])
           .then( res => {
-            console.log('Data Updated in updateUserIdOffline');
+            console.log('Data Updated in updateUserIdOffline to '+userID);
           })
           .catch(e => console.log(e));
       })

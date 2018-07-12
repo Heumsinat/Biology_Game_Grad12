@@ -23,7 +23,15 @@ export class MyApp {
   rootPage:any = WelcomePage;
 
 
-  constructor(private translate: TranslateService, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(
+    private translate: TranslateService, 
+    platform: Platform, 
+    statusBar: StatusBar, 
+    splashScreen: SplashScreen
+  ) {
+    this.translate.setDefaultLang("km");
+    this.translate.use("km");
+    
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -48,15 +56,13 @@ export class MyApp {
   }
 
   initTranslate() {
-    // Set the default language for translation strings, and the current language.
-    this.translate.setDefaultLang('en');
 
 
-    if (this.translate.getBrowserLang() !== undefined) {
-        this.translate.use(this.translate.getBrowserLang());
-    } else {
-        this.translate.use('kh'); // Set your language here
-    }
+    // if (this.translate.getBrowserLang() !== undefined) {
+    //     this.translate.use(this.translate.getBrowserLang());
+    // } else {
+    //     this.translate.use('kh'); // Set your language here
+    // }
 
   }
 }

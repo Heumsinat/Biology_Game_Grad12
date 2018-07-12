@@ -11,7 +11,6 @@ import { StarterPage } from '../starter/starter';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { DatabaseProvider } from '../../providers/database/database';
 import { Network } from '@ionic-native/network';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 /**
  * Generated class for the WelcomePage page.
  *
@@ -38,7 +37,6 @@ export class WelcomePage {
     private toast: Toast,
     public helpers: HelpersProvider,
     private sqlite: SQLite,
-    public translate: TranslateService,
     public databaseProvider : DatabaseProvider,
     public network: Network
   ) {
@@ -48,10 +46,10 @@ export class WelcomePage {
 
   }
 
-  public changeLanguage(language)
-  {
-    this.translate.use(language);
-  }
+  // public changeLanguage(language:any)
+  // {
+  //   this.translate.use(language);
+  // }
 
   /*Function connect to facebook users*/
 

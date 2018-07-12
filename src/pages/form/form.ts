@@ -5,6 +5,7 @@ import { DatabaseProvider } from "../../providers/database/database";
 
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
+import { Base64 } from '@ionic-native/base64';
 import { WelcomePage } from '../welcome/welcome';
 import { HomePage } from '../home/home';
 import { StarterPage } from '../starter/starter';
@@ -56,7 +57,7 @@ export class FormPage {
   storageDirectory: string = '';
   storage: string = '';
   picture: any;
-  fb_id: number;
+  fb_id: any;
   provinceName: any;
   fbData: any;
 
@@ -73,7 +74,8 @@ export class FormPage {
     public network: Network,
     public helpers: HelpersProvider,
     public fileTransfer: FileTransfer,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    private base64: Base64
   ) {
    
 
@@ -127,6 +129,14 @@ export class FormPage {
               buttons: ['Ok']
             });             
             alertFailure.present();
+            // To convert picture to based 64 //
+           /*  let filePath: string = 'file:///data/user/0/kh.org.open.biology12/files/'+ this.fb_id +'.jpg';
+            console.log('=========> My filePath: ',filePath);
+            this.base64.encodeFile(filePath).then((base64File: string) => {
+              console.log('=========> My base64file: ',base64File);
+            }, (err) => {
+              console.log(err);
+            }); */
     
           });
     
@@ -154,7 +164,6 @@ export class FormPage {
         //this.getDistrictName(userDetail.school_id);
         console.log("this.date = ");
         console.log(this.data);
-        console.log(this.districts);
 
       }
 
@@ -218,6 +227,8 @@ export class FormPage {
   ionViewDidEnter(){
 
   }
+
+  
   
   getProvinceName(school_id)
   {
@@ -317,12 +328,14 @@ export class FormPage {
   onFinish() { 
     var sqlStr ='INSERT INTO users(full_name, user_name, password, phone_number, gender, province_pcode, district_dcode, school_id, fb_id) VALUES(?,?,?,?,?,?,?,?,?)';
     let data = [this.data.fullName,this.data.userName,this.data.password,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school,this.fb_id];
+    console.log('data to be inserted = ');
+    console.log(data);
     var isUpdateProfile = false;
     // To update old user
     if(this.fbData==2)
     {
-      sqlStr ='UPDATE users SET full_name=?, user_name=?, phone_number=?, gender=?, province_pcode=?, district_dcode=?, school_id=?, fb_id=? WHERE user_id=?';
-      data = [this.data.fullName,this.data.userName,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school,this.fb_id, JSON.parse(localStorage.getItem('userData')).user_id];
+      sqlStr ='UPDATE users SET full_name=?, user_name=?, phone_number=?, gender=?, province_pcode=?, district_dcode=?, school_id=? WHERE user_id=?';
+      data = [this.data.fullName,this.data.userName,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school,JSON.parse(localStorage.getItem('userData')).id];
       isUpdateProfile = true;
     }
     console.log('sqlStr = '+sqlStr);
@@ -369,7 +382,7 @@ export class FormPage {
       buttons: [
         {
           text: 'បោះបង់',
-          role: 'calcel'
+          role: 'cancel'
         }, {
           text: 'ចាកចេញ',
           handler: () => {

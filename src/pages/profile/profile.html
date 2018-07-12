@@ -49,7 +49,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Your Profile
+        {{'yourProfile' | translate}}
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -61,14 +61,20 @@
     </div>
     <div class="profileLabel">
       <h3>{{user_data.full_name}}</h3>
-      <span>Score: {{total_score}}</span>
+      <span>{{'score' | translate}}: {{total_score}}</span>
     </div>
 
-   <div style="margin:0 auto;display:block;text-align:center"> 
+   <div style="margin:0 auto;display:block;text-align:center; padding-bottom: 30px;"> 
       <button icon-start ion-button round (click)=editProfile()>
           <ion-icon name="md-create"></ion-icon>
-          Edit Profile
+          {{'editProfile' | translate}}
         </button>
    </div>
+   <div>
+      <div class="profile-detail"><span>{{'userName' | translate}}: {{user_data.full_name}}</span></div>
+      <div class="profile-detail"><span>{{'gender' | translate}}: {{gender}}</span></div>
+      <div class="profile-detail"><span>{{'phone' | translate}}: {{user_data.phone_number}}</span></div>
+      <div class="profile-detail"><span>{{'school' | translate}}: {{school_name}}</span></div>
+</div>
   </div>
 </ion-content>

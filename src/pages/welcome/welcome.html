@@ -13,25 +13,25 @@
 </ion-header>
 
 <ion-content xela class="background-img">
-  <!-- <div>
+  <div>
     </div>
-    <h2 translate>demo.title</h2>
+    
 
-    <button ion-button (click)="changeLanguage('kh')">{{ 'demo.khmer' | translate }}</button>
-    <button ion-button (click)="changeLanguage('en')">{{ 'demo.english' | translate }}</button>
-   -->
+    <!-- <button ion-button (click)="changeLanguage('km')">{{ 'submit' | translate }}</button>
+    <button ion-button (click)="changeLanguage('en')">{{ 'submit' | translate }}</button> -->
+  
 
     <ion-grid *ngIf="infoID == 'root'">
-    
+        <!-- <h1>{{"hello-world" | translate}}</h1> -->
         <div padding id="btn1">
-          <button class="btn btn-primary btn-lg btn3d" (click)="fbForm()"><ion-icon class="ficon" name="logo-facebook"></ion-icon>Facebook</button>
+          <button class="btn btn-primary btn-lg btn3d" (click)="fbForm()"><ion-icon class="ficon" name="logo-facebook"></ion-icon>{{'facebook' | translate}}</button>
           
         </div>
         <div padding id="btn2">
-          <button class="btn btn-primary btn-lg btn3d" (click)="createForm()">Register</button>
+          <button class="btn btn-primary btn-lg btn3d" (click)="createForm()">{{'register' | translate}}</button>
         </div>
           
-        <ion-label class="content1" (click)="login()">Log In</ion-label>
+        <ion-label class="content1" (click)="login()">{{'log in' | translate}}</ion-label>
 
     </ion-grid>
 
@@ -82,7 +82,7 @@
         <button ion-button float-start clear *ngIf="infoID == 'root'" class="eicon" (click)="exitButtonClick()">
             <ion-icon name="power"></ion-icon>
         </button>
-        <button ion-button float-end clear *ngIf="infoID == 'root'" class="content2" (click)="info('C1')" color="blue">About</button>
+        <button ion-button float-end clear *ngIf="infoID == 'root'" class="content2" (click)="info('C1')" color="blue">{{'about' | translate}}</button>
 
     </ion-toolbar>
   </ion-footer>
