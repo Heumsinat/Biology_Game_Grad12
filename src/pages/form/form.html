@@ -35,7 +35,7 @@
               
             </div>
 
-            <ion-item class="form1">
+            <ion-item class="form1" [hidden]="fbData==2">
               <ion-label>{{'userName' | translate}}</ion-label>
               <ion-input [class.invalid]="!valForm1.controls.userName.valid && valForm1.controls.userName.dirty" formControlName="userName" type="text" [(ngModel)]="data.userName" name="userName"></ion-input>
 
@@ -49,7 +49,7 @@
             </div>
             
 
-            <ion-item class="form1">
+            <ion-item class="form1" [hidden]="fbData==2">
               <ion-label>{{'password' | translate}}</ion-label>
               <ion-input [class.invalid]="!valForm1.controls.password.valid && valForm1.controls.password.dirty" formControlName="password" type="password" [(ngModel)]="data.password" name="password"></ion-input>
             </ion-item>

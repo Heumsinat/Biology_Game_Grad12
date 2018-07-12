@@ -1,4 +1,4 @@
-<html ng-app="ionic.example">
+<!-- <html ng-app="ionic.example">
   <head>
     <meta charset="utf-8">
     <title>Profile</title>
@@ -15,11 +15,11 @@
       <h1 class="title" id="profile-title">YOUR PROFILE</h1>
       <button class="button button-icon"><i class="icon-gear-b"></i></button>
     </div>
-    <!-- <ion-header  id="profile-title" >
+    <ion-header  id="profile-title" >
       <ion-navbar>
         <ion-title><h1 class="title" id="profile-title">YOUR PROFILE</h1></ion-title>
       </ion-navbar>
-    </ion-header> -->
+    </ion-header>
     
     <ion-content has-header="true">
       <div id="profile-bg"></div>
@@ -44,4 +44,37 @@
     </ion-content>
     
   </body>
-</html>
+</html> -->
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+        {{'yourProfile' | translate}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="imageProfile">
+    <div class="profileAvatar">
+      <img src="{{pic_path}}">
+    </div>
+    <div class="profileLabel">
+      <h3>{{user_data.full_name}}</h3>
+      <span>{{'score' | translate}}: {{total_score}}</span>
+    </div>
+
+   <div style="margin:0 auto;display:block;text-align:center; padding-bottom: 30px;"> 
+      <button icon-start ion-button round (click)=editProfile()>
+          <ion-icon name="md-create"></ion-icon>
+          {{'editProfile' | translate}}
+        </button>
+   </div>
+   <div>
+      <div class="profile-detail"><span>{{'userName' | translate}}: {{user_data.full_name}}</span></div>
+      <div class="profile-detail"><span>{{'gender' | translate}}: {{gender}}</span></div>
+      <div class="profile-detail"><span>{{'phone' | translate}}: {{user_data.phone_number}}</span></div>
+      <div class="profile-detail"><span>{{'school' | translate}}: {{school_name}}</span></div>
+</div>
+  </div>
+</ion-content>

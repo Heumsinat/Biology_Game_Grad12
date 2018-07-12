@@ -7,6 +7,7 @@ import { ToastController, LoadingController, App} from 'ionic-angular';
 import { Page } from 'ionic-angular/navigation/nav-util';
 import { StarterPage } from '../../pages/starter/starter';
 import { DatabaseProvider } from '../database/database';
+import { Base64 } from '@ionic-native/base64';
 
 let apiUrl = "http://biology.open.org.kh/api/";
 
@@ -24,7 +25,8 @@ export class HelpersProvider {
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     public appCtrl : App,
-  public dbProvider: DatabaseProvider) {
+    public dbProvider: DatabaseProvider,
+    public base64: Base64) {
     console.log('Hello HelpersProvider Provider');
   }
 
@@ -65,7 +67,7 @@ export class HelpersProvider {
     // * Param2: noOfCols: no. of columns to be retrieved //
     // * Return: Promise of JSON DATA to be sent to Server.
 
-    retrieveDBSchemaHelper(listOfTable:string[], noOfCols: number){
+    retrieveDBSchemaHelper(listOfTable:string[], noOfCols: number, isUpdate: boolean){
       var data_return = [];
       var _data = {};
       var self = this;
@@ -74,98 +76,136 @@ export class HelpersProvider {
       var pro = new Promise(function(resolve, reject) {
           for (var tableName of listOfTable) {
               console.log('tableName = '+tableName);
-          var subTasks = [];
-          _data[tableName] = [];
+              var subTasks = [];
+              _data[tableName] = [];
+              
+              subTasks.push(async function(callback) {
+      
+                  try {
+                  var db = await self.sqlite.create({
+                      name: 'biology.db',
+                      location: 'default'
+                  });
           
-          subTasks.push(async function(callback) {
-  
-              try {
-              var db = await self.sqlite.create({
-                  name: 'biology.db',
-                  location: 'default'
-              });
-      
-              var resColNames = await db.executeSql("PRAGMA table_info('"+ tableName +"')",{});
-              var colNames = [];
-              // colNames: ["full_name","user_name","password","phone_number","gender","province_pcode","district_dcode","school_id"]
-              var index_colName =0;
-              for (let index = 1; index <= noOfCols; index++) {
-                  colNames[index_colName]=resColNames.rows.item(index).name;
-                  index_colName++;
-              }
-              if(tableName === 'users')
-                 colNames.push("update");
-  
-              callback(null, colNames);
-              } catch (err) {
-              console.log(err);
-              }
-          });
-      
-          subTasks.push(async function(colNames, callback) {
-              console.log('colNames: ' + JSON.stringify(colNames));
-              console.log('tableName: ' + JSON.stringify(tableName));
-              try {
-              var db = await self.sqlite.create({
-                  name: 'biology.db',
-                  location: 'default'
-              });
-              var resOfflineRecords = await db.executeSql('SELECT * FROM '+ tableName + ' where isSent=?',[0])
-              console.log('resOfflineRecords: ' + JSON.stringify(resOfflineRecords));
-              for (let i = 0; i < resOfflineRecords.rows.length; i++) {
-                var valFromTable = [];
-                  var eachData = resOfflineRecords.rows.item(i);
-                  console.log("test eachData in helpers: "+eachData);
-                  if(tableName==="users")
-                  {
-                    valFromTable = [eachData.full_name,
-                    eachData.user_name,
-                    eachData.password,
-                    eachData.phone_number,
-                    eachData.gender,
-                    eachData.school_id,
-                    eachData.fb_id];
+                  var resColNames = await db.executeSql("PRAGMA table_info('"+ tableName +"')",{});
+                  var colNames = [];
+                  // colNames: ["full_name","user_name","password","phone_number","gender","province_pcode","district_dcode","school_id"]
+                  var index_colName =0;
+                  for (let index = 1; index <= noOfCols; index++) {
+                      colNames[index_colName]=resColNames.rows.item(index).name;
+                      index_colName++;
                   }
-                  else if(tableName==="user_quizzes")
+                  if(tableName === 'users')
                   {
-                  // Retrieve All Columns Name From table user_quizzes //
-                    valFromTable = [eachData.user_id,
-                    eachData.question_id,
-                    eachData.user_ans_id,
-                    eachData.ans_correct,
-                    eachData.score,
-                    eachData.created_at];
+                    colNames.push("update");
+                    colNames.push("photo");
                   }
-                  var col = null;
-                  var obj = {};
-                  for (let j = 0; j < colNames.length; j++) {
-                    // Construct JSON string with key (column name)/value (offline data) pair //
-                    col = colNames[j];
-                    obj[col] = valFromTable[j];
-                    if(tableName==="users" && colNames[j] === "update" )
-                      obj[col] = "";
+                    
+      
+                  callback(null, colNames);
+                  } catch (err) {
+                  console.log(err);
+                  }
+              });
+          
+              subTasks.push(async function(colNames, callback) {
+                  console.log('colNames: ' + JSON.stringify(colNames));
+                  console.log('tableName: ' + JSON.stringify(tableName));
+
+                  var sql ='SELECT * FROM '+ tableName + ' where isSent=?';
+                  var valCondition = 0;
+                  var user_info = JSON.parse(localStorage.getItem('userData'));
+
+                  if (isUpdate) {
+                    sql ='SELECT * FROM '+ tableName + ' where user_id=?';
+                    valCondition = user_info.id;
                   }
                   
-                  
-                  _data[tableName].push(obj);
-                  console.log('_data = ' + JSON.stringify(_data));
-              }
-              callback(null, _data);
-              } catch (err) {
-              console.error(err);
-              }
-          });
-      
-          asyncTasks.push(function(callback) {
-              async.waterfall(subTasks, (err, data) => {
-              if (err) {
-                  console.error(err);
-              } else {
-                  data_return.push(data);
-                  callback(null);
-              }
+                  try {
+                      var db = await self.sqlite.create({
+                          name: 'biology.db',
+                          location: 'default'
+                      });
+                      
+                      console.log('sql select data = '+sql + ' valCon = '+ valCondition + ' ; ls = '+localStorage.getItem('userData'));
+
+                      var resOfflineRecords = await db.executeSql(sql,[valCondition]);
+
+                      console.log('resOfflineRecords: ' + JSON.stringify(resOfflineRecords));
+
+                      for (let i = 0; i < resOfflineRecords.rows.length; i++) {
+                          var valFromTable = [];
+                          var eachData = resOfflineRecords.rows.item(i)
+
+                          console.log("test eachData in helpers: ");
+                          console.log(eachData);
+                          console.log(eachData.fb_id);
+                          
+                          if(tableName==="users") {
+                            valFromTable = [eachData.full_name,
+                            eachData.user_name,
+                            eachData.password,
+                            eachData.phone_number,
+                            eachData.gender,
+                            eachData.school_id,
+                            eachData.fb_id];
+                            
+                          } else if (tableName==="user_quizzes") {
+                          // Retrieve All Columns Name From table user_quizzes //
+                            valFromTable = [eachData.user_id,
+                            eachData.question_id,
+                            eachData.user_ans_id,
+                            eachData.ans_correct,
+                            eachData.score,
+                            eachData.created_at];
+                          }
+
+                          var col = null;
+                          var obj = {};
+
+                          for (let j = 0; j < colNames.length; j++) {
+                            // Construct JSON string with key (column name)/value (offline data) pair //
+                            col = colNames[j];
+                            obj[col] = valFromTable[j];
+
+                            if (tableName==="users" && colNames[j] === "update") {
+                              obj[col] = (isUpdate) ? "1" : "";
+                            } else if (tableName==="users" && colNames[j] === "photo") {
+                              console.log("isUpdate ="+isUpdate);
+
+                              if (isUpdate) {
+                                obj[col] = ""; // => no need to update picture profile, so set it to be blank.
+                              } else { // => if insert new, and facebook id is exist, get picture profile for sending to server.
+                              
+                                if (eachData.fb_id != null)  {
+                                  let filePath: string = 'file:///data/user/0/kh.org.open.biology12/files/'+ eachData.fb_id +'.jpg';
+                                  let base64File = await self.base64.encodeFile(filePath);
+                                  obj[col] = base64File;
+                                  console.log(obj[col]);
+                                }   
+                              }
+                            }
+                          }
+                          
+                          _data[tableName].push(obj);
+                          console.log('_data = ' + JSON.stringify(_data));
+                      }
+                      callback(null, _data);
+                  } catch (err) {
+                      console.error(err);
+                  }
               });
-          });
+          
+              asyncTasks.push(function(callback) {
+                  async.waterfall(subTasks, (err, data) => {
+                  if (err) {
+                      console.error(err);
+                  } else {
+                      data_return.push(data);
+                      callback(null);
+                  }
+                  });
+              });
           }
       
           async.series(asyncTasks, function(err, data) {
@@ -189,11 +229,11 @@ export class HelpersProvider {
     // * Param3: noOfColsInSynch => No. of columns to be retrieved from table* //
     // * Param4: goToPage => Page to be pushed to after all processes done * //
     
-    synchUserQuizeToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, redirect: boolean, goToPage: Page) {
+    synchUserQuizeToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, redirect: boolean, goToPage: Page, isUpdate:boolean) {
       
       var self = this;
       //this.retrieveDBSchema(listOfTable)
-      self.retrieveDBSchemaHelper(listOfTable,noOfColsInSynch)
+      self.retrieveDBSchemaHelper(listOfTable,noOfColsInSynch,isUpdate)
         .then(function(value) {
           // self.postData(value,"insert_user_quiz_app").then((result) => {
           self.postData(value,apiAddress).then((result) => {
@@ -235,22 +275,30 @@ export class HelpersProvider {
     // * Param2: apiAddress => URL Address of Server's API* //
     // * Param3: noOfColsInSynch => No. of columns to be retrieved from table* //
     
-    synchUserRegistrationToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, pushTo: Page) {
+    synchUserRegistrationToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, pushTo: Page, isUpdate: boolean) {
       
       var self = this;
       //this.retrieveDBSchema(listOfTable)
-      self.retrieveDBSchemaHelper(listOfTable,noOfColsInSynch)
+      self.retrieveDBSchemaHelper(listOfTable,noOfColsInSynch,isUpdate)
         .then(function(value) {
-          // self.postData(value,"insert_user_quiz_app").then((result) => {
+          console.log('value to be sent:');
+          console.log(value);
           self.postData(value,apiAddress).then((result) => {
             //self.responseData = result;
             if(JSON.parse(result["code"])==200) 
             {
-              console.log("API ="+apiAddress);
-              localStorage.setItem('userData',JSON.stringify(result["inserted_user"]));
+              console.log("API ="+apiAddress +' and isUpdate = '+isUpdate);
+              
               
               // If data is synch successfully, update isSent=1 //
-              self.updateIsSentColumn(listOfTable);
+              //self.updateIsSentColumn(listOfTable);
+              console.log(result["inserted_user"]);
+              localStorage.setItem('userData',JSON.stringify(result["inserted_user"]));
+              if (isUpdate == false) {
+                self.updateUserIdOffline(result["inserted_user"].id);
+                  
+              }
+              // else self.updateIsSentColumn(listOfTable);
               console.log("Data Inserted Successfully for "+listOfTable);
               self.appCtrl.getActiveNav().push(pushTo);
             }
@@ -291,6 +339,23 @@ export class HelpersProvider {
           })
           .catch(e => console.log(e));
         }
+      })
+    }
+
+    // *** Creator: Samak @11-05-2018 *** //
+    // * Function to update user_id after data has been synchronized into server * //
+    // * Param1: userID => User_Id that gets from Server * //
+  
+    updateUserIdOffline(userID: string){
+      this.sqlite.create({
+        name: 'biology.db',
+        location: 'default'
+      }).then((db: SQLiteObject)  => {
+          db.executeSql('UPDATE users SET user_id=?,isSent=? WHERE isSent=0', [userID,1])
+          .then( res => {
+            console.log('Data Updated in updateUserIdOffline to '+userID);
+          })
+          .catch(e => console.log(e));
       })
     }
 
