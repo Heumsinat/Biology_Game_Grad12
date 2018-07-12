@@ -24,7 +24,6 @@
         <p *ngIf="submitAttempt"></p>
         <form [formGroup]="valForm1">
           <div class="container">
-            <!-- <form >   -->
 
             <ion-item class="form1">
               <ion-label>{{'fullName' | translate}}</ion-label>
@@ -68,12 +67,11 @@
 
             <ion-item class="form1">
                 <ion-label>{{'gender' | translate}}</ion-label>
-                <ion-select formControlName="gender" [(ngModel)]="data.gender" >
+                <ion-select formControlName="gender" interface="popover" [(ngModel)]="data.gender" >
                   <ion-option value="2">ស្រី</ion-option>
                   <ion-option value="1">ប្រុស</ion-option>
                 </ion-select>
             </ion-item>
-            <!-- </form> -->
           </div>
         </form>
       </ion-wizard-step>
@@ -88,7 +86,7 @@
 
             <ion-select formControlName="province" (ionChange)="onChangeSelectProvince($event)" [(ngModel)]="data.province">
 
-              <ion-option *ngFor="let province of provinces" [value]="province.pcode">{{province.pname_kh}}</ion-option>
+              <ion-option *ngFor="let province of provinces" [value]="province.procode">{{province.province_kh}}</ion-option>
 
             </ion-select>
 

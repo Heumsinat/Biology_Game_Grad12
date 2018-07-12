@@ -15,11 +15,8 @@
             <ion-item no-lines no-padding>
               <button ion-button class="btn btn-primary btn-lg btn3d" block  (click)="chapter(chapters.id, chapters.title)">
                 <div class="number">
-                  {{chapters.number}}: {{chapters.title}}
+                  {{chapters.number}}. {{chapters.title}}
                 </div>
-                <!--<div class="text">-->
-                  <!--{{chapters.title}}-->
-                <!--</div>-->
               </button>
             </ion-item>
           </ion-item-sliding>
@@ -27,61 +24,4 @@
       </ion-row>
     </ion-grid>
   </ion-scroll>
-
-
-<!-- <ion-content xela class="card-background-page">
-    <ion-card>
-        <img src="assets/imgs/01.jpg"/>
-    
-  chapter
-  
-  <ion-list *ngIf="state == 'chapters'" no-lines>
-    <ion-item-sliding *ngFor="let chapters of chapters; let i=index">
-      <ion-item >
-          
-              
-        <button ion-button block color="primary" (click)="chapter(chapters.id)">
-          <div class="number">
-            ជំពូកទី: {{chapters.number}}
-          </div>
-          <div class="text">
-            {{chapters.title}}
-          </div>
-
-        </button>
-      
-      </ion-item>
-    </ion-item-sliding>
-  </ion-list>-->
-  
-
-  <!--lesson-->
-  <!--<ion-list equalized *ngIf="state == 'lessons'" no-lines>
-    <ion-item-sliding *ngFor="let lessons of lessons; let i=index">
-      <ion-item width-100 menu-header class="animated fadeInUp">
-        <button ion-button block color="primary" (click)="lesson(lessons.id)">
-
-          <div class="number">
-            មេរៀនទី: {{lessons.number}}<br>
-          </div>
-          <div class="text">
-            {{lessons.title}}
-          </div>
-        </button>
-      </ion-item>
-    </ion-item-sliding>
-  </ion-list>
-</ion-card> -->
-
 </ion-content>
-
-<!--<ion-footer>-->
-  <!--<ion-toolbar>-->
-    <!--<button ion-button clear (click)="playButtonClick()">-->
-      <!--<ion-icon name="play"></ion-icon>-->
-    <!--</button>-->
-    <!--<button ion-button clear (click)="exitButtonClick()" (press)="toggleDebug()">-->
-      <!--<ion-icon name="power"></ion-icon>-->
-    <!--</button>-->
-  <!--</ion-toolbar>-->
-<!--</ion-footer>-->

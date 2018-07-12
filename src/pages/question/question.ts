@@ -238,7 +238,7 @@ export class QuestionPage {
     public answer (correct_ans: number, question_id: number){
         // if correct_ans , play audio correct then push to SectionReviewPage
         if (correct_ans == 1){
-            return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
+            return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.m4a',1,1,0).then(()=>{
                 return this.nativeAudio.play('correct', ()=>{
                     this.nativeAudio.unload('correct');
                     this.db.executeSQL(`select * from questions where id = '${question_id}'`)
@@ -260,7 +260,7 @@ export class QuestionPage {
             });
         } else{
             /// if incorrect play wrong audio and push to SectionReviewPage
-            return this.nativeAudio.preloadComplex('wrong', 'assets/sounds/wrong.mp3',1,1,0).then(()=>{
+            return this.nativeAudio.preloadComplex('wrong', 'assets/sounds/wrong.m4a',1,1,0).then(()=>{
                 return this.nativeAudio.play('wrong', ()=>{
                     this.nativeAudio.unload('wrong');
                     this.db.executeSQL(`select * from questions where id = '${question_id}'`)

@@ -18,6 +18,7 @@ import { File } from '@ionic-native/file';
 import { Network } from '@ionic-native/network';
 import { HelpersProvider } from '../../providers/helpers/helpers';
 import { elementEventFullName } from '@angular/core/src/view';
+// import { IonFormWizard } from '../../app/wizard.component';
 
 /**
  * Generated class for the FormPage page.
@@ -82,7 +83,7 @@ export class FormPage {
      * 
      */
     console.log('data = '+this.navParams.get('data'));
-    //if(!this.is_register){
+    // if(!this.is_register){
       const fbData = this.navParams.get('data');
                   if(fbData){
                     this.data.fullName = fbData.name;
@@ -94,7 +95,7 @@ export class FormPage {
     
 
                   this.platform.ready().then(() => {
-                    // make sure this is on a device, not an emulation (e.g. chrome tools device mode)
+                    // make sure this is on a device, not an emulation
                     if(!this.platform.is('cordova')) {
                       return false;
                     }              
@@ -105,7 +106,7 @@ export class FormPage {
                       this.storageDirectory = cordova.file.dataDirectory;
                     }
                     else {
-                      // exit otherwise, but you could add further types here e.g. Windows
+                      // exit otherwise, but you could add further types here
                       return false;
                     }
                   });
@@ -116,12 +117,12 @@ export class FormPage {
                     const fileTransfer: FileTransferObject = this.fileTransfer.create();
                     console.log('========>Fb id: ', this.fb_id);
                     fileTransfer.download(img, this.storageDirectory + this.fb_id + `.jpg`).then((entry) => {             
-                      const alertSuccess = this.alertCtrl.create({
-                        title: `Succeeded!`,
-                        // subTitle: `${img} was successfully downloaded to: ${entry.toURL()}`,
-                        buttons: ['Ok']
-                      });             
-                      alertSuccess.present();
+                      // const alertSuccess = this.alertCtrl.create({
+                      //   title: `Succeeded!`,
+                      //   // subTitle: `${img} was successfully downloaded to: ${entry.toURL()}`,
+                      //   buttons: ['Ok']
+                      // });             
+                      // alertSuccess.present();
               
                     }, (error) => {
               
@@ -135,7 +136,10 @@ export class FormPage {
                     });
               
                   });
-
+                  
+                  /**Convert file image to base64 string
+                   * 
+                   */
                   let filePath: string = 'file:///data/user/0/kh.org.open.biology12/files/'+ this.fb_id +'.jpg';
                   console.log('=========> My filePath: ',filePath);
                   this.base64.encodeFile(filePath).then((base64File: string) => {
@@ -143,8 +147,11 @@ export class FormPage {
                   }, (err) => {
                     console.log(err);
                   });
-    //}  
-      // this.data.fullName= new FormCtrl('',);
+    // }  
+      
+    /**Validator on register form
+     * 
+     */
       this.valForm1 = formBuilder.group({
         fullName: [null, Validators.required],
         userName: [null, Validators.compose([Validators.required, Validators.minLength(3)])],
@@ -185,28 +192,25 @@ export class FormPage {
 
 
 
-      this.submitAttempt = true;
+      // this.submitAttempt = true;
  
-      if(!this.valForm1.valid){
-          this.step=1;
-      }
-      else if(!this.valForm2.valid){
-          this.step=2;
-      }
-      else {
-          console.log("success!")
-          console.log(this.valForm1.value);
-          console.log(this.valForm2.value);
-          this.onFinish();
-      }
+      // if(!this.valForm1.valid){
+      //     this.step=1;
+      // }
+      // else if(!this.valForm2.valid){
+      //     this.step=2;
+      // }
+      // else {
+      //     console.log("success!")
+      //     console.log(this.valForm1.value);
+      //     console.log(this.valForm2.value);
+      //     this.onFinish();
+      // }
  
 
   }
 
   
-  
-
-
 /**Function get all provinces from biology.db
  * 
  */
@@ -218,10 +222,10 @@ export class FormPage {
         console.log(res);
           for (var i = 0; i<res.rows.length; i++){
             this.provinces.push({
-              pcode:res.rows.item(i).pcode,
-              prefix:res.rows.item(i).prefix,
-              pname_kh:res.rows.item(i).pname_kh,
-              pname_en:res.rows.item(i).pname_en
+              procode: res.rows.item(i).procode,
+              prefix: res.rows.item(i).prefix,
+              province_kh: res.rows.item(i).province_kh,
+              province: res.rows.item(i).province
               
             })
           }
@@ -237,6 +241,7 @@ export class FormPage {
     this.db
         .executeSQL(`SELECT * FROM districts WHERE pcode=${id}`)  
         .then(res => {
+          console.log('============> My District: ',res);
           this.districts = [];
         
           for (var i = 0; i<res.rows.length; i++){
@@ -248,7 +253,7 @@ export class FormPage {
              
             })
           }
-        }).catch(e => console.log(e));
+        }).catch(e => console.log('=========> My ID: ',e));
 
         
   }
@@ -265,8 +270,9 @@ export class FormPage {
         
           for (var i = 0; i<res.rows.length; i++){
             this.school_lists.push({
-              school_id:res.rows.item(i).school_id,
-              school_name:res.rows.item(i).school_name
+              school_id: res.rows.item(i).school_id,
+              school_name: res.rows.item(i).school_name,
+              school_name_en : res.rows.item(i).school_name_en
                           
             })
           }
@@ -278,37 +284,48 @@ export class FormPage {
    * 
    */
   onFinish() { 
+    this.submitAttempt = true;
+      if(!this.valForm1.valid || !this.valForm2.valid){
+          const confirm = this.alertCtrl.create({
+            title: '',
+            message: 'ព៌ត័មានដែលអ្នកបំពេញមិនត្រឹមត្រូវទេ!'
+          });
+          ​confirm.present();
+          this.navCtrl.push(FormPage);
+      // }
+      // else if(!this.valForm2.valid){
+      //     this.navCtrl.push(FormPage);
+      }
+      else {
+            let data = [this.data.fullName,this.data.userName,this.data.password,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school,this.fb_id];
+            this.db.getInstance().then((db: SQLiteObject) => {
 
-    // this.submitAttempt = true;
-    let data = [this.data.fullName,this.data.userName,this.data.password,this.data.phone,this.data.gender,this.data.province,this.data.district,this.data.school,this.fb_id];
-    this.db.getInstance().then((db: SQLiteObject) => {
-
-      db.executeSql('INSERT INTO users(full_name, user_name, password, phone_number, gender, province_pcode, district_dcode, school_id, fb_id) VALUES(?,?,?,?,?,?,?,?,?)', data)
-        .then(res => {
-          if (this.network.type == "none") {
-            console.log('Data Inserted into users!');
-            this.helpers.presentLoadingCustom(2000, "កំពុងផ្ទុកទិន្នន័យ...");
-          }
-          else {
-            this.helpers.synchUserRegistrationToServer(["users"],"user_register_or_update_app", 7,StarterPage);
-            this.helpers.presentLoadingCustom(2000, "កំពុងបញ្ជូនទិន្នន័យទៅកាន់ម៉ាស៊ីនមេ...");
-            
-          }
-        })
-        
-        .catch(e => {
-          console.log(e);
-          console.log('Error to save data');
-          this.toast.show(e, '5000', 'center').subscribe(
-            toast => {
-              console.log(toast);
-            }
-          );
-        });
-    })
-   
+              db.executeSql('INSERT INTO users(full_name, user_name, password, phone_number, gender, province_pcode, district_dcode, school_id, fb_id) VALUES(?,?,?,?,?,?,?,?,?)', data)
+                .then(res => {
+                  if (this.network.type == "none") {
+                    console.log('Data Inserted into users!');
+                    this.helpers.presentLoadingCustom(2000, "កំពុងផ្ទុកទិន្នន័យ...");
+                  }
+                  else {
+                    this.helpers.synchUserRegistrationToServer(["users"],"user_register_or_update_app", 7,StarterPage);
+                    this.helpers.presentLoadingCustom(2000, "កំពុងបញ្ជូនទិន្នន័យទៅកាន់ម៉ាស៊ីនមេ...");
+                    
+                  }
+                })
+                
+                .catch(e => {
+                  console.log(e);
+                  console.log('Error to save data');
+                  this.toast.show(e, '5000', 'center').subscribe(
+                    toast => {
+                      console.log(toast);
+                    }
+                  );
+                });
+            })
+          
+      }
   }
-
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FormPage');
@@ -333,6 +350,10 @@ export class FormPage {
       ]
     });
     confirm.present();
+
+    // this.evts.subscribe('step:back', () => {
+    //   console.log('Back pressed: ', this.currentStep);
+    // });
 
   }
 
@@ -365,6 +386,5 @@ export class FormPage {
   onChangeSelectDistrict(e){
     this.getSchools(e);
   }
-
 
 }
