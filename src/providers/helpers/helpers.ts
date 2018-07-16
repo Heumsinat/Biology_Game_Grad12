@@ -179,16 +179,16 @@ export class HelpersProvider {
                               
                                 if (eachData.fb_id != null)  {
                                   let filePath: string = 'file:///data/user/0/kh.org.open.biology12/files/'+ eachData.fb_id +'.jpg';
-                                  let base64File = await self.base64.encodeFile(filePath);
+                                  let base64File: string = await self.base64.encodeFile(filePath);
                                   obj[col] = base64File;
-                                  console.log(obj[col]);
                                 }   
                               }
                             }
                           }
                           
                           _data[tableName].push(obj);
-                          console.log('_data = ' + JSON.stringify(_data));
+                          console.log("DATA");
+                          console.log(obj);
                       }
                       callback(null, _data);
                   } catch (err) {
