@@ -5,13 +5,13 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar no-border-bottom  color="primary">
+  <ion-navbar no-border-bottom  color="skyblue">
     <ion-title class="leaderboard">
       {{leaderboard}}
     </ion-title>
   </ion-navbar>
 
-  <ion-toolbar color="primary" no-border class="scrollable-segments">
+  <ion-toolbar color="skyblue" no-border class="scrollable-segments">
     <ion-segment [(ngModel)]="leaderboard">
       <div class="segBtn">
         <ion-segment-button value="{{'facebook' | translate}}"  (click)="getScoreLevel(1)">

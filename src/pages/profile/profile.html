@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="skyblue">
     <ion-title>
         {{'yourProfile' | translate}}
     </ion-title>
@@ -16,17 +16,17 @@
       <span>{{'score' | translate}}: {{total_score*10}}</span>
     </div>
 
-   <div style="margin:0 auto;display:block;text-align:center; padding-bottom: 30px;"> 
+   <div class="btnEdit"> 
       <button icon-start ion-button round (click)=editProfile()>
           <ion-icon name="md-create"></ion-icon>
           {{'editProfile' | translate}}
         </button>
    </div>
    <div>
-      <div class="profile-detail"><span>{{'userName' | translate}}: {{user_data.full_name}}</span></div>
-      <div class="profile-detail"><span>{{'gender' | translate}}: {{gender}}</span></div>
-      <div class="profile-detail"><span>{{'phone' | translate}}: {{user_data.phone_number}}</span></div>
-      <div class="profile-detail"><span>{{'school' | translate}}: {{school_name}}</span></div>
+      <div class="profile-detail"><span>{{'userName' | translate}}: <b>{{user_data.full_name}}</b></span></div>
+      <div class="profile-detail"><span>{{'gender' | translate}}: <b>{{gender}}</b></span></div>
+      <div class="profile-detail"><span>{{'phone' | translate}}: <b>{{user_data.phone_number}}</b></span></div>
+      <div class="profile-detail"><span>{{'school' | translate}}: <b>{{school_name}}</b></span></div>
 </div>
   </div>
 </ion-content>
