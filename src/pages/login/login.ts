@@ -23,8 +23,6 @@ import { DatabaseProvider } from '../../providers/database/database';
 })
 export class LoginPage {
 
-  // username: string ="dfgdf";
-  // password: string ="fgdg";
   link_login = "user_login_app";
   link_user_quizzes = "request_data_from_user_quiz_app";
   userData = { "name_id": "", "pwd": "" };
@@ -60,9 +58,7 @@ export class LoginPage {
   }
 
   signin() {
-    // console.log("userData = " + JSON.stringify(this.userData));
-    // this.submitAttempt = true;
-
+    
     if (this.network.type != "none") {
       if(this.loginValidate.valid)
       {

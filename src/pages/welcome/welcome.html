@@ -13,26 +13,14 @@
 </ion-header>
 
 <ion-content xela class="background-img">
-  <div>
-    </div>
-    
-
-    <!-- <button ion-button (click)="changeLanguage('km')">{{ 'submit' | translate }}</button>
-    <button ion-button (click)="changeLanguage('en')">{{ 'submit' | translate }}</button> -->
-  
-
     <ion-grid *ngIf="infoID == 'root'">
-        <!-- <h1>{{"hello-world" | translate}}</h1> -->
-        <div padding id="btn1">
-          <button class="btn btn-primary btn-lg btn3d" (click)="fbForm()"><ion-icon class="ficon" name="logo-facebook"></ion-icon>{{'facebook' | translate}}</button>
-          
-        </div>
-        <div padding id="btn2">
-          <button class="btn btn-primary btn-lg btn3d" (click)="createForm()">{{'register' | translate}}</button>
-        </div>
-          
-        <ion-label class="content1" (click)="login()">{{'log in' | translate}}</ion-label>
-
+          <div padding id="btn1">
+            <button class="btn btn-primary btn-lg btn3d" (click)="fbForm()"><ion-icon class="ficon" name="logo-facebook"></ion-icon>{{'facebook' | translate}}</button> 
+          </div>
+          <div padding id="btn2">
+            <button class="btn btn-primary btn-lg btn3d" (click)="createForm()">{{'register' | translate}}</button>
+          </div>
+          <ion-label class="content1" (click)="login()">{{'log in' | translate}}</ion-label>
     </ion-grid>
 
 
@@ -40,27 +28,14 @@
 
     <ion-grid *ngIf="infoID == 'C1'">
         <ion-scroll class="view_content" scrollY="true">
-              <ion-label class="Elabel"><b>Evidence of Evolution</b></ion-label>
+              <ion-label class="Elabel"><b>Biology Game</b></ion-label>
                 <ion-row>
                   <ion-col>
-                    <p>               
-                        We cannot watch changes in life directly. They take place over thousands or millions of years. However, scientists cannot find proof that these changes have taken place. Important evidence for evolution comes from fossils, the leftovers of ancient life. When animals or plants die they are pressed into sand or clay. Over millions of years rocks are formed.
-                        
-                        FossilsScientists have found out that different fossils are found in rocks of different ages. For example, the oldest rocks of our earth are about 3.8 billion years old. They contain no fossils because there was probably no life at that time. Fossils of bacteria appear in rocks that are about 3.5 billion years old. Fish , reptile and mammal fossils appear in younger rocks. Human fossils are found only in the youngest and highest rock layers.
-                        
-                        Fossils also show that certain groups of animals have evolved from other groups. Amphibians evolved from fish that could breathe air and move on land. They had legs but also scales and a fin.
+                    <p>  
+                      About: It is an education tool to help students to improve thier retention of science topics by reminding them each day of one of the Biology topics that they have studied using voice over their smartphones. Motivation and engagement of grade 12 students is accomplished through gamification of the application.                                   
                     </p>
-
                     <p>    
-                        Birds probably evolved from dinosaurs. The archaeopteryx was an animal that had feathers like a bird and could fly. It also had teeth, claws on its wings and a skeleton that looked like a meat-eating dinosaur.
-                        
-                        But even without fossils there is other proof which shows that evolution has taken place. Different species often have similar features which they probably got from a common ancestor. For example the front limbs of lizards, birds, bats and humans are very much alike. They have one bone in the upper arm, two in the forearm, wrist bones and five fingers.
-                        
-                        Living creatures might also have structures that they have inherited from an ancestor but have become useless. They don't need them any more. Pythons, for example, have the remains of back leg bones, but snakes do not have such legs. The appendix was used by animals that ate only plants but in our bodies these organs have become useless.
-                        
-                        The way in which different species occur all over the world also gives us evidence for evolution. Similar species, for example, are found together in certain areas. All types of kangaroos are found in Australia. This is because the kangaroos' ancestors also lived there.
-                        
-                        Plants and animals do not always live in ideal places. Tropical ocean islands, for example, are ideal places for frogs to live, but no frogs 
+                      Grade 12 students – Download and play the game. Can see how they in answering questions correctly in comparison with their classmates, schoolmates, district students, or Facebook friends.
                     </p>
                   </ion-col>
                 </ion-row>
@@ -70,7 +45,7 @@
 </ion-content>
 
 <ion-footer >
-    <ion-toolbar *ngIf="infoID == 'C1'">
+    <ion-toolbar *ngIf="infoID == 'C1'" transparent>
         <button ion-button float-start clear *ngIf="infoID == 'C1'" class="bicon" (click)="backButtonClick()">
           <ion-icon name="md-arrow-round-back"></ion-icon>
         </button>
@@ -82,7 +57,7 @@
         <button ion-button float-start clear *ngIf="infoID == 'root'" class="eicon" (click)="exitButtonClick()">
             <ion-icon name="power"></ion-icon>
         </button>
-        <button ion-button float-end clear *ngIf="infoID == 'root'" class="content2" (click)="info('C1')" color="blue">{{'about' | translate}}</button>
+        <button ion-button float-end clear *ngIf="infoID == 'root'" class="content2" (click)="info('C1')">{{'about' | translate}}</button>
 
     </ion-toolbar>
   </ion-footer>

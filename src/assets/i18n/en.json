@@ -23,5 +23,7 @@
     "next" : "Next",
     "continue" : "Continue",
     "chapter list" : "Chapter List",
-    "national" : "National"
+    "national" : "National",
+    "editProfile":"Edit Profile",
+    "yourProfile":"Your Profile"
 }

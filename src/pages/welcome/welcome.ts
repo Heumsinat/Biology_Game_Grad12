@@ -46,10 +46,6 @@ export class WelcomePage {
 
   }
 
-  // public changeLanguage(language:any)
-  // {
-  //   this.translate.use(language);
-  // }
 
   /*Function connect to facebook users*/
 

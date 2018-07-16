@@ -130,15 +130,7 @@ export class SectionReviewPage {
         )
     )
   }
-  // goToLessonPage() {
-  //   this.navCtrl.push(
-  //       LessonPage, {
-  //         // nextQuestion: this.nextQuestionID,
-  //         // lessonID: this.sections.lesson,
-  //         // currentQuestionID: this.questionID
-  //       }
-  //   );
-  // }
+  
 
   toggleTest() {
     this.playCompleted = !this.playCompleted;
@@ -165,12 +157,6 @@ export class SectionReviewPage {
     alert.present();
   }
    replayButtonClick() {
-    // this.nativeAudio.preloadSimple(this.sections.id, 'assets/sounds/'+this.sections.sound).then(()=>{
-    //   this.nativeAudio.play(this.sections.id, ()=>{
-    //     this.nativeAudio.unload(this.sections.id);
-    //   });
-    // });
-    // console.log(this.sections.sound);
     this.nativeAudio.stop(this.sections.id).then(() => {
       this.nativeAudio.play(this.sections.id, ()=>{
         this.nativeAudio.unload(this.sections.id);

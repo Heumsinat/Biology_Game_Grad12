@@ -14,7 +14,7 @@ page-welcome {
         background: white ;
         position: fixed;
         text-align: justify;
-        bottom: 45px;
+        bottom: 9%;
         left: 10px;
         right: 10px;
         height: 62%;
@@ -38,7 +38,7 @@ page-welcome {
         margin-top: 40px;
     }
     .content2{
-        color: #4274D7;
+        color: white;
         font-size: 25px;
         margin-left: 80px;   
 
@@ -53,12 +53,14 @@ page-welcome {
     .bicon{
         font-size: 30px;
         margin-left: 10px;
+        color: white;
     }
     .eicon{
         //width: 10px;
         //border: 1px solid black;
         font-size: 30px;
         margin-left: 20px;
+        color: white;
     }
 
     .btn3d {
@@ -99,12 +101,12 @@ page-welcome {
     #btn1{
         text-align: center;
         margin-top: 220px;
-        margin-left: 25px;
+        margin-left: 0%;
         -webkit-text-fill-color: white;
     }
     #btn2{
         text-align: center;
-        margin-left: 25px;
+        margin-left: 0%;
         -webkit-text-fill-color: white;
     }
 
