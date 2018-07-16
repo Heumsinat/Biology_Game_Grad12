@@ -80,7 +80,7 @@ export class FormPage {
     private base64: Base64
   ) {
    
-    // this.checkUsername();
+    this.checkUsername();
     /**Get data of facebook user from welcomepage
      * 
      */
@@ -159,9 +159,8 @@ export class FormPage {
         console.log("this.date = ");
         console.log(this.data);
 
+        
       }
-
-      // this.data.fullName= new FormCtrl('',);
       this.valForm1 = formBuilder.group({
         fullName: [null, Validators.required],
         userName: [null, Validators.compose([Validators.required, Validators.minLength(3)])],
@@ -169,6 +168,17 @@ export class FormPage {
         phone: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(9)])],
         gender:[null]
       });
+
+      if(this.fbData == 2)
+      {
+        this.valForm1 = formBuilder.group({
+          fullName: [null, Validators.required],
+          userName: [null, Validators.compose([Validators.minLength(3)])],
+          password: [null, Validators.compose([Validators.minLength(4)])],
+          phone: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(9)])],
+          gender:[null]
+        });
+      }
       // , this.validateUsername()
 
       this.valForm2 = formBuilder.group({
@@ -225,9 +235,9 @@ export class FormPage {
 
   getProvinceName(school_id)
   {
-    return this.db.executeSQL(`select pcode from provinces join school_lists on pcode = province_id where school_id =${school_id}`)
+    return this.db.executeSQL(`select procode from provinces join school_lists on procode = province_id where school_id =${school_id}`)
     .then(res => {
-        return res.rows.item(0).pcode;
+        return res.rows.item(0).procode;
     }).catch(e => console.log(e));
   }
 
@@ -315,20 +325,20 @@ export class FormPage {
         }).catch(e => console.log(e));
   }
 
-  // checkUsername(){
-  //   // console.log(id);
-  //   this.db.executeSQL(`SELECT user_name FROM users`)  
-  //       .then(res => {
-  //         console.log('==========> User_name: ',res);
-  //         this.userNameInfo = [];       
-  //         for (var i = 0; i<res.rows.length; i++){
-  //           this.userNameInfo.push({
-  //             user_name: res.rows.item(i).user_name     
+  checkUsername(){
+    // console.log(id);
+    this.db.executeSQL(`SELECT user_name FROM users`)  
+        .then(res => {
+          console.log('==========> User_name: ',res);
+          this.userNameInfo = [];       
+          for (var i = 0; i<res.rows.length; i++){
+            this.userNameInfo.push({
+              user_name: res.rows.item(i).user_name     
                      
-  //           })
-  //         }
-  //       }).catch(e => console.log(e));
-  // }
+            })
+          }
+        }).catch(e => console.log(e));
+  }
 
   
 

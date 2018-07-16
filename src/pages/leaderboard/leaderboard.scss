@@ -4,11 +4,11 @@ page-leaderboard {
       display: block;
       overflow-x: scroll;
       white-space: nowrap;
-      color: white;
+      color: blue;
 
       ion-segment-button.segment-button {
         display: inline-block;
-        color: white;
+        color: blue;
         width: 32%;
         
       }
@@ -16,7 +16,7 @@ page-leaderboard {
   }
 
   .segBtn{
-    text-align: center;   
+    text-align: center; 
   }
 
   .toolbar-title-md{
