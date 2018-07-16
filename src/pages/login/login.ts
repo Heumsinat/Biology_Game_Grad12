@@ -94,6 +94,7 @@ export class LoginPage {
                   switch(equalReturn)
                   {
                     case 1: // num_q in Server is equal, do nothing
+                      
                       this.navCtrl.push(StarterPage);
                       console.log("Equal");
                       break;

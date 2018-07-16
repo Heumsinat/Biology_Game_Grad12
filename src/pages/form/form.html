@@ -53,7 +53,7 @@
             
             <ion-item class="form1">
               <ion-label>{{'phone' | translate}}</ion-label>
-              <ion-input [class.invalid]="!valForm1.controls.phone.valid && valForm1.controls.phone.dirty" formControlName="phone" type="text" [(ngModel)]="data.phone" name="phone"></ion-input>
+              <ion-input type="number" [class.invalid]="!valForm1.controls.phone.valid && valForm1.controls.phone.dirty" formControlName="phone" type="text" [(ngModel)]="data.phone" name="phone"></ion-input>
             </ion-item>
             <div class="alert" *ngIf="!valForm1.controls.phone.valid && valForm1.controls.phone.dirty">
               <p>Please input number and at least 9 characters!</p>

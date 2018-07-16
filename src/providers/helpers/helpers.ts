@@ -132,6 +132,11 @@ export class HelpersProvider {
                       var resOfflineRecords = await db.executeSql(sql,[valCondition]);
 
                       console.log('resOfflineRecords: ' + JSON.stringify(resOfflineRecords));
+                      if(resOfflineRecords.length==0)
+                      {
+                        console.log('Not found this user in DB');
+                        
+                      }
 
                       for (let i = 0; i < resOfflineRecords.rows.length; i++) {
                           var valFromTable = [];

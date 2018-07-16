@@ -64,6 +64,7 @@ export class StarterPage {
     this.userId = JSON.parse(localStorage.getItem("userData")).id;
     this.fb_id = JSON.parse(localStorage.getItem("userData")).fb_id;
     console.log('UserID',this.userId);
+    this.insertUserIntoLocal(JSON.parse(localStorage.getItem("userData")));
     
 
     
@@ -406,4 +407,30 @@ export class StarterPage {
     gotoLeaderboard(){
       this.navCtrl.push(LeaderboardPage);
     }
+
+
+     // Creator: SAMAK //
+    // Function to update a few records of order questions table//
+    insertUserIntoLocal(dataUser:any){
+      console.log('insertUserIntoLocal');
+      this.db.executeSQL(`SELECT * FROM users WHERE user_id=${dataUser.id}`)
+        .then( resSelectUser => {
+          if(resSelectUser)
+          {
+            this.db.executeSQL(`INSERT INTO users(user_id, full_name, user_name, phone_number, gender, school_id, fb_id) VALUES(${dataUser.id}, '${dataUser.full_name}', '${dataUser.user_name}','${dataUser.phone_number}' ,${dataUser.gender},  '${dataUser.school_id}', '${dataUser.fb_id}')`)
+            .then( resInsert => {
+              console.log('Inserted Login User 3!');
+            })
+            .catch((e) => {
+              console.log('Catch in INSERT user:' + JSON.stringify(e));
+            });
+          }
+        })
+        .catch((e) => {
+          console.log('Catch in select user:' + JSON.stringify(e));
+        });
+      
+    }
+
+    
 }
