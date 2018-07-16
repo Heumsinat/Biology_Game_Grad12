@@ -176,12 +176,13 @@ export class HelpersProvider {
                               if (isUpdate) {
                                 obj[col] = ""; // => no need to update picture profile, so set it to be blank.
                               } else { // => if insert new, and facebook id is exist, get picture profile for sending to server.
-                              
+                                obj[col]="";
                                 if (eachData.fb_id != null)  {
                                   let filePath: string = 'file:///data/user/0/kh.org.open.biology12/files/'+ eachData.fb_id +'.jpg';
                                   let base64File: string = await self.base64.encodeFile(filePath);
                                   obj[col] = base64File;
                                 }   
+                                
                               }
                             }
                           }
