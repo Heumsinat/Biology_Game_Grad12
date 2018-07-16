@@ -11,13 +11,6 @@
 
 
 <ion-content xela padding class="background-img">
-
-    <!-- <div>
-        <p>
-            <img src="{{picture.data.url}}" width="100" alt="{{data.fullName}}" />
-        </p>
-    </div> -->
-
   <ion-grid>
     <ion-form-wizard [(step)]="step" [showSteps]="false" (finish)="onFinish()" [finishIcon]="'done-all'" [(stepCondition)]="stepCondition">
       <ion-wizard-step>
@@ -31,22 +24,23 @@
               <ion-input [class.invalid]="!valForm1.controls.fullName.valid && valForm1.controls.fullName.dirty" formControlName="fullName" trimmed type="text" [(ngModel)]="data.fullName" name="fullName"></ion-input>
             </ion-item>
             <div class="alert" *ngIf="!valForm1.controls.fullName.valid && !valForm1.controls.fullName.pending && valForm1.controls.fullName.dirty">
-              <p>Please input your full name!</p>
-              
+              <p>Please input your full name!</p> 
             </div>
+            
 
             <ion-item class="form1" [hidden]="fbData==2">
               <ion-label>{{'userName' | translate}}</ion-label>
               <ion-input [class.invalid]="!valForm1.controls.userName.valid && valForm1.controls.userName.dirty" formControlName="userName" type="text" [(ngModel)]="data.userName" name="userName"></ion-input>
-
             </ion-item>
             <div class="alert" *ngIf="valForm1.controls.userName.pending">
               <p>Checking username...</p>
             </div>
-
             <div class="alert" *ngIf="!valForm1.controls.userName.valid && !valForm1.controls.userName.pending && valForm1.controls.userName.dirty">
                 <p>Please input at least 3 characters!</p>
             </div>
+            <!-- <div class="formError" *ngIf="this.form['controls'].userName.hasError('alreadyExist')">
+              *this username already exists in our database!
+            </div> -->
             
 
             <ion-item class="form1" [hidden]="fbData==2">
@@ -79,52 +73,39 @@
 
       <ion-wizard-step>
         <form [formGroup]="valForm2">
-        <div class="container1">
+          <div class="container1">
+            <ion-item class="form1">
+              <ion-label>{{'province' | translate}}</ion-label>
+              <ion-select formControlName="province" (ionChange)="onChangeSelectProvince($event)" [(ngModel)]="data.province">
+                <ion-option *ngFor="let province of provinces" [value]="province.procode">{{province.province_kh}}</ion-option>
+              </ion-select>
+            </ion-item>
 
-          <ion-item class="form1">
-            <ion-label>{{'province' | translate}}</ion-label>
+            <ion-item class="form1">
+              <ion-label>{{'district' | translate}}</ion-label>
+              <ion-select [class.invalid]="!valForm2.controls.district.valid && valForm2.controls.district.dirty" formControlName="district" (ionChange)="onChangeSelectDistrict($event)" [(ngModel)]="data.district">
+                <ion-option *ngFor="let district of districts" [value]="district.dcode">{{district.dname_kh}}</ion-option>
+              </ion-select>
+            </ion-item>
+            <div class="alert" *ngIf="!valForm2.controls.district.valid && valForm2.controls.district.dirty">
+              <p>Please select province first!</p>
+            </div>
 
-            <ion-select formControlName="province" (ionChange)="onChangeSelectProvince($event)" [(ngModel)]="data.province">
-
-              <ion-option *ngFor="let province of provinces" [value]="province.procode">{{province.province_kh}}</ion-option>
-
-            </ion-select>
-
-          </ion-item>
-
-          <ion-item class="form1">
-            <ion-label>{{'district' | translate}}</ion-label>
-            <ion-select [class.invalid]="!valForm2.controls.district.valid && valForm2.controls.district.dirty" formControlName="district" (ionChange)="onChangeSelectDistrict($event)" [(ngModel)]="data.district">
-              <ion-option *ngFor="let district of districts" [value]="district.dcode">{{district.dname_kh}}</ion-option>
-            </ion-select>
-          </ion-item>
-          <div class="alert" *ngIf="!valForm2.controls.district.valid && valForm2.controls.district.dirty">
-            <p>Please select province first!</p>
+            <ion-item class="form1">
+              <ion-label>{{'school' | translate}}</ion-label>
+              <ion-select [class.invalid]="!valForm2.controls.school.valid && valForm2.controls.school.dirty" formControlName="school" [(ngModel)]="data.school">
+                <ion-option *ngFor="let school_list of school_lists" [value]="school_list.school_id">{{school_list.school_name}}</ion-option>
+              </ion-select>
+            </ion-item>
+            <div class="alert" *ngIf="!valForm2.controls.school.valid && valForm2.controls.school.dirty">
+              <p>Please select district first!</p>
+            </div>
           </div>
-          
-
-
-          <ion-item class="form1">
-            <ion-label>{{'school' | translate}}</ion-label>
-            <ion-select [class.invalid]="!valForm2.controls.school.valid && valForm2.controls.school.dirty" formControlName="school" [(ngModel)]="data.school">
-              <ion-option *ngFor="let school_list of school_lists" [value]="school_list.school_id">{{school_list.school_name}}</ion-option>
-
-            </ion-select>
-          </ion-item>
-          <div class="alert" *ngIf="!valForm2.controls.school.valid && valForm2.controls.school.dirty">
-            <p>Please select district first!</p>
-          </div>
-        </div>
-      </form>
+        </form>
       </ion-wizard-step>
-
     </ion-form-wizard>
-
   </ion-grid>
-
-
 </ion-content>
-
 
 <ion-footer>
   <ion-toolbar>

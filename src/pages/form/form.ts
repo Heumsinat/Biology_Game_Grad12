@@ -11,7 +11,7 @@ import { HomePage } from '../home/home';
 import { StarterPage } from '../starter/starter';
 import { NumberFormatStyle } from '@angular/common';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
-import { FormControl, FormControlName, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, AbstractControl, ValidatorFn, FormControlName, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 // Samak imported //
@@ -42,6 +42,7 @@ export class FormPage {
   provinces: any [];
   districts: any [];
   school_lists: any [];
+  userNameInfo: any [];
 
 
   step: any;
@@ -49,8 +50,6 @@ export class FormPage {
   stepDefaultCondition: any;
   currentStep: any;
 
-  // isLoggedIn:boolean = false;
-  // private userFb: any;
   valForm1: FormGroup;
   valForm2: FormGroup;
   submitAttempt: boolean = false;
@@ -61,6 +60,8 @@ export class FormPage {
   fb_id: any;
   provinceName: any;
   fbData: any;
+  userName: any;
+  // userInfo: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -79,7 +80,7 @@ export class FormPage {
     private base64: Base64
   ) {
    
-
+    this.checkUsername();
     /**Get data of facebook user from welcomepage
      * 
      */
@@ -93,7 +94,7 @@ export class FormPage {
         this.picture = this.fbData.picture;
       
         this.platform.ready().then(() => {
-          // make sure this is on a device, not an emulation (e.g. chrome tools device mode)
+          // make sure this is on a device, not an emulation
           if(!this.platform.is('cordova')) {
             return false;
           }              
@@ -104,23 +105,24 @@ export class FormPage {
             this.storageDirectory = cordova.file.dataDirectory;
           }
           else {
-            // exit otherwise, but you could add further types here e.g. Windows
+            // exit otherwise, but you could add further types here
             return false;
           }
         });
-
+        
+        /**Pass url from form page and save it in local file */
         const img = this.picture.data.url;
         console.log('*****My picture url: ',img);
         this.platform.ready().then(() => {
           const fileTransfer: FileTransferObject = this.fileTransfer.create();
           console.log('==>Fb id: ', this.fb_id);
           fileTransfer.download(img, this.storageDirectory + this.fb_id + `.jpg`).then((entry) => {             
-            const alertSuccess = this.alertCtrl.create({
-              title: `Succeeded!`,
-              // subTitle: `${img} was successfully downloaded to: ${entry.toURL()}`,
-              buttons: ['Ok']
-            });             
-            alertSuccess.present();
+            // const alertSuccess = this.alertCtrl.create({
+            //   title: `Succeeded!`,
+            //   // subTitle: `${img} was successfully downloaded to: ${entry.toURL()}`,
+            //   buttons: ['Ok']
+            // });             
+            // alertSuccess.present();
     
           }, (error) => {
     
@@ -167,14 +169,15 @@ export class FormPage {
         phone: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(9)])],
         gender:[null]
       });
+      // , this.validateUsername()
 
       this.valForm2 = formBuilder.group({
-        province: [null],
+        province: [null, Validators.required],
         district: [null, Validators.required],
         school: [null, Validators.required]       
       });
 
-
+      
       /**Pass data in form1 to form2 in a page
        * 
        */
@@ -197,29 +200,29 @@ export class FormPage {
       this.evts.subscribe('step:back', () => {
         console.log('Back pressed: ', this.currentStep);
       });
-
-
-
-      // this.submitAttempt = true;
  
-      // if(!this.valForm1.valid){
-      //     this.step=1;
-      // }
-      // else if(!this.valForm2.valid){
-      //     this.step=2;
-      // }
-      // else {
-      //     console.log("success!")
-      //     console.log(this.valForm1.value);
-      //     console.log(this.valForm2.value);
-      //     this.onFinish();
-      // }
- 
-
   }
+  // key: string;
+//   someServiceWorkingWithDatabase: any;
+//   private validateUsername(): ValidatorFn {
+//     return (control: AbstractControl): { [key: string]: any }  => {
+//       this.someServiceWorkingWithDatabase.checkUsername(control)
+//         .subscribe(
+//           ({data}) => {
+//             let res: string = data;
+//             if (res === control.value) {
+//               return {'alreadyExist': true};
+//             } else {
+//               return null
+//             }
+//           },
+//           (error) => {
+//             console.log(error);
+//           }
+//         )
+//     }
+// }
 
-  
-  
   getProvinceName(school_id)
   {
     return this.db.executeSQL(`select pcode from provinces join school_lists on pcode = province_id where school_id =${school_id}`)
@@ -277,9 +280,7 @@ export class FormPage {
     this.db
         .executeSQL(`SELECT * FROM districts WHERE pcode=${id}`)  
         .then(res => {
-          console.log('============> My District: ',res);
-          this.districts = [];
-        
+          this.districts = [];       
           for(var i = 0; i<res.rows.length; i++){
             this.districts.push({
               dcode:res.rows.item(i).dcode,
@@ -289,7 +290,7 @@ export class FormPage {
              
             })
           }
-        }).catch(e => console.log('=========> My ID: ',e));
+        }).catch(e => console.log(e));
 
         
   }
@@ -302,8 +303,7 @@ export class FormPage {
     console.log(id);
     this.db.executeSQL(`SELECT * FROM school_lists WHERE district_id=${id}`)  
         .then(res => {
-          this.school_lists = [];
-        
+          this.school_lists = [];       
           for (var i = 0; i<res.rows.length; i++){
             this.school_lists.push({
               school_id: res.rows.item(i).school_id,
@@ -315,11 +315,28 @@ export class FormPage {
         }).catch(e => console.log(e));
   }
 
+  checkUsername(){
+    // console.log(id);
+    this.db.executeSQL(`SELECT user_name FROM users`)  
+        .then(res => {
+          console.log('==========> User_name: ',res);
+          this.userNameInfo = [];       
+          for (var i = 0; i<res.rows.length; i++){
+            this.userNameInfo.push({
+              user_name: res.rows.item(i).user_name     
+                     
+            })
+          }
+        }).catch(e => console.log(e));
+  }
+
+  
 
   /**Save data after form completed
    * 
    */
   onFinish() { 
+
     this.submitAttempt = true;
     if(!this.valForm1.valid || !this.valForm2.valid){
         const confirm = this.alertCtrl.create({
@@ -327,7 +344,7 @@ export class FormPage {
           message: 'ព៌ត័មានដែលអ្នកបំពេញមិនត្រឹមត្រូវទេ!'
         });
         ​confirm.present();
-        this.navCtrl.push(FormPage);
+        // this.navCtrl.push(FormPage);
     }
     else {
             
@@ -346,6 +363,9 @@ export class FormPage {
       console.log('sqlStr = '+sqlStr);
       // To Insert New User
     // else{
+     
+      // console.log('===============> My value: ',;
+      // if(this.data.userName === ){
         this.db.getInstance().then((db: SQLiteObject) => {
           db.executeSql(sqlStr, data)
             .then(res => {
@@ -370,6 +390,15 @@ export class FormPage {
               );
             });
         })
+      // }
+      // else{
+      //   const confirm = this.alertCtrl.create({
+      //     title: '',
+      //     message: 'ឈ្មោះសម្គាល់ត្រូវបានប្រើប្រាស់រួចហើយ!'
+      //   });
+      //   ​confirm.present();
+      // }
+
     }
   }
 

@@ -216,7 +216,7 @@ export class QuizPage {
         // if correct_ans , play audio correct then push to SectionReviewPage
         var listOfTable = ["user_quizzes"];
         if (correct_ans == 1){
-            return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.m4a',1,1,0).then(()=>{
+            return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
                 return this.nativeAudio.play('correct', ()=>{
                     this.nativeAudio.unload('correct');
                     this.db.executeSQL(`select * from questions where id = '${question_id}'`)
@@ -268,7 +268,7 @@ export class QuizPage {
                 });
             });
         }else {
-            return this.nativeAudio.preloadComplex('wrong', 'assets/sounds/wrong.m4a',1,1,0).then(()=>{
+            return this.nativeAudio.preloadComplex('wrong', 'assets/sounds/wrong.mp3',1,1,0).then(()=>{
                 return this.nativeAudio.play('wrong', ()=>{
                     this.nativeAudio.unload('wrong');
                     this.db.executeSQL(`select * from questions where id = '${question_id}'`)
