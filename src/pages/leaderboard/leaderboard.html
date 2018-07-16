@@ -36,15 +36,17 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding="10px">
+<ion-content padding="5px">
   <div>
       <ion-list >
           <ion-item *ngFor="let user_score of user_scores">
             <ion-thumbnail item-start>
-              <img style="height:60px;width:60px;" src="assets/img/profile.png">
+                <img style="height:60px;width:60px;" *ngIf="user_score.photo!=''" [src]="sanitizer.bypassSecurityTrustUrl('data:image/*;base64, '+user_score.photo)">
+                <img style="height:60px;width:60px;" *ngIf="user_score.photo==''" src="assets/img/profile.png">
+
             </ion-thumbnail>
-            <h2>{{user_score.user_name}}</h2>
-            <h1 item-end >{{'score' | translate}} : {{user_score.total_score}}</h1>
+            <h2 style="white-space: normal;">{{user_score.user_name}}</h2>
+            <h1 item-end >{{'score' | translate}} : {{user_score.total_score*10}}</h1>
           </ion-item>
       </ion-list>
   </div>

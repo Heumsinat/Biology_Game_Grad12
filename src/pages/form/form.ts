@@ -36,7 +36,7 @@ declare var cordova: any;
 })
 export class FormPage {
 
-  public data = { fullName:"", userName:"", password:"",phone:"", gender:"", province:"", district:"", school:"" };
+  public data = { fullName:"", userName:"", password:"",phone:"123456875", gender:"", province:"", district:"", school:"" };
 
   
   provinces: any [];
