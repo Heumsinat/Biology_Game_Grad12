@@ -38,9 +38,6 @@
             <div class="alert" *ngIf="!valForm1.controls.userName.valid && !valForm1.controls.userName.pending && valForm1.controls.userName.dirty">
                 <p>Please input at least 3 characters!</p>
             </div>
-            <!-- <div class="formError" *ngIf="this.form['controls'].userName.hasError('alreadyExist')">
-              *this username already exists in our database!
-            </div> -->
             
 
             <ion-item class="form1" [hidden]="fbData==2">
@@ -53,7 +50,7 @@
             
             <ion-item class="form1">
               <ion-label>{{'phone' | translate}}</ion-label>
-              <ion-input type="number" [class.invalid]="!valForm1.controls.phone.valid && valForm1.controls.phone.dirty" formControlName="phone" type="text" [(ngModel)]="data.phone" name="phone"></ion-input>
+              <ion-input number-only [class.invalid]="!valForm1.controls.phone.valid && valForm1.controls.phone.dirty" formControlName="phone" type="number" [(ngModel)]="data.phone" name="phone"></ion-input>
             </ion-item>
             <div class="alert" *ngIf="!valForm1.controls.phone.valid && valForm1.controls.phone.dirty">
               <p>Please input number and at least 9 characters!</p>
