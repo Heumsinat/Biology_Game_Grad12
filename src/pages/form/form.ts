@@ -80,7 +80,7 @@ export class FormPage {
     private base64: Base64
   ) {
    
-    this.checkUsername();
+    // this.checkUsername();
     /**Get data of facebook user from welcomepage
      * 
      */
@@ -315,20 +315,20 @@ export class FormPage {
         }).catch(e => console.log(e));
   }
 
-  checkUsername(){
-    // console.log(id);
-    this.db.executeSQL(`SELECT user_name FROM users`)  
-        .then(res => {
-          console.log('==========> User_name: ',res);
-          this.userNameInfo = [];       
-          for (var i = 0; i<res.rows.length; i++){
-            this.userNameInfo.push({
-              user_name: res.rows.item(i).user_name     
+  // checkUsername(){
+  //   // console.log(id);
+  //   this.db.executeSQL(`SELECT user_name FROM users`)  
+  //       .then(res => {
+  //         console.log('==========> User_name: ',res);
+  //         this.userNameInfo = [];       
+  //         for (var i = 0; i<res.rows.length; i++){
+  //           this.userNameInfo.push({
+  //             user_name: res.rows.item(i).user_name     
                      
-            })
-          }
-        }).catch(e => console.log(e));
-  }
+  //           })
+  //         }
+  //       }).catch(e => console.log(e));
+  // }
 
   
 
