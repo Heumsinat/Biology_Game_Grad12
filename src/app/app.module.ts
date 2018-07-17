@@ -14,8 +14,8 @@ import { HomePage } from '../pages/home/home';
 import { SQLite } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
 import { DatabaseProvider } from '../providers/database/database';
-import { QuestionPage } from '../pages/question/question';
-import {SectionPage} from "../pages/section/section";
+
+import { SectionPage} from "../pages/section/section";
 import { LoginPage } from "../pages/login/login";
 import { FormPage } from "../pages/form/form";
 import { WelcomePage } from "../pages/welcome/welcome";
@@ -25,18 +25,19 @@ import { IonFormWizardStep } from './wizard.step.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Facebook  } from '@ionic-native/facebook';
 
-import {NativeAudio} from "@ionic-native/native-audio";
+import { NativeAudio} from "@ionic-native/native-audio";
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
-import {LessonPage} from "../pages/lesson/lesson";
-import {QuizPage} from "../pages/quiz/quiz";
-import {SectionReviewPage} from "../pages/section-review/section-review";
-import {StarterPage} from "../pages/starter/starter";
+import { LessonPage} from "../pages/lesson/lesson";
+import { QuizPage} from "../pages/quiz/quiz";
+import { SectionReviewPage} from "../pages/section-review/section-review";
+import { StarterPage} from "../pages/starter/starter";
 import { HelpersProvider } from '../providers/helpers/helpers';
 import { HttpModule, Http } from '@angular/http';
 import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 import { ProfilePage } from '../pages/profile/profile';
 import { Network } from '@ionic-native/network';
+import { QuestionPage } from '../pages/question/question';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -47,12 +48,12 @@ export function createTranslateLoader(http: HttpClient) {
     MyApp,
     HomePage,
     LessonPage,
+    QuizPage,
     QuestionPage,
     SectionPage,
     LoginPage,
     FormPage,
     WelcomePage,
-    QuizPage,
     SectionReviewPage,
     StarterPage,
     LeaderboardPage,
@@ -73,19 +74,19 @@ export function createTranslateLoader(http: HttpClient) {
             deps: [HttpClient]
         }
     }),
-    
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
     LessonPage,
+    QuizPage,
     QuestionPage,
     SectionPage,
     LoginPage,
     FormPage,
     WelcomePage,
-    QuizPage,
     SectionReviewPage,
     StarterPage,
     LeaderboardPage,
@@ -107,7 +108,7 @@ export function createTranslateLoader(http: HttpClient) {
     FileTransferObject,
     ImagePicker,
     Base64
-    
+
   ]
 })
 export class AppModule {}
