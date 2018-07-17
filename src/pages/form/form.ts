@@ -212,7 +212,7 @@ export class FormPage {
       });
  
   }
-  // key: string;
+//   key: string;
 //   someServiceWorkingWithDatabase: any;
 //   private validateUsername(): ValidatorFn {
 //     return (control: AbstractControl): { [key: string]: any }  => {
@@ -327,7 +327,7 @@ export class FormPage {
 
   checkUsername(){
     // console.log(id);
-    this.db.executeSQL(`SELECT user_name FROM users`)  
+    this.db.executeSQL(`SELECT user_name FROM users WHERE user_name=${this.data.userName}`)  
         .then(res => {
           console.log('==========> User_name: ',res);
           this.userNameInfo = [];       
@@ -375,7 +375,7 @@ export class FormPage {
     // else{
      
       // console.log('===============> My value: ',;
-      // if(this.data.userName === ){
+      // if(this.data.userName == this. ){
         this.db.getInstance().then((db: SQLiteObject) => {
           db.executeSql(sqlStr, data)
             .then(res => {
