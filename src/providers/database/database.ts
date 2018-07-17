@@ -47,7 +47,7 @@ export class DatabaseProvider {
     plugins.sqlDB.copy("biology.db", sqlDBLocation ,(res)=>{
       console.log(res)
     }, (err)=>{
-      // plugins.sqlDB.remove("biology.db", sqlDBLocation, (res)=>{
+      //     plugins.sqlDB.remove("biology.db", sqlDBLocation, (res)=>{
       //    console.log(res);
       //    plugins.sqlDB.copy("biology.db", sqlDBLocation , this.dbCopySuccess, this.dbCopyError);
       // },(err)=>{});
