@@ -30,7 +30,7 @@
     <ion-grid>
       <ion-row>
           <ion-col>
-            {{sections.content || ''}}
+            <div [innerHTML]="sections.content || ''"></div>
           </ion-col>
       </ion-row>
     </ion-grid>
