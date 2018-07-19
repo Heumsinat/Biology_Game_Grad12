@@ -23,7 +23,7 @@ import async from 'async';
 })
 export class LeaderboardPage {
 
-  leaderboard: string = "លំដាប់ពិន្ទុ";
+  leaderboard: string = "តារាងពិន្ទុ";
   user_quizzes: any = [];
   userId : number;
   user_scores = [];
