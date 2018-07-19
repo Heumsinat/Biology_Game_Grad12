@@ -10,6 +10,7 @@ import {DatabaseProvider} from "../../providers/database/database";
 import { ProfilePage } from '../profile/profile';
 import { Network } from '@ionic-native/network';
 import {LeaderboardPage} from "../leaderboard/leaderboard";
+import { DomSanitizer } from '@angular/platform-browser';
 
 /**
  * Generated class for the StarterPage page.
@@ -38,6 +39,8 @@ export class StarterPage {
   imageURI:any;
   imageFileName:any;
   presentToast: any;
+  needSynch: boolean;
+  photo: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -50,7 +53,8 @@ export class StarterPage {
     private network: Network,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    public fileTransfer: FileTransfer
+    public fileTransfer: FileTransfer,
+    private sanitizer: DomSanitizer
   ) {
 
     platform.ready().then(()=>{
@@ -63,6 +67,7 @@ export class StarterPage {
     console.log("localStorage of userData ="+localStorage.getItem("userData"));
     this.userId = JSON.parse(localStorage.getItem("userData")).id;
     this.fb_id = JSON.parse(localStorage.getItem("userData")).fb_id;
+    this.photo = JSON.parse(localStorage.getItem("userData")).photo;
     console.log('UserID',this.userId);
     this.insertUserIntoLocal(JSON.parse(localStorage.getItem("userData")));
     
@@ -90,27 +95,35 @@ export class StarterPage {
       this.requestToGetSettings();
       //localStorage.setItem('currentQID',String(this.helpers.getCurrentQID(this.userId)));
       this.helpers.getCurrentQID(this.userId);
-      console.log('Current QID in starter localstorage ='+localStorage.getItem('currentQID'));
+      //console.log('Current QID in starter localstorage ='+localStorage.getItem('currentQID'));
       this.requestToUpdateOrderQuestions();
       this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,false, StarterPage, false);
       this.calculateRemainingNoOfQuestionToday();
+      this.needSynch = false;
+      console.log('after synch data; needSynch = ', this.needSynch);
     }
-    // Watch Internet connect when it is connected, do... //
-    let connectSubscription = this.network.onConnect().subscribe(() => {
-      console.log('network connected!');
-      // We just got a connection but we need to wait briefly
-      // before we determine the connection type. Might need to wait.
-      // prior to doing any api requests as well.
-      setTimeout(() => {
-        console.log('ionViewDidLoad StarterPage');
-        this.requestToGetSettings();
-        this.requestToUpdateOrderQuestions();
-        this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,false, StarterPage, false);
-        this.calculateRemainingNoOfQuestionToday();
-        connectSubscription.unsubscribe();
-      }, 0);
-    });
+    else{
+      this.needSynch = true
+      console.log('when offline; needSynch = ', this.needSynch);
+    };
 
+    if(this.needSynch){
+      // Watch Internet connect when it is connected, do... //
+      var connectSubscription = this.network.onConnect().subscribe(() => {
+        console.log('network connected!');
+        // We just got a connection but we need to wait briefly
+        // before we determine the connection type. Might need to wait.
+        // prior to doing any api requests as well.
+        setTimeout(() => {
+          this.requestToGetSettings();
+          this.requestToUpdateOrderQuestions();
+          this.helpers.synchUserQuizeToServer(["user_quizzes"],"insert_user_quiz_app",6,false, StarterPage, false);
+          this.calculateRemainingNoOfQuestionToday();
+          connectSubscription.unsubscribe();
+          this.needSynch = false;
+        }, 0);
+      });
+    }
     this.calculateRemainingNoOfQuestionToday();
   }
 
@@ -410,12 +423,12 @@ export class StarterPage {
 
 
      // Creator: SAMAK //
-    // Function to update a few records of order questions table//
+    // Function to insert user into local DB after user just login //
     insertUserIntoLocal(dataUser:any){
       console.log('insertUserIntoLocal');
       this.db.executeSQL(`SELECT * FROM users WHERE user_id=${dataUser.id}`)
         .then( resSelectUser => {
-          if(resSelectUser)
+          if(resSelectUser==null)
           {
             this.db.executeSQL(`INSERT INTO users(user_id, full_name, user_name, phone_number, gender, school_id, fb_id) VALUES(${dataUser.id}, '${dataUser.full_name}', '${dataUser.user_name}','${dataUser.phone_number}' ,${dataUser.gender},  '${dataUser.school_id}', '${dataUser.fb_id}')`)
             .then( resInsert => {

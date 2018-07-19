@@ -9,7 +9,7 @@
 <ion-content>
   <div class="imageProfile">
     <div class="profileAvatar">
-      <img src="{{pic_path}}">
+      <img [src]="sanitizer.bypassSecurityTrustUrl('data:image/*;base64, '+pic_path)">
     </div>
     <div class="profileLabel">
       <h3>{{user_data.full_name}}</h3>
