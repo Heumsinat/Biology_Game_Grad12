@@ -46,12 +46,15 @@ export class ProfilePage {
     } else this.gender ="ប្រុស";
     this.getSchoolName(this.user_data.school_id);
     // TO display picture from facebook or fix picture profile
-    this.pic_path = "assets/img/profile.png";
+    
     var fb_id = JSON.parse(localStorage.getItem("userData")).fb_id;
     if(fb_id != null)
     {
       // this.pic_path = "file:///data/user/0/kh.org.open.biology12/files/"+fb_id+".jpg";
       this.pic_path = JSON.parse(localStorage.getItem("userData")).photo;
+    }
+    else{
+      this.pic_path = "";
     }
 
 
