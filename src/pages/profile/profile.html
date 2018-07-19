@@ -9,7 +9,8 @@
 <ion-content>
   <div class="imageProfile">
     <div class="profileAvatar">
-      <img src="{{pic_path}}">
+      <img *ngIf="pic_path!=''" [src]="sanitizer.bypassSecurityTrustUrl('data:image/*;base64, '+pic_path)">
+      <img *ngIf="pic_path==''" src="assets/img/profile.png">
     </div>
     <div class="profileLabel">
       <h3>{{user_data.full_name}}</h3>

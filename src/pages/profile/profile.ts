@@ -4,6 +4,7 @@ import { DatabaseProvider } from '../../providers/database/database';
 import { Network } from '@ionic-native/network';
 import { FormPage } from '../form/form';
 import { HelpersProvider } from '../../providers/helpers/helpers';
+import { DomSanitizer } from '@angular/platform-browser';
 
 /**
  * Generated class for the ProfilePage page.
@@ -30,7 +31,8 @@ export class ProfilePage {
       private platform: Platform,
       public dbProvider:DatabaseProvider,
       public network: Network,
-      public helpers: HelpersProvider
+      public helpers: HelpersProvider,
+      private sanitizer: DomSanitizer
   ) {
     // To display score =0 instead of null, otherwise display real number
     var score = localStorage.getItem('Score');
@@ -44,11 +46,15 @@ export class ProfilePage {
     } else this.gender ="ប្រុស";
     this.getSchoolName(this.user_data.school_id);
     // TO display picture from facebook or fix picture profile
-    this.pic_path = "assets/img/profile.png";
+    
     var fb_id = JSON.parse(localStorage.getItem("userData")).fb_id;
     if(fb_id != null)
     {
-      this.pic_path = "file:///data/user/0/kh.org.open.biology12/files/"+fb_id+".jpg";
+      // this.pic_path = "file:///data/user/0/kh.org.open.biology12/files/"+fb_id+".jpg";
+      this.pic_path = JSON.parse(localStorage.getItem("userData")).photo;
+    }
+    else{
+      this.pic_path = "";
     }
 
 
