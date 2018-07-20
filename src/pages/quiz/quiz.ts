@@ -39,6 +39,7 @@ export class QuizPage {
     userId: number;
     appCtrl: any;
     isPlaying: boolean = false;
+    isAnswered: boolean = false;
 
     constructor(
         public navCtrl: NavController,
@@ -213,104 +214,108 @@ export class QuizPage {
      */
     public answer (correct_ans: number, question_id: number, answer_order:number ){
         console.log('USER ANSWER ID', answer_order);
+        
         // if correct_ans , play audio correct then push to SectionReviewPage
         var listOfTable = ["user_quizzes"];
-        if (correct_ans == 1){
-            return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
-                return this.nativeAudio.play('correct', ()=>{
-                    this.nativeAudio.unload('correct');
-                    this.db.executeSQL(`select * from questions where id = '${question_id}'`)
-                        .then(res => {
-                            let question_id = res.rows.item(0).id;
-                            let section_id = res.rows.item(0).section_id;
-                            // let next_question_id = res.rows.item(0).next_question_id;
-                            console.log('section_id', section_id);
-                            /*
-                             //Save data to table user_quizzes
-                             Samak API #2
-                            */
+        if(!this.isAnswered){
+            this.isAnswered = true;
+            if (correct_ans == 1){
+                return this.nativeAudio.preloadComplex('correct', 'assets/sounds/correct.mp3',1,1,0).then(()=>{
+                    return this.nativeAudio.play('correct', ()=>{
+                        this.nativeAudio.unload('correct');
+                        this.db.executeSQL(`select * from questions where id = '${question_id}'`)
+                            .then(res => {
+                                let question_id = res.rows.item(0).id;
+                                let section_id = res.rows.item(0).section_id;
+                                // let next_question_id = res.rows.item(0).next_question_id;
+                                console.log('section_id', section_id);
+                                /*
+                                //Save data to table user_quizzes
+                                Samak API #2
+                                */
 
-                            //Save User_Question
-                            this.db.executeSQL(`INSERT INTO user_quizzes ( user_id, question_id,user_ans_id, ans_correct, score, created_at, isSent) 
-                                            VALUES (` + this.userId + `,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, datetime('now'), 0)`).then(res=>{
+                                //Save User_Question
+                                this.db.executeSQL(`INSERT INTO user_quizzes ( user_id, question_id,user_ans_id, ans_correct, score, created_at, isSent) 
+                                                VALUES (` + this.userId + `,` + question_id + `,` + answer_order + `,` + correct_ans + `,1, datetime('now'), 0)`).then(res=>{
 
-                                console.log('Current number of question that has insert', res);
+                                    console.log('Current number of question that has insert', res);
 
+                                });
+                                // If There is Interent Connection,
+                                // Synch offline data into server
+                                if(this.network.type != "none")
+                                {
+                                    
+                                    this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6,false ,StarterPage,false);
+                                }
+                                //End Save
+                                // console.log(this.current.question_sound);
+                                localStorage.setItem("currentQID",question_id);
+                                this.navCtrl.push(SectionPage, {
+                                    answerCorrect: correct_ans,
+                                    sectionID: section_id,
+                                    questionID: question_id
+                                });
+
+                                // Get nextQID by SELECT * FROM order_questions WHERE question_id = ${localStorage.getItem("currentQID")
+                                console.log("SELECT * FROM order_questions WHERE question_id ="+localStorage.getItem("currentQID"));
+                                this.db.executeSQL(`SELECT * FROM order_questions WHERE question_id = ${localStorage.getItem("currentQID")}`)
+                                    .then(res => {
+                                        //this.questions = {};
+                                        var nextQID:any;
+                                        console.log("res result in getNextQuestionID = "+JSON.stringify(res));
+                                        nextQID = res.rows.item(0).next_question_id;
+                                        // set local storage for NextQID
+                                        localStorage.setItem("NextQID",nextQID);
+                                    }).catch(e => console.log((e)));
                             });
-                            // If There is Interent Connection,
-                            // Synch offline data into server
-                            if(this.network.type != "none")
-                            {
+                    });
+                });
+            }else {
+                return this.nativeAudio.preloadComplex('wrong', 'assets/sounds/wrong.mp3',1,1,0).then(()=>{
+                    return this.nativeAudio.play('wrong', ()=>{
+                        this.nativeAudio.unload('wrong');
+                        this.db.executeSQL(`select * from questions where id = '${question_id}'`)
+                            .then(res => {
+                                let question_id = res.rows.item(0).id;
+                                let section_id = res.rows.item(0).section_id;
+                                let next_question_id = res.rows.item(0).next_question_id;
+                                console.log('section_id', section_id);
+                                //Save User_Question
+                                this.db.executeSQL(`INSERT INTO user_quizzes ( user_id, question_id,user_ans_id, ans_correct, score, created_at, isSent) 
+                                                VALUES (` + this.userId + `,` + question_id + `,` + answer_order + `,` + correct_ans + `,0, datetime('now'), 0)`).then(res=>{
+                                    console.log('Current number of question that has insert', res);
+
+                                });
+                                // If There is Interent Connection,
+                                // Synch offline data into server
+                                if(this.network.type != "none")
+                                {
+                                    this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6,false ,StarterPage, false);
+                                }
                                 
-                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6,false ,StarterPage,false);
-                            }
-                            //End Save
-                            // console.log(this.current.question_sound);
-                            localStorage.setItem("currentQID",question_id);
-                            this.navCtrl.push(SectionPage, {
-                                answerCorrect: correct_ans,
-                                sectionID: section_id,
-                                questionID: question_id
+                                //End Save
+                                // console.log(this.current.question_sound);
+                                localStorage.setItem("currentQID",question_id);
+                                this.navCtrl.push(SectionPage, {
+                                    answerCorrect: correct_ans,
+                                    sectionID: section_id,
+                                    questionID: question_id
+                                });
+                                // Get nextQID by SELECT * FROM order_questions WHERE question_id = ${localStorage.getItem("currentQID")
+                                this.db.executeSQL(`SELECT * FROM order_questions WHERE question_id = ${localStorage.getItem("currentQID")}`)
+                                    .then(res => {
+                                        //this.questions = {};
+                                        var nextQID:any;
+                                        console.log("res result in getNextQuestionIDSamak = "+JSON.stringify(res));
+                                        nextQID = res.rows.item(0).next_question_id;
+                                        // set local storage for NextQID
+                                        localStorage.setItem("NextQID",nextQID);
+                                    }).catch(e => console.log((e)));
                             });
-
-                            // Get nextQID by SELECT * FROM order_questions WHERE question_id = ${localStorage.getItem("currentQID")
-                            console.log("SELECT * FROM order_questions WHERE question_id ="+localStorage.getItem("currentQID"));
-                            this.db.executeSQL(`SELECT * FROM order_questions WHERE question_id = ${localStorage.getItem("currentQID")}`)
-                                .then(res => {
-                                    //this.questions = {};
-                                    var nextQID:any;
-                                    console.log("res result in getNextQuestionID = "+JSON.stringify(res));
-                                    nextQID = res.rows.item(0).next_question_id;
-                                    // set local storage for NextQID
-                                    localStorage.setItem("NextQID",nextQID);
-                                }).catch(e => console.log((e)));
-                        });
+                    });
                 });
-            });
-        }else {
-            return this.nativeAudio.preloadComplex('wrong', 'assets/sounds/wrong.mp3',1,1,0).then(()=>{
-                return this.nativeAudio.play('wrong', ()=>{
-                    this.nativeAudio.unload('wrong');
-                    this.db.executeSQL(`select * from questions where id = '${question_id}'`)
-                        .then(res => {
-                            let question_id = res.rows.item(0).id;
-                            let section_id = res.rows.item(0).section_id;
-                            let next_question_id = res.rows.item(0).next_question_id;
-                            console.log('section_id', section_id);
-                            //Save User_Question
-                            this.db.executeSQL(`INSERT INTO user_quizzes ( user_id, question_id,user_ans_id, ans_correct, score, created_at, isSent) 
-                                            VALUES (` + this.userId + `,` + question_id + `,` + answer_order + `,` + correct_ans + `,0, datetime('now'), 0)`).then(res=>{
-                                console.log('Current number of question that has insert', res);
-
-                            });
-                            // If There is Interent Connection,
-                            // Synch offline data into server
-                            if(this.network.type != "none")
-                            {
-                                this.helpers.synchUserQuizeToServer(listOfTable,"insert_user_quiz_app",6,false ,StarterPage, false);
-                            }
-                            
-                            //End Save
-                            // console.log(this.current.question_sound);
-                            localStorage.setItem("currentQID",question_id);
-                            this.navCtrl.push(SectionPage, {
-                                answerCorrect: correct_ans,
-                                sectionID: section_id,
-                                questionID: question_id
-                            });
-                            // Get nextQID by SELECT * FROM order_questions WHERE question_id = ${localStorage.getItem("currentQID")
-                            this.db.executeSQL(`SELECT * FROM order_questions WHERE question_id = ${localStorage.getItem("currentQID")}`)
-                                .then(res => {
-                                    //this.questions = {};
-                                    var nextQID:any;
-                                    console.log("res result in getNextQuestionIDSamak = "+JSON.stringify(res));
-                                    nextQID = res.rows.item(0).next_question_id;
-                                    // set local storage for NextQID
-                                    localStorage.setItem("NextQID",nextQID);
-                                }).catch(e => console.log((e)));
-                        });
-                });
-            });
+            }
         }
     }
     /*

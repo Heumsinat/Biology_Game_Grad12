@@ -5,27 +5,28 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar hideBackButton color="skyblue" >
+  <ion-navbar hideBackButton color="skyblue">
     <ion-title class="head">សំណួរ</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content >
-    <ion-grid class="content">
+<ion-content>
+  <ion-grid class="content">
     <ion-row class="choice">
-        <ion-item >
+      <ion-item>
         <ion-item-sliding no-lines no-padding width-100 *ngFor="let answers of answers; let i=index">
           <ion-item no-lines no-padding>
-            <button [hidden]="!playCompleted" ion-button class="btn btn-primary btn-lg btn3d" width-100 menu-header block color="primary" (click)="answer(answers.is_correct_answer, answers.question_id,answers.answer_order)">
+            <button [hidden]="!playCompleted" ion-button class="btn btn-primary btn-lg btn3d" width-100 menu-header 
+              block color="primary" (click)="answer(answers.is_correct_answer, answers.question_id,answers.answer_order)">
               {{answers.answer_text}}
             </button>
           </ion-item>
         </ion-item-sliding>
-        </ion-item>
+      </ion-item>
     </ion-row>
-    </ion-grid>
+  </ion-grid>
 </ion-content>
 <ion-footer unit-footer>
-  <ion-toolbar  color="lightgreen">
+  <ion-toolbar color="lightgreen">
     <button ion-button float-start clear (click)="backButtonClick()">
       <ion-icon name="arrow-back"></ion-icon>
     </button>
