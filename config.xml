@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="kh.org.open.biology12" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Evolution Game</name>
+    <name>ជីវវិទ្យា ថ្នាក់ទី១២</name>
     <description>An Evolution Game is built on Ionic/Cordova Framework. It is a tool</description>
     <author email="open@open.org.kh" href="http://open.org.kh/">Open Instiute Developer Team</author>
     <content src="index.html" />
