@@ -20,13 +20,13 @@
 
             <ion-item class="form1">
               <ion-label>{{'fullName' | translate}}</ion-label>
-              
+
               <ion-input [class.invalid]="!valForm1.controls.fullName.valid && valForm1.controls.fullName.dirty" formControlName="fullName" trimmed type="text" [(ngModel)]="data.fullName" name="fullName"></ion-input>
             </ion-item>
             <div class="alert" *ngIf="!valForm1.controls.fullName.valid && !valForm1.controls.fullName.pending && valForm1.controls.fullName.dirty">
-              <p>Please input your full name!</p> 
+              <p>Please input your full name!</p>
             </div>
-            
+
 
             <ion-item class="form1" [hidden]="fbData==2">
               <ion-label>{{'userName' | translate}}</ion-label>
@@ -38,7 +38,7 @@
             <div class="alert" *ngIf="!valForm1.controls.userName.valid && !valForm1.controls.userName.pending && valForm1.controls.userName.dirty">
                 <p>Please input at least 3 characters!</p>
             </div>
-            
+
 
             <ion-item class="form1" [hidden]="fbData==2">
               <ion-label>{{'password' | translate}}</ion-label>
@@ -47,7 +47,7 @@
             <div class="alert" *ngIf="!valForm1.controls.password.valid && valForm1.controls.password.dirty">
               <p>Please input at least 4 characters!</p>
             </div>
-            
+
             <ion-item class="form1">
               <ion-label>{{'phone' | translate}}</ion-label>
               <ion-input number-only [class.invalid]="!valForm1.controls.phone.valid && valForm1.controls.phone.dirty" formControlName="phone" type="number" [(ngModel)]="data.phone" name="phone"></ion-input>
@@ -104,8 +104,8 @@
   </ion-grid>
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar>
+<ion-footer unit-footer>
+  <ion-toolbar color="lightgreen">
     <button ion-button float-start clear class="bicon" (click)="backButtonClick()">
       <ion-icon name="md-arrow-round-back"></ion-icon>
     </button>

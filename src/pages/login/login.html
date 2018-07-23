@@ -16,27 +16,27 @@
 <ion-content padding class="background-img">
   <!--<ion-label class="content">Signin</ion-label>-->
   <form [formGroup]="loginValidate">
-    <div> 
+    <div>
       <ion-item class="form1" id="btn01">
         <ion-label outline>{{'userName' | translate}}</ion-label>
         <ion-input type="text"  value="" [(ngModel)]="userData.name_id" formControlName="usr"></ion-input>
       </ion-item>
-        
+
       <ion-item class="form1">
         <ion-label>{{'Password' | translate}}</ion-label>
         <ion-input type="password" value="" [(ngModel)]="userData.pwd" formControlName="pwd"></ion-input>
-      </ion-item>     
+      </ion-item>
   </div>
   <div padding id="btn02">
       <button block class="btn btn-primary btn-lg btn3d" id="btn0" (click)="signin()">{{'sign in' | translate}}</button>
   </div>
 </form>
-  
+
 
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar>
+<ion-footer unit-footer>
+  <ion-toolbar color="lightgreen">
       <button ion-button float-start clear class="bicon" (click)="backButtonClick()">
         <ion-icon name="md-arrow-round-back"></ion-icon>
       </button>

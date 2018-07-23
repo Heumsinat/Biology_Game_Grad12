@@ -6,7 +6,7 @@ page-form {
         //text-align: center;
     }
     .alert{
-        
+
         background: transparent;
         margin-top: 0px;
     }
@@ -19,26 +19,26 @@ page-form {
     }
 
     .background-img{
-        background-image: url('../assets/imgs/bg.png');
+        background-image: url('../assets/img/screen_background.png');
         background-size: cover;
         background-repeat: no-repeat;
-        
+
     }
     .form1{
-        
+
         width: 100%;
         -moz-border-radius: 50px;
         -webkit-border-radius: 50px;
         border-radius: 10px;
         //border-style: solid;
         border: 2px solid blue;
-        margin-bottom: 10px;  
+        margin-bottom: 10px;
     }
     .container {
-        //width: 300px; 
+        //width: 300px;
         margin-top: 50px;
-        margin-left:auto; 
-        margin-right: auto; 
+        margin-left:auto;
+        margin-right: auto;
     }
     .container1{
         margin-top: 50px;
@@ -67,14 +67,14 @@ page-form {
         margin-left: 2px;
         margin-right: 2px;
     }
-    
+
     .btn3d:active:focus,
     .btn3d:focus:hover,
     .btn3d:focus {
         -moz-outline-style: none;
         outline: medium none;
     }
-    
+
     .btn3d:active,
     .btn3d.active {
         top: 2px;
@@ -83,7 +83,7 @@ page-form {
         box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
         background-color: #4274D7;
     }
-    
+
     .btn3d.btn-primary:active,
     .btn3d.btn-primary.active {
         box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.1);
@@ -91,13 +91,13 @@ page-form {
     }
     #btn1{
         margin-top: 30px;
-        
+
     }
     #btn0{
         font-size: 25px;
         height: 50px;
     }
-    
+
     [xela]{
         [ion-input]{
             border: 3px;
@@ -108,5 +108,29 @@ page-form {
     ion-select{
         max-width: 75% !important;
         text-align: left;
+    }
+
+    [unit-footer] {
+      ion-toolbar {
+        text-align: center;
+        .button-clear-md{
+          color: white;
+        }
+        .button-md{
+          padding: 0 0.7em;
+        }
+
+        [ion-button] {
+          font-size: 1.6em;
+
+        }
+      }
+      .toolbar-background {
+        border-color: transparent;
+        //background: transparent;
+      }
+      &:before {
+        background-image: none;
+      }
     }
 }
