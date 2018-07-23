@@ -80,23 +80,23 @@
 
             <ion-item class="form1">
               <ion-label>{{'district' | translate}}</ion-label>
-              <ion-select [class.invalid]="!valForm2.controls.district.valid && valForm2.controls.district.dirty" formControlName="district" (ionChange)="onChangeSelectDistrict($event)" [(ngModel)]="data.district">
+              <ion-select *ngIf="data.province" formControlName="district" (ionChange)="onChangeSelectDistrict($event)" [(ngModel)]="data.district">
                 <ion-option *ngFor="let district of districts" [value]="district.dcode">{{district.dname_kh}}</ion-option>
               </ion-select>
             </ion-item>
-            <div class="alert" *ngIf="!valForm2.controls.district.valid && valForm2.controls.district.dirty">
+            <!-- <div class="alert" *ngIf="!valForm2.controls.district.valid && valForm2.controls.district.dirty">
               <p>Please select province first!</p>
-            </div>
+            </div> -->
 
             <ion-item class="form1">
               <ion-label>{{'school' | translate}}</ion-label>
-              <ion-select [class.invalid]="!valForm2.controls.school.valid && valForm2.controls.school.dirty" formControlName="school" [(ngModel)]="data.school">
+              <ion-select *ngIf="data.district" formControlName="school" [(ngModel)]="data.school">
                 <ion-option *ngFor="let school_list of school_lists" [value]="school_list.school_id">{{school_list.school_name}}</ion-option>
               </ion-select>
             </ion-item>
-            <div class="alert" *ngIf="!valForm2.controls.school.valid && valForm2.controls.school.dirty">
+            <!-- <div class="alert" *ngIf="!valForm2.controls.school.valid && valForm2.controls.school.dirty">
               <p>Please select district first!</p>
-            </div>
+            </div> -->
           </div>
         </form>
       </ion-wizard-step>

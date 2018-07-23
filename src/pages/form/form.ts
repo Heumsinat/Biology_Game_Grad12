@@ -176,7 +176,7 @@ export class FormPage {
           userName: [null, Validators.compose([Validators.minLength(3)])],
           password: [null, Validators.compose([Validators.minLength(4)])],
           phone: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(9)])],
-          gender:[null]
+          gender:[null, Validators.required]
         });
       }
       // , this.validateUsername()
