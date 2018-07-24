@@ -40,6 +40,7 @@ export class QuizPage {
     appCtrl: any;
     isPlaying: boolean = false;
     isAnswered: boolean = false;
+    testing:any = "<p>បាស G + ស្ករ C<sub>5</sub>H<sub>10</sub>O<sub>4</sub> + H<sub>3</sub>PO<sub>4</sub></p>";
 
     constructor(
         public navCtrl: NavController,

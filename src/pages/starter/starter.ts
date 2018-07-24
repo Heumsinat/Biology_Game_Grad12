@@ -26,6 +26,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class StarterPage {
 
+  public infoID;
   no_of_quiz: any;
   day_of_quiz : any;
   responseData : any;
@@ -56,6 +57,8 @@ export class StarterPage {
     public fileTransfer: FileTransfer,
     private sanitizer: DomSanitizer
   ) {
+
+    typeof this.navParams.get('infoID') == 'undefined' ? this.infoID = 'root' : this.infoID = this.navParams.get('infoID');
 
     platform.ready().then(()=>{
       platform.registerBackButtonAction(() =>{
@@ -164,6 +167,17 @@ export class StarterPage {
   goToHomePage() {
     this.navCtrl.push(
         HomePage);
+  }
+
+  public backButtonClick() {
+    this.navCtrl.pop();
+  }
+
+  public info(id) {
+    this.navCtrl.push(
+      StarterPage, {
+        infoID: id
+      });
   }
 
   exitButtonClick() {

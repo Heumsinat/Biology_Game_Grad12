@@ -5,54 +5,79 @@
   Ionic pages and navigation.
 -->
 <ion-content  class="content">
-  <div class="profile" > 
-        <ion-row *ngIf = "fb_id">
-          <ion-col col-3 push-9>
-                <!-- <img src="file:///data/user/0/kh.org.open.biology12/files/{{fb_id}}.jpg" (click)="GotoProfilePage()"/>  -->
-                <img [src]="sanitizer.bypassSecurityTrustUrl('data:image/*;base64, '+photo)" (click)="GotoProfilePage()"/>
-          </ion-col>
-        </ion-row>
-        <ion-row *ngIf = "!fb_id">
-          <ion-col col-3 push-9>        
-                <img src="assets/img/profile.png" (click)="GotoProfilePage()"/> 
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-5 push-8>
-            {{'score' | translate}}: {{ total_score*10 }}
-          </ion-col>
-        </ion-row>
-  </div>
-  <div class="message " *ngIf="!is_leaderboard">
-    <ion-card no-padding>
-      <ion-card-content>
-        {{'today you have' | translate}} <br>
-        {{ day_of_quiz }} {{'question' | translate}}
-      </ion-card-content>
-    </ion-card>
-  </div>
-  <div class="btnQuiz">
-    <button *ngIf="!is_leaderboard" ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToQuiz()">
-      {{'play' | translate}}
-    </button>
-    <button *ngIf="is_leaderboard" ion-button id="btnLeaderboard" class="btn btn-primary btn-lg btn3d"  block color="primary" (click)="gotoLeaderboard()">
-      {{'leaderboad' | translate}}
-    </button>
-  </div>
-  <div class="btnReview">
-    <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToHomePage()">
-      {{'review' | translate}}
-    </button>
-  </div>
+  <ion-grid *ngIf="infoID == 'root'">   
+      <div class="profile" > 
+            <ion-row *ngIf = "fb_id">
+              <ion-col col-3 push-9>
+                    <!-- <img src="file:///data/user/0/kh.org.open.biology12/files/{{fb_id}}.jpg" (click)="GotoProfilePage()"/>  -->
+                    <img [src]="sanitizer.bypassSecurityTrustUrl('data:image/*;base64, '+photo)" (click)="GotoProfilePage()"/>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf = "!fb_id">
+              <ion-col col-3 push-9>        
+                    <img src="assets/img/profile.png" (click)="GotoProfilePage()"/> 
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-5 push-8>
+                {{'score' | translate}}: {{ total_score*10 }}
+              </ion-col>
+            </ion-row>
+      </div>
+      <div class="message " *ngIf="!is_leaderboard">
+        <ion-card no-padding>
+          <ion-card-content>
+            {{'today you have' | translate}} <br>
+            {{ day_of_quiz }} {{'question' | translate}}
+          </ion-card-content>
+        </ion-card>
+      </div>
+      <div class="btnQuiz">
+        <button *ngIf="!is_leaderboard" ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToQuiz()">
+          {{'play' | translate}}
+        </button>
+        <button *ngIf="is_leaderboard" ion-button id="btnLeaderboard" class="btn btn-primary btn-lg btn3d"  block color="primary" (click)="gotoLeaderboard()">
+          {{'leaderboad' | translate}}
+        </button>
+      </div>
+      <div class="btnReview">
+        <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToHomePage()">
+          {{'review' | translate}}
+        </button>
+      </div>
+  </ion-grid>
+
+  <ion-grid *ngIf="infoID == 'C1'">
+      <ion-scroll class="view_content" scrollY="true">
+          <ion-label class="Elabel"><b>ជីវវិទ្យា ថ្នាក់ទី១២</b></ion-label>
+            <ion-row>
+              <ion-col>
+                <p>
+                  កម្មវិធី​នេះ​ជា​ឧបករណ៍​ជំនួយ​សម្រាប់​សិស្ស​ក្នុង​ការ​បង្កើន​នូវ​ការ​ចង​ចាំ​ផ្នែក​វិទ្យាសាស្រ្ត​ ដោយ​វា​នឹង​រំលឹក​ពួក​គេ​ជា​រៀង​រាល់​ថ្ងៃ​អំពី​ប្រធាន​បទ​ជីវវិទ្យា​ដែល​សិស្សបានសិក្សា​ ដោយ​ប្រើ​សំលេង​នៅ​លើ​ស្មាតហ្វូន​របស់​គេ។
+                </p>
+                <p>
+                  សិស្ស​ថ្នាក់​ទី​ ១២ អាច​ទាញ​យក​ ​លេង​ហ្គេម​ និង​អាច​មើល​ពីពិន្ទុ​របស់ពួក​គេដែល​បាន​ឆ្លើយ​សំណួរ​​ត្រឹមត្រូវ​ ពិសេស​អាច​ប្រៀប​ធៀប​ពិន្ទុ​ជាមួយ​មិត្ត​រួម​សាលា ​សិស្ស​ក្នុង​ស្រុក ឬខេត្ត និងមិត្តភក្ដិ​ហ្វេស​ប៊ុក។
+                </p>
+              </ion-col>
+            </ion-row>
+    </ion-scroll>
+  </ion-grid>
 </ion-content>
 
-<ion-footer class="footer">
-  <div class="btn-wrapper">
-    <button ion-button clear (click)="exitButtonClick()">
-      <ion-icon name="power"></ion-icon>
-    </button>
-    <!-- <button ion-button clear float-end (click)="aboutButtonClick()">
-      {{'about' | translate}}
-    </button> -->
-  </div>
+<ion-footer >
+    <ion-toolbar *ngIf="infoID == 'C1'" transparent>
+        <button ion-button float-start clear *ngIf="infoID == 'C1'" class="bicon" (click)="backButtonClick()">
+          <ion-icon name="md-arrow-round-back"></ion-icon>
+        </button>
+        <button ion-button float-end clear *ngIf="infoID == 'C1'" class="eicon" (click)="exitButtonClick()">
+          <ion-icon name="power"></ion-icon>
+        </button>
+    </ion-toolbar>
+    <ion-toolbar *ngIf="infoID == 'root'" transparent>
+        <button ion-button float-start clear *ngIf="infoID == 'root'" class="eicon" (click)="exitButtonClick()">
+            <ion-icon name="power"></ion-icon>
+        </button>
+        <button ion-button float-end clear *ngIf="infoID == 'root'" class="content2" (click)="info('C1')">{{'about' | translate}}</button>
+    </ion-toolbar>
 </ion-footer>
+

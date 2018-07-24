@@ -29,8 +29,7 @@
   <ion-scroll class="view_content" scrollY="true">
     <ion-grid>
       <ion-row>
-          <ion-col>
-            <div [innerHTML]="sections.content || ''"></div>
+          <ion-col [innerHTML]="sections.content || ''">
           </ion-col>
       </ion-row>
     </ion-grid>

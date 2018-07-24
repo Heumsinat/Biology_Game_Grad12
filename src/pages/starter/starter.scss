@@ -6,6 +6,45 @@ page-starter {
   .button-clear-md{
     color: white;
   }
+
+  .view_content{
+    background: white ;
+    position: fixed;
+    text-align: justify;
+    bottom: 9%;
+    left: 10px;
+    right: 10px;
+    height: 62%;
+    .scroll-content {
+      height: 100%;
+      left: 10px;
+      right: 10px;
+      font-size: 16px;
+    }
+}
+
+.Elabel{
+    text-align: center;
+    font-size: 20px;
+}
+.bicon{
+  font-size: 30px;
+  margin-left: 10px;
+  color: white;
+}
+.eicon{
+  //width: 10px;
+  //border: 1px solid black;
+  font-size: 30px;
+  margin-left: 20px;
+  color: white;
+}
+.content2{
+  color: white;
+  font-size: 25px;
+  margin-left: 80px;   
+
+}
   .content{
     //  background-image: url('../assets/img/screen_background.png');
     background-image: url('../assets/img/Evolution_screen.png');
