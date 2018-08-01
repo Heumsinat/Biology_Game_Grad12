@@ -14,9 +14,12 @@
               </ion-col>
             </ion-row>
             <ion-row *ngIf = "!fb_id">
-              <ion-col col-3 push-9>        
-                    <img src="assets/img/profile.png" (click)="GotoProfilePage()"/> 
+              <ion-col col-3 push-9 *ngIf = "profile == 1">        
+                    <img src="assets/img/profileM.png" (click)="GotoProfilePage()"/> 
               </ion-col>
+              <ion-col col-3 push-9 *ngIf = "profile == 2">        
+                  <img src="assets/img/profileF.jpg" (click)="GotoProfilePage()"/> 
+            </ion-col>
             </ion-row>
             <ion-row>
               <ion-col col-5 push-8>

@@ -10,7 +10,8 @@
   <div class="imageProfile">
     <div class="profileAvatar">
       <img *ngIf="pic_path!=''" [src]="sanitizer.bypassSecurityTrustUrl('data:image/*;base64, '+pic_path)">
-      <img *ngIf="pic_path==''" src="assets/img/profile.png">
+      <img *ngIf="pic_path=='' && user_data.gender == 1" src="assets/img/profileM.png">
+      <img *ngIf="pic_path=='' && user_data.gender == 2" src="assets/img/profileF.jpg">
     </div>
     <div class="profileLabel">
       <h3>{{user_data.full_name}}</h3>

@@ -55,6 +55,10 @@ export class SectionReviewPage {
   }
 
   ionViewDidEnter(){
+
+    console.log("CURRENT Q: ", this.navParams.get('questionID'));
+    console.log("CURRENT S: ", this.navParams.get('sectionID'));
+
     this.db.executeSQL(`SELECT * FROM sections WHERE id = ${this.sectionID}`)
         .then(res => {
           this.sections = {};
@@ -106,11 +110,10 @@ export class SectionReviewPage {
           this.num_section = number_section;
         }).catch(e => console.log((e)));
   }
+
   navigate() {
-    //  // console.log('SEC_ID:', this.sectionID);
-    // this.getNumSection().then(data =>{
-    //
-    // }).catch(e=>console.log(e));
+    
+    console.log('SEC_ID:', this.sectionID);
 
     if (this.sectionID == this.num_section){
       this.navCtrl.push(
@@ -130,7 +133,6 @@ export class SectionReviewPage {
         )
     )
   }
-  
 
   toggleTest() {
     this.playCompleted = !this.playCompleted;

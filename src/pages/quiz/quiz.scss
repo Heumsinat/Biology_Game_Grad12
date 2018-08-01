@@ -16,18 +16,21 @@ page-quiz {
         background: transparent;
         margin-top: 50%;
         height: 280px;
-        [ion-button]{
-          height: 55px;
-          font-size: 1.3em;
-          white-space: pre-line !important;
+        // [ion-button]{
+        //   height: 55px;
+        //   font-size: 1.3em;
+        //   white-space: pre-line !important;
 
-        }
+        // }
       }
   }
   
   #btnAnswer{
     font-size: 1.8rem;
     color: white;
+    height: 55px;
+    width: 100%;
+    white-space: pre-line !important;
   }
   .item-md{
     background-color: transparent;

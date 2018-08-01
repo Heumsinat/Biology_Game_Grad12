@@ -63,7 +63,7 @@ export class LeaderboardPage {
   public getScoreForLeaderboard()
   {
     var dataPosted={"user_id":this.userId};
-    this.pic_profile ="assets/img/profile.png";
+    // this.pic_profile ="assets/img/profile.png";
     this.helpers.postData(dataPosted,"leader_board_app")
     //var dataPosted = {"fb_id" : "104874973720343"};
     //this.helpers.postData(dataPosted,"check_fb_id")

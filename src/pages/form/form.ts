@@ -165,8 +165,8 @@ export class FormPage {
         fullName: [null, Validators.required],
         userName: [null, Validators.compose([Validators.required, Validators.minLength(3)])],
         password: [null, Validators.compose([Validators.required, Validators.minLength(4)])],
-        phone: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(9)])],
-        gender:[null]
+        phone: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(9), Validators.maxLength(12)])],
+        gender:[null, Validators.required]
       });
 
       if(this.fbData == 2)
@@ -175,7 +175,7 @@ export class FormPage {
           fullName: [null, Validators.required],
           userName: [null, Validators.compose([Validators.minLength(3)])],
           password: [null, Validators.compose([Validators.minLength(4)])],
-          phone: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(9)])],
+          phone: [null, Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(9), Validators.maxLength(12)])],
           gender:[null, Validators.required]
         });
       }

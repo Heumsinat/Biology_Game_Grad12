@@ -42,7 +42,8 @@
           <ion-item *ngFor="let user_score of user_scores">
             <ion-thumbnail item-start>
                 <img style="height:60px;width:60px;" *ngIf="user_score.photo!=''" [src]="sanitizer.bypassSecurityTrustUrl('data:image/*;base64, '+user_score.photo)">
-                <img style="height:60px;width:60px;" *ngIf="user_score.photo==''" src="assets/img/profile.png">
+                <img style="height:60px;width:60px;" *ngIf="user_score.photo=='' && user_score.user_gender == 1" src="assets/img/profileM.png">
+                <img style="height:60px;width:60px;" *ngIf="user_score.photo=='' && user_score.user_gender == 2" src="assets/img/profileF.jpg">
 
             </ion-thumbnail>
             <h2 style="white-space: normal;">{{user_score.user_name}}</h2>

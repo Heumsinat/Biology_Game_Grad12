@@ -24,6 +24,7 @@ export class QuestionPage {
     sectionID: number;
     chapterID: number;
     currentQuestionID:number;
+    nextQuestionID:number;
     public playCompleted: boolean;
     isPlaying: boolean= false ;
 
@@ -40,6 +41,7 @@ export class QuestionPage {
         this.lessonID = navParams.get('lessonID');
         this.currentQuestionID  = this.navParams.get('currentQuestionID');
         this.chapterID = this.navParams.get('chapterID');
+        this.nextQuestionID = navParams.get('nextQuestion');
             platform.ready().then(() => {
                 //Registration of push in Android and Windows Phone
                 platform.registerBackButtonAction(() => {
@@ -109,7 +111,7 @@ export class QuestionPage {
     getSectionID (){
         return this.db.executeSQL(`SELECT * FROM questions WHERE id = ${this.currentQuestionID}`)
             .then(res => {
-                this.sectionID = (res.rows.item(0).section_id)+1;
+                this.sectionID = (res.rows.item(0).section_id) + 1;
                 console.log(this.sectionID);
             }).catch(e => console.log((e)))
     }
@@ -173,11 +175,10 @@ export class QuestionPage {
         this Function to display content on screen
      */
     content(id) {
-        console.log(id);
-        console.log("Hello : ", id);
-
-        if (this.currentQuestionID){
-            //let temp = this.questions[this.nextQuestion];
+        
+        console.log("QUESTION OBJECT:", id);
+        if (this.nextQuestionID === null){
+           // let temp = this.questions[this.nextQuestionID];
             let temp;
             // if (typeof temp !== 'undefined') {
             //     //Get Next Question
@@ -191,12 +192,12 @@ export class QuestionPage {
                 this.getSectionID().then(()=>{
                     console.log("SECTION_ID : " + this.sectionID);
                     this.getNextQuestions(this.sectionID).then(()=>{
-                        console.log("QUESTION", this.questions);
+
+                        //console.log("QUESTION", this.questions);
                         this.current = this.questions;
-                        console.log('TEST CUR:', this.current);
-                        console.log(this.current.id);
-                        console.log(this.current.question_sound);
-                        console.log('hi');
+                        //console.log('TEST CUR:', this.current);
+                        //console.log(this.current.id);
+
                         this.getAnswers(this.current.id);
                         this.nativeAudio.preloadComplex(this.current.id, 'assets/sounds/'+this.current.question_sound, 1,1,0).then(()=>{
                             this.nativeAudio.play(this.current.id, ()=>{
@@ -230,6 +231,7 @@ export class QuestionPage {
                 });
             });console.log(this.current.question_sound);
         }
+
     }
     /*
     this function when click on answer and push to SectionReviewPage with
@@ -244,13 +246,13 @@ export class QuestionPage {
                     this.db.executeSQL(`select * from questions where id = '${question_id}'`)
                         .then(res => {
                             let section_id = res.rows.item(0).section_id;
-                            // let next_question_id = res.rows.item(0).next_question_id;
+                             let next_question_id = res.rows.item(0).next_question_id;
                             let current_question_id = res.rows.item(0).id;
-                            console.log('section_id', section_id);
+                            console.log('my section id', section_id);
                             this.navCtrl.push(SectionReviewPage, {
                                 answerCorrect: correct_ans,
                                 sectionID: section_id,
-                                // nextQuestionID: next_question_id,
+                                nextQuestionID: next_question_id,
                                 questionID: current_question_id,
                                 lessonId: this.lessonID,
                                 chapterID: this.chapterID

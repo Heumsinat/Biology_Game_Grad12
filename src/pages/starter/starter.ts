@@ -42,6 +42,7 @@ export class StarterPage {
   presentToast: any;
   needSynch: boolean;
   photo: any;
+  profile: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -71,6 +72,7 @@ export class StarterPage {
     this.userId = JSON.parse(localStorage.getItem("userData")).id;
     this.fb_id = JSON.parse(localStorage.getItem("userData")).fb_id;
     this.photo = JSON.parse(localStorage.getItem("userData")).photo;
+    this.profile = JSON.parse(localStorage.getItem("userData")).gender;
     console.log('UserID',this.userId);
     this.insertUserIntoLocal(JSON.parse(localStorage.getItem("userData")));
     
