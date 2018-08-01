@@ -4,10 +4,10 @@ page-welcome {
 
         background-image: url('../assets/imgs/backg.png');
 
-        
+
         background-size: cover;
         background-repeat: no-repeat;
-       
+
     }
 
     .view_content{
@@ -25,7 +25,7 @@ page-welcome {
           font-size: 16px;
         }
     }
-    
+
     .Elabel{
         text-align: center;
         font-size: 20px;
@@ -40,7 +40,7 @@ page-welcome {
     .content2{
         color: white;
         font-size: 25px;
-        margin-left: 80px;   
+        margin-left: 80px;
 
     }
     .ficon{
@@ -76,14 +76,14 @@ page-welcome {
         margin-left: 2px;
         margin-right: 2px;
     }
-    
+
     .btn3d:active:focus,
     .btn3d:focus:hover,
     .btn3d:focus {
         -moz-outline-style: none;
         outline: medium none;
     }
-    
+
     .btn3d:active,
     .btn3d.active {
         top: 2px;
@@ -92,7 +92,7 @@ page-welcome {
         box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 4px 0 0 #4D5BBE, 0 4px 4px 1px rgba(0, 0, 0, 0.5);
         background-color: #4274D7;
     }
-    
+
     .btn3d.btn-primary:active,
     .btn3d.btn-primary.active {
         box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.1);
@@ -116,7 +116,7 @@ page-welcome {
             width: 200px;
             font-size: 20px;
             margin-top: 10px;
-            
+
         }
     }
 }
