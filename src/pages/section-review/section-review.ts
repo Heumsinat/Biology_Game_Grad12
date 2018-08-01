@@ -49,15 +49,12 @@ export class SectionReviewPage {
     this.lessonId = this.navParams.get('lessonId');
     this.chapterID = this.navParams.get('chapterID');
     this.playCompleted = false;
-    console.log('lesson id ', this.lessonId);
-    console.log('chapter id', this.chapterID);
+    // console.log('lesson id ', this.lessonId);
+    // console.log('chapter id', this.chapterID);
     this.getNumSection();
   }
 
   ionViewDidEnter(){
-
-    console.log("CURRENT Q: ", this.navParams.get('questionID'));
-    console.log("CURRENT S: ", this.navParams.get('sectionID'));
 
     this.db.executeSQL(`SELECT * FROM sections WHERE id = ${this.sectionID}`)
         .then(res => {
@@ -103,7 +100,7 @@ export class SectionReviewPage {
   }
   getNumSection(){
     let number_section: number = 0;
-    console.log("LESSSON ID", this.lessonId);
+    // console.log("LESSSON ID", this.lessonId);
     this.db.executeSQL(`SELECT COUNT(*) as num_section FROM sections WHERE lesson = ${this.lessonId}`)
         .then(data =>{
           number_section = data.rows.item(0).num_section;
@@ -112,9 +109,8 @@ export class SectionReviewPage {
   }
 
   navigate() {
-    
-    console.log('SEC_ID:', this.sectionID);
 
+    // console.log('Next Question ID:', this.nextQuestionID);
     if (this.sectionID == this.num_section){
       this.navCtrl.push(
           LessonPage, {
@@ -162,7 +158,7 @@ export class SectionReviewPage {
     this.nativeAudio.stop(this.sections.id).then(() => {
       this.nativeAudio.play(this.sections.id, ()=>{
         this.nativeAudio.unload(this.sections.id);
-      });console.log(this.sections.id);
+      });
     },()=>{
 
     });

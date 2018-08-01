@@ -61,36 +61,71 @@ export class QuestionPage {
      Display Question query by lesson_id
      */
     ionViewDidEnter(){
+      //console.log("NextQuestionID", this.nextQuestionID);
+      if (this.nextQuestionID == undefined) {
         this.db.executeSQL(`SELECT * FROM questions WHERE lesson_id = ${this.lessonID}`)
-            .then(res => {
-                this.questions = {};
-                var first = res.rows.item(0).id;
-                for (var i = 0; i < res.rows.length; i++){
-                    this.questions[res.rows.item(i).id] = {
-                        id:res.rows.item(i).id,
-                        question_number:res.rows.item(i).question_number,
-                        question_text:res.rows.item(i).question_text,
-                        image1:res.rows.item(i).image1,
-                        image2:res.rows.item(i).image2,
-                        image3:res.rows.item(i).image3,
-                        question_sound:res.rows.item(i).question_sound,
-                        num_of_answer:res.rows.item(i).num_of_answer,
-                        correct_answer_number:res.rows.item(i).correct_answer_number,
-                        score:res.rows.item(i).score,
-                        section_id:res.rows.item(i).section_id,
-                        lesson_id:res.rows.item(i).lesson_id,
-                        correct_answer_sound:res.rows.item(i).correct_answer_sound,
-                        incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
-                        next_question_id:res.rows.item(i).next_question_id,
-                        created_date:res.rows.item(i).created_date,
-                        modified_date:res.rows.item(i).modified_date
-                    }
-                    //break;
+        .then(res => {
+            this.questions = {};
+            var first = res.rows.item(0).id;
+            for (var i = 0; i < res.rows.length; i++){
+                this.questions[res.rows.item(i).id] = {
+                    id:res.rows.item(i).id,
+                    question_number:res.rows.item(i).question_number,
+                    question_text:res.rows.item(i).question_text,
+                    image1:res.rows.item(i).image1,
+                    image2:res.rows.item(i).image2,
+                    image3:res.rows.item(i).image3,
+                    question_sound:res.rows.item(i).question_sound,
+                    num_of_answer:res.rows.item(i).num_of_answer,
+                    correct_answer_number:res.rows.item(i).correct_answer_number,
+                    score:res.rows.item(i).score,
+                    section_id:res.rows.item(i).section_id,
+                    lesson_id:res.rows.item(i).lesson_id,
+                    correct_answer_sound:res.rows.item(i).correct_answer_sound,
+                    incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
+                    next_question_id:res.rows.item(i).next_question_id,
+                    created_date:res.rows.item(i).created_date,
+                    modified_date:res.rows.item(i).modified_date
                 }
-                console.log(this.questions);
-                this.content(first);
+                //break;
+            }
+            //console.log(JSON.stringify(first));
+            this.content(first);
 
-            }).catch(e => console.log((e)))
+        }).catch(e => console.log((e)))
+      } else {
+        this.db.executeSQL(`SELECT * FROM questions WHERE question_number = '${this.nextQuestionID}'`)
+        .then(res => {
+            this.questions = {};
+            var first = res.rows.item(0).id;
+            for (var i = 0; i < res.rows.length; i++){
+                this.questions[res.rows.item(i).id] = {
+                    id:res.rows.item(i).id,
+                    question_number:res.rows.item(i).question_number,
+                    question_text:res.rows.item(i).question_text,
+                    image1:res.rows.item(i).image1,
+                    image2:res.rows.item(i).image2,
+                    image3:res.rows.item(i).image3,
+                    question_sound:res.rows.item(i).question_sound,
+                    num_of_answer:res.rows.item(i).num_of_answer,
+                    correct_answer_number:res.rows.item(i).correct_answer_number,
+                    score:res.rows.item(i).score,
+                    section_id:res.rows.item(i).section_id,
+                    lesson_id:res.rows.item(i).lesson_id,
+                    correct_answer_sound:res.rows.item(i).correct_answer_sound,
+                    incorrect_answer_sound:res.rows.item(i).incorrect_answer_sound,
+                    next_question_id:res.rows.item(i).next_question_id,
+                    created_date:res.rows.item(i).created_date,
+                    modified_date:res.rows.item(i).modified_date
+                }
+                //break;
+            }
+            //console.log(this.questions);
+            this.content(first);
+
+        }).catch(e => console.log((e)))
+
+      }
     }
 
     /*
@@ -175,8 +210,7 @@ export class QuestionPage {
         this Function to display content on screen
      */
     content(id) {
-        
-        console.log("QUESTION OBJECT:", id);
+
         if (this.nextQuestionID === null){
            // let temp = this.questions[this.nextQuestionID];
             let temp;
@@ -188,9 +222,9 @@ export class QuestionPage {
             console.log('Get Next Question: ', this.current);
             console.groupEnd();
 
-            if (typeof temp == 'undefined'){
+            if (typeof temp == undefined ){
                 this.getSectionID().then(()=>{
-                    console.log("SECTION_ID : " + this.sectionID);
+                    //console.log("SECTION_ID : " + this.sectionID);
                     this.getNextQuestions(this.sectionID).then(()=>{
 
                         //console.log("QUESTION", this.questions);
@@ -206,7 +240,7 @@ export class QuestionPage {
                                 this.isPlaying = false;
                                 this.playCompleted = true;
                                 this.changeRef.detectChanges();
-                                
+
                             });
                         });
                         console.log(this.current.question_sound);
@@ -217,8 +251,9 @@ export class QuestionPage {
             }
         }
         else{
+            //console.log("Next Q IS Not null");
             this.current = this.questions[id];
-            console.log(this.current);
+            //console.log("Current Q", JSON.stringify(this.current));
             this.getAnswers(this.current.id);
             this.nativeAudio.preloadSimple(this.current.id, 'assets/sounds/'+this.current.question_sound).then(()=>{
                 this.nativeAudio.play(this.current.id, ()=>{
@@ -227,9 +262,9 @@ export class QuestionPage {
                     this.isPlaying = false;
                     this.playCompleted = true;
                     this.changeRef.detectChanges();
-                    
+
                 });
-            });console.log(this.current.question_sound);
+            });
         }
 
     }
@@ -248,7 +283,7 @@ export class QuestionPage {
                             let section_id = res.rows.item(0).section_id;
                              let next_question_id = res.rows.item(0).next_question_id;
                             let current_question_id = res.rows.item(0).id;
-                            console.log('my section id', section_id);
+                            //console.log('my section id', section_id);
                             this.navCtrl.push(SectionReviewPage, {
                                 answerCorrect: correct_ans,
                                 sectionID: section_id,
@@ -268,13 +303,13 @@ export class QuestionPage {
                     this.db.executeSQL(`select * from questions where id = '${question_id}'`)
                         .then(res => {
                             let section_id = res.rows.item(0).section_id;
-                            // let next_question_id = res.rows.item(0).next_question_id;
+                            let next_question_id = res.rows.item(0).next_question_id;
                             let current_question_id = res.rows.item(0).id;
-                            console.log('section_id', section_id)
+                            //console.log('section_id', section_id)
                             this.navCtrl.push(SectionReviewPage, {
                                 answerCorrect: correct_ans,
                                 sectionID: section_id,
-                                // nextQuestionID: next_question_id
+                                nextQuestionID: next_question_id,
                                 questionID: current_question_id,
                                 lessonId: this.lessonID,
                                 chapterID: this.chapterID
@@ -323,14 +358,14 @@ export class QuestionPage {
         if (this.isPlaying){
             this.nativeAudio.stop(this.current.id).then(() => {
                 this.nativeAudio.unload(this.current.id).then(()=>{
-                    this.content(this.current.id);    
-                    console.log("Replay sound:",this.current.id);
+                    this.content(this.current.id);
+                    //console.log("Replay sound:",this.current.id);
                 });
             });
         } else{
-            this.content(this.current.id);    
+            this.content(this.current.id);
         }
-       
+
     }
     /*
     Function back page when clicked on button
