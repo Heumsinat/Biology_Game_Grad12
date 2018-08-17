@@ -1,6 +1,6 @@
 import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map'; 
+import 'rxjs/add/operator/map';
 import async from 'async';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { ToastController, LoadingController, App} from 'ionic-angular';
@@ -9,7 +9,7 @@ import { StarterPage } from '../../pages/starter/starter';
 import { DatabaseProvider } from '../database/database';
 import { Base64 } from '@ionic-native/base64';
 
-let apiUrl = "http://biology.open.org.kh/api/";
+let apiUrl = "https://biok12.moeys.gov.kh/api/";
 
 /*
   Generated class for the HelpersProvider provider.
@@ -43,7 +43,7 @@ export class HelpersProvider {
       }, (err) => {
         reject(err);
       });
-      
+
     });
   }
 
@@ -57,7 +57,7 @@ export class HelpersProvider {
       }, (err) => {
         reject(err);
       });
-      
+
     });
   }
 
@@ -72,21 +72,21 @@ export class HelpersProvider {
       var _data = {};
       var self = this;
       var asyncTasks = [];
-  
+
       var pro = new Promise(function(resolve, reject) {
           for (var tableName of listOfTable) {
               console.log('tableName = '+tableName);
               var subTasks = [];
               _data[tableName] = [];
-              
+
               subTasks.push(async function(callback) {
-      
+
                   try {
                   var db = await self.sqlite.create({
                       name: 'biology.db',
                       location: 'default'
                   });
-          
+
                   var resColNames = await db.executeSql("PRAGMA table_info('"+ tableName +"')",{});
                   var colNames = [];
                   // colNames: ["full_name","user_name","password","phone_number","gender","province_pcode","district_dcode","school_id"]
@@ -100,14 +100,14 @@ export class HelpersProvider {
                     colNames.push("update");
                     colNames.push("photo");
                   }
-                    
-      
+
+
                   callback(null, colNames);
                   } catch (err) {
                   console.log(err);
                   }
               });
-          
+
               subTasks.push(async function(colNames, callback) {
                   console.log('colNames: ' + JSON.stringify(colNames));
                   console.log('tableName: ' + JSON.stringify(tableName));
@@ -120,13 +120,13 @@ export class HelpersProvider {
                     sql ='SELECT * FROM '+ tableName + ' where user_id=?';
                     valCondition = user_info.id;
                   }
-                  
+
                   try {
                       var db = await self.sqlite.create({
                           name: 'biology.db',
                           location: 'default'
                       });
-                      
+
                       console.log('sql select data = '+sql + ' valCon = '+ valCondition + ' ; ls = '+localStorage.getItem('userData'));
 
                       var resOfflineRecords = await db.executeSql(sql,[valCondition]);
@@ -135,7 +135,7 @@ export class HelpersProvider {
                       if(resOfflineRecords.length==0)
                       {
                         console.log('Not found this user in DB');
-                        
+
                       }
 
                       for (let i = 0; i < resOfflineRecords.rows.length; i++) {
@@ -145,7 +145,7 @@ export class HelpersProvider {
                           console.log("test eachData in helpers: ");
                           console.log(eachData);
                           console.log(eachData.fb_id);
-                          
+
                           if(tableName==="users") {
                             valFromTable = [eachData.full_name,
                             eachData.user_name,
@@ -154,7 +154,7 @@ export class HelpersProvider {
                             eachData.gender,
                             eachData.school_id,
                             eachData.fb_id];
-                            
+
                           } else if (tableName==="user_quizzes") {
                           // Retrieve All Columns Name From table user_quizzes //
                             valFromTable = [eachData.user_id,
@@ -186,12 +186,12 @@ export class HelpersProvider {
                                   let filePath: string = 'file:///data/user/0/kh.org.open.biology12/files/'+ eachData.fb_id +'.jpg';
                                   let base64File: string = await self.base64.encodeFile(filePath);
                                   obj[col] = base64File;
-                                }   
-                                
+                                }
+
                               }
                             }
                           }
-                          
+
                           _data[tableName].push(obj);
                           console.log("DATA");
                           console.log(obj);
@@ -201,7 +201,7 @@ export class HelpersProvider {
                       console.error(err);
                   }
               });
-          
+
               asyncTasks.push(function(callback) {
                   async.waterfall(subTasks, (err, data) => {
                   if (err) {
@@ -213,7 +213,7 @@ export class HelpersProvider {
                   });
               });
           }
-      
+
           async.series(asyncTasks, function(err, data) {
           if (err) {
               console.error(err);
@@ -223,20 +223,20 @@ export class HelpersProvider {
           }
           });
       });
-  
+
       return pro;
       }
 
-    
+
       // *** Creator: Samak @11-05-2018 *** //
     // * Function to synchronize data into server, then update isSent = 1 * //
     // * Param1: listOfTable => array of table names whose data to be sent to Server * //
     // * Param2: apiAddress => URL Address of Server's API* //
     // * Param3: noOfColsInSynch => No. of columns to be retrieved from table* //
     // * Param4: goToPage => Page to be pushed to after all processes done * //
-    
+
     synchUserQuizeToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, redirect: boolean, goToPage: Page, isUpdate:boolean) {
-      
+
       var self = this;
       //this.retrieveDBSchema(listOfTable)
       self.retrieveDBSchemaHelper(listOfTable,noOfColsInSynch,isUpdate)
@@ -250,7 +250,7 @@ export class HelpersProvider {
                 console.log("API ="+apiAddress);
                 localStorage.setItem('userData',JSON.stringify(result["user"]));
               }
-              
+
               // If data is synch successfully, update isSent=1 //
               self.updateIsSentColumn(listOfTable);
               console.log("Data Inserted Successfully for "+listOfTable);
@@ -280,9 +280,9 @@ export class HelpersProvider {
     // * Param1: listOfTable => array of table names whose data to be sent to Server * //
     // * Param2: apiAddress => URL Address of Server's API* //
     // * Param3: noOfColsInSynch => No. of columns to be retrieved from table* //
-    
+
     synchUserRegistrationToServer(listOfTable: string[],apiAddress: string,noOfColsInSynch: number, pushTo: Page, isUpdate: boolean) {
-      
+
       var self = this;
       //this.retrieveDBSchema(listOfTable)
       self.retrieveDBSchemaHelper(listOfTable,noOfColsInSynch,isUpdate)
@@ -291,18 +291,18 @@ export class HelpersProvider {
           console.log(value);
           self.postData(value,apiAddress).then((result) => {
             //self.responseData = result;
-            if(JSON.parse(result["code"])==200) 
+            if(JSON.parse(result["code"])==200)
             {
               console.log("API ="+apiAddress +' and isUpdate = '+isUpdate);
-              
-              
+
+
               // If data is synch successfully, update isSent=1 //
               //self.updateIsSentColumn(listOfTable);
               console.log(result["inserted_user"]);
               localStorage.setItem('userData',JSON.stringify(result["inserted_user"]));
               if (isUpdate == false) {
                 self.updateUserIdOffline(result["inserted_user"].id);
-                  
+
               }
               // else self.updateIsSentColumn(listOfTable);
               console.log("Data Inserted Successfully for "+listOfTable);
@@ -332,7 +332,7 @@ export class HelpersProvider {
     // *** Creator: Samak @11-05-2018 *** //
     // * Function to update isSent after data has been synchronized into server * //
     // * Param1: listOfTable => array of table names whose isSent column to be updated from 0 to 1 * //
-  
+
     updateIsSentColumn(listOfTable:string[]){
       this.sqlite.create({
         name: 'biology.db',
@@ -351,7 +351,7 @@ export class HelpersProvider {
     // *** Creator: Samak @11-05-2018 *** //
     // * Function to update user_id after data has been synchronized into server * //
     // * Param1: userID => User_Id that gets from Server * //
-  
+
     updateUserIdOffline(userID: string){
       this.sqlite.create({
         name: 'biology.db',
@@ -377,11 +377,11 @@ export class HelpersProvider {
           </div>`,
         duration: duriationTime
       });
-    
+
       loading.onDidDismiss(() => {
         console.log('Dismissed loading');
       });
-    
+
       loading.present();
     }
 
@@ -407,13 +407,13 @@ export class HelpersProvider {
         location: 'default'
       }).then((db: SQLiteObject)  => {
         //for(var iData=0; iData<)
-        //var parseData = 
+        //var parseData =
         data.forEach((item, index) =>{
           db.executeSql('REPLACE INTO user_quizzes(id, user_id,question_id,user_ans_id, ans_correct, score, created_at, isSent) VALUES (?,?,?,?,?,?,?,?)',[item["id"],item["user_id"], item["question_id"], item["user_ans_id"], item["ans_correct"], item["score"],item["created_at"],1])
         .then( res => {
           console.log('Data Updated in replaceIntoUserQuizzes!');
           console.log('data.length='+data.length + '& index='+index);
-          
+
           if(data.length == (index+1))
           {
             this.appCtrl.getActiveNav().push(goToPage);
@@ -424,7 +424,7 @@ export class HelpersProvider {
           console.log('Catch in replaceIntoUserQuizzes:' + JSON.stringify(e));
         });
         });
-        
+
       })
     }
 
@@ -441,8 +441,8 @@ export class HelpersProvider {
           .then( resNoOfUserQuiz => {
             //console.log("userId in helpers = "+userId);
             //console.log("resNoOfUserQuiz= "+JSON.stringify(resNoOfUserQuiz));
-  
-            
+
+
             //this.userQuizzes['user_id']=String(userId);
             self.userQuizzes.last_update_date=resNoOfUserQuiz.rows.item(0).maxDate;
             self.userQuizzes.number_of_records=resNoOfUserQuiz.rows.item(0).total;
@@ -452,7 +452,7 @@ export class HelpersProvider {
             console.log('Catch in num_user_quizzes in helpers:' + JSON.stringify(e));
           });
         })
-      
+
     }
 
     // Creator: SAMAK @ 03-07-2018//
