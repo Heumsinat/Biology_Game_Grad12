@@ -19,11 +19,16 @@
     </div>
 
    <div class="btnEdit"> 
-      <button icon-start ion-button round (click)=editProfile()>
+    <button icon-start ion-button round (click)=editNotification()>
+      <ion-icon name="ios-alarm-outline"></ion-icon>
+      {{'notifyBtn' | translate}}
+    </button>  
+    <button icon-start ion-button round (click)=editProfile()>
           <ion-icon name="md-create"></ion-icon>
           {{'editProfile' | translate}}
-        </button>
+      </button>
    </div>
+
    <div>
       <div class="profile-detail"><span>{{'userName' | translate}}: <b>{{user_data.full_name}}</b></span></div>
       <div class="profile-detail"><span>{{'gender' | translate}}: <b>{{gender}}</b></span></div>

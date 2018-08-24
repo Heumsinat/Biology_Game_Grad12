@@ -5,6 +5,10 @@ import { Network } from '@ionic-native/network';
 import { FormPage } from '../form/form';
 import { HelpersProvider } from '../../providers/helpers/helpers';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DatePicker } from '@ionic-native/date-picker';
+import moment from 'moment';
+import { TranslateService } from '@ngx-translate/core';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 /**
  * Generated class for the ProfilePage page.
@@ -24,6 +28,8 @@ export class ProfilePage {
   gender: string;
   school_name: string;
   pic_path: string;
+  published : any;
+
   constructor(
       public navCtrl: NavController,
       public navParams: NavParams,
@@ -32,7 +38,10 @@ export class ProfilePage {
       public dbProvider:DatabaseProvider,
       public network: Network,
       public helpers: HelpersProvider,
-      private sanitizer: DomSanitizer
+      private sanitizer: DomSanitizer,
+      private _DATE 	: DatePicker,
+      public localNotifications: LocalNotifications,
+      private translate: TranslateService
   ) {
     // To display score =0 instead of null, otherwise display real number
     var score = localStorage.getItem('Score');
@@ -112,4 +121,39 @@ export class ProfilePage {
       this.helpers.presentToast("មិនមានសេវាអ៊ិនធឺណិតទេ");
     }
   }
+
+  
+  /**
+ * Select a date/time
+ *
+ * @public
+ * @method selectDateForScheduling
+ * @return {None}
+ */
+  public editNotification() : void
+  {
+    this._DATE.show(
+    {
+
+        date 			       : new Date(),
+        mode 			       : 'time',
+        androidTheme 	       : this._DATE.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT,
+        allowOldDates        : false,
+        allowFutureDates     : true,
+        is24Hour: false
+    })
+    .then((date_time : any) =>
+    {
+        let hhMM = moment(date_time).format('HH:mm');
+        localStorage.setItem('timeNotify',hhMM);
+        let hhMMs = hhMM.split(':');
+        this.translate.get('notifyString').subscribe(val => {
+          this.helpers.setNotificationSchedule(val,Number(hhMMs[0]),Number(hhMMs[1]),this.localNotifications);
+        });
+    })
+    .catch((err) =>
+    {
+        console.log('Error', err);
+    });
+    }
 }

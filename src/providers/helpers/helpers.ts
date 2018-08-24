@@ -8,8 +8,10 @@ import { Page } from 'ionic-angular/navigation/nav-util';
 import { StarterPage } from '../../pages/starter/starter';
 import { DatabaseProvider } from '../database/database';
 import { Base64 } from '@ionic-native/base64';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
-let apiUrl = "https://biok12.moeys.gov.kh/api/";
+//let apiUrl = "https://biok12.moeys.gov.kh/api/";
+let apiUrl = "http://biology.open.org.kh/api/";
 
 /*
   Generated class for the HelpersProvider provider.
@@ -183,7 +185,7 @@ export class HelpersProvider {
                               } else { // => if insert new, and facebook id is exist, get picture profile for sending to server.
                                 obj[col]="";
                                 if (eachData.fb_id != null)  {
-                                  let filePath: string = 'file:///data/user/0/kh.org.open.biology12/files/'+ eachData.fb_id +'.jpg';
+                                  let filePath: string = 'file:///data/user/0/kh.gov.moeys.biology12/files/'+ eachData.fb_id +'.jpg';
                                   let base64File: string = await self.base64.encodeFile(filePath);
                                   obj[col] = base64File;
                                 }
@@ -473,4 +475,24 @@ export class HelpersProvider {
             console.log('Catch in getCurrentQID in helpers:' + JSON.stringify(e));
           });
     }
+
+    /**
+     * Function for set daily notification
+     * @param msg : message to be shown in notification
+     * @param hrSet : notify at what time (HOUR)?
+     * @param minSet : notify at what time (MINUTE)?
+     * @param localNotifications: LocalNotification object
+     */
+    setNotificationSchedule(msg: string, hrSet: number, minSet: number, localNotifications: LocalNotifications){
+      localNotifications.schedule({
+          text: msg,
+          every: {
+            hour: hrSet, minute: minSet
+          },
+          led: 'FF0000',
+          sound: null,
+          lockscreen: true
+       });
+    }
+
 }

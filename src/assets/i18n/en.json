@@ -25,5 +25,7 @@
     "chapter list" : "Chapter List",
     "national" : "National",
     "editProfile":"Edit Profile",
-    "yourProfile":"Your Profile"
+    "yourProfile":"Your Profile",
+    "notifyString":"Today you have 3 questions!",
+    "notifyBtn":"Edit Notification"
 }

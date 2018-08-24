@@ -38,6 +38,8 @@ import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 import { ProfilePage } from '../pages/profile/profile';
 import { Network } from '@ionic-native/network';
 import { QuestionPage } from '../pages/question/question';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { DatePicker } from '@ionic-native/date-picker';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -107,7 +109,9 @@ export function createTranslateLoader(http: HttpClient) {
     FileTransfer,
     FileTransferObject,
     ImagePicker,
-    Base64
+    Base64,
+    LocalNotifications,
+    DatePicker
 
   ]
 })
