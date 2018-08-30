@@ -11,6 +11,7 @@ import { ProfilePage } from '../profile/profile';
 import { Network } from '@ionic-native/network';
 import {LeaderboardPage} from "../leaderboard/leaderboard";
 import { DomSanitizer } from '@angular/platform-browser';
+// import { levelBoardPage } from "../level-board/level-board";
 
 /**
  * Generated class for the StarterPage page.
@@ -45,10 +46,10 @@ export class StarterPage {
   profile: any;
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     private alertCtrl: AlertController,
-    private platform: Platform, 
+    private platform: Platform,
     private sqlite: SQLite,
     private helpers: HelpersProvider,
     public db: DatabaseProvider,
@@ -75,9 +76,9 @@ export class StarterPage {
     this.profile = JSON.parse(localStorage.getItem("userData")).gender;
     console.log('UserID',this.userId);
     this.insertUserIntoLocal(JSON.parse(localStorage.getItem("userData")));
-    
 
-    
+
+
 
     //******** Sinat *********/
     //  Get total score that user has played
@@ -86,10 +87,10 @@ export class StarterPage {
      this.total_score = res.rows.item(0).total; // total_score is a number that user have play for today
       console.log('Total score =', this.total_score);
       localStorage.setItem('Score',this.total_score);
-  
+
     }).catch(e => console.log((e)));
     this.is_leaderboard = false;
-    
+
   }
 
   ionViewDidLoad() {
@@ -133,7 +134,7 @@ export class StarterPage {
   }
 
   goToQuiz() {
-    //**** Sinat**** 
+    //**** Sinat****
     // condition to check number of question that user played and compared with setting before allow user to play game
     // compare number of question that user play today with number that set from settings
     this.db.executeSQL(`SELECT * FROM order_questions WHERE question_id = ${localStorage.getItem("currentQID")}`)
@@ -150,7 +151,7 @@ export class StarterPage {
     console.log('get number of settings =', num_quiz);
     let num_q = Number(localStorage.getItem('num_q'));
     console.log('get count number of question in starter page =', num_q);
-   
+
     if (num_q < num_quiz) {
       console.log(num_q);
       console.log(num_quiz);
@@ -200,10 +201,10 @@ export class StarterPage {
       ]
     });
     alert.present();
-  } 
+  }
 
   // Creator: SAMAK //
-  // Function to query no. of order questions and last_download_date from order_questions table, 
+  // Function to query no. of order questions and last_download_date from order_questions table,
   // for sending request for new order question from Server//
   totalNoOfOrderQuestions(){
       //var data_return = [];
@@ -214,22 +215,22 @@ export class StarterPage {
       var self = this;
       var asyncTasks = [];
       var number_of_records ="number_of_records";
-  
+
       var pro = new Promise(function(resolve, reject) {
           var subTasks = [];
-          
+
           // Task to count total number of records in order_questions table
           subTasks.push(async function(callback) {
             var colNames = [];
-    
+
             try {
               var db = await self.sqlite.create({
                 name: 'biology.db',
                 location: 'default'
               });
-              
+
               var resColNames = await db.executeSql("SELECT COUNT(*) as total FROM order_questions",{});
-               
+
               let num_q = resColNames.rows.item(0).total;
               _data['number_of_records']=num_q;
               callback(null, num_q);
@@ -237,7 +238,7 @@ export class StarterPage {
               console.log(err);
             }
           });
-    
+
           // Task to max date from order_questions table
           subTasks.push(async function(callback) {
             //console.log('num_q: ' + num_q);
@@ -256,7 +257,7 @@ export class StarterPage {
               console.error(err);
             }
           });
-              
+
         async.series(subTasks, function(err, data) {
           try {
             if (err) {
@@ -270,7 +271,7 @@ export class StarterPage {
           }
         });
       });
-  
+
       return pro;
     }
 
@@ -311,7 +312,10 @@ export class StarterPage {
       })
     }
 
-
+    levelBoard(){
+      this.navCtrl.push(
+        "LevelBoardPage");
+    }
 
     GotoProfilePage(){
       this.navCtrl.push(
@@ -337,7 +341,7 @@ export class StarterPage {
             console.log("Data Inserted Successfully in request_data_order_question_app = "+JSON.stringify(self.responseData));
             var codeReturn = JSON.parse(result["code"]);
               console.log("codeReturn = "+codeReturn);
-            if(codeReturn==200) 
+            if(codeReturn==200)
             {
               // If data is synch successfully, update isSent=1 //
               //console.log("Data Inserted Successfully = "+JSON.parse(JSON.parse(result["equal"])));
@@ -351,22 +355,22 @@ export class StarterPage {
                   console.log("data = "+objOrderQuestion);
                   objOrderQuestion.forEach(item =>{
                     self.updateOrderQuestion(item["id"],item["question_id"],item["next_question_id"], item["updated_at"]);
-                    
+
                   });
                   console.log("Updated!");
-                  
+
                   break;
                 case 0: // num_q is equal, update order_questions by id
                 var objOrderQuestion = result["data"];
                   objOrderQuestion.forEach(item =>{
                     console.log("Item updated_at = "+item["updated_at"]);
-                    
+
                     self.replaceIntoOrderQuestion(item["id"], item["question_id"],item["next_question_id"],item["created_date"], item["updated_at"]);
                   });
                   console.log("Replace Inserted!");
                   break;
               }
-              
+
             }
             else
               console.log("Synch Data Error");
@@ -377,7 +381,7 @@ export class StarterPage {
         })
         .catch((e) => {
           console.log('catch in totalNoOfOrderQuestions:' + e);
-        }); 
+        });
       // ======END OF API #6 ======== //
     }
 
@@ -428,9 +432,9 @@ export class StarterPage {
         console.log('Day_of_Quiz =', this.day_of_quiz);
         console.log('Leaderboard', this.is_leaderboard);
         console.log('get number of settings =', num_quiz);
-        
+
       }).catch(e => console.log((JSON.stringify(e))));
-    
+
     }
 
     gotoLeaderboard(){
@@ -458,8 +462,8 @@ export class StarterPage {
         .catch((e) => {
           console.log('Catch in select user:' + JSON.stringify(e));
         });
-      
+
     }
 
-    
+
 }

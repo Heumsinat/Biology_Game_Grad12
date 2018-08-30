@@ -5,8 +5,8 @@
   Ionic pages and navigation.
 -->
 <ion-content  class="content">
-  <ion-grid *ngIf="infoID == 'root'">   
-      <div class="profile" > 
+  <ion-grid *ngIf="infoID == 'root'">
+      <div class="profile" >
             <ion-row *ngIf = "fb_id">
               <ion-col col-3 push-9>
                     <!-- <img src="file:///data/user/0/kh.org.open.biology12/files/{{fb_id}}.jpg" (click)="GotoProfilePage()"/>  -->
@@ -14,11 +14,11 @@
               </ion-col>
             </ion-row>
             <ion-row *ngIf = "!fb_id">
-              <ion-col col-3 push-9 *ngIf = "profile == 1">        
-                    <img src="assets/img/profileM.png" (click)="GotoProfilePage()"/> 
+              <ion-col col-3 push-9 *ngIf = "profile == 1">
+                    <img src="assets/img/profileM.png" (click)="GotoProfilePage()"/>
               </ion-col>
-              <ion-col col-3 push-9 *ngIf = "profile == 2">        
-                  <img src="assets/img/profileF.jpg" (click)="GotoProfilePage()"/> 
+              <ion-col col-3 push-9 *ngIf = "profile == 2">
+                  <img src="assets/img/profileF.jpg" (click)="GotoProfilePage()"/>
             </ion-col>
             </ion-row>
             <ion-row>
@@ -48,6 +48,9 @@
           {{'review' | translate}}
         </button>
       </div>
+      <button ion-button full (click)="levelBoard()">
+        Level board
+      </button>
   </ion-grid>
 
   <ion-grid *ngIf="infoID == 'C1'">

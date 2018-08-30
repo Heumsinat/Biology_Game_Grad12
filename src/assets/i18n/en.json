@@ -27,5 +27,7 @@
     "editProfile":"Edit Profile",
     "yourProfile":"Your Profile",
     "notifyString":"Today you have 3 questions!",
-    "notifyBtn":"Edit Notification"
+    "notifyBtn":"Edit Notification",
+    "take-photo": "Take photo",
+    "open-gallery": "Open gallery"
 }

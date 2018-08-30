@@ -45,12 +45,13 @@ export class DatabaseProvider {
         break;
     }
     plugins.sqlDB.copy("biology.db", sqlDBLocation ,(res)=>{
-      console.log(res)
+      console.log("==========> My sqlDB: ",res)
     }, (err)=>{
-      //     plugins.sqlDB.remove("biology.db", sqlDBLocation, (res)=>{
+      //     plugins.sqlDB.remove("www/assets/database/biology.db", sqlDBLocation, (res)=>{
       //    console.log(res);
-      //    plugins.sqlDB.copy("biology.db", sqlDBLocation , this.dbCopySuccess, this.dbCopyError);
+      //    plugins.sqlDB.copy("www/biology.db", sqlDBLocation , this.dbCopySuccess, this.dbCopyError);
       // },(err)=>{});
+      console.log("==========> My sqlDB:err ",err)
     });
 
 

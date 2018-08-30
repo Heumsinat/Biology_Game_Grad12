@@ -10,6 +10,17 @@ page-form {
         background: transparent;
         margin-top: 0px;
     }
+
+    .userImage{
+      border: 1px solid skyblue;
+      background-color: white;
+      width: 48%;
+      height: 5%;
+
+    }
+    .image{
+      background: transparent;
+    }
     .help-block {
         color: red;
     }
@@ -41,7 +52,7 @@ page-form {
         margin-right: auto;
     }
     .container1{
-        margin-top: 50px;
+        margin-top: 30px;
     }
     .cicon{
         font-size: 30px;

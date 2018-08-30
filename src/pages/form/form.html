@@ -97,6 +97,26 @@
             <!-- <div class="alert" *ngIf="!valForm2.controls.school.valid && valForm2.controls.school.dirty">
               <p>Please select district first!</p>
             </div> -->
+            <ion-item>
+              <div>
+                <div float-left class="userImage">
+                  <img *ngIf="!userBase64" src="assets/imgs/dummy_user.png" />
+                  <img *ngIf="userBase64" src="assets/imgs/dummy_user.png" />
+                </div>
+                <div float-right style="width:50%;">
+                  <div style="width:100%;">
+                    <button ion-button center style="width:95%;" color="primary" (click)="captureImage(false)">
+                      {{'take-photo' | translate}}
+                    </button>
+                  </div>
+                  <div style="width:100%;">
+                    <button ion-button center style="width:95%;" color="primary" (click)="captureImage(true)">
+                      {{'open-gallery' | translate}}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ion-item>
           </div>
         </form>
       </ion-wizard-step>

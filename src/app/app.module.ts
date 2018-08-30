@@ -28,6 +28,8 @@ import { Facebook  } from '@ionic-native/facebook';
 import { NativeAudio} from "@ionic-native/native-audio";
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+
 import { LessonPage} from "../pages/lesson/lesson";
 import { QuizPage} from "../pages/quiz/quiz";
 import { SectionReviewPage} from "../pages/section-review/section-review";
@@ -110,6 +112,7 @@ export function createTranslateLoader(http: HttpClient) {
     FileTransferObject,
     ImagePicker,
     Base64,
+    Camera,
     LocalNotifications,
     DatePicker
 
