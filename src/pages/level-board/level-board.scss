@@ -7,15 +7,31 @@ page-level-board {
 
   }
 
-    .btn{
-      border-radius: 100%;
-      width: 90%;
-      height: 50%;
+    // .btn{
+    //   border-radius: 100%;
+    //   width: 90%;
+    //   height: 50%;
 
-    }
-    .row{
-      height: 100px;
-    }
+    // }
+    // .row{
+    //   height: 100px;
+    // }
 
+    ////// sinat/////////
+    .style {
+      display: block;
+      position: absolute;
+      height: 30px;
+      width: 50px;
+      -moz-border-radius: 50px;
+      -webkit-border-radius: 50px;
+      border-radius: 50px;
+  }
+  [ion-button] {
+    width: 90px;
+  }
+  .button-round-md{
+    border-radius: 100%;
+  }
 
 }

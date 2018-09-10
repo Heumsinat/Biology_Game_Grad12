@@ -6,73 +6,70 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>level-board</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>level-board</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
 
-<ion-content class="background-img" padding>
-  <ion-grid *ngFor= "let level of levels; let i = index" >
-      <ion-row class="row">
-        <ion-col>
-            <button ion-button class="btn" style="background-color: green;">{{i+1}}</button>
-        </ion-col>
-        <ion-col>
-            <!-- <button ion-button style="border: radius 50%;">1</button> -->
-        </ion-col>
-        <ion-col>
-            <button ion-button class="btn" style="background-color: skyblue;">{{i+2}}</button>
-        </ion-col>
-      </ion-row>
-      <ion-row class="row">
-        <ion-col>
-            <!-- <button ion-button style="border: radius 100%;">1</button> -->
-        </ion-col>
-        <ion-col>
-            <button ion-button class="btn" style="background-color: blue;">{{i+3}}</button>
-        </ion-col>
-        <ion-col>
-            <!-- <button ion-button class="btn" style="background-color: lightgreen;">3</button> -->
-        </ion-col>
-      </ion-row>
-      <ion-row class="row">
-        <ion-col>
-            <button ion-button class="btn" style="background-color: lightseagreen;">{{i+4}}</button>
-        </ion-col>
-        <ion-col>
-            <!-- <button ion-button class="btn" style="background-color: blue;">4</button> -->
-        </ion-col>
-        <ion-col>
-            <button ion-button class="btn" style="background-color: lightgreen;">{{i+5}}</button>
-        </ion-col>
-      </ion-row>
+<ion-content class="background-img"  #content padding>
+    <!-- {{ index }} -->
+    <!-- <ion-grid *ngFor="let level of levels; let i = index">
+        <ion-row class="row">
+            <ion-col>
+                <button ion-button class="btn" style="background-color: rgba(0, 128, 0, 0.966);">{{}}</button>
+            </ion-col>
+            <ion-col>
+            </ion-col>
+            <ion-col>
+                <button ion-button class="btn" style="background-color: skyblue;">{{i+2}}</button>
+            </ion-col>
+        </ion-row>
+        <ion-row class="row">
+            <ion-col>
+            </ion-col>
+            <ion-col>
+                <button ion-button class="btn" style="background-color: blue;">{{i+3}}</button>
+            </ion-col>
+            <ion-col>
+            </ion-col>
+        </ion-row>
+        <ion-row class="row">
+            <ion-col>
+                <button ion-button class="btn" style="background-color: lightseagreen;">{{i+4}}</button>
+            </ion-col>
+            <ion-col>
+            </ion-col>
+            <ion-col>
+                <button ion-button class="btn" style="background-color: lightgreen;">{{i+5}}</button>
+            </ion-col>
+        </ion-row>
 
-      <ion-row class="row">
-          <ion-col>
-              <!-- <button ion-button style="border: radius 100%;">1</button> -->
-          </ion-col>
-          <ion-col>
-              <button ion-button class="btn" style="background-color: lightcyan;">{{i+6}}</button>
-          </ion-col>
-          <ion-col>
-              <!-- <button ion-button class="btn" style="background-color: lightgreen;">3</button> -->
-          </ion-col>
-          <ion-col>
-              <!-- <button ion-button class="btn" style="background-color: lightgreen;">3</button> -->
-          </ion-col>
-      </ion-row>
-      <ion-row class="row">
-          <ion-col>
-              <button ion-button class="btn" style="background-color: blue;">{{i+7}}</button>
-          </ion-col>
-          <ion-col>
-              <!-- <button ion-button class="btn" style="background-color: blue;">4</button> -->
-          </ion-col>
-          <ion-col>
-              <button ion-button class="btn" style="background-color: lightgreen;">{{i+8}}</button>
-          </ion-col>
-      </ion-row>
-  </ion-grid>
+        <ion-row class="row">
+            <ion-col>
+            </ion-col>
+            <ion-col>
+                <button ion-button class="btn" style="background-color: lightcyan;">{{i+6}}</button>
+            </ion-col>
+            <ion-col>
+            </ion-col>
+            <ion-col>
+            </ion-col>
+        </ion-row>
+        <ion-row class="row">
+            <ion-col>
+                <button ion-button class="btn" style="background-color: blue;">{{i+7}}</button>
+            </ion-col>
+            <ion-col>
+            </ion-col>
+            <ion-col>
+                <button ion-button class="btn" style="background-color: rgb(21, 248, 21);">{{i+8}}</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid> -->
+    <div class="style">
+        <button ion-button round *ngFor="let section of sections" [ngStyle]="{backgroundColor : section.bg, left: section.left}">{{section.id}}</button>
+    </div>
+   
 </ion-content>

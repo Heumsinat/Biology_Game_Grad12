@@ -1,28 +1,28 @@
 <ng-content></ng-content>
 <div [hidden]="hideWizard" class="ion-wizard-footer">
-   <!--Back Button-->
-
-   <!-- <div *ngIf="!isOnFirstStep()" left bottom>
-     <button (click)="back()">
-       Back
-     </button>
-   <div> -->
-
 
    <!--Steps count-->
    <ion-badge *ngIf="showSteps">{{step}} / {{steps}}</ion-badge>
    <!--Next Button-->
    <div id="btn1" *ngIf="(!isOnFinalStep() && getCondition())">
-     <button ion-button full class="btn btn-primary btn-lg btn3d" id="btn0" (click)="next()">
+     <button ion-button full style="font-size: 1.8rem;  height: 50px;"  class="btn btn-primary btn-lg btn3d" (click)="next()">
        បន្ត
      </button>
+   </div>
+
+  <div id="btn1">
+    <!--Back Button-->
+    <div float-left style="width:50%" *ngIf="!isOnFirstStep()" >
+      <button ion-button id="btn" class="btn btn-primary btn-lg btn3d" (click)="back()">
+        ត្រឡប់ក្រោយ
+      </button>
     </div>
 
-
-   <!--Finish Button-->
-   <div id="btn1" *ngIf="(isOnFinalStep() && getCondition())">
-     <button ion-button full [navPush]="StarterPage" [navParams]="fbData" class="btn btn-primary btn-lg btn3d" id="btn" (click)="finish.emit(step + 1)">
-        បន្តទៀត
-     </button>
-   </div>
+    <!--Finish Button-->
+    <div float-right style="width:50%" *ngIf="(isOnFinalStep() && getCondition())">
+      <button ion-button id="btn" [navPush]="StarterPage" [navParams]="fbData" class="btn btn-primary btn-lg btn3d" (click)="finish.emit(step + 1)">
+          បន្តទៀត
+      </button>
+    </div>
+  </div>
  </div>
