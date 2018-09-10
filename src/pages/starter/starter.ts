@@ -44,6 +44,7 @@ export class StarterPage {
   needSynch: boolean;
   photo: any;
   profile: any;
+  hasPic: string;
 
   constructor(
     public navCtrl: NavController,
@@ -74,7 +75,9 @@ export class StarterPage {
     this.fb_id = JSON.parse(localStorage.getItem("userData")).fb_id;
     this.photo = JSON.parse(localStorage.getItem("userData")).photo;
     this.profile = JSON.parse(localStorage.getItem("userData")).gender;
-    console.log('UserID',this.userId);
+    this.hasPic = localStorage.getItem('takePic');
+    console.log('hasPic',this.hasPic);
+    console.log('photo = ',this.photo);
     this.insertUserIntoLocal(JSON.parse(localStorage.getItem("userData")));
 
 
@@ -258,19 +261,19 @@ export class StarterPage {
             }
           });
 
-        async.series(subTasks, function(err, data) {
-          try {
-            if (err) {
-              console.error(err);
-            } else {
-              resolve(_data);
-              console.log(JSON.stringify(_data));
+          async.series(subTasks, function(err, data) {
+            try {
+              if (err) {
+                console.error(err);
+              } else {
+                resolve(_data);
+                console.log(JSON.stringify(_data));
+              }
+            } catch (err) {
+              console.log(err);
             }
-          } catch (err) {
-            console.log(err);
-          }
+          });
         });
-      });
 
       return pro;
     }

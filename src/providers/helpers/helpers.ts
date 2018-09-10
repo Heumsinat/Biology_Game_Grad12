@@ -179,18 +179,23 @@ export class HelpersProvider {
                               obj[col] = (isUpdate) ? "1" : "";
                             } else if (tableName==="users" && colNames[j] === "photo") {
                               console.log("isUpdate ="+isUpdate);
-
-                              if (isUpdate) {
-                                obj[col] = ""; // => no need to update picture profile, so set it to be blank.
-                              } else { // => if insert new, and facebook id is exist, get picture profile for sending to server.
+                              
+                              //if (isUpdate) {
+                              //  obj[col] = ""; // => no need to update picture profile, so set it to be blank​​ => now change to update picture profile
+                              //} else { // => if insert new, and facebook id is exist, get picture profile for sending to server.
                                 obj[col]="";
-                                if (eachData.fb_id != null)  {
-                                  let filePath: string = 'file:///data/user/0/kh.gov.moeys.biology12/files/'+ eachData.fb_id +'.jpg';
-                                  let base64File: string = await self.base64.encodeFile(filePath);
+                                // if (eachData.fb_id != null)  {
+                                if (localStorage.getItem('takePic') == '1') {
+                                  //let filePath: string = 'file:///data/user/0/kh.gov.moeys.biology12/files/'+ eachData.fb_id +'.jpg';
+                                  let filePath: string = 'file:///data/user/0/kh.gov.moeys.biology12/files/'+ eachData.user_name +'.jpg';
+                                  console.log('path of image file = '+filePath);
+                                  let base64File =  await self.base64.encodeFile(filePath);
+                                  console.log('base64File = ');
+                                  console.log(base64File);
                                   obj[col] = base64File;
                                 }
-
-                              }
+                                
+                              //}
                             }
                           }
 

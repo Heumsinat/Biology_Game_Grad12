@@ -20,6 +20,7 @@ import { File } from '@ionic-native/file';
 import { Network } from '@ionic-native/network';
 import { HelpersProvider } from '../../providers/helpers/helpers';
 import { elementEventFullName } from '@angular/core/src/view';
+import { DomSanitizer } from '@angular/platform-browser';
 // import { IonFormWizard } from '../../app/wizard.component';
 
 /**
@@ -81,10 +82,31 @@ export class FormPage {
     public helpers: HelpersProvider,
     public fileTransfer: FileTransfer,
     public toastCtrl: ToastController,
-    private base64: Base64
+    private base64: Base64,
+    private sanitizer: DomSanitizer,
+    public file : File
   ) {
 
-    this.checkUsername();
+      this.platform.ready().then(() => {
+        // make sure this is on a device, not an emulation
+        if(!this.platform.is('cordova')) {
+          return false;
+        }
+        if (this.platform.is('ios')) {
+          this.storageDirectory = cordova.file.documentsDirectory;
+        }
+        else if(this.platform.is('android')) {
+          this.storageDirectory = cordova.file.dataDirectory;
+        }
+        else {
+          // exit otherwise, but you could add further types here
+          return false;
+        }
+
+        console.log('Storage ready1:',this.storageDirectory);
+      });
+
+      this.checkUsername();
     /**Get data of facebook user from welcomepage
      *
      */
@@ -94,42 +116,33 @@ export class FormPage {
         this.data.fullName = this.fbData.name;
         this.navParams = this.fbData;
         this.fb_id = this.fbData.id;
-        console.log('My fb id: ',this.fbData.id);
+        
         this.picture = this.fbData.picture;
-
-        this.platform.ready().then(() => {
-          // make sure this is on a device, not an emulation
-          if(!this.platform.is('cordova')) {
-            return false;
-          }
-          if (this.platform.is('ios')) {
-            this.storageDirectory = cordova.file.documentsDirectory;
-          }
-          else if(this.platform.is('android')) {
-            this.storageDirectory = cordova.file.dataDirectory;
-          }
-          else {
-            // exit otherwise, but you could add further types here
-            return false;
-          }
-        });
-
+        console.log('My fb picture: ',this.picture);
+        
         /**Pass url from form page and save it in local file */
+        /* 
         const img = this.picture.data.url;
-        console.log('*****My picture url: ',img);
+        //console.log('*****My picture url: ',img);
+        
         this.platform.ready().then(() => {
           const fileTransfer: FileTransferObject = this.fileTransfer.create();
           console.log('==>Fb id: ', this.fb_id);
-          fileTransfer.download(img, this.storageDirectory + this.fb_id + `.jpg`).then((entry) => {
-            // const alertSuccess = this.alertCtrl.create({
-            //   title: `Succeeded!`,
-            //   // subTitle: `${img} was successfully downloaded to: ${entry.toURL()}`,
-            //   buttons: ['Ok']
-            // });
-            // alertSuccess.present();
-
+          
+          // s fileTransfer.download(img, this.storageDirectory + this.fb_id + `.jpg`).then((entry) => {
+            var filePath = this.storageDirectory + this.data.userName + `.jpg`;
+            console.log('filePath = '+filePath);
+            fileTransfer.download(img, filePath).then((entry) => {
+              base64.encodeFile(filePath).then((base64File: string) => {
+                // this.userBase64 = `data:image/jpeg;base64,${base64File}`;
+                // this.userBase64 = sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64, '+base64File);
+                this.userBase64 = sanitizer.bypassSecurityTrustUrl(base64File);
+                // this.userBase64 = `${base64File}`;
+              }, (err) => {
+                console.log(err);
+              });
+              localStorage.setItem('takePic','1');
           }, (error) => {
-
             const alertFailure = this.alertCtrl.create({
               title: `Download Failed!`,
               subTitle: `${img} was not successfully downloaded. Error code: ${error.code}`,
@@ -138,7 +151,8 @@ export class FormPage {
             alertFailure.present();
           });
 
-        });
+          console.log('Storage ready2:',this.storageDirectory);
+        }); */
       }
       // Update User Registration
       else if(this.fbData == 2)
@@ -149,6 +163,7 @@ export class FormPage {
         this.data.phone = userDetail.phone_number;
         this.data.gender = userDetail.gender;
         this.data.school = userDetail.school_id;
+        
 
         this.getProvinceName(userDetail.school_id).then(res=>{
           this.data.province = res;
@@ -165,6 +180,7 @@ export class FormPage {
 
 
       }
+
       this.valForm1 = formBuilder.group({
         fullName: [null, Validators.required],
         userName: [null, Validators.compose([Validators.required, Validators.minLength(3)])],
@@ -205,7 +221,46 @@ export class FormPage {
         if(this.currentStep == 2){}
 
       });
+
       this.evts.subscribe('step:next', () => {
+        // === //
+        if(this.fbData != 1 && this.fbData != 2){
+          const img = this.picture.data.url;
+          const fileTransfer: FileTransferObject = this.fileTransfer.create();
+          console.log('==>Fb id: ', this.fb_id);
+          // s fileTransfer.download(img, this.storageDirectory + this.fb_id + `.jpg`).then((entry) => {
+            var filePath = this.storageDirectory + this.data.userName + `.jpg`;
+            console.log('filePath = '+filePath);
+            fileTransfer.download(img, filePath).then((entry) => {
+              base64.encodeFile(filePath).then((base64File: string) => {
+                // this.userBase64 = `data:image/jpeg;base64,${base64File}`;
+                // this.userBase64 = sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64, '+base64File);
+                this.userBase64 = sanitizer.bypassSecurityTrustUrl(base64File);
+                // this.userBase64 = `${base64File}`;
+              }, (err) => {
+                console.log(err);
+              });
+              localStorage.setItem('takePic','1');
+          }, (error) => {
+            const alertFailure = this.alertCtrl.create({
+              title: `Download Failed!`,
+              subTitle: `${img} was not successfully downloaded. Error code: ${error.code}`,
+              buttons: ['Ok']
+            });
+            alertFailure.present();
+          });
+        }
+        else if(this.fbData == 2){
+          var filePath = this.storageDirectory + this.data.userName + `.jpg`;
+          console.log('path file when update ='+filePath);
+          base64.encodeFile(filePath).then((base64File: string) => {
+            this.userBase64 = sanitizer.bypassSecurityTrustUrl(base64File);
+            // this.userBase64 = `${base64File}`;
+          }, (err) => {
+            console.log(err);
+          });
+        }
+        // === //
         console.log('Next pressed: ', this.currentStep);
         if(this.currentStep == 2){
           this.getProvinces();
@@ -344,7 +399,7 @@ export class FormPage {
         }).catch(e => console.log(e));
   }
 
-  captureImage(useAlbum: boolean) {
+  async captureImage(useAlbum: boolean) {
     const options: CameraOptions = {
       quality: 30,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -353,16 +408,25 @@ export class FormPage {
       ...useAlbum ? {sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM} : {}
     }
 
-    const imageData = this.camera.getPicture(options);
-    console.log('================> Image: ',imageData);
-
+    const imageData = await this.camera.getPicture(options);
+    //console.log('================> Image: ',imageData);
     this.userBase64 = `data:image/jpeg;base64,${imageData}`;
+    // To save picture into App directory => editted by Samak //
+    if(this.userBase64){
+      let blob = this.b64toBlob(imageData, 'image/jpeg');
+      let fileName = this.data.userName + `.jpg`;
+      console.log('test directory ='+ this.storageDirectory +​fileName);
+      this.file.writeFile(this.storageDirectory,fileName,blob,{replace:true}).catch(err=>console.log(JSON.stringify(err)));
+      localStorage.setItem('takePic','1');
+    }
   }
 
   /**Save data after form completed
    *
    */
   onFinish() {
+
+    
 
     this.submitAttempt = true;
     if(!this.valForm1.valid || !this.valForm2.valid){
@@ -487,6 +551,27 @@ export class FormPage {
 
   onChangeSelectDistrict(e:any){
     this.getSchools(e);
+  }
+
+  b64toBlob(b64Data, contentType) {
+    contentType = contentType || '';
+    var sliceSize = 512;
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+    }
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
   }
 
 }

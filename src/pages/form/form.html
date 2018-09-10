@@ -101,7 +101,7 @@
               <div>
                 <div float-left class="userImage">
                   <img *ngIf="!userBase64" src="assets/imgs/dummy_user.png" />
-                  <img *ngIf="userBase64" src="assets/imgs/dummy_user.png" />
+                  <img *ngIf="userBase64"  [src]="userBase64" />
                 </div>
                 <div float-right style="width:50%;">
                   <div style="width:100%;">

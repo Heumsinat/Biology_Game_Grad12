@@ -7,13 +7,14 @@
 <ion-content  class="content">
   <ion-grid *ngIf="infoID == 'root'">
       <div class="profile" >
-            <ion-row *ngIf = "fb_id">
+            <!-- <ion-row *ngIf = "fb_id"> -->
+            <ion-row *ngIf = "hasPic">
               <ion-col col-3 push-9>
                     <!-- <img src="file:///data/user/0/kh.org.open.biology12/files/{{fb_id}}.jpg" (click)="GotoProfilePage()"/>  -->
                     <img [src]="sanitizer.bypassSecurityTrustUrl('data:image/*;base64, '+photo)" (click)="GotoProfilePage()"/>
               </ion-col>
             </ion-row>
-            <ion-row *ngIf = "!fb_id">
+            <ion-row *ngIf = "!hasPic">
               <ion-col col-3 push-9 *ngIf = "profile == 1">
                     <img src="assets/img/profileM.png" (click)="GotoProfilePage()"/>
               </ion-col>

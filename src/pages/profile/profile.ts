@@ -57,7 +57,10 @@ export class ProfilePage {
     // TO display picture from facebook or fix picture profile
     
     var fb_id = JSON.parse(localStorage.getItem("userData")).fb_id;
-    if(fb_id != null)
+
+    //if(fb_id != null)
+    console.log('has picture = '+localStorage.getItem('takePic'));
+    if(localStorage.getItem('takePic') == '1')
     {
       // this.pic_path = "file:///data/user/0/kh.org.open.biology12/files/"+fb_id+".jpg";
       this.pic_path = JSON.parse(localStorage.getItem("userData")).photo;
