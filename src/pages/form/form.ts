@@ -119,40 +119,6 @@ export class FormPage {
         
         this.picture = this.fbData.picture;
         console.log('My fb picture: ',this.picture);
-        
-        /**Pass url from form page and save it in local file */
-        /* 
-        const img = this.picture.data.url;
-        //console.log('*****My picture url: ',img);
-        
-        this.platform.ready().then(() => {
-          const fileTransfer: FileTransferObject = this.fileTransfer.create();
-          console.log('==>Fb id: ', this.fb_id);
-          
-          // s fileTransfer.download(img, this.storageDirectory + this.fb_id + `.jpg`).then((entry) => {
-            var filePath = this.storageDirectory + this.data.userName + `.jpg`;
-            console.log('filePath = '+filePath);
-            fileTransfer.download(img, filePath).then((entry) => {
-              base64.encodeFile(filePath).then((base64File: string) => {
-                // this.userBase64 = `data:image/jpeg;base64,${base64File}`;
-                // this.userBase64 = sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64, '+base64File);
-                this.userBase64 = sanitizer.bypassSecurityTrustUrl(base64File);
-                // this.userBase64 = `${base64File}`;
-              }, (err) => {
-                console.log(err);
-              });
-              localStorage.setItem('takePic','1');
-          }, (error) => {
-            const alertFailure = this.alertCtrl.create({
-              title: `Download Failed!`,
-              subTitle: `${img} was not successfully downloaded. Error code: ${error.code}`,
-              buttons: ['Ok']
-            });
-            alertFailure.present();
-          });
-
-          console.log('Storage ready2:',this.storageDirectory);
-        }); */
       }
       // Update User Registration
       else if(this.fbData == 2)
