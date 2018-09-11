@@ -223,20 +223,14 @@ export class FormPage {
       });
 
       this.evts.subscribe('step:next', () => {
-        // === //
+        var filePath = this.storageDirectory + this.data.userName + `.jpg`;
         if(this.fbData != 1 && this.fbData != 2){
           const img = this.picture.data.url;
           const fileTransfer: FileTransferObject = this.fileTransfer.create();
           console.log('==>Fb id: ', this.fb_id);
-          // s fileTransfer.download(img, this.storageDirectory + this.fb_id + `.jpg`).then((entry) => {
-            var filePath = this.storageDirectory + this.data.userName + `.jpg`;
-            console.log('filePath = '+filePath);
             fileTransfer.download(img, filePath).then((entry) => {
               base64.encodeFile(filePath).then((base64File: string) => {
-                // this.userBase64 = `data:image/jpeg;base64,${base64File}`;
-                // this.userBase64 = sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64, '+base64File);
                 this.userBase64 = sanitizer.bypassSecurityTrustUrl(base64File);
-                // this.userBase64 = `${base64File}`;
               }, (err) => {
                 console.log(err);
               });
@@ -251,16 +245,12 @@ export class FormPage {
           });
         }
         else if(this.fbData == 2){
-          var filePath = this.storageDirectory + this.data.userName + `.jpg`;
-          console.log('path file when update ='+filePath);
           base64.encodeFile(filePath).then((base64File: string) => {
             this.userBase64 = sanitizer.bypassSecurityTrustUrl(base64File);
-            // this.userBase64 = `${base64File}`;
           }, (err) => {
             console.log(err);
           });
         }
-        // === //
         console.log('Next pressed: ', this.currentStep);
         if(this.currentStep == 2){
           this.getProvinces();
