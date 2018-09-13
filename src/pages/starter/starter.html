@@ -48,10 +48,12 @@
         <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary" (click)="goToHomePage()">
           {{'review' | translate}}
         </button>
-      </div>
-      <button ion-button full (click)="levelBoard()">
+      </div >
+      <div class="btnReview">
+      <button ion-button class="btn btn-primary btn-lg btn3d" block color="primary"  (click)="levelBoard()">
         Level board
       </button>
+      </div>
   </ion-grid>
 
   <ion-grid *ngIf="infoID == 'C1'">

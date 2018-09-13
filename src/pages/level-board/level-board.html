@@ -69,7 +69,12 @@
         </ion-row>
     </ion-grid> -->
     <div class="style">
-        <button ion-button round *ngFor="let section of sections" [ngStyle]="{backgroundColor : section.bg, left: section.left}">{{section.id}}</button>
+        <button ion-button round *ngFor="let section of sections" [ngStyle]="{backgroundColor : section.bg, left: section.left}">
+          <img class="profileImage" *ngIf="section.id==sectionId && pic_path!=''" [src]="sanitizer.bypassSecurityTrustUrl('data:image/*;base64, '+pic_path)">
+          <img class="profileImage" *ngIf="section.id==sectionId && pic_path=='' && user_gender == 1" src="assets/img/profileM.png">
+          <img class="profileImage" *ngIf="section.id==sectionId && pic_path=='' && user_gender == 2" src="assets/img/profileF.jpg">
+          {{section.id}}
+        </button>
     </div>
-   
+
 </ion-content>

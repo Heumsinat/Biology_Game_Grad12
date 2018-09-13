@@ -1,6 +1,7 @@
 import { Component,  ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
 import {DatabaseProvider} from "../../providers/database/database";
+import { DomSanitizer } from '@angular/platform-browser';
 
 /**
  * Generated class for the LevelBoardPage page.
@@ -38,25 +39,55 @@ export class LevelBoardPage {
     {'left' : '150px'},
   ]
   // index: number = this.index + 8;
- 
+
    sections: any =[];
-   
+   sectionId: any;
+   questions: any =[];
+   userId: number;
+   user_gender: any;
+   pic_path: any;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public db: DatabaseProvider) {
+    public db: DatabaseProvider,
+    private sanitizer: DomSanitizer) {
     // this.index = this.index + 1;
     // console.log('==========> index: ',this.index);
     this.getSections();
+    // this.getQuestions();
+    var userDetail = JSON.parse(localStorage.getItem('userData'));
+    this.userId = userDetail.id;
+    this.user_gender = userDetail.gender;
+    this.pic_path = userDetail.photo;
+    console.log('========user id: ',userDetail);
+    console.log('========user gender: ',userDetail.gender);
+
+
+    this.db.executeSQL(`select * from user_quizzes where user_id = '${this.userId}' order by id desc limit 1`)
+    .then(res => {
+      let questionId= res.rows.item(0).question_id;
+      console.log('============>My q_id : ',questionId);
+
+          this.db.executeSQL(`select * from questions where id = '${questionId}'`)
+          .then(res => {
+            let sectionId= res.rows.item(0).section_id;
+            this.sectionId = sectionId;
+            console.log('============>My s_id : ',sectionId);
+
+          }).catch(e => console.log((e)))
+
+    }).catch(e => console.log((e)))
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LevelBoardPage');
   }
   ionViewDidEnter(){
-    this.content.scrollToBottom(0);
+    this.content.scrollToBottom();
   }
-  
+
   getSections(){
     this.db.executeSQL(`SELECT * FROM sections`)
       .then(res => {
@@ -68,7 +99,7 @@ export class LevelBoardPage {
             id: res.rows.item(i).id,
             bg: this.levels[bgIndex].bg,
             left: this.position[postionIndex].left,
-            
+
 
           });
           bgIndex++;
@@ -76,9 +107,29 @@ export class LevelBoardPage {
           if(bgIndex == 8)
             bgIndex = 0;
           if(postionIndex == 8)
-          postionIndex = 0  
+          postionIndex = 0
         }
       }).catch(e => console.log((e)))
 }
+
+// getQuestions(){
+//   this.db.executeSQL(`select * from user_quizzes where user_id = 140 order by id desc limit 1 AND`)
+//     .then(res => {
+//       let question_id= res.rows.item(0).question_id;
+//       // this.questions = [];
+//       // // var first = res.rows.item(0).id;
+//       //       for (var i = 0; i < res.rows.length; i++){
+//       //           this.questions[res.rows.item(i)] = {
+
+//       //           }
+//       //           //break;
+
+//       //       }
+//       console.log('============>My q_id : ',question_id);
+//     }).catch(e => console.log((e)))
+
+// }
+
+
 
 }
