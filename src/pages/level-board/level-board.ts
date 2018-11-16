@@ -29,12 +29,12 @@ export class LevelBoardPage {
     {'bg' : 'rgb(21, 248, 21)'},
   ];
   position: any = [
-    {'left' : '0px'},
-    {'left' : '230px'},
-    {'left' : '110px'},
-    {'left' : '10px'},
-    {'left' : '130px'},
-    {'left' : '230px'},
+    {'left' : '50px'},
+    {'left' : '500px'},
+    {'left' : '300px'},
+    {'left' : '100px'},
+    {'left' : '200px'},
+    {'left' : '400px'},
     {'left' : '5px'},
     {'left' : '150px'},
   ]
@@ -66,12 +66,12 @@ export class LevelBoardPage {
 
     this.db.executeSQL(`select * from user_quizzes where user_id = '${this.userId}' order by id desc limit 1`)
     .then(res => {
-      let questionId= res.rows.item(0).question_id;
+      let questionId = res.rows.item(0).question_id;
       console.log('============>My q_id : ',questionId);
 
           this.db.executeSQL(`select * from questions where id = '${questionId}'`)
           .then(res => {
-            let sectionId= res.rows.item(0).section_id;
+            let sectionId = res.rows.item(0).section_id;
             this.sectionId = sectionId;
             console.log('============>My s_id : ',sectionId);
 

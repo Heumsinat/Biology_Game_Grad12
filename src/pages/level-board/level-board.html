@@ -11,9 +11,10 @@
     </ion-navbar>
 
 </ion-header>
+<!-- class="background-img"  #content-->
 
-
-<ion-content class="background-img"  #content padding>
+<ion-content>
+    <!-- <img class="bg-img" src="assets/img/cl.png"/> -->
     <!-- {{ index }} -->
     <!-- <ion-grid *ngFor="let level of levels; let i = index">
         <ion-row class="row">
@@ -68,13 +69,35 @@
             </ion-col>
         </ion-row>
     </ion-grid> -->
-    <div class="style">
-        <button ion-button round *ngFor="let section of sections" [ngStyle]="{backgroundColor : section.bg, left: section.left}">
-          <img class="profileImage" *ngIf="section.id==sectionId && pic_path!=''" [src]="sanitizer.bypassSecurityTrustUrl('data:image/*;base64, '+pic_path)">
-          <img class="profileImage" *ngIf="section.id==sectionId && pic_path=='' && user_gender == 1" src="assets/img/profileM.png">
-          <img class="profileImage" *ngIf="section.id==sectionId && pic_path=='' && user_gender == 2" src="assets/img/profileF.jpg">
-          {{section.id}}
-        </button>
-    </div>
+    <ion-scroll zooming = "true" direction = "xy" scrollX="true" scrollY="true" style = "width: 400px; height: 5000px">
+      <div class = "scroll-container">
+        <div class="style">
+            <button ion-button round offset="100%" style="stop-color:rgb(0,0,255);stop-opacity:1" *ngFor="let section of sections" [ngStyle]="{backgroundColor : section.bg, left: section.left}">
+              <img class="profileImage" *ngIf="section.id == sectionId && pic_path!=''" [src]="sanitizer.bypassSecurityTrustUrl('data:image/*;base64, '+pic_path)">
+              <img class="profileImage" *ngIf="section.id == sectionId && pic_path=='' && user_gender == 1" src="assets/img/profileM.png">
+              <img class="profileImage" *ngIf="section.id == sectionId && pic_path=='' && user_gender == 2" src="assets/img/profileF.jpg">
+              <img class="profileImage" *ngIf="section.id != sectionId && section.id == 1 && !pic_path && !user_gender" src="assets/img/profileF.jpg">
+              <div *ngIf="section.id != sectionId" class="numberStyle">
+                {{section.id}}
+              </div>
+            </button>
+        </div>
+
+        <!-- <svg height="210" width="500">
+          <polygon points="100,10 40,198 190,78 10,78 160,198" style="fill:lime;stroke:purple;stroke-width:5;fill-rule:nonzero;"/>
+          Sorry, your browser does not support inline SVG.
+        </svg>
+        <svg height="150" width="500">
+          <defs>
+            <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+              <stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:0" />
+              <stop offset="100%" style="stop-color:rgb(0,0,255);stop-opacity:1" />
+            </radialGradient>
+          </defs>
+          <ellipse cx="200" cy="70" rx="85" ry="55" fill="url(#grad1)" />
+          Sorry, your browser does not support inline SVG.
+        </svg> -->
+      </div>
+    </ion-scroll>
 
 </ion-content>
