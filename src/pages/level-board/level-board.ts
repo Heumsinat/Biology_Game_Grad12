@@ -72,8 +72,8 @@ export class LevelBoardPage {
           this.db.executeSQL(`select * from questions where id = '${questionId}'`)
           .then(res => {
             let sectionId = res.rows.item(0).section_id;
-            this.sectionId = sectionId;
-            console.log('============>My s_id : ',sectionId);
+            // this.sectionId = sectionId;
+            this.sectionId = 30;
 
           }).catch(e => console.log((e)))
 
@@ -85,7 +85,10 @@ export class LevelBoardPage {
     console.log('ionViewDidLoad LevelBoardPage');
   }
   ionViewDidEnter(){
-    this.content.scrollToBottom();
+    // let height = this.content['scrollHeight'];
+    // let currentSection = this.sectionId;
+    // let scrollPosition = (height * currentSection) / this.sections.length;
+    // this.content.scrollTo(0,scrollPosition,100);
   }
 
   getSections(){
