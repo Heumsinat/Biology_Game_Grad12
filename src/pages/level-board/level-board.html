@@ -14,11 +14,10 @@
 <!-- class="background-img"  #content-->
 
 <ion-content #content>    
-
     <ion-scroll zooming = "true" direction = "xy" scrollX="true" scrollY="true" style = "width: 400px; height: 5000px">
       <div class = "scroll-container">
         <div class="style">
-            <button ion-button round offset="100%" style="stop-color:rgb(0,0,255);stop-opacity:1" *ngFor="let section of sections" [ngStyle]="{backgroundColor : section.bg, left: section.left}">
+            <button ion-button round offset="100%" style="stop-color:rgb(0,0,255);stop-opacity:1" *ngFor="let section of sections" [ngStyle]="{backgroundColor : section.bg, left: section.left}" [id]="section.id">
               <img class="profileImage" *ngIf="section.id == sectionId && pic_path!=''" [src]="sanitizer.bypassSecurityTrustUrl('data:image/*;base64, '+pic_path)">
               <img class="profileImage" *ngIf="section.id == sectionId && pic_path=='' && user_gender == 1" src="assets/img/profileM.png">
               <img class="profileImage" *ngIf="section.id == sectionId && pic_path=='' && user_gender == 2" src="assets/img/profileF.jpg">

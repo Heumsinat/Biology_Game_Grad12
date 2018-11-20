@@ -1,4 +1,4 @@
-import { Component,  ViewChild } from '@angular/core';
+import { Component,  ViewChild, ViewChildren } from '@angular/core';
 import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
 import {DatabaseProvider} from "../../providers/database/database";
 import { DomSanitizer } from '@angular/platform-browser';
@@ -17,16 +17,17 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class LevelBoardPage {
    @ViewChild('content') content:any;
+   @ViewChildren('content') Childcontent:any;
 
   levels: any = [
-    {'bg' : 'rgba(0, 128, 0, 0.966)'},
+    {'bg' : 'red'},
     {'bg' : 'skyblue'},
     {'bg' : 'blue'},
     {'bg' : 'lightseagreen'},
     {'bg' : 'lightgreen'},
     {'bg' : 'lightcyan'},
     {'bg' : 'blue'},
-    {'bg' : 'rgb(21, 248, 21)'},
+    {'bg' : 'rgb(21, 248, 21)'}
   ];
   position: any = [
     {'left' : '420px'},
@@ -36,7 +37,7 @@ export class LevelBoardPage {
     {'left' : '250px'},
     {'left' : '400px'},
     {'left' : '20px'},
-    {'left' : '250px'},
+    {'left' : '250px'}
   ]
   // index: number = this.index + 8;
 
@@ -63,7 +64,6 @@ export class LevelBoardPage {
     console.log('========user id: ',userDetail);
     console.log('========user gender: ',userDetail.gender);
 
-
     this.db.executeSQL(`select * from user_quizzes where user_id = '${this.userId}' order by id desc limit 1`)
     .then(res => {
       let questionId = res.rows.item(0).question_id;
@@ -73,7 +73,8 @@ export class LevelBoardPage {
           .then(res => {
             let sectionId = res.rows.item(0).section_id;
             // this.sectionId = sectionId;
-            this.sectionId = 30;
+            this.sectionId = 28;
+            this.scrollToSectionId(this.sectionId);
 
           }).catch(e => console.log((e)))
 
@@ -85,34 +86,42 @@ export class LevelBoardPage {
     console.log('ionViewDidLoad LevelBoardPage');
   }
   ionViewDidEnter(){
-    // let height = this.content['scrollHeight'];
-    // let currentSection = this.sectionId;
-    // let scrollPosition = (height * currentSection) / this.sections.length;
-    // this.content.scrollTo(0,scrollPosition,100);
+    console.log(this.content);
+    console.log(this.Childcontent);
+  }
+
+  scrollToSectionId(id: any){
+    let height = this.content['scrollHeight'];
+    let buttonHeightWithMargin = 53;
+    let scrollPaddingTop = 200;
+    let currentSection = id;
+    let currehtSectionPosition = this.sections.length - currentSection;
+    let scrollPositionY = (currehtSectionPosition * buttonHeightWithMargin) - scrollPaddingTop;
+    let scrollPositionX = 0;
+    
+    console.log(this.content['scrollWidth']);
+
+    this.content.scrollTo(scrollPositionX,scrollPositionY,500);
   }
 
   getSections(){
     this.db.executeSQL(`SELECT * FROM sections`)
       .then(res => {
         this.sections = [];
-        let bgIndex = 0;
-        let postionIndex =0;
+        let styleIndex = 0;
         for (var i = res.rows.length-1; i>=0; i--){
           this.sections.push({
             id: res.rows.item(i).id,
-            bg: this.levels[bgIndex].bg,
-            left: this.position[postionIndex].left,
-
-
+            bg: this.levels[styleIndex].bg,
+            left: this.position[styleIndex].left,
           });
-          bgIndex++;
-          postionIndex++;
-          if(bgIndex == 8)
-            bgIndex = 0;
-          if(postionIndex == 8)
-          postionIndex = 0
+
+          styleIndex++;
+
+          if(styleIndex == 8)
+          styleIndex = 0;
         }
-      }).catch(e => console.log((e)))
+      }).catch(e => console.log((e)));
 }
 
 // getQuestions(){
@@ -132,7 +141,4 @@ export class LevelBoardPage {
 //     }).catch(e => console.log((e)))
 
 // }
-
-
-
 }
