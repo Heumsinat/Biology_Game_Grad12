@@ -29,14 +29,14 @@ export class LevelBoardPage {
     {'bg' : 'rgb(21, 248, 21)'},
   ];
   position: any = [
-    {'left' : '50px'},
-    {'left' : '500px'},
+    {'left' : '420px'},
+    {'left' : '550px'},
     {'left' : '300px'},
-    {'left' : '100px'},
-    {'left' : '200px'},
+    {'left' : '80px'},
+    {'left' : '250px'},
     {'left' : '400px'},
-    {'left' : '5px'},
-    {'left' : '150px'},
+    {'left' : '20px'},
+    {'left' : '250px'},
   ]
   // index: number = this.index + 8;
 
