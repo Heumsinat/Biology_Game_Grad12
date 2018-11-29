@@ -20,24 +20,38 @@ export class LevelBoardPage {
    @ViewChildren('content') Childcontent:any;
 
   levels: any = [
-    {'bg' : 'red'},
+    {'bg' : 'rgb(153, 51, 255)'},
     {'bg' : 'skyblue'},
     {'bg' : 'blue'},
     {'bg' : 'lightseagreen'},
     {'bg' : 'lightgreen'},
-    {'bg' : 'lightcyan'},
+    {'bg' : 'rgb(255, 153, 204)'},
+    {'bg' : 'rgb(153, 51, 102)'},
+    {'bg' : 'rgb(21, 248, 21)'},
     {'bg' : 'blue'},
+    {'bg' : 'lightseagreen'},
+    {'bg' : 'lightgreen'},
+    {'bg' : 'rgb(255, 153, 204)'},
+    {'bg' : 'rgb(153, 51, 102)'},
+    {'bg' : 'rgb(21, 248, 21)'},
     {'bg' : 'rgb(21, 248, 21)'}
   ];
   position: any = [
-    {'left' : '420px'},
-    {'left' : '550px'},
-    {'left' : '300px'},
-    {'left' : '80px'},
+    {'left' : '630px'},
     {'left' : '250px'},
-    {'left' : '400px'},
     {'left' : '20px'},
-    {'left' : '250px'}
+    {'left' : '450px'},
+    {'left' : '660px'},
+    {'left' : '240px'},
+    {'left' : '50px'},
+    {'left' : '390px'},
+    {'left' : '650px'},
+    {'left' : '310px'},
+    {'left' : '60px'},
+    {'left' : '350px'},
+    {'left' : '520px'},
+    {'left' : '670px'},
+    {'left' : '670px'}
   ]
   // index: number = this.index + 8;
 
@@ -73,7 +87,7 @@ export class LevelBoardPage {
           .then(res => {
             let sectionId = res.rows.item(0).section_id;
             // this.sectionId = sectionId;
-            this.sectionId = 28;
+            this.sectionId = 95;
             this.scrollToSectionId(this.sectionId);
 
           }).catch(e => console.log((e)))
@@ -93,12 +107,12 @@ export class LevelBoardPage {
   scrollToSectionId(id: any){
     let height = this.content['scrollHeight'];
     let buttonHeightWithMargin = 53;
-    let scrollPaddingTop = 200;
+    let scrollPaddingTop = 250;
     let currentSection = id;
     let currehtSectionPosition = this.sections.length - currentSection;
     let scrollPositionY = (currehtSectionPosition * buttonHeightWithMargin) - scrollPaddingTop;
     let scrollPositionX = 0;
-    
+
     console.log(this.content['scrollWidth']);
 
     this.content.scrollTo(scrollPositionX,scrollPositionY,500);
@@ -118,7 +132,7 @@ export class LevelBoardPage {
 
           styleIndex++;
 
-          if(styleIndex == 8)
+          if(styleIndex == 15)
           styleIndex = 0;
         }
       }).catch(e => console.log((e)));

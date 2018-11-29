@@ -17,7 +17,7 @@ page-level-board {
   .scroll-container {
     width: 800px;
     height: 5350px;
-    background: url('../assets/img/cartoon1.png') no-repeat
+    background: url('../assets/img/cartoon-5350-800(1).png') no-repeat
  }
 
   .imgSvg{
@@ -46,6 +46,7 @@ page-level-board {
       position: absolute;
       height: 20px;
       width: 50px;
+      // border: 5px solid black;
       -moz-border-radius: 50px;
       -webkit-border-radius: 50px;
       border-radius: 50px;
@@ -58,6 +59,7 @@ page-level-board {
       border-radius: 100%;
       height: 100%;
       width: 150%;
+
     }
   }
 
